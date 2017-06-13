@@ -50,8 +50,7 @@ using namespace std;
     
     cv::Mat allAcceptable;
 
-    int maxHeight = 0;
-    
+    int maxHeight = 0;    
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
