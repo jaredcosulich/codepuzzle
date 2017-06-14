@@ -16,6 +16,9 @@
 		3A2B65DC1EE9B37900E8B7BD /* codepuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65DB1EE9B37900E8B7BD /* codepuzzleTests.swift */; };
 		3A2B65E71EE9B37900E8B7BD /* codepuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65E61EE9B37900E8B7BD /* codepuzzleUITests.swift */; };
 		3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */; };
+		3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F421EF033A80069384D /* TesseractOCR.framework */; };
+		3A5A0F4C1EF0345F0069384D /* TesseractWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F4B1EF0345F0069384D /* TesseractWrapper.mm */; };
+		3A5A0F4E1EF040CD0069384D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3A5A0F4D1EF040CD0069384D /* tessdata */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +57,10 @@
 		3A2B65F61EE9B43900E8B7BD /* codepuzzle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "codepuzzle-Bridging-Header.h"; sourceTree = "<group>"; };
 		3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		3A5A0F421EF033A80069384D /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
+		3A5A0F4A1EF0345F0069384D /* TesseractWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TesseractWrapper.h; sourceTree = "<group>"; };
+		3A5A0F4B1EF0345F0069384D /* TesseractWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TesseractWrapper.mm; sourceTree = "<group>"; };
+		3A5A0F4D1EF040CD0069384D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */,
 				3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,12 +96,15 @@
 			children = (
 				3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */,
 				3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */,
+				3A5A0F421EF033A80069384D /* TesseractOCR.framework */,
 				3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */,
 				3A2B65C31EE9B37800E8B7BD /* codepuzzle */,
 				3A2B65DA1EE9B37900E8B7BD /* codepuzzleTests */,
 				3A2B65E51EE9B37900E8B7BD /* codepuzzleUITests */,
 				3A2B65C21EE9B37800E8B7BD /* Products */,
 				3A2B65F61EE9B43900E8B7BD /* codepuzzle-Bridging-Header.h */,
+				3A5A0F4A1EF0345F0069384D /* TesseractWrapper.h */,
+				3A5A0F4B1EF0345F0069384D /* TesseractWrapper.mm */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +128,7 @@
 				3A2B65CD1EE9B37900E8B7BD /* Assets.xcassets */,
 				3A2B65CF1EE9B37900E8B7BD /* LaunchScreen.storyboard */,
 				3A2B65D21EE9B37900E8B7BD /* Info.plist */,
+				3A5A0F4D1EF040CD0069384D /* tessdata */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -251,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A2B65D11EE9B37900E8B7BD /* LaunchScreen.storyboard in Resources */,
+				3A5A0F4E1EF040CD0069384D /* tessdata in Resources */,
 				3A2B65CE1EE9B37900E8B7BD /* Assets.xcassets in Resources */,
 				3A2B65CC1EE9B37900E8B7BD /* Main.storyboard in Resources */,
 			);
@@ -280,6 +293,7 @@
 				3A2B65C91EE9B37900E8B7BD /* SecondViewController.swift in Sources */,
 				3A2B65C51EE9B37900E8B7BD /* AppDelegate.swift in Sources */,
 				3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */,
+				3A5A0F4C1EF0345F0069384D /* TesseractWrapper.mm in Sources */,
 				3A2B65C71EE9B37900E8B7BD /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

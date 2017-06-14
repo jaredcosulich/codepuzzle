@@ -83,9 +83,15 @@ using namespace std;
             printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
             printf("ASPECT RATIO: %f \n\n", aspectRatio);
 
-            bound.height = maxHeight;
-            cv::Mat cropped(src, bound);
+            bound.x += bound.width * 0.25;
+            bound.y += bound.height * 0.25;
+            bound.width -= bound.width * 0.5;
+            bound.height = maxHeight * 0.5;
+            cv::Mat cropped(gray, bound);
 
+//            cv::Mat thresholded;
+//            cv::threshold(allAcceptable, thresholded, 100, 255, 0);
+            
             cv::Size allSize = allAcceptable.size();
             
             if (allSize.width == 0) {

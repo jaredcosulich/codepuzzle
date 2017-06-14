@@ -23,11 +23,21 @@ class FirstViewController: UIViewController {
     }
     
     @IBAction func revertbutton(_ sender: UIButton) {
-        imageView.image = UIImage(named: "cardtest3_close.JPG");
+        imageView.image = UIImage(named: "cardtest4_far.JPG");
     }
     
     @IBAction func cannybutton(_ sender: UIButton) {
-        imageView.image = OpenCVWrapper.canny(imageView.image);
+        let processedImage = OpenCVWrapper.canny(imageView.image);
+        imageView.image = processedImage;
+        
+        let tesseract = G8Tesseract();
+        tesseract.language = "eng+fra";
+        tesseract.engineMode = .tesseractOnly;
+        tesseract.pageSegmentationMode = .auto;
+        tesseract.maximumRecognitionTime = 60.0;
+        tesseract.image = processedImage?.g8_blackAndWhite();
+        tesseract.recognize();
+        print("TESSERACT: \(tesseract.recognizedText)");
     }
 }
 
