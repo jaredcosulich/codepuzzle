@@ -22,6 +22,9 @@
 		3A5A0F4E1EF040CD0069384D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3A5A0F4D1EF040CD0069384D /* tessdata */; };
 		3A5A0F6F1EF8A2880069384D /* tensorflow_utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F6E1EF8A2880069384D /* tensorflow_utils.mm */; };
 		3A5A0F721EF8A4C20069384D /* TensorflowWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F711EF8A4C20069384D /* TensorflowWrapper.mm */; };
+		3A5A0F871EF8B2370069384D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F7B1EF8B15E0069384D /* AVFoundation.framework */; };
+		3A5A0F881EF8B2530069384D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F771EF8B1410069384D /* CoreMedia.framework */; };
+		3A5A0F891EF8B26A0069384D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F751EF8B1330069384D /* AssetsLibrary.framework */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
 		58E079724DACC099C4DB55D4 /* Pods_codepuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81BD7A8F488C412CA16FEEE /* Pods_codepuzzle.framework */; };
 /* End PBXBuildFile section */
@@ -70,6 +73,16 @@
 		3A5A0F6E1EF8A2880069384D /* tensorflow_utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = tensorflow_utils.mm; sourceTree = "<group>"; };
 		3A5A0F701EF8A4C20069384D /* TensorflowWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TensorflowWrapper.h; sourceTree = "<group>"; };
 		3A5A0F711EF8A4C20069384D /* TensorflowWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TensorflowWrapper.mm; sourceTree = "<group>"; };
+		3A5A0F731EF8B11C0069384D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3A5A0F751EF8B1330069384D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		3A5A0F771EF8B1410069384D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3A5A0F791EF8B14B0069384D /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		3A5A0F7B1EF8B15E0069384D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3A5A0F7D1EF8B1690069384D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3A5A0F7F1EF8B1730069384D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3A5A0F811EF8B1850069384D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3A5A0F831EF8B18B0069384D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3A5A0F851EF8B1950069384D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		512AD027454FD6880802694F /* Pods-codepuzzleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzleUITests/Pods-codepuzzleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		79E6EDDB0CCD095125F9CA1E /* Pods-codepuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzleTests/Pods-codepuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +98,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A5A0F891EF8B26A0069384D /* AssetsLibrary.framework in Frameworks */,
+				3A5A0F881EF8B2530069384D /* CoreMedia.framework in Frameworks */,
+				3A5A0F871EF8B2370069384D /* AVFoundation.framework in Frameworks */,
 				3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */,
 				3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */,
 				58E079724DACC099C4DB55D4 /* Pods_codepuzzle.framework in Frameworks */,
@@ -191,6 +207,16 @@
 		D597409399F0772F1F6435D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3A5A0F851EF8B1950069384D /* CoreGraphics.framework */,
+				3A5A0F831EF8B18B0069384D /* SystemConfiguration.framework */,
+				3A5A0F811EF8B1850069384D /* UIKit.framework */,
+				3A5A0F7F1EF8B1730069384D /* CoreLocation.framework */,
+				3A5A0F7D1EF8B1690069384D /* CoreData.framework */,
+				3A5A0F7B1EF8B15E0069384D /* AVFoundation.framework */,
+				3A5A0F791EF8B14B0069384D /* CoreImage.framework */,
+				3A5A0F771EF8B1410069384D /* CoreMedia.framework */,
+				3A5A0F751EF8B1330069384D /* AssetsLibrary.framework */,
+				3A5A0F731EF8B11C0069384D /* CoreVideo.framework */,
 				C81BD7A8F488C412CA16FEEE /* Pods_codepuzzle.framework */,
 				95E26597E317B8A4385C558B /* Pods_codepuzzleTests.framework */,
 				2CE22D8D5A8386AAC6992A0E /* Pods_codepuzzleUITests.framework */,
