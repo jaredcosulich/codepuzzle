@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <tensorflow/core/lib/core/status.h>
 
 @interface TensorflowWrapper : NSObject
+
++ (tensorflow::Status) LoadModel: (NSString*)file_name;// :(NSString*)file_type :(std::unique_ptr<tensorflow::Session>*)session;
+
+
 
 @end

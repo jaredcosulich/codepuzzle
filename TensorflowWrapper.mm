@@ -13,4 +13,8 @@
 
 @implementation TensorflowWrapper
 
++ (tensorflow::Status) LoadModel: NSString* file_name, NSString* file_type, std::unique_ptr<tensorflow::Session>* session) {
+    return tensorflow_utils::LoadModel(file_name, file_type, session);
+}
+
 @end
