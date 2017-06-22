@@ -85,10 +85,10 @@ using namespace std;
 //            printf("ASPECT RATIO: %f \n\n", aspectRatio);
 
             cv::Rect fullCardBound;
-            fullCardBound.x = bound.x - bound.width * 0.9;
-            fullCardBound.y = bound.y - bound.height * 4.2;
-            fullCardBound.width = bound.width * 2.8;
-            fullCardBound.height = bound.height * 5.4;
+            fullCardBound.x = bound.x - bound.width * 1.5;
+            fullCardBound.y = bound.y - bound.height * 5.5;
+            fullCardBound.width = bound.width * 3.75;
+            fullCardBound.height = bound.height * 7;
             
             cv::Mat full(gray, fullCardBound);
             cv::Mat cardFull;
