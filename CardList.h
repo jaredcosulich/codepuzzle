@@ -20,13 +20,13 @@ struct Card;
 class CardList
 {
 public:
-    int length;
     CardList();
     UIImage* getFull(int);
     UIImage* getFunction(int);
     UIImage* getParam(int);
     void add(UIImage*, UIImage*, UIImage*);
-
+    int* count();
+    
 private:
     std::vector<Card> cards;
 };

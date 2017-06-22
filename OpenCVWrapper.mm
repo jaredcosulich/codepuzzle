@@ -100,7 +100,7 @@ using namespace std;
             functionBound.width = bound.width - (bound.width * 0.5);
             functionBound.height = bound.height - (bound.height * 0.5);
 
-            cv::Mat function(gray, bound);
+            cv::Mat function(gray, functionBound);
             cv::Mat cardFunction;
             function.copyTo(cardFunction);
 
@@ -135,7 +135,8 @@ using namespace std;
         }
     }
     
-    printf("CARDS: %f\n", cardListWrapper.length());
+    printf("CARDS: %d\n", *cardListWrapper.count);
+    
 //    printf("Hexagons Found %d \n", acceptableCount);
     
     // Crop the full image to that image contained by the rectangle myROI

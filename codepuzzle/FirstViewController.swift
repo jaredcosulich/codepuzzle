@@ -29,7 +29,7 @@ class FirstViewController: UIViewController {
     @IBAction func cannybutton(_ sender: UIButton) {
         let cardList = CardListWrapper();
         OpenCVWrapper.canny(imageView.image, cardList);
-        imageView.image = cardList!.getFull(1)!;
+        imageView.image = cardList!.getFunction(1)!;
         
         let tesseract = G8Tesseract();
         tesseract.language = "eng+fra";

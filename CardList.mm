@@ -14,9 +14,7 @@ struct Card {
     UIImage* param;
 };
 
-CardList::CardList() {
-    length = 0;
-};
+CardList::CardList() {};
 
 UIImage* CardList::getFull(int index) {
     return cards[index].full;
@@ -37,6 +35,10 @@ void CardList::add(UIImage* full, UIImage* function, UIImage* param) {
     c.function = function;
     c.param = param;
     cards.push_back(c);
-    ++length;
+}
+
+int* CardList::count() {
+    int* i = new int((int) cards.size());
+    return i;
 }
 

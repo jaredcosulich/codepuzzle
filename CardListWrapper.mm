@@ -38,8 +38,8 @@
     self.cardList->add(full, function, param);
 }
 
-- (int) length {
-    return self.cardList->length;
+- (int *) count {
+    return self.cardList->count();
 }
 
 @end

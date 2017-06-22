@@ -16,7 +16,7 @@
 - (UIImage *) getFunction :(int) index;
 - (UIImage *) getParam :(int) index;
 - (void) add :(UIImage*) full :(UIImage*) function :(UIImage*) param;
-- (int) length;
+- (int *) count;
 
 @end
 
