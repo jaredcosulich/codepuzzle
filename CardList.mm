@@ -31,8 +31,12 @@ UIImage* CardList::getParam(int index) {
 }
 
 
-void CardList::addCard(Card c) {
-    cards[length] = c;
+void CardList::add(UIImage* full, UIImage* function, UIImage* param) {
+    Card c;
+    c.full = full;
+    c.function = function;
+    c.param = param;
+    cards.push_back(c);
     ++length;
 }
 

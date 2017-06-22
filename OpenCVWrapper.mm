@@ -14,13 +14,14 @@
 #import <stdlib.h>
 
 #import "OpenCVWrapper.h"
+#import "CardListWrapper.h"
 
 using namespace cv;
 using namespace std;
 
 @implementation OpenCVWrapper
 
-+ (UIImage *) canny: (UIImage *) image {
++ (void) canny :(UIImage *) image :(CardListWrapper *) cardListWrapper {
     cv::Mat src;
     cv::Mat gray;
     cv::Mat blur;
@@ -112,8 +113,9 @@ using namespace std;
             cv::Mat param(gray, paramBound);
             cv::Mat cardParam;
             param.copyTo(cardParam);
-            return MatToUIImage(cardParam);
             
+            [cardListWrapper add:MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+          
             
 //            cv::Mat thresholded;
 //            cv::threshold(allAcceptable, thresholded, 100, 255, 0);
@@ -133,6 +135,7 @@ using namespace std;
         }
     }
     
+    printf("CARDS: %f\n", cardListWrapper.length());
 //    printf("Hexagons Found %d \n", acceptableCount);
     
     // Crop the full image to that image contained by the rectangle myROI
@@ -149,7 +152,7 @@ using namespace std;
 //        cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
 //    }
     
-    return MatToUIImage(gray);
+//    return MatToUIImage(gray);
 }
 
 
