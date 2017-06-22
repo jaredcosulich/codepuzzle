@@ -44,70 +44,96 @@ using namespace std;
     
     cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
-    cv::Mat drawing = cv::Mat::zeros( src.size(), CV_8UC3 );
-
-    int acceptableCount = 0;
+//    cv::Mat drawing = cv::Mat::zeros( src.size(), CV_8UC3 );
+//
+//    int acceptableCount = 0;
+//    
+//    cv::Mat allAcceptable;
+//
+//    int maxHeight = 0;    
+//    for (int i = 0; i < contours.size(); i++) {
+//        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
+//        
+//        // Skip small or non-convex objects
+//        if (std::fabs(cv::contourArea(contours[i])) < 500 || !cv::isContourConvex(approx))
+//            continue;
+//        
+//        bound = cv::boundingRect(contours[i]);
+//        float aspectRatio = float(bound.width)/bound.height;
+//        
+//        if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
+//            if (bound.height > maxHeight) {
+//                maxHeight = bound.height;
+//            }
+//        }
+//    }
     
-    cv::Mat allAcceptable;
-
-    int maxHeight = 0;    
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
         // Skip small or non-convex objects
         if (std::fabs(cv::contourArea(contours[i])) < 500 || !cv::isContourConvex(approx))
             continue;
-        
-        bound = cv::boundingRect(contours[i]);
-        float aspectRatio = float(bound.width)/bound.height;
-        
-        if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
-            if (bound.height > maxHeight) {
-                maxHeight = bound.height;
-            }
-        }
-    }
-    
-    for (int i = 0; i < contours.size(); i++) {
-        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
-        
-        // Skip small or non-convex objects
-        if (std::fabs(cv::contourArea(contours[i])) < 500 || !cv::isContourConvex(approx))
-            continue;
 
         bound = cv::boundingRect(contours[i]);
         float aspectRatio = float(bound.width)/bound.height;
 
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
-            ++acceptableCount;
+//            ++acceptableCount;
             printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
             printf("ASPECT RATIO: %f \n\n", aspectRatio);
 
-            bound.x += bound.width * 0.25;
-            bound.y += bound.height * 0.25;
-            bound.width -= bound.width * 0.5;
-            bound.height = maxHeight * 0.5;
-            cv::Mat cropped(gray, bound);
+            cv::Rect fullCardBound;
+            fullCardBound.x = bound.x - bound.width * 0.9;
+            fullCardBound.y = bound.y - bound.height * 4.2;
+            fullCardBound.width = bound.width * 2.8;
+            fullCardBound.height = bound.height * 5.4;
+            
+            cv::Mat full(gray, fullCardBound);
+            cv::Mat cardFull;
+            full.copyTo(cardFull);
 
+            cv::Rect functionBound;
+            functionBound.x = bound.x + (bound.width * 0.25);
+            functionBound.y = bound.y + (bound.height * 0.25);
+            functionBound.width = bound.width - (bound.width * 0.5);
+            functionBound.height = bound.height - (bound.height * 0.5);
+
+            cv::Mat function(gray, bound);
+            cv::Mat cardFunction;
+            function.copyTo(cardFunction);
+
+            cv::Rect paramBound;
+            paramBound.x = bound.x - bound.width * 0.3;
+            paramBound.y = bound.y - bound.height * 3;
+            paramBound.width = bound.width * 1.5;
+            paramBound.height = bound.height * 1.6;
+            
+            cv::Mat param(gray, paramBound);
+            cv::Mat cardParam;
+            param.copyTo(cardParam);
+            return MatToUIImage(cardParam);
+            
+            
 //            cv::Mat thresholded;
 //            cv::threshold(allAcceptable, thresholded, 100, 255, 0);
             
-            cv::Size allSize = allAcceptable.size();
+//            cv::Size allSize = allAcceptable.size();
             
-            if (allSize.width == 0) {
-                cropped.copyTo(allAcceptable);
-            } else {
-                cv::Mat all;
-                cv::hconcat(allAcceptable, cropped, all);
-                allAcceptable = all;
-            }
+//            if (allSize.width == 0) {
+//                cropped.copyTo(allAcceptable);
+//            } else {
+//                cv::Mat all;
+//                cv::hconcat(allAcceptable, cropped, all);
+//                allAcceptable = all;
+//            }
             
 //            cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
 //            cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
         }
     }
     
-    printf("Hexagons Found %d \n", acceptableCount);
+//    printf("Hexagons Found %d \n", acceptableCount);
     
     // Crop the full image to that image contained by the rectangle myROI
     // Note that this doesn't copy the data
@@ -123,9 +149,8 @@ using namespace std;
 //        cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
 //    }
     
-    return MatToUIImage(allAcceptable);
+    return MatToUIImage(gray);
 }
-
 
 
 @end

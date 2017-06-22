@@ -23,7 +23,7 @@ class FirstViewController: UIViewController {
     }
     
     @IBAction func revertbutton(_ sender: UIButton) {
-        imageView.image = UIImage(named: "cardtest4_far.JPG");
+        imageView.image = UIImage(named: "cards_with_numbers_mid.JPG");
     }
     
     @IBAction func cannybutton(_ sender: UIButton) {
@@ -38,6 +38,9 @@ class FirstViewController: UIViewController {
         tesseract.image = processedImage?.g8_blackAndWhite();
         tesseract.recognize();
         print("TESSERACT: \(tesseract.recognizedText)");
+        
+        let imageData = UIImagePNGRepresentation(processedImage!)! as NSData
+        MathPix.processSingleImage(imageData : imageData)
     }
 }
 
