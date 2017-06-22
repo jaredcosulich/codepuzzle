@@ -1,6 +1,0 @@
-framework module Pods_codepuzzleUITests {
-  umbrella header "Pods-codepuzzleUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
