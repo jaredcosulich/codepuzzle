@@ -9,10 +9,14 @@
 #include "CardList.h"
 
 struct Card {
+    int x;
+    int y;
     UIImage* full;
     UIImage* function;
     UIImage* param;
 };
+
+bool sameCard (Card a, Card b) { return (a.x == b.x && a.y == b.y); }
 
 CardList::CardList() {};
 
@@ -28,13 +32,15 @@ UIImage* CardList::getParam(int index) {
     return cards[index].param;
 }
 
-
-void CardList::add(UIImage* full, UIImage* function, UIImage* param) {
+void CardList::add(int x, int y, UIImage* full, UIImage* function, UIImage* param) {
     Card c;
+    c.x = x;
+    c.y = y;
     c.full = full;
     c.function = function;
     c.param = param;
     cards.push_back(c);
+    cards.erase( unique( cards.begin(), cards.end(), sameCard ), cards.end() );
 }
 
 int* CardList::count() {

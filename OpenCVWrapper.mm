@@ -114,7 +114,7 @@ using namespace std;
             cv::Mat cardParam;
             param.copyTo(cardParam);
             
-            [cardListWrapper add:MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+            [cardListWrapper add :bound.x :bound.y :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
           
             
 //            cv::Mat thresholded;

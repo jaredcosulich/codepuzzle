@@ -24,7 +24,7 @@ public:
     UIImage* getFull(int);
     UIImage* getFunction(int);
     UIImage* getParam(int);
-    void add(UIImage*, UIImage*, UIImage*);
+    void add(int, int, UIImage*, UIImage*, UIImage*);
     int* count();
     
 private:

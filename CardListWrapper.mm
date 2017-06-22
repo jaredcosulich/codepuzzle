@@ -34,8 +34,8 @@
     return self.cardList->getParam(index);
 }
 
-- (void) add :(UIImage*) full :(UIImage*) function :(UIImage*) param {
-    self.cardList->add(full, function, param);
+- (void) add :(int) x :(int) y :(UIImage*) full :(UIImage*) function :(UIImage*) param {
+    self.cardList->add(x, y, full, function, param);
 }
 
 - (int *) count {

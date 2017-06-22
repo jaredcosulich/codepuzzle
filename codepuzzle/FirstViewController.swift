@@ -29,18 +29,18 @@ class FirstViewController: UIViewController {
     @IBAction func cannybutton(_ sender: UIButton) {
         let cardList = CardListWrapper();
         OpenCVWrapper.canny(imageView.image, cardList);
-        imageView.image = cardList!.getFunction(1)!;
+        imageView.image = cardList!.getFull(3)!;
         
         let tesseract = G8Tesseract();
         tesseract.language = "eng+fra";
         tesseract.engineMode = .tesseractOnly;
         tesseract.pageSegmentationMode = .auto;
         tesseract.maximumRecognitionTime = 60.0;
-        tesseract.image = cardList?.getFunction(1)?.g8_blackAndWhite();
+        tesseract.image = cardList?.getFunction(3)?.g8_blackAndWhite();
         tesseract.recognize();
         print("TESSERACT: \(tesseract.recognizedText)");
         
-        let imageData = UIImagePNGRepresentation((cardList?.getParam(1))!)! as NSData
+        let imageData = UIImagePNGRepresentation((cardList?.getParam(3))!)! as NSData
         MathPix.processSingleImage(imageData : imageData)
     }
 }
