@@ -81,8 +81,8 @@ using namespace std;
 
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
 //            ++acceptableCount;
-            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
-            printf("ASPECT RATIO: %f \n\n", aspectRatio);
+//            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
+//            printf("ASPECT RATIO: %f \n\n", aspectRatio);
 
             cv::Rect fullCardBound;
             fullCardBound.x = bound.x - bound.width * 0.9;
