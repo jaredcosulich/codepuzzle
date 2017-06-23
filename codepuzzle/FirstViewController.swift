@@ -12,6 +12,10 @@ class FirstViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
     
+    let cardList = CardListWrapper()!
+    var index = Int32(0)
+    var timer = Timer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -23,26 +27,46 @@ class FirstViewController: UIViewController {
     }
     
     @IBAction func revertbutton(_ sender: UIButton) {
-        imageView.image = UIImage(named: "cards_with_numbers_mid.JPG");
+        let image = UIImage(named: "portrait_with_numbers.JPG")
+        let normalizedImage = ImageProcessor.normalize(image: image!)
+            
+        imageView.image = normalizedImage
     }
     
     @IBAction func cannybutton(_ sender: UIButton) {
-        let index = Int32(5)
-        let cardList = CardListWrapper()
         OpenCVWrapper.canny(imageView.image, cardList)
-        imageView.image = cardList!.getFull(index)!
+
+        timer.invalidate() // just in case this button is tapped multiple times
+        
+        // start the timer
+        timer = Timer.scheduledTimer(
+            timeInterval: 5,
+            target: self,
+            selector: #selector(showCard),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    func showCard() {
+        imageView.image = cardList.getFull(index)!
         
         let tesseract = G8Tesseract()
         tesseract.language = "eng+fra"
         tesseract.engineMode = .tesseractOnly
         tesseract.pageSegmentationMode = .auto
         tesseract.maximumRecognitionTime = 60.0
-        tesseract.image = cardList?.getFunction(index)?.g8_blackAndWhite()
+        tesseract.image = cardList.getFunction(index)?.g8_blackAndWhite()
         tesseract.recognize()
         print("TESSERACT: \(tesseract.recognizedText)")
+        //
+        //        let imageData = UIImagePNGRepresentation((cardList.getFunction(index))!)! as NSData
+        //        MathPix.processSingleImage(imageData : imageData)
         
-//        let imageData = UIImagePNGRepresentation((cardList?.getParam(index))!)! as NSData
-//        MathPix.processSingleImage(imageData : imageData)
+        index += 1
+        if (index >= cardList.count()) {
+            index = 0
+        }
     }
 }
 

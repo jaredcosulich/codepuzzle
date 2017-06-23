@@ -12,7 +12,6 @@ import Alamofire
 class MathPix {
 
     class func processSingleImage(imageData : NSData) {
-        print("HI1")
         let base64String = imageData.base64EncodedString(options: .init(rawValue: 0))
         let parameters : Parameters = [
             "url" : "data:image/jpeg;base64," + base64String

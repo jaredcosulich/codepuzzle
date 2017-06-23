@@ -25,7 +25,7 @@ public:
     UIImage* getFunction(int);
     UIImage* getParam(int);
     void add(int, int, UIImage*, UIImage*, UIImage*);
-    int* count();
+    int count();
     
 private:
     std::vector<Card> cards;

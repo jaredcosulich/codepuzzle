@@ -38,7 +38,7 @@
     self.cardList->add(x, y, full, function, param);
 }
 
-- (int *) count {
+- (int) count {
     return self.cardList->count();
 }
 

@@ -135,7 +135,7 @@ using namespace std;
         }
     }
     
-    printf("CARDS: %d\n", *cardListWrapper.count);
+    printf("CARDS: %d\n", cardListWrapper.count);
     
 //    printf("Hexagons Found %d \n", acceptableCount);
     

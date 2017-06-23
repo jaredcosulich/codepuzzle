@@ -43,8 +43,8 @@ void CardList::add(int x, int y, UIImage* full, UIImage* function, UIImage* para
     cards.erase( unique( cards.begin(), cards.end(), sameCard ), cards.end() );
 }
 
-int* CardList::count() {
-    int* i = new int((int) cards.size());
+int CardList::count() {
+    int i = *new int((int) cards.size());
     return i;
 }
 
