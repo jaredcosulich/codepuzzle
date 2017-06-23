@@ -22,20 +22,24 @@
     return self;
 }
 
-- (UIImage *) getFull :(int) index {
-    return self.cardList->getFull(index);
+- (UIImage *) getHexImage :(int) index {
+    return self.cardList->getHexImage(index);
 }
 
-- (UIImage *) getFunction :(int) index {
-    return self.cardList->getFunction(index);
+- (UIImage *) getFullImage :(int) index {
+    return self.cardList->getFullImage(index);
 }
 
-- (UIImage *) getParam :(int) index {
-    return self.cardList->getParam(index);
+- (UIImage *) getFunctionImage :(int) index {
+    return self.cardList->getFunctionImage(index);
 }
 
-- (void) add :(int) x :(int) y :(UIImage*) full :(UIImage*) function :(UIImage*) param {
-    self.cardList->add(x, y, full, function, param);
+- (UIImage *) getParamImage :(int) index {
+    return self.cardList->getParamImage(index);
+}
+
+- (void) add :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage {
+    self.cardList->add(hex, innerHex, hexImage, fullImage, functionImage, paramImage);
 }
 
 - (int) count {

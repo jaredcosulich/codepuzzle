@@ -35,6 +35,7 @@ class FirstViewController: UIViewController {
     
     @IBAction func cannybutton(_ sender: UIButton) {
         OpenCVWrapper.canny(imageView.image, cardList)
+        showCard()
 
         timer.invalidate() // just in case this button is tapped multiple times
         
@@ -49,18 +50,18 @@ class FirstViewController: UIViewController {
     }
     
     func showCard() {
-        imageView.image = cardList.getFull(index)!
+        imageView.image = cardList.getFunctionImage(index)!
         
         let tesseract = G8Tesseract()
         tesseract.language = "eng+fra"
         tesseract.engineMode = .tesseractOnly
         tesseract.pageSegmentationMode = .auto
         tesseract.maximumRecognitionTime = 60.0
-        tesseract.image = cardList.getFunction(index)?.g8_blackAndWhite()
+        tesseract.image = cardList.getFunctionImage(index)?.g8_blackAndWhite()
         tesseract.recognize()
         print("TESSERACT: \(tesseract.recognizedText)")
         //
-        //        let imageData = UIImagePNGRepresentation((cardList.getFunction(index))!)! as NSData
+        //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
         //        MathPix.processSingleImage(imageData : imageData)
         
         index += 1

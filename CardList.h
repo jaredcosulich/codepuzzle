@@ -21,10 +21,11 @@ class CardList
 {
 public:
     CardList();
-    UIImage* getFull(int);
-    UIImage* getFunction(int);
-    UIImage* getParam(int);
-    void add(int, int, UIImage*, UIImage*, UIImage*);
+    UIImage* getHexImage(int);
+    UIImage* getFullImage(int);
+    UIImage* getFunctionImage(int);
+    UIImage* getParamImage(int);
+    void add(CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);
     int count();
     
 private:

@@ -21,6 +21,26 @@ using namespace std;
 
 @implementation OpenCVWrapper
 
++ (CGRect) CvRectToCgRect : (cv::Rect) rect {
+    CGFloat originX(rect.x);
+    CGFloat originY(rect.y);
+    CGPoint origin;
+    origin.x = originX;
+    origin.y = originY;
+    
+    CGFloat sizeWidth(rect.width);
+    CGFloat sizeHeight(rect.height);
+    CGSize size;
+    size.width = sizeWidth;
+    size.height = sizeHeight;
+    
+    CGRect cgRect;
+    cgRect.origin = origin;
+    cgRect.size = size;
+    return cgRect;
+}
+
+
 + (void) canny :(UIImage *) image :(CardListWrapper *) cardListWrapper {
     cv::Mat src;
     cv::Mat gray;
@@ -28,10 +48,16 @@ using namespace std;
     cv::Mat canny;
     cv::Mat kernel;
     cv::Mat closed;
+    cv::Mat returnImage;
     cv::RNG rng(12345);
+    
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
     std::vector<cv::Point> approx;
+    
+    std::vector<std::vector<cv::Point> > inner;
+    std::vector<cv::Vec4i> innerHierarchy;
+    std::vector<cv::Point> innerApprox;
     cv::Rect bound;
     
     UIImageToMat(image, src);
@@ -75,7 +101,7 @@ using namespace std;
         // Skip small or non-convex objects
         if (std::fabs(cv::contourArea(contours[i])) < 500 || !cv::isContourConvex(approx))
             continue;
-
+        
         bound = cv::boundingRect(contours[i]);
         float aspectRatio = float(bound.width)/bound.height;
 
@@ -83,22 +109,53 @@ using namespace std;
 //            ++acceptableCount;
 //            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
 //            printf("ASPECT RATIO: %f \n\n", aspectRatio);
+            
+            cv::Mat hex(canny, bound);
+            cv::Mat cardHex;
+            hex.copyTo(cardHex);
 
+            cv::Rect validInnerHex;
+            
+            cv::findContours(cardHex, inner, innerHierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+            
+            for (int j = 0; j < inner.size(); j++) {
+                cv::approxPolyDP(cv::Mat(inner[j]), innerApprox, cv::arcLength(cv::Mat(inner[j]), true)*0.02, true);
+                
+                // Skip small or non-convex objects
+                if (std::fabs(cv::contourArea(inner[j])) < 500 || !cv::isContourConvex(innerApprox))
+                    continue;
+                
+                cv::Rect innerHex = cv::boundingRect(inner[j]);
+                
+                float aspectRatio = float(innerHex.width)/innerHex.height;
+                
+                if (innerApprox.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
+                    if (innerHex.width != bound.width && innerHex.height != bound.height) {
+                        validInnerHex = innerHex;
+                        break;
+                    }
+                }
+            }
+            
+            if (validInnerHex.width == 0) {
+                continue;
+            }
+            
             cv::Rect fullCardBound;
-            fullCardBound.x = bound.x - bound.width * 1.5;
-            fullCardBound.y = bound.y - bound.height * 5.5;
-            fullCardBound.width = bound.width * 3.75;
-            fullCardBound.height = bound.height * 7;
+            fullCardBound.x = bound.x - bound.width * 1.25;
+            fullCardBound.y = bound.y - bound.height * 4.75;
+            fullCardBound.width = bound.width * 3.5;
+            fullCardBound.height = bound.height * 6.25;
             
             cv::Mat full(gray, fullCardBound);
             cv::Mat cardFull;
             full.copyTo(cardFull);
 
             cv::Rect functionBound;
-            functionBound.x = bound.x + (bound.width * 0.25);
-            functionBound.y = bound.y + (bound.height * 0.25);
-            functionBound.width = bound.width - (bound.width * 0.5);
-            functionBound.height = bound.height - (bound.height * 0.5);
+            functionBound.x = bound.x + (bound.width * 0.3);
+            functionBound.y = bound.y + (bound.height * 0.3);
+            functionBound.width = bound.width - (bound.width * 0.6);
+            functionBound.height = bound.height - (bound.height * 0.6);
 
             cv::Mat function(gray, functionBound);
             cv::Mat cardFunction;
@@ -113,8 +170,40 @@ using namespace std;
             cv::Mat param(gray, paramBound);
             cv::Mat cardParam;
             param.copyTo(cardParam);
+
+            CGFloat innerHexX(validInnerHex.x);
+            CGFloat innerHexY(validInnerHex.y);
+            CGPoint innerHexOrigin;
+            innerHexOrigin.x = innerHexX;
+            innerHexOrigin.y = innerHexY;
             
-            [cardListWrapper add :bound.x :bound.y :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+            CGFloat innerHexWidth(validInnerHex.width);
+            CGFloat innerHexHeight(validInnerHex.height);
+            CGSize innerHexSize;
+            innerHexSize.width = innerHexWidth;
+            innerHexSize.height = innerHexHeight;
+            
+            CGRect innerHexRect;
+            innerHexRect.origin = innerHexOrigin;
+            innerHexRect.size = innerHexSize;
+
+            CGFloat hexX(bound.x);
+            CGFloat hexY(bound.y);
+            CGPoint hexOrigin;
+            hexOrigin.x = hexX;
+            hexOrigin.y = hexY;
+                              
+            CGFloat hexWidth(bound.width);
+            CGFloat hexHeight(bound.height);
+            CGSize hexSize;
+            hexSize.width = hexWidth;
+            hexSize.height = hexHeight;
+            
+            CGRect hexRect;
+            hexRect.origin = hexOrigin;
+            hexRect.size = hexSize;
+            
+            [cardListWrapper add :hexRect :innerHexRect :MatToUIImage(cardHex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
           
             
 //            cv::Mat thresholded;
@@ -153,7 +242,7 @@ using namespace std;
 //        cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
 //    }
     
-//    return MatToUIImage(gray);
+//    return MatToUIImage(returnImage);
 }
 
 
