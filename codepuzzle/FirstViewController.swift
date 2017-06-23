@@ -41,7 +41,7 @@ class FirstViewController: UIViewController {
         
         // start the timer
         timer = Timer.scheduledTimer(
-            timeInterval: 5,
+            timeInterval: 3,
             target: self,
             selector: #selector(showCard),
             userInfo: nil,
@@ -50,7 +50,9 @@ class FirstViewController: UIViewController {
     }
     
     func showCard() {
-        imageView.image = cardList.getFunctionImage(index)!
+        print("")
+        print("")
+        imageView.image = cardList.getFullImage(index)!
         
         let tesseract = G8Tesseract()
         tesseract.language = "eng+fra"

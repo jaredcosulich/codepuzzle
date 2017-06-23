@@ -37,6 +37,20 @@ bool sameCard (Card a, Card b) {
     return false;
 }
 
+bool sortFunction (Card a, Card b) {
+    int aX = 0;
+    if (a.hex.x + (a.hex.width * 2) < b.hex.x) aX = 1;
+    if (a.hex.x > b.hex.x + (b.hex.width * 2)) aX = -1;
+
+    int aY = 0;
+    if (a.hex.y + (a.hex.height * 4) < b.hex.y) aY = 1;
+    if (a.hex.y > b.hex.y + (b.hex.height * 4)) aY = -1;
+    
+    if (aY > 0) return true;
+    if (aY == 0 && aX > 0) return true;
+    return false;
+}
+
 CardList::CardList() {};
 
 UIImage* CardList::getHexImage(int index) {
@@ -44,6 +58,8 @@ UIImage* CardList::getHexImage(int index) {
 }
 
 UIImage* CardList::getFullImage(int index) {
+    Hex h = cards[index].hex;
+    printf("x: %u, y: %u, width: %u, height: %u\n", h.x, h.y, h.width, h.height);
     return cards[index].full;
 }
 
@@ -76,6 +92,7 @@ void CardList::add(CGRect hex, CGRect innerHex, UIImage* hexImage, UIImage* full
     c.param = paramImage;
     
     cards.push_back(c);
+    std::sort( cards.begin(), cards.end(), sortFunction );
     cards.erase( unique( cards.begin(), cards.end(), sameCard ), cards.end() );
 }
 
