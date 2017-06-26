@@ -40,6 +40,28 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         }
     }
     
+    @IBAction func photolibraryaction(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+            imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func rotateleft(_ sender: UIButton) {
+        UIView.animate(withDuration: 1.0, animations: {
+            self.imageView.transform = CGAffineTransform(rotationAngle: (-90.0 * CGFloat(Double.pi)) / 180.0)
+        })
+    }
+
+    @IBAction func rotateright(_ sender: UIButton) {
+        UIView.animate(withDuration: 1.0, animations: {
+            self.imageView.transform = CGAffineTransform(rotationAngle: (90.0 * CGFloat(Double.pi)) / 180.0)
+        })
+    }
+
     @IBAction func savephotobutton(_ sender: UIButton) {
         UIImageWriteToSavedPhotosAlbum(imageView.image!, photoSaved(), nil, nil)
     }
@@ -78,6 +100,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         } else if (index >= cardCount) {
             methodOutput.text  = "All cards displayed. Total: \(cardCount)"
             timer.invalidate()
+            return
         }
 
 //        print("")

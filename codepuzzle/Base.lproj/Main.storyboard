@@ -26,43 +26,70 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
-                                <rect key="frame" x="47.5" y="409" width="75" height="30"/>
+                                <rect key="frame" x="47.5" y="419" width="75" height="30"/>
                                 <state key="normal" title="New Photo"/>
                                 <connections>
                                     <action selector="newphotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7sB-My-jkr"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method Output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
-                                <rect key="frame" x="101.5" y="363.5" width="117" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBJ-I1-NRw">
-                                <rect key="frame" x="133" y="464" width="55" height="30"/>
+                                <rect key="frame" x="207.5" y="469" width="55" height="30"/>
                                 <state key="normal" title="Process"/>
                                 <connections>
                                     <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="feX-SX-6gh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5H-ru-g6w">
-                                <rect key="frame" x="196" y="409" width="78" height="30"/>
+                                <rect key="frame" x="46" y="469" width="78" height="30"/>
                                 <state key="normal" title="Save Photo"/>
                                 <connections>
                                     <action selector="savephotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="9Fm-wf-lTC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
+                                <rect key="frame" x="196" y="419" width="78" height="30"/>
+                                <state key="normal" title="Load Photo"/>
+                                <connections>
+                                    <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
+                                <rect key="frame" x="47" y="369" width="76" height="30"/>
+                                <state key="normal" title="Rotate Left"/>
+                                <connections>
+                                    <action selector="rotateleft:" destination="9pv-A4-QxB" eventType="touchUpInside" id="UfK-ZB-E9q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzL-hW-vmB">
+                                <rect key="frame" x="192.5" y="369" width="85" height="30"/>
+                                <state key="normal" title="Rotate Right"/>
+                                <connections>
+                                    <action selector="rotateright:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ywO-vL-S5l"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method Output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
+                                <rect key="frame" x="102" y="328.5" width="117" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="i5H-ru-g6w" secondAttribute="bottom" constant="25" id="4Pa-YG-oIg"/>
+                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="FvY-9v-y83"/>
+                            <constraint firstItem="N9z-JF-GIm" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="K6L-Vx-gIs"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="LoN-on-AR9"/>
-                            <constraint firstItem="i5H-ru-g6w" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="N4q-O1-0jx"/>
-                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="25" id="RE8-eJ-W8j"/>
-                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="X3W-Nf-90P"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="25" id="ogx-vW-okE"/>
-                            <constraint firstItem="qvc-0w-NOq" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="25" id="rhP-mH-mfV"/>
-                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="sN6-vH-b1j"/>
+                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="20" id="RE8-eJ-W8j"/>
+                            <constraint firstItem="nzL-hW-vmB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="Tdy-z3-Rpq"/>
+                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="X3W-Nf-90P"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="i5H-ru-g6w" secondAttribute="bottom" constant="20" id="b2h-N3-6cK"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="jca-yi-pry"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="top" secondItem="nzL-hW-vmB" secondAttribute="bottom" constant="20" id="khC-Kr-KRV"/>
+                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="2qb-cf-lUO" secondAttribute="bottom" constant="20" id="mKo-Sk-XuR"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="20" id="ogx-vW-okE"/>
+                            <constraint firstItem="nzL-hW-vmB" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="siX-ip-PJ3"/>
+                            <constraint firstItem="i5H-ru-g6w" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="t5y-o2-d26"/>
+                            <constraint firstItem="qvc-0w-NOq" firstAttribute="top" secondItem="N9z-JF-GIm" secondAttribute="bottom" constant="20" id="uVl-iu-YOp"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
