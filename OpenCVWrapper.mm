@@ -41,7 +41,7 @@ using namespace std;
 }
 
 
-+ (void) canny :(UIImage *) image :(CardListWrapper *) cardListWrapper {
++ (void) process :(UIImage *) image :(CardListWrapper *) cardListWrapper {
     cv::Mat src;
     cv::Mat gray;
     cv::Mat blur;

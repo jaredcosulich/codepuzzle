@@ -8,9 +8,12 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
+    var imagePicker: UIImagePickerController!
+    
+    @IBOutlet weak var methodOutput: UILabel!
     
     let cardList = CardListWrapper()!
     var index = Int32(0)
@@ -26,15 +29,32 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func revertbutton(_ sender: UIButton) {
-        let image = UIImage(named: "portrait_with_numbers.JPG")
-        let normalizedImage = ImageProcessor.normalize(image: image!)
-            
-        imageView.image = normalizedImage
+    @IBAction func newphotobutton(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
-    @IBAction func cannybutton(_ sender: UIButton) {
-        OpenCVWrapper.canny(imageView.image, cardList)
+    @IBAction func savephotobutton(_ sender: UIButton) {
+        UIImageWriteToSavedPhotosAlbum(imageView.image!, photoSaved(), nil, nil)
+    }
+    
+    func photoSaved() {
+        methodOutput.text = "Photo Saved!"
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        imageView.image = image
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func processbutton(_ sender: UIButton) {
+        OpenCVWrapper.process(imageView.image, cardList)
         showCard()
 
         timer.invalidate() // just in case this button is tapped multiple times
@@ -50,8 +70,18 @@ class FirstViewController: UIViewController {
     }
     
     func showCard() {
-        print("")
-        print("")
+        let cardCount = cardList.count()
+        if (cardCount == 0) {
+            methodOutput.text  = "No Cards Found!"
+            timer.invalidate()
+            return
+        } else if (index >= cardCount) {
+            methodOutput.text  = "All cards displayed. Total: \(cardCount)"
+            timer.invalidate()
+        }
+
+//        print("")
+//        print("")
         imageView.image = cardList.getFullImage(index)!
         
         let tesseract = G8Tesseract()
@@ -61,15 +91,32 @@ class FirstViewController: UIViewController {
         tesseract.maximumRecognitionTime = 60.0
         tesseract.image = cardList.getFunctionImage(index)?.g8_blackAndWhite()
         tesseract.recognize()
-        print("TESSERACT: \(tesseract.recognizedText)")
-        //
-        //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
-        //        MathPix.processSingleImage(imageData : imageData)
+        methodOutput.text  = "Method: \(tesseract.recognizedText)"
+//        print("TESSERACT: \(tesseract.recognizedText)")
+
+//        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
+//        MathPix.processSingleImage(imageData : imageData)
         
         index += 1
-        if (index >= cardList.count()) {
-            index = 0
-        }
     }
+    
+//    func drawRectangleOnImage(image: UIImage, rect: CGRect) -> UIImage? {
+//        let opaque = false
+//        let scale: CGFloat = 0
+//        UIGraphicsBeginImageContextWithOptions(image.size, opaque, scale)
+//        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+//        
+//        image.draw(at: CGPoint(x: 0, y: 0))
+//        
+//        context.setStrokeColor(UIColor.red.cgColor)
+//        context.setLineWidth(5.0)
+//        
+//        context.stroke(rect)
+//        
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return newImage
+//    }
+
 }
 
