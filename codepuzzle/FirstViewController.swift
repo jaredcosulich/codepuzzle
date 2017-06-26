@@ -51,13 +51,13 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.imageView.transform = CGAffineTransform(rotationAngle: (-90.0 * CGFloat(Double.pi)) / 180.0)
         })
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.imageView.transform = CGAffineTransform(rotationAngle: (90.0 * CGFloat(Double.pi)) / 180.0)
         })
     }
