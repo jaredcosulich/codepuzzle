@@ -21,6 +21,7 @@ class CardList
 {
 public:
     CardList();
+    void clear();
     UIImage* getHexImage(int);
     UIImage* getFullImage(int);
     UIImage* getFunctionImage(int);

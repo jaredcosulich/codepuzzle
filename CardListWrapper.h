@@ -12,6 +12,7 @@
 @interface CardListWrapper : NSObject
 
 - (instancetype) init;
+- (void) clear;
 - (UIImage *) getHexImage :(int) index;
 - (UIImage *) getFullImage :(int) index;
 - (UIImage *) getFunctionImage :(int) index;

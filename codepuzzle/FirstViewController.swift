@@ -68,21 +68,27 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        imageView.image = ImageProcessor.normalize(image: image)
+        let normalized = ImageProcessor.normalize(image: image)
+        resizeView(image: normalized)
+        imageView.image = normalized
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func processbutton(_ sender: UIButton) {
-        let normalized = ImageProcessor.normalize(image: imageView.image!)
-        imageView.image = normalized
-        OpenCVWrapper.process(normalized, cardList)
+//        imageView.image = OpenCVWrapper.cannify(imageView.image)
+//        return
+//        
+        cardList.clear()
+        OpenCVWrapper.process(imageView.image, cardList)
+        print("SWIFT CARDS: \(cardList.count())")
         showCard()
 
+        index = 0
         timer.invalidate() // just in case this button is tapped multiple times
         
         // start the timer
         timer = Timer.scheduledTimer(
-            timeInterval: 5,
+            timeInterval: 1,
             target: self,
             selector: #selector(showCard),
             userInfo: nil,
@@ -93,8 +99,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     func showCard() {
         let cardCount = cardList.count()
         if (cardCount == 0) {
-            let normalized = ImageProcessor.normalize(image: imageView.image!)
-            imageView.image = OpenCVWrapper.cannify(normalized)
+            imageView.image = OpenCVWrapper.cannify(imageView.image!)
             methodOutput.text  = "No Cards Found!"
             timer.invalidate()
             return
@@ -104,9 +109,9 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             return
         }
 
-//        print("")
-//        print("")
-        imageView.image = cardList.getFullImage(index)!
+        let displayImage = cardList.getFunctionImage(index)!
+        resizeView(image: displayImage)
+        imageView.image = displayImage
         
         let tesseract = G8Tesseract()
         tesseract.language = "eng+fra"
@@ -116,12 +121,20 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         tesseract.image = cardList.getFunctionImage(index)!.g8_blackAndWhite()
         tesseract.recognize()
         methodOutput.text  = "Method: \(tesseract.recognizedText)"
-//        print("TESSERACT: \(tesseract.recognizedText)")
 
 //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
 //        MathPix.processSingleImage(imageData : imageData)
         
         index += 1
+    }
+    
+    func resizeView(image: UIImage) {
+        let viewSize = imageView.bounds.size
+        if (viewSize.width > image.size.width || viewSize.height > image.size.height) {
+            imageView.contentMode = UIViewContentMode.center
+        } else {
+            imageView.contentMode = UIViewContentMode.scaleAspectFit
+        }
     }
     
 //    func drawRectangleOnImage(image: UIImage, rect: CGRect) -> UIImage? {

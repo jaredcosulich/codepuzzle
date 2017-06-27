@@ -22,6 +22,10 @@
     return self;
 }
 
+- (void) clear {
+    self.cardList->clear();
+}
+
 - (UIImage *) getHexImage :(int) index {
     return self.cardList->getHexImage(index);
 }

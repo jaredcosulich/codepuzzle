@@ -53,6 +53,10 @@ bool sortFunction (Card a, Card b) {
 
 CardList::CardList() {};
 
+void CardList::clear() {
+    cards.clear();
+}
+
 UIImage* CardList::getHexImage(int index) {
     return cards[index].hex.image;
 }
