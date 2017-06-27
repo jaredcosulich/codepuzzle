@@ -124,8 +124,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         tesseract.recognize()
         methodOutput.text  = "Method: \(tesseract.recognizedText)"
 
-        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
-        MathPix.processSingleImage(imageData : imageData)
+//        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
+//        MathPix.processSingleImage(imageData : imageData)
         
         index += 1
     }

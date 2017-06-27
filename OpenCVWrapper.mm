@@ -170,10 +170,10 @@ using namespace std;
             full.copyTo(cardFull);
 
             cv::Rect functionBound;
-            functionBound.x = bound.x + (bound.width * 0.27);
-            functionBound.y = bound.y + (bound.height * 0.27);
-            functionBound.width = bound.width - (bound.width * 0.54);
-            functionBound.height = bound.height - (bound.height * 0.54);
+            functionBound.x = bound.x + (bound.width * 0.29);
+            functionBound.y = bound.y + (bound.height * 0.29);
+            functionBound.width = bound.width - (bound.width * 0.58);
+            functionBound.height = bound.height - (bound.height * 0.58);
 
             cv::Mat function(gray, functionBound);
             cv::Mat cardFunction;
