@@ -12,6 +12,8 @@
 
 @interface OpenCVWrapper : NSObject
 
++ (UIImage *) cannify :(UIImage *) image;
+
 + (void) process :(UIImage *) image :(CardListWrapper *) cards;
 
 @end

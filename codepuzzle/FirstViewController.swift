@@ -18,6 +18,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     let cardList = CardListWrapper()!
     var index = Int32(0)
     var timer = Timer()
+    var rotation = Int32(0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,15 +52,11 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.imageView.transform = CGAffineTransform(rotationAngle: (-90.0 * CGFloat(Double.pi)) / 180.0)
-        })
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, deg: 270)
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.imageView.transform = CGAffineTransform(rotationAngle: (90.0 * CGFloat(Double.pi)) / 180.0)
-        })
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, deg: 90)
     }
 
     @IBAction func savephotobutton(_ sender: UIButton) {
@@ -76,7 +73,9 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
     
     @IBAction func processbutton(_ sender: UIButton) {
-        OpenCVWrapper.process(imageView.image, cardList)
+        let normalized = ImageProcessor.normalize(image: imageView.image!)
+        imageView.image = normalized
+        OpenCVWrapper.process(normalized, cardList)
         showCard()
 
         timer.invalidate() // just in case this button is tapped multiple times
@@ -94,6 +93,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     func showCard() {
         let cardCount = cardList.count()
         if (cardCount == 0) {
+            let normalized = ImageProcessor.normalize(image: imageView.image!)
+            imageView.image = OpenCVWrapper.cannify(normalized)
             methodOutput.text  = "No Cards Found!"
             timer.invalidate()
             return
@@ -105,14 +106,14 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 
 //        print("")
 //        print("")
-        imageView.image = cardList.getFullImage(index)!
+        imageView.image = cardList.getFunctionImage(index)!
         
         let tesseract = G8Tesseract()
         tesseract.language = "eng+fra"
         tesseract.engineMode = .tesseractOnly
         tesseract.pageSegmentationMode = .auto
         tesseract.maximumRecognitionTime = 60.0
-        tesseract.image = cardList.getFunctionImage(index)?.g8_blackAndWhite()
+        tesseract.image = cardList.getFunctionImage(index)!.g8_blackAndWhite()
         tesseract.recognize()
         methodOutput.text  = "Method: \(tesseract.recognizedText)"
 //        print("TESSERACT: \(tesseract.recognizedText)")

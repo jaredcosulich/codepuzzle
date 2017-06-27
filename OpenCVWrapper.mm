@@ -41,6 +41,18 @@ using namespace std;
 }
 
 
++ (UIImage *) cannify :(UIImage *) image {
+    cv::Mat src;
+    cv::Mat gray;
+    cv::Mat canny;
+    
+    UIImageToMat(image, src);
+    
+    cv::cvtColor(src, gray, CV_BGR2GRAY);
+    cv::Canny(gray, canny, 150, 240, 3);
+    return MatToUIImage(canny);
+}
+
 + (void) process :(UIImage *) image :(CardListWrapper *) cardListWrapper {
     cv::Mat src;
     cv::Mat gray;
@@ -95,19 +107,21 @@ using namespace std;
 //        }
 //    }
     
+    printf("CONTOURS: %lu\n", contours.size());
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
         // Skip small or non-convex objects
-        if (std::fabs(cv::contourArea(contours[i])) < 500 || !cv::isContourConvex(approx))
+        if (std::fabs(cv::contourArea(contours[i])) < 200 || !cv::isContourConvex(approx))
             continue;
         
         bound = cv::boundingRect(contours[i]);
         float aspectRatio = float(bound.width)/bound.height;
 
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
+            
 //            ++acceptableCount;
-//            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
+            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
 //            printf("ASPECT RATIO: %f \n\n", aspectRatio);
             
             cv::Mat hex(canny, bound);
@@ -117,12 +131,12 @@ using namespace std;
             cv::Rect validInnerHex;
             
             cv::findContours(cardHex, inner, innerHierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
-            
+
             for (int j = 0; j < inner.size(); j++) {
                 cv::approxPolyDP(cv::Mat(inner[j]), innerApprox, cv::arcLength(cv::Mat(inner[j]), true)*0.02, true);
                 
                 // Skip small or non-convex objects
-                if (std::fabs(cv::contourArea(inner[j])) < 500 || !cv::isContourConvex(innerApprox))
+                if (std::fabs(cv::contourArea(inner[j])) < 100 || !cv::isContourConvex(innerApprox))
                     continue;
                 
                 cv::Rect innerHex = cv::boundingRect(inner[j]);
