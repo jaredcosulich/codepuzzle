@@ -57,6 +57,7 @@ using namespace std;
     cv::Mat src;
     cv::Mat gray;
     cv::Mat blur;
+    cv::Mat thresholded;
     cv::Mat canny;
     cv::Mat kernel;
     cv::Mat erosion;
@@ -76,12 +77,15 @@ using namespace std;
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
+    cv::medianBlur(gray, blur, 3);
+    cv::adaptiveThreshold(blur, thresholded, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
+    
 //    kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5), cv::Point(2, 2));
 //    cv::morphologyEx(canny, closed, cv::MORPH_CLOSE, kernel);
 //    cv::erode( gray, erosion, kernel );
 
 //    cv::blur(gray, blur, cv::Size(3, 3));
-    cv::Canny(gray, canny, 150, 240, 3);
+    cv::Canny(thresholded, canny, 150, 240, 3);
 
     
     cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
@@ -175,7 +179,7 @@ using namespace std;
             functionBound.width = bound.width - (bound.width * 0.58);
             functionBound.height = bound.height - (bound.height * 0.58);
 
-            cv::Mat function(gray, functionBound);
+            cv::Mat function(thresholded, functionBound);
             cv::Mat cardFunction;
             function.copyTo(cardFunction);
 
