@@ -112,7 +112,7 @@ using namespace std;
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
         // Skip small or non-convex objects
-        if (std::fabs(cv::contourArea(contours[i])) < 200 || !cv::isContourConvex(approx))
+        if (std::fabs(cv::contourArea(contours[i])) < 400 || !cv::isContourConvex(approx))
             continue;
         
         bound = cv::boundingRect(contours[i]);
@@ -121,7 +121,7 @@ using namespace std;
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
             
 //            ++acceptableCount;
-            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
+//            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
 //            printf("ASPECT RATIO: %f \n\n", aspectRatio);
             
             cv::Mat hex(canny, bound);
@@ -136,15 +136,16 @@ using namespace std;
                 cv::approxPolyDP(cv::Mat(inner[j]), innerApprox, cv::arcLength(cv::Mat(inner[j]), true)*0.02, true);
                 
                 // Skip small or non-convex objects
-                if (std::fabs(cv::contourArea(inner[j])) < 100 || !cv::isContourConvex(innerApprox))
+                if (std::fabs(cv::contourArea(inner[j])) < 200 || !cv::isContourConvex(innerApprox))
                     continue;
                 
                 cv::Rect innerHex = cv::boundingRect(inner[j]);
                 
-                float aspectRatio = float(innerHex.width)/innerHex.height;
+                float innerAspectRatio = float(innerHex.width)/innerHex.height;
                 
-                if (innerApprox.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
+                if (innerApprox.size() == 6 && innerAspectRatio > 0.8 && innerAspectRatio < 1.2) {
                     if (innerHex.width != bound.width && innerHex.height != bound.height) {
+                        printf("VALID HEX ASPECT: %f SIZE: %f\n\n", aspectRatio, cv::contourArea(contours[i]));
                         validInnerHex = innerHex;
                         break;
                     }

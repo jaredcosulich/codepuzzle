@@ -52,11 +52,11 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, deg: 270)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, deg: 90)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: false)
     }
 
     @IBAction func savephotobutton(_ sender: UIButton) {
@@ -68,7 +68,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        imageView.image = image
+        imageView.image = ImageProcessor.normalize(image: image)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -82,7 +82,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         
         // start the timer
         timer = Timer.scheduledTimer(
-            timeInterval: 3,
+            timeInterval: 5,
             target: self,
             selector: #selector(showCard),
             userInfo: nil,
@@ -106,7 +106,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 
 //        print("")
 //        print("")
-        imageView.image = cardList.getFunctionImage(index)!
+        imageView.image = cardList.getFullImage(index)!
         
         let tesseract = G8Tesseract()
         tesseract.language = "eng+fra"
