@@ -49,7 +49,7 @@ using namespace std;
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
-    cv::Canny(gray, canny, 150, 240, 3);
+    cv::Canny(gray, canny, 80, 240, 3);
     return MatToUIImage(canny);
 }
 
@@ -77,8 +77,7 @@ using namespace std;
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
-    cv::Canny(gray, canny, 150, 240, 3);
-
+    cv::Canny(gray, canny, 80, 240, 3);
     
     cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
@@ -137,10 +136,10 @@ using namespace std;
             full.copyTo(cardFull);
 
             cv::Rect functionBound;
-            functionBound.x = bound.x + (bound.width * 0.29);
-            functionBound.y = bound.y + (bound.height * 0.29);
-            functionBound.width = bound.width - (bound.width * 0.58);
-            functionBound.height = bound.height - (bound.height * 0.58);
+            functionBound.x = bound.x + (bound.width * 0.26);
+            functionBound.y = bound.y + (bound.height * 0.33);
+            functionBound.width = bound.width - (bound.width * 0.54);
+            functionBound.height = bound.height - (bound.height * 0.61);
 
             cv::Mat function(gray, functionBound);
 
@@ -150,8 +149,53 @@ using namespace std;
             cv::Mat thresholdedFunction;
             cv::adaptiveThreshold(blurredFuction, thresholdedFunction, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
 
+//            std::vector<std::vector<cv::Point> > functionContours;
+//            std::vector<cv::Vec4i> functionHierarchy;
+//
+//            int maxX = 0, maxY = 0, minX = 0, minY = 0;
+//
+//            cv::Mat erodedFunction;
+//            cv::Mat element = cv::getStructuringElement(MORPH_RECT, cv::Size(3, 3), cv::Point(1,1));
+//            cv::erode(thresholdedFunction, erodedFunction, element);
+//
+//            cv::Mat cannyFunction;
+//            cv::Canny(erodedFunction, cannyFunction, 80, 240, 3);
+//
+//            cv::findContours(erodedFunction, functionContours, functionHierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+//            
+//            printf("FUNCTION CONTOURS: %lu\n", functionContours.size());
+//
+//            /// Draw contours
+//            Mat drawing = Mat::zeros( cannyFunction.size(), CV_8UC3 );
+//            cv::drawContours(drawing, functionContours, -1, cv::Scalar(255,255,255), 2, 8, functionHierarchy, 0, cv::Point());
+//            
+//            for (int j = 0; j < functionContours.size(); j++) {
+//                if (std::fabs(cv::contourArea(functionContours[j])) < 100) continue;
+//                
+//                printf("FUNCTION CONTOUR FOUND: %f\n", cv::contourArea(functionContours[j]));
+//                
+//                for (int k = 0; k < functionContours[j].size(); k++) {
+//                    cv::Point p = functionContours[j][k];
+//                    if (minX > p.x) minX = p.x;
+//                    if (minY > p.y) minY = p.y;
+//                    if (maxX < p.x) maxX = p.x;
+//                    if (maxY < p.y) maxY = p.y;
+//                }
+//            }
+//            printf("FUNCTION BOUNDS: %d, %d, %d, %d\n\n", minX, minY, maxX, maxY);
+//
+//            cv::Rect croppedFunctionBound;
+//            croppedFunctionBound.x = minX + 5;
+//            croppedFunctionBound.y = minY + 5;
+//            croppedFunctionBound.width = maxX - minX - 5;
+//            croppedFunctionBound.height = maxY - minY - 5;
+//            
+//            cv::Mat croppedFunction(thresholdedFunction, croppedFunctionBound);
+
             cv::Mat cardFunction;
             thresholdedFunction.copyTo(cardFunction);
+            
+            
             
             cv::Rect paramBound;
             paramBound.x = bound.x - bound.width * 0.3;
