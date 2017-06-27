@@ -23,6 +23,9 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // REMOVE THIS FOR MOST IMAGES
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,7 +83,6 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        
         cardList.clear()
         OpenCVWrapper.process(imageView.image, cardList)
-        print("SWIFT CARDS: \(cardList.count())")
         showCard()
 
         index = 0
@@ -99,7 +101,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     func showCard() {
         let cardCount = cardList.count()
         if (cardCount == 0) {
-            imageView.image = OpenCVWrapper.cannify(imageView.image!)
+//            imageView.image = OpenCVWrapper.cannify(imageView.image!)
             methodOutput.text  = "No Cards Found!"
             timer.invalidate()
             return
@@ -122,8 +124,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         tesseract.recognize()
         methodOutput.text  = "Method: \(tesseract.recognizedText)"
 
-//        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
-//        MathPix.processSingleImage(imageData : imageData)
+        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
+        MathPix.processSingleImage(imageData : imageData)
         
         index += 1
     }

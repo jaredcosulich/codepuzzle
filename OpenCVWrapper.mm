@@ -59,6 +59,7 @@ using namespace std;
     cv::Mat blur;
     cv::Mat canny;
     cv::Mat kernel;
+    cv::Mat erosion;
     cv::Mat closed;
     cv::Mat returnImage;
     cv::RNG rng(12345);
@@ -75,11 +76,13 @@ using namespace std;
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
+//    kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5), cv::Point(2, 2));
+//    cv::morphologyEx(canny, closed, cv::MORPH_CLOSE, kernel);
+//    cv::erode( gray, erosion, kernel );
+
 //    cv::blur(gray, blur, cv::Size(3, 3));
     cv::Canny(gray, canny, 150, 240, 3);
 
-//    kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));
-//    cv::morphologyEx(canny, closed, cv::MORPH_CLOSE, kernel);
     
     cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
@@ -162,7 +165,7 @@ using namespace std;
             fullCardBound.width = bound.width * 3.5;
             fullCardBound.height = bound.height * 6.25;
             
-            cv::Mat full(gray, fullCardBound);
+            cv::Mat full(src, fullCardBound);
             cv::Mat cardFull;
             full.copyTo(cardFull);
 
