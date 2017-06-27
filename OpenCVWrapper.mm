@@ -77,44 +77,11 @@ using namespace std;
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
-    cv::medianBlur(gray, blur, 3);
-    cv::adaptiveThreshold(blur, thresholded, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
-    
-//    kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5), cv::Point(2, 2));
-//    cv::morphologyEx(canny, closed, cv::MORPH_CLOSE, kernel);
-//    cv::erode( gray, erosion, kernel );
-
-//    cv::blur(gray, blur, cv::Size(3, 3));
-    cv::Canny(thresholded, canny, 150, 240, 3);
+    cv::Canny(gray, canny, 150, 240, 3);
 
     
     cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
-//    cv::Mat drawing = cv::Mat::zeros( src.size(), CV_8UC3 );
-//
-//    int acceptableCount = 0;
-//    
-//    cv::Mat allAcceptable;
-//
-//    int maxHeight = 0;    
-//    for (int i = 0; i < contours.size(); i++) {
-//        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
-//        
-//        // Skip small or non-convex objects
-//        if (std::fabs(cv::contourArea(contours[i])) < 500 || !cv::isContourConvex(approx))
-//            continue;
-//        
-//        bound = cv::boundingRect(contours[i]);
-//        float aspectRatio = float(bound.width)/bound.height;
-//        
-//        if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
-//            if (bound.height > maxHeight) {
-//                maxHeight = bound.height;
-//            }
-//        }
-//    }
-    
-    printf("CONTOURS: %lu\n", contours.size());
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
@@ -126,10 +93,6 @@ using namespace std;
         float aspectRatio = float(bound.width)/bound.height;
 
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
-            
-//            ++acceptableCount;
-//            printf("Hexagon Found %lu %f \n", approx.size(), cv::contourArea(contours[i]));
-//            printf("ASPECT RATIO: %f \n\n", aspectRatio);
             
             cv::Mat hex(canny, bound);
             cv::Mat cardHex;
@@ -152,7 +115,7 @@ using namespace std;
                 
                 if (innerApprox.size() == 6 && innerAspectRatio > 0.8 && innerAspectRatio < 1.2) {
                     if (innerHex.width != bound.width && innerHex.height != bound.height) {
-                        printf("VALID HEX ASPECT: %f SIZE: %f\n\n", aspectRatio, cv::contourArea(contours[i]));
+//                        printf("VALID HEX ASPECT: %f SIZE: %f\n\n", aspectRatio, cv::contourArea(contours[i]));
                         validInnerHex = innerHex;
                         break;
                     }
@@ -179,10 +142,17 @@ using namespace std;
             functionBound.width = bound.width - (bound.width * 0.58);
             functionBound.height = bound.height - (bound.height * 0.58);
 
-            cv::Mat function(thresholded, functionBound);
-            cv::Mat cardFunction;
-            function.copyTo(cardFunction);
+            cv::Mat function(gray, functionBound);
 
+            cv::Mat blurredFuction;
+            cv::medianBlur(function, blurredFuction, 3);
+
+            cv::Mat thresholdedFunction;
+            cv::adaptiveThreshold(blurredFuction, thresholdedFunction, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
+
+            cv::Mat cardFunction;
+            thresholdedFunction.copyTo(cardFunction);
+            
             cv::Rect paramBound;
             paramBound.x = bound.x - bound.width * 0.3;
             paramBound.y = bound.y - bound.height * 3;
