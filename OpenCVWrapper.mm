@@ -40,7 +40,6 @@ using namespace std;
     return cgRect;
 }
 
-
 + (UIImage *) cannify :(UIImage *) image {
     cv::Mat src;
     cv::Mat gray;
@@ -52,6 +51,56 @@ using namespace std;
     cv::Canny(gray, canny, 80, 240, 3);
     return MatToUIImage(canny);
 }
+
++ (double) calculateSkew :(cv::Mat) src {
+    cv::Mat img;
+    src.copyTo(img);
+    cv::Size size = img.size();
+    cv::bitwise_not(img, img);
+    std::vector<cv::Vec4i> lines;
+    printf("Size: %d\n", size.width);
+    cv::HoughLinesP(img, lines, 1, CV_PI/180, 10, size.width / 2.f, 10);
+    cv::Mat disp_lines(size, CV_8UC1, cv::Scalar(0, 0, 0));
+    double angle = 0.;
+    unsigned long nb_lines = lines.size();
+    for (unsigned long i = 0; i < nb_lines; ++i)
+    {
+        cv::line(disp_lines, cv::Point(lines[i][0], lines[i][1]),
+                 cv::Point(lines[i][2], lines[i][3]), cv::Scalar(255, 0 ,0));
+        angle += atan2((double)lines[i][3] - lines[i][1],
+                       (double)lines[i][2] - lines[i][0]);
+    }
+    angle /= nb_lines; // mean angle, in radians.
+    
+    return angle * 180 / CV_PI;
+}
+
++ (cv::Mat) deskew :(cv::Mat) img angle:(double) angle {
+    cv::bitwise_not(img, img);
+    
+    std::vector<cv::Point> points;
+    cv::Mat_<uchar>::iterator it = img.begin<uchar>();
+    cv::Mat_<uchar>::iterator end = img.end<uchar>();
+    for (; it != end; ++it)
+        if (*it)
+            points.push_back(it.pos());
+    
+    cv::RotatedRect box = cv::minAreaRect(cv::Mat(points));
+    
+    cv::Mat rot_mat = cv::getRotationMatrix2D(box.center, angle, 1);
+    
+    cv::Mat rotated;
+    cv::warpAffine(img, rotated, rot_mat, img.size(), cv::INTER_CUBIC);
+    
+//    cv::Size box_size = box.size;
+//    if (box.angle < -45.)
+//        std::swap(box_size.width, box_size.height);
+//    cv::Mat cropped;
+//    cv::getRectSubPix(rotated, box_size, box.center, cropped);
+    cv::bitwise_not(rotated, rotated);
+    return rotated;
+}
+
 
 + (void) process :(UIImage *) image :(CardListWrapper *) cardListWrapper {
     cv::Mat src;
@@ -148,6 +197,10 @@ using namespace std;
 
             cv::Mat thresholdedFunction;
             cv::adaptiveThreshold(blurredFuction, thresholdedFunction, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
+            
+            cv::Mat rotated;
+            double skew = [[self class] calculateSkew:thresholdedFunction];
+            rotated = [[self class] deskew:thresholdedFunction angle:skew];
 
 //            std::vector<std::vector<cv::Point> > functionContours;
 //            std::vector<cv::Vec4i> functionHierarchy;
@@ -193,7 +246,7 @@ using namespace std;
 //            cv::Mat croppedFunction(thresholdedFunction, croppedFunctionBound);
 
             cv::Mat cardFunction;
-            thresholdedFunction.copyTo(cardFunction);
+            rotated.copyTo(cardFunction);
             
             
             
@@ -207,37 +260,8 @@ using namespace std;
             cv::Mat cardParam;
             param.copyTo(cardParam);
 
-            CGFloat innerHexX(validInnerHex.x);
-            CGFloat innerHexY(validInnerHex.y);
-            CGPoint innerHexOrigin;
-            innerHexOrigin.x = innerHexX;
-            innerHexOrigin.y = innerHexY;
-            
-            CGFloat innerHexWidth(validInnerHex.width);
-            CGFloat innerHexHeight(validInnerHex.height);
-            CGSize innerHexSize;
-            innerHexSize.width = innerHexWidth;
-            innerHexSize.height = innerHexHeight;
-            
-            CGRect innerHexRect;
-            innerHexRect.origin = innerHexOrigin;
-            innerHexRect.size = innerHexSize;
-
-            CGFloat hexX(bound.x);
-            CGFloat hexY(bound.y);
-            CGPoint hexOrigin;
-            hexOrigin.x = hexX;
-            hexOrigin.y = hexY;
-                              
-            CGFloat hexWidth(bound.width);
-            CGFloat hexHeight(bound.height);
-            CGSize hexSize;
-            hexSize.width = hexWidth;
-            hexSize.height = hexHeight;
-            
-            CGRect hexRect;
-            hexRect.origin = hexOrigin;
-            hexRect.size = hexSize;
+            CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
+            CGRect hexRect = [[self class] CvRectToCgRect:bound];
             
             [cardListWrapper add :hexRect :innerHexRect :MatToUIImage(cardHex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
           
