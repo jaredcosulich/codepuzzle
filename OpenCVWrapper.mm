@@ -52,13 +52,12 @@ using namespace std;
     return MatToUIImage(canny);
 }
 
-+ (double) calculateSkew :(cv::Mat) src {
-    cv::Mat img;
-    src.copyTo(img);
++ (double) calculateSkew :(cv::Mat) img {
+//    cv::Mat img;
+//    src.copyTo(img);
     cv::Size size = img.size();
     cv::bitwise_not(img, img);
     std::vector<cv::Vec4i> lines;
-    printf("Size: %d\n", size.width);
     cv::HoughLinesP(img, lines, 1, CV_PI/180, 10, size.width / 2.f, 10);
     cv::Mat disp_lines(size, CV_8UC1, cv::Scalar(0, 0, 0));
     double angle = 0.;
@@ -98,6 +97,19 @@ using namespace std;
 //    cv::Mat cropped;
 //    cv::getRectSubPix(rotated, box_size, box.center, cropped);
     cv::bitwise_not(rotated, rotated);
+    return rotated;
+}
+
++ (cv::Mat) cleanSkew :(cv::Mat) image {
+    cv::Mat blurredImage;
+    cv::medianBlur(image, blurredImage, 3);
+    
+    cv::Mat thresholdedImage;
+    cv::adaptiveThreshold(blurredImage, thresholdedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
+    
+    cv::Mat rotated;
+    double skew = [[self class] calculateSkew:thresholdedImage];
+    rotated = [[self class] deskew:thresholdedImage angle:skew];
     return rotated;
 }
 
@@ -191,64 +203,8 @@ using namespace std;
             functionBound.height = bound.height - (bound.height * 0.61);
 
             cv::Mat function(gray, functionBound);
-
-            cv::Mat blurredFuction;
-            cv::medianBlur(function, blurredFuction, 3);
-
-            cv::Mat thresholdedFunction;
-            cv::adaptiveThreshold(blurredFuction, thresholdedFunction, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
-            
-            cv::Mat rotated;
-            double skew = [[self class] calculateSkew:thresholdedFunction];
-            rotated = [[self class] deskew:thresholdedFunction angle:skew];
-
-//            std::vector<std::vector<cv::Point> > functionContours;
-//            std::vector<cv::Vec4i> functionHierarchy;
-//
-//            int maxX = 0, maxY = 0, minX = 0, minY = 0;
-//
-//            cv::Mat erodedFunction;
-//            cv::Mat element = cv::getStructuringElement(MORPH_RECT, cv::Size(3, 3), cv::Point(1,1));
-//            cv::erode(thresholdedFunction, erodedFunction, element);
-//
-//            cv::Mat cannyFunction;
-//            cv::Canny(erodedFunction, cannyFunction, 80, 240, 3);
-//
-//            cv::findContours(erodedFunction, functionContours, functionHierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
-//            
-//            printf("FUNCTION CONTOURS: %lu\n", functionContours.size());
-//
-//            /// Draw contours
-//            Mat drawing = Mat::zeros( cannyFunction.size(), CV_8UC3 );
-//            cv::drawContours(drawing, functionContours, -1, cv::Scalar(255,255,255), 2, 8, functionHierarchy, 0, cv::Point());
-//            
-//            for (int j = 0; j < functionContours.size(); j++) {
-//                if (std::fabs(cv::contourArea(functionContours[j])) < 100) continue;
-//                
-//                printf("FUNCTION CONTOUR FOUND: %f\n", cv::contourArea(functionContours[j]));
-//                
-//                for (int k = 0; k < functionContours[j].size(); k++) {
-//                    cv::Point p = functionContours[j][k];
-//                    if (minX > p.x) minX = p.x;
-//                    if (minY > p.y) minY = p.y;
-//                    if (maxX < p.x) maxX = p.x;
-//                    if (maxY < p.y) maxY = p.y;
-//                }
-//            }
-//            printf("FUNCTION BOUNDS: %d, %d, %d, %d\n\n", minX, minY, maxX, maxY);
-//
-//            cv::Rect croppedFunctionBound;
-//            croppedFunctionBound.x = minX + 5;
-//            croppedFunctionBound.y = minY + 5;
-//            croppedFunctionBound.width = maxX - minX - 5;
-//            croppedFunctionBound.height = maxY - minY - 5;
-//            
-//            cv::Mat croppedFunction(thresholdedFunction, croppedFunctionBound);
-
             cv::Mat cardFunction;
-            rotated.copyTo(cardFunction);
-            
-            
+            function.copyTo(cardFunction);
             
             cv::Rect paramBound;
             paramBound.x = bound.x - bound.width * 0.3;
@@ -265,26 +221,19 @@ using namespace std;
             
             [cardListWrapper add :hexRect :innerHexRect :MatToUIImage(cardHex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
           
-            
-//            cv::Mat thresholded;
-//            cv::threshold(allAcceptable, thresholded, 100, 255, 0);
-            
-//            cv::Size allSize = allAcceptable.size();
-            
-//            if (allSize.width == 0) {
-//                cropped.copyTo(allAcceptable);
-//            } else {
-//                cv::Mat all;
-//                cv::hconcat(allAcceptable, cropped, all);
-//                allAcceptable = all;
-//            }
-            
-//            cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-//            cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
         }
     }
     
     printf("CARDS: %d\n", cardListWrapper.count);
+    
+    for (int i=0; i<cardListWrapper.count; ++i) {
+        [cardListWrapper printHex:i];
+        UIImage * functionImage = [cardListWrapper getFunctionImage:i];
+        cv::Mat function;
+        UIImageToMat(functionImage, function);
+        cv::Mat clean = [[self class] cleanSkew:function];
+        [cardListWrapper setFunctionImage :i :MatToUIImage(clean)];
+    }
     
 //    printf("Hexagons Found %d \n", acceptableCount);
     

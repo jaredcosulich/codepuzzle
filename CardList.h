@@ -22,9 +22,11 @@ class CardList
 public:
     CardList();
     void clear();
+    void printHex(int);
     UIImage* getHexImage(int);
     UIImage* getFullImage(int);
     UIImage* getFunctionImage(int);
+    void setFunctionImage(int, UIImage*);
     UIImage* getParamImage(int);
     void add(CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);
     int count();

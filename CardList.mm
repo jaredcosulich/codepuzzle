@@ -27,8 +27,13 @@ struct Card {
     UIImage* param;
 };
 
+bool roughlySame (int a, int b) {
+    if (abs(a-b) < 3) return true;
+    return false;
+}
+
 bool sameCard (Card a, Card b) {
-    if (a.hex.x == b.hex.x && a.hex.y == b.hex.y) return true;
+    if (roughlySame(a.hex.x, b.hex.x) && roughlySame(a.hex.y, b.hex.y)) return true;
     if (a.hex.x < b.hex.innerX && a.hex.x + a.hex.width > b.hex.innerX + b.hex.innerWidth) {
         if (a.hex.y < b.hex.innerY && a.hex.y + a.hex.height > b.hex.innerY + b.hex.innerHeight) {
             return true;
@@ -57,18 +62,30 @@ void CardList::clear() {
     cards.clear();
 }
 
+void CardList::printHex(int index) {
+    Hex hex = cards[index].hex;
+    printf("HEX: X: %d Y: %d WIDTH: %d HEIGHT: %d\n\n", hex.x, hex.y, hex.width, hex.height);
+    printf("INR: X: %d Y: %d WIDTH: %d HEIGHT: %d\n\n", hex.innerX, hex.innerY, hex.innerWidth, hex.innerHeight);
+}
+
 UIImage* CardList::getHexImage(int index) {
     return cards[index].hex.image;
 }
 
 UIImage* CardList::getFullImage(int index) {
     Hex h = cards[index].hex;
-    printf("x: %u, y: %u, width: %u, height: %u\n", h.x, h.y, h.width, h.height);
+//    printf("x: %u, y: %u, width: %u, height: %u\n", h.x, h.y, h.width, h.height);
     return cards[index].full;
 }
 
 UIImage* CardList::getFunctionImage(int index) {
     return cards[index].function;
+}
+
+void CardList::setFunctionImage(int index, UIImage* functionImage) {
+    Card card = cards[index];
+    card.function = functionImage;
+    cards[index] = card;
 }
 
 UIImage* CardList::getParamImage(int index) {
@@ -82,8 +99,8 @@ void CardList::add(CGRect hex, CGRect innerHex, UIImage* hexImage, UIImage* full
     h.width = hex.size.width;
     h.height = hex.size.height;
     
-    h.innerX = innerHex.origin.x;
-    h.innerY = innerHex.origin.y;
+    h.innerX = hex.origin.x + innerHex.origin.x;
+    h.innerY = hex.origin.y + innerHex.origin.y;
     h.innerWidth = innerHex.size.width;
     h.innerHeight = innerHex.size.height;
     

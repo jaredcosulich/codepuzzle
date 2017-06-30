@@ -26,6 +26,10 @@
     self.cardList->clear();
 }
 
+- (void) printHex :(int) index {
+    return self.cardList->printHex(index);
+}
+
 - (UIImage *) getHexImage :(int) index {
     return self.cardList->getHexImage(index);
 }
@@ -36,6 +40,10 @@
 
 - (UIImage *) getFunctionImage :(int) index {
     return self.cardList->getFunctionImage(index);
+}
+
+- (void) setFunctionImage :(int) index :(UIImage *) functionImage {
+    self.cardList->setFunctionImage(index, functionImage);
 }
 
 - (UIImage *) getParamImage :(int) index {

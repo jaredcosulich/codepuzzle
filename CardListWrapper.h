@@ -13,9 +13,11 @@
 
 - (instancetype) init;
 - (void) clear;
+- (void) printHex :(int) index;
 - (UIImage *) getHexImage :(int) index;
 - (UIImage *) getFullImage :(int) index;
 - (UIImage *) getFunctionImage :(int) index;
+- (void) setFunctionImage :(int) index :(UIImage *) functionImage;
 - (UIImage *) getParamImage :(int) index;
 - (void) add :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage;
 - (int) count;
