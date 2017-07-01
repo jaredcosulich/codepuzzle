@@ -17,6 +17,7 @@
 		3A2B65DC1EE9B37900E8B7BD /* codepuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65DB1EE9B37900E8B7BD /* codepuzzleTests.swift */; };
 		3A2B65E71EE9B37900E8B7BD /* codepuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65E61EE9B37900E8B7BD /* codepuzzleUITests.swift */; };
 		3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */; };
+		3A2F89511F06EF600076E10A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F89501F06EF600076E10A /* Constants.swift */; };
 		3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F421EF033A80069384D /* TesseractOCR.framework */; };
 		3A5A0F4E1EF040CD0069384D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3A5A0F4D1EF040CD0069384D /* tessdata */; };
 		3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F941EFAFD6C0069384D /* MathPix.swift */; };
@@ -66,6 +67,7 @@
 		3A2B65F61EE9B43900E8B7BD /* codepuzzle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "codepuzzle-Bridging-Header.h"; sourceTree = "<group>"; };
 		3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		3A2F89501F06EF600076E10A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3A5A0F421EF033A80069384D /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
 		3A5A0F4D1EF040CD0069384D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		3A5A0F941EFAFD6C0069384D /* MathPix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathPix.swift; path = ../MathPix.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				3A2B65D21EE9B37900E8B7BD /* Info.plist */,
 				3A5A0F4D1EF040CD0069384D /* tessdata */,
 				3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */,
+				3A2F89501F06EF600076E10A /* Constants.swift */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */,
 				3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */,
 				3A2B65C71EE9B37900E8B7BD /* FirstViewController.swift in Sources */,
+				3A2F89511F06EF600076E10A /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

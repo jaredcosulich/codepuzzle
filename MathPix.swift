@@ -8,6 +8,8 @@
 
 import Foundation
 import Alamofire
+import AWSCore
+import AWSS3
 
 class MathPix {
 
@@ -32,6 +34,37 @@ class MathPix {
         }
     }
     
+//    func uploadFileToS3(_ s3: S3, data : Data, fileName : String, mimeType : String) {
+//        let credentialsProvider = AWSCognitoCredentialsProvider(
+//            regionType: CognitoRegionType,
+//            identityPoolId: CognitoIdentityPoolId)
+//        let configuration = AWSServiceConfiguration(
+//            region: DefaultServiceRegionType,
+//            credentialsProvider: credentialsProvider)
+//        AWSServiceManager.default().defaultServiceConfiguration = configuration
+//    }
+//    
+//    class func processMultipleImage() {
+//        let base64String = imageData.base64EncodedString(options: .init(rawValue: 0))
+//        let parameters : Parameters = [
+//            "url" : "data:image/jpeg;base64," + base64String
+//        ]
+//        
+//        Alamofire.request("https://api.mathpix.com/v3/latex",
+//                          method: .post,
+//                          parameters : parameters,
+//                          encoding: JSONEncoding.default,
+//                          headers: [
+//                            "app_id" : "puzzleschool",
+//                            "app_key" : "a5f0c88b21f281282fce1adfa9609aaf"
+//            ])
+//            .responseJSON{ response in
+//                if let JSON = response.result.value {
+//                    print("\(JSON)")
+//                }
+//        }
+//    }
+//
     
 //    curl -X POST https://api.mathpix.com/v3/batch \
 //    -H "app_id: trial" \

@@ -126,7 +126,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 
 //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
 //        MathPix.processSingleImage(imageData : imageData)
-        
+//        
         index += 1
     }
     

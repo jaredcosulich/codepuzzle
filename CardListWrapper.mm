@@ -50,8 +50,12 @@
     return self.cardList->getParamImage(index);
 }
 
-- (void) add :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage {
-    self.cardList->add(hex, innerHex, hexImage, fullImage, functionImage, paramImage);
+- (double) getRotation :(int) index {
+    return self.cardList->getRotation(index);
+}
+
+- (void) add :(double) rotation :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage {
+    self.cardList->add(rotation, hex, innerHex, hexImage, fullImage, functionImage, paramImage);
 }
 
 - (int) count {

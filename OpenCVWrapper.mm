@@ -52,28 +52,6 @@ using namespace std;
     return MatToUIImage(canny);
 }
 
-+ (double) calculateSkew :(cv::Mat) img {
-//    cv::Mat img;
-//    src.copyTo(img);
-    cv::Size size = img.size();
-    cv::bitwise_not(img, img);
-    std::vector<cv::Vec4i> lines;
-    cv::HoughLinesP(img, lines, 1, CV_PI/180, 10, size.width / 2.f, 10);
-    cv::Mat disp_lines(size, CV_8UC1, cv::Scalar(0, 0, 0));
-    double angle = 0.;
-    unsigned long nb_lines = lines.size();
-    for (unsigned long i = 0; i < nb_lines; ++i)
-    {
-        cv::line(disp_lines, cv::Point(lines[i][0], lines[i][1]),
-                 cv::Point(lines[i][2], lines[i][3]), cv::Scalar(255, 0 ,0));
-        angle += atan2((double)lines[i][3] - lines[i][1],
-                       (double)lines[i][2] - lines[i][0]);
-    }
-    angle /= nb_lines; // mean angle, in radians.
-    
-    return angle * 180 / CV_PI;
-}
-
 + (cv::Mat) deskew :(cv::Mat) img angle:(double) angle {
     cv::bitwise_not(img, img);
     
@@ -100,17 +78,24 @@ using namespace std;
     return rotated;
 }
 
-+ (cv::Mat) cleanSkew :(cv::Mat) image {
-    cv::Mat blurredImage;
-    cv::medianBlur(image, blurredImage, 3);
-    
-    cv::Mat thresholdedImage;
-    cv::adaptiveThreshold(blurredImage, thresholdedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
++ (cv::Mat) cleanSkew :(cv::Mat) image :(double) rotation {
+//    cv::Mat thresholdedImage;
+//    cv::adaptiveThreshold(image, thresholdedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
     
     cv::Mat rotated;
-    double skew = [[self class] calculateSkew:thresholdedImage];
-    rotated = [[self class] deskew:thresholdedImage angle:skew];
-    return rotated;
+    printf("Rotation: %f\n", rotation);
+    rotated = [[self class] deskew:image angle:rotation];
+    
+    cv::Rect cropBound;
+    cropBound.x = 4;
+    cropBound.y = 0;
+    cropBound.width = rotated.size().width - 4;
+    cropBound.height = rotated.size().height - 4;
+    
+    cv::Mat crop(rotated, cropBound);
+    cv::Mat cropped;
+    crop.copyTo(cropped);
+    return cropped;
 }
 
 
@@ -129,6 +114,7 @@ using namespace std;
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
     std::vector<cv::Point> approx;
+    std::vector<int> rotations;
     
     std::vector<std::vector<cv::Point> > inner;
     std::vector<cv::Vec4i> innerHierarchy;
@@ -153,7 +139,6 @@ using namespace std;
         float aspectRatio = float(bound.width)/bound.height;
 
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
-            
             cv::Mat hex(canny, bound);
             cv::Mat cardHex;
             hex.copyTo(cardHex);
@@ -215,11 +200,24 @@ using namespace std;
             cv::Mat param(gray, paramBound);
             cv::Mat cardParam;
             param.copyTo(cardParam);
-
+            
             CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
             CGRect hexRect = [[self class] CvRectToCgRect:bound];
             
-            [cardListWrapper add :hexRect :innerHexRect :MatToUIImage(cardHex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+            cv::Point p1(-1, -1);
+            cv::Point p2(-1, -1);
+            for (int c = 0; c<approx.size(); ++c) {
+                int prev = (c <= 0 ? (int) approx.size() - 1 : c - 1);
+                int next = (c >= approx.size() - 1 ? 0 : c + 1);
+                if ((approx[c].x < approx[prev].x && approx[c].x < approx[next].x) ||
+                    (approx[c].x > approx[prev].x && approx[c].x > approx[next].x)) {
+                    if (p1.x == -1) p1 = approx[c];
+                    else p2 = approx[c];
+                }
+            }
+            double rotation = atan((float)(p1.y - p2.y)/(float)(p1.x - p2.x)) * 180 / CV_PI;;
+            
+            [cardListWrapper add :rotation :hexRect :innerHexRect :MatToUIImage(cardHex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
           
         }
     }
@@ -227,11 +225,10 @@ using namespace std;
     printf("CARDS: %d\n", cardListWrapper.count);
     
     for (int i=0; i<cardListWrapper.count; ++i) {
-        [cardListWrapper printHex:i];
         UIImage * functionImage = [cardListWrapper getFunctionImage:i];
         cv::Mat function;
         UIImageToMat(functionImage, function);
-        cv::Mat clean = [[self class] cleanSkew:function];
+        cv::Mat clean = [[self class] cleanSkew:function :[cardListWrapper getRotation:i]];
         [cardListWrapper setFunctionImage :i :MatToUIImage(clean)];
     }
     

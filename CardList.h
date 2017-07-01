@@ -28,7 +28,8 @@ public:
     UIImage* getFunctionImage(int);
     void setFunctionImage(int, UIImage*);
     UIImage* getParamImage(int);
-    void add(CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);
+    double getRotation(int);
+    void add(double, CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);
     int count();
     
 private:
