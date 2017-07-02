@@ -89,6 +89,12 @@ void CardList::setFunctionImage(int index, UIImage* functionImage) {
     cards[index] = card;
 }
 
+void CardList::setFullImage(int index, UIImage* fullImage) {
+    Card card = cards[index];
+    card.full = fullImage;
+    cards[index] = card;
+}
+
 UIImage* CardList::getParamImage(int index) {
     return cards[index].param;
 }

@@ -64,7 +64,7 @@ class MathPix {
 //                }
 //        }
 //    }
-//
+
     
 //    curl -X POST https://api.mathpix.com/v3/batch \
 //    -H "app_id: trial" \

@@ -78,23 +78,26 @@ using namespace std;
     return rotated;
 }
 
-+ (cv::Mat) cleanSkew :(cv::Mat) image :(double) rotation {
++ (UIImage*) rotate :(UIImage *) uiImage :(double) rotation {
 //    cv::Mat thresholdedImage;
 //    cv::adaptiveThreshold(image, thresholdedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
+    
+    cv::Mat image;
+    UIImageToMat(uiImage, image);
     
     cv::Mat rotated;
     rotated = [[self class] deskew:image angle:rotation];
     
-    cv::Rect cropBound;
-    cropBound.x = 3;
-    cropBound.y = 0;
-    cropBound.width = rotated.size().width - 3;
-    cropBound.height = rotated.size().height - 3;
-    
-    cv::Mat crop(rotated, cropBound);
-    cv::Mat cropped;
-    crop.copyTo(cropped);
-    return cropped;
+//    cv::Rect cropBound;
+//    cropBound.x = 3;
+//    cropBound.y = 0;
+//    cropBound.width = rotated.size().width - 3;
+//    cropBound.height = rotated.size().height - 3;
+//    
+//    cv::Mat crop(rotated, cropBound);
+//    cv::Mat cropped;
+//    crop.copyTo(cropped);
+    return MatToUIImage(rotated);
 }
 
 
@@ -224,11 +227,13 @@ using namespace std;
     printf("CARDS: %d\n", cardListWrapper.count);
     
     for (int i=0; i<cardListWrapper.count; ++i) {
-        UIImage * functionImage = [cardListWrapper getFunctionImage:i];
-        cv::Mat function;
-        UIImageToMat(functionImage, function);
-        cv::Mat clean = [[self class] cleanSkew:function :[cardListWrapper getRotation:i]];
-        [cardListWrapper setFunctionImage :i :MatToUIImage(clean)];
+        double rotation = [cardListWrapper getRotation:i];
+        
+        UIImage* function = [cardListWrapper getFunctionImage:i];
+        [cardListWrapper setFunctionImage :i :[[self class] rotate:function :rotation]];
+
+//        UIImage* full = [cardListWrapper getFullImage:i];
+//        [cardListWrapper setFullImage :i :[[self class] rotate:full :rotation]];
     }
     
 //    printf("Hexagons Found %d \n", acceptableCount);

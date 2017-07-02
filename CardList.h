@@ -27,6 +27,7 @@ public:
     UIImage* getFullImage(int);
     UIImage* getFunctionImage(int);
     void setFunctionImage(int, UIImage*);
+    void setFullImage(int, UIImage*);
     UIImage* getParamImage(int);
     double getRotation(int);
     void add(double, CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);

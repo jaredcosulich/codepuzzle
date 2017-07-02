@@ -46,6 +46,10 @@
     self.cardList->setFunctionImage(index, functionImage);
 }
 
+- (void) setFullImage :(int) index :(UIImage *) fullImage {
+    self.cardList->setFullImage(index, fullImage);
+}
+
 - (UIImage *) getParamImage :(int) index {
     return self.cardList->getParamImage(index);
 }

@@ -18,6 +18,7 @@
 - (UIImage *) getFullImage :(int) index;
 - (UIImage *) getFunctionImage :(int) index;
 - (void) setFunctionImage :(int) index :(UIImage *) functionImage;
+- (void) setFullImage :(int) index :(UIImage *) fullImage;
 - (UIImage *) getParamImage :(int) index;
 - (double) getRotation :(int) index;
 - (void) add :(double) rotation :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage;
