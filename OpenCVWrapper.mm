@@ -83,14 +83,13 @@ using namespace std;
 //    cv::adaptiveThreshold(image, thresholdedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2);
     
     cv::Mat rotated;
-    printf("Rotation: %f\n", rotation);
     rotated = [[self class] deskew:image angle:rotation];
     
     cv::Rect cropBound;
-    cropBound.x = 4;
+    cropBound.x = 3;
     cropBound.y = 0;
-    cropBound.width = rotated.size().width - 4;
-    cropBound.height = rotated.size().height - 4;
+    cropBound.width = rotated.size().width - 3;
+    cropBound.height = rotated.size().height - 3;
     
     cv::Mat crop(rotated, cropBound);
     cv::Mat cropped;
