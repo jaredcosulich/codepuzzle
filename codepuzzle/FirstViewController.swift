@@ -111,7 +111,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             return
         }
 
-        let displayImage = cardList.getFullImage(index)!
+        let displayImage = cardList.getFunctionImage(index)!
         resizeView(image: displayImage)
         imageView.image = displayImage
         
