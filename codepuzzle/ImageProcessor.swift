@@ -12,7 +12,7 @@ import UIKit
 
 class ImageProcessor {
     
-    class func normalize(image : UIImage) -> UIImage {
+    class func normalize(image: UIImage) -> UIImage {
         if (image.imageOrientation == UIImageOrientation.up) {
             return image
         }
@@ -25,7 +25,7 @@ class ImageProcessor {
         return normalizedImage!;
     }
     
-    class func rotate(image : UIImage, left: Bool) -> UIImage {
+    class func rotate(image: UIImage, left: Bool) -> UIImage {
         let degrees = CGFloat(left ? -90 : 90.0)
         let size = image.size
                
@@ -52,6 +52,30 @@ class ImageProcessor {
         return newImage
         
     }
+        
+    
+//    class func upload(uploadRequest: AWSS3TransferManagerUploadRequest) {
+//        let transferManager = AWSS3TransferManager.default()
+//        
+//        transferManager.upload(uploadRequest).continueWith { (task) -> AnyObject! in
+//            if let error = task.error {
+//                print("upload() failed: [\(error)]")
+//            }
+//            
+//            if task.result != nil {
+//                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                    if let index = self.indexOfUploadRequest(self.uploadRequests, uploadRequest: uploadRequest) {
+//                        self.uploadRequests[index] = nil
+//                        self.uploadFileURLs[index] = uploadRequest.body
+//                        
+//                        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+//                        self.collectionView.reloadItemsAtIndexPaths([indexPath])
+//                    }
+//                })
+//            }
+//            return nil
+//        }
+//    }
     
 }
 

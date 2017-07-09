@@ -24,6 +24,7 @@
 		3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F991EFC32660069384D /* CardList.mm */; };
 		3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
+		3ACB55451F1171D600382476 /* S3Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55441F1171D600382476 /* S3Util.swift */; };
 		3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */; };
 		A590C4ECBB68DC8749A60197 /* Pods_codepuzzleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B2F9BDA847479BF2AE247C /* Pods_codepuzzleTests.framework */; };
 		C5C53EA35C98D1FF82C30F77 /* Pods_codepuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F1875460C5C0E0CD305CD1 /* Pods_codepuzzle.framework */; };
@@ -76,6 +77,7 @@
 		3A5A0FA21EFC3D430069384D /* CardListWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardListWrapper.h; sourceTree = "<group>"; };
 		3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CardListWrapper.mm; sourceTree = "<group>"; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		3ACB55441F1171D600382476 /* S3Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3Util.swift; sourceTree = "<group>"; };
 		3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
 		54F1875460C5C0E0CD305CD1 /* Pods_codepuzzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_codepuzzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		880FB6235960906F7A3C76DA /* Pods-codepuzzleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzleUITests/Pods-codepuzzleUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				3A5A0F4D1EF040CD0069384D /* tessdata */,
 				3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */,
 				3A2F89501F06EF600076E10A /* Constants.swift */,
+				3ACB55441F1171D600382476 /* S3Util.swift */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A2B65C91EE9B37900E8B7BD /* SecondViewController.swift in Sources */,
+				3ACB55451F1171D600382476 /* S3Util.swift in Sources */,
 				3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */,
 				3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */,
 				3A2B65C51EE9B37900E8B7BD /* AppDelegate.swift in Sources */,

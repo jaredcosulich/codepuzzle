@@ -16,6 +16,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     @IBOutlet weak var methodOutput: UILabel!
     
     let cardList = CardListWrapper()!
+//    let s3Util = S3Util()
+    let mathPix = MathPix()
     var index = Int32(0)
     var timer = Timer()
     var rotation = Int32(0)
@@ -83,8 +85,20 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        
         cardList.clear()
         OpenCVWrapper.process(imageView.image, cardList)
-        showCard()
-
+        
+        for i in 0..<cardList.count() {
+//            s3Util.upload(
+//                image: cardList.getFunctionImage(index),
+//                identifier: "function\(i)",
+//                projectTimestamp: "TEST"
+//            )
+            mathPix.processImage(image: cardList.getFunctionImage(i)!, identifier: "function\(i)")
+        }
+        
+        while mathPix.processing() {
+            sleep(1)
+        }
+        
         index = 0
         timer.invalidate() // just in case this button is tapped multiple times
         
@@ -115,15 +129,16 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         resizeView(image: displayImage)
         imageView.image = displayImage
         
-        let tesseract = G8Tesseract()
-        tesseract.language = "eng+fra"
-        tesseract.engineMode = .tesseractOnly
-        tesseract.pageSegmentationMode = .auto
-        tesseract.maximumRecognitionTime = 60.0
-        tesseract.image = cardList.getFunctionImage(index)!.g8_blackAndWhite()
-        tesseract.recognize()
-        methodOutput.text  = "Method: \(tesseract.recognizedText)"
-
+//        let tesseract = G8Tesseract()
+//        tesseract.language = "eng+fra"
+//        tesseract.engineMode = .tesseractOnly
+//        tesseract.pageSegmentationMode = .auto
+//        tesseract.maximumRecognitionTime = 60.0
+//        tesseract.image = cardList.getFunctionImage(index)!.g8_blackAndWhite()
+//        tesseract.recognize()
+//        methodOutput.text  = "Method: \(tesseract.recognizedText)"
+        methodOutput.text  = "Method: \(mathPix.getValue(identifier: "function\(index)"))"
+        
 //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
 //        MathPix.processSingleImage(imageData : imageData)
 //        
