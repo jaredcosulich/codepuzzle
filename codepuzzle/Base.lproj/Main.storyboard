@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="potentially_50" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
+                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shadows" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
                                 <rect key="frame" x="16" y="20" width="288" height="294"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -73,27 +74,37 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
+                                <rect key="frame" x="36" y="369" width="248" height="130"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="FvY-9v-y83"/>
+                            <constraint firstItem="6rf-pU-4to" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="JUE-Sl-wih"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="K6L-Vx-gIs"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="LoN-on-AR9"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="6rf-pU-4to" secondAttribute="bottom" constant="20" id="N5Q-LO-Q1u"/>
                             <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="20" id="RE8-eJ-W8j"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="Tdy-z3-Rpq"/>
                             <constraint firstItem="CBJ-I1-NRw" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="X3W-Nf-90P"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="i5H-ru-g6w" secondAttribute="bottom" constant="20" id="b2h-N3-6cK"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="jca-yi-pry"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="top" secondItem="nzL-hW-vmB" secondAttribute="bottom" constant="20" id="khC-Kr-KRV"/>
+                            <constraint firstItem="6rf-pU-4to" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="lN8-kq-I7j"/>
                             <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="2qb-cf-lUO" secondAttribute="bottom" constant="20" id="mKo-Sk-XuR"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="20" id="ogx-vW-okE"/>
+                            <constraint firstItem="6rf-pU-4to" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="20" id="rTY-EA-dN3"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="siX-ip-PJ3"/>
                             <constraint firstItem="i5H-ru-g6w" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="t5y-o2-d26"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="top" secondItem="N9z-JF-GIm" secondAttribute="bottom" constant="20" id="uVl-iu-YOp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6rf-pU-4to" secondAttribute="trailing" constant="20" id="zEf-a8-q45"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="drawingView" destination="6rf-pU-4to" id="toC-Yr-Qwo"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
                         <outlet property="methodOutput" destination="37k-nZ-asA" id="4Rx-tX-mHP"/>
                     </connections>
@@ -164,7 +175,7 @@
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
-        <image name="potentially_50" width="1836" height="2448"/>
         <image name="second" width="30" height="30"/>
+        <image name="shadows" width="2448" height="3264"/>
     </resources>
 </document>

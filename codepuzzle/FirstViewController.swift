@@ -15,10 +15,12 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     
     @IBOutlet weak var methodOutput: UILabel!
     
+    @IBOutlet weak var drawingView: UIImageView!
+    
     let cardList = CardListWrapper()!
     let s3Util = S3Util()
     let mathPix = MathPix()
-    let functions = Functions()
+    var functions: Functions!
     var index = Int32(0)
     var showTimer = Timer()
     var timer = Timer()
@@ -29,7 +31,9 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         // Do any additional setup after loading the view, typically from a nib.
         
         // REMOVE THIS FOR MOST IMAGES
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+//        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        
+        functions = Functions(uiImageView: drawingView)
     }
 
     override func didReceiveMemoryWarning() {
@@ -104,6 +108,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             )
         }
         
+        methodOutput.text = "Processing..."
+        
         timer.invalidate() // just in case this button is tapped multiple times
         
         // start the timer
@@ -121,7 +127,9 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             timer.invalidate()
             
             index = 0
-            showTimer.invalidate() // just in case this button is tapped multiple times
+            
+            drawingView.isHidden = false
+            showCard()
             
             // start the timer
             showTimer = Timer.scheduledTimer(
@@ -131,7 +139,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
                 userInfo: nil,
                 repeats: true
             )
-        
+        } else {
+            methodOutput.text = "Still Processing..."
         }
     }
     
