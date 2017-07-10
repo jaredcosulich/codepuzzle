@@ -43,68 +43,65 @@ class Functions {
     
     init() {}
     
-    func signature(code: String, param: String) -> String {
-//        let regex = NSRegularExpression(pattern: "[\\s]+", options:nil, error: nil)
-//        let compactCode = regex!.stringByReplacingMatchesInString(code, options: nil, range: NSMakeRange(0, count(code)), withTemplate: nil)
+    func info(code: String) -> [String: String] {
+        return functionInfo[compactCode(code: code)]!
+    }
     
-        var compactCode = code;
+    func compactCode(code: String) -> String {
+        var compactCode = code
         compactCode.remove(at: code.index(code.endIndex, offsetBy: -2))
-        print("COMPACT CODE: \(compactCode)")
-
-        var info = functionInfo[compactCode]
-
-        let name = Selector((info?["method"]!)!) // e.g. from somewhere else
-        if let method = extractMethodFrom(owner: self, selector: name) {
-            let result = method("test")
-            print("RESULT: \(result)")
+        return compactCode
+    }
+    
+    func signature(code: String, param: String) -> String {
+//        let regex = NSRegularExpression(pattern: "[\\s]+", optionparam:nil, error: nil)
+//        let compactCode = regex!.stringByReplacingMatchesInString(code, optionparam: nil, range: NSMakeRange(0, count(code)), withTemplate: nil)
+    
+        return "\(info(code: code)["name"] ?? "Bad Function") \(param)"
+    }
+    
+    func execute(code: String, param: String) {
+        let methodName = info(code: code)["method"] ?? ""
+        switch methodName {
+        case "moveForward":
+            moveForward(param: param)
+        case "moveBackward":
+            moveBackward(param: param)
+        case "rotateRight":
+            rotateRight(param: param)
+        case "rotateLeft":
+            rotateLeft(param: param)
+        case "penUp":
+            penUp(param: param)
+        case "penDown":
+            penDown(param: param)
+        default:
+            print("Method Not Found")
         }
-
-        return "\(info!["name"] ?? "Bad Function") \(param)"
     }
     
-    func extractMethodFrom(owner: AnyObject, selector: Selector) -> ((String) -> String)? {
-        print("EXTRACTING: \(selector)")
-        let method: Method
-        if owner is AnyClass {
-            method = class_getClassMethod(owner as! AnyClass, selector)
-        } else {
-            method = class_getInstanceMethod(type(of: owner), selector)
-        }
-        
-//        guard method != nil else {
-//            return nil
-//        }
-        
-        let implementation = method_getImplementation(method)
-        
-        typealias Function = @convention(c) (AnyObject, Selector, String) -> Unmanaged<AnyObject>
-        let function = unsafeBitCast(implementation, to: Function.self)
-        
-        return { string in (function(owner, selector, string).takeUnretainedValue() as! String) }
+    func moveForward(param: String) {
+        print("Move Forward \(param)")
+    }
+
+    func moveBackward(param: String) {
+        print("Move Backward \(param)")
+    }
+
+    func rotateRight(param: String) {
+        print("Rotate Right \(param)")
+    }
+
+    func rotateLeft(param: String) {
+        print("Rotate Left \(param)")
+    }
+
+    func penUp(param: String) {
+        print("Pan Up \(param)")
     }
     
-    @objc func moveForward(s: String) -> String {
-        return "Move Forward"
-    }
-
-    @objc func moveBackward(s: String) -> String {
-        return "Move Backward"
-    }
-
-    @objc func rotateRight(s: String) -> String {
-        return "Rotate Right"
-    }
-
-    @objc func rotateLeft(s: String) -> String {
-        return "Rotate Left"
-    }
-
-    @objc func penUp(s: String) -> String {
-        return "Pan Up"
-    }
-    
-    @objc func penDown(s: String) -> String {
-        return "Pan Down"
+    func penDown(param: String) {
+        print("Pan Down \(param)")
     }
 
 

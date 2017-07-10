@@ -165,6 +165,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         let param = mathPix.getValue(identifier: "param\(index)")
         methodOutput.text  = functions.signature(code: code, param: param)
         
+        functions.execute(code: code, param: param)
+        
 //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
 //        MathPix.processSingleImage(imageData : imageData)
 //        
