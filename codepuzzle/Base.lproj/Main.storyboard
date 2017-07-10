@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shadows" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
+                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="noshadows" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
                                 <rect key="frame" x="16" y="20" width="288" height="294"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -175,7 +175,7 @@
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
+        <image name="noshadows" width="3264" height="2448"/>
         <image name="second" width="30" height="30"/>
-        <image name="shadows" width="2448" height="3264"/>
     </resources>
 </document>

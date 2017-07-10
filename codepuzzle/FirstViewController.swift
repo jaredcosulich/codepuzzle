@@ -32,6 +32,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         
         // REMOVE THIS FOR MOST IMAGES
 //        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+//        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
         
         functions = Functions(uiImageView: drawingView)
     }
