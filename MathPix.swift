@@ -24,7 +24,7 @@ class MathPix {
     }
     
     func processing() -> Bool {
-        return processingCount == 0
+        return processingCount > 0
     }
     
     func processImage(image: UIImage, identifier: String) {
@@ -44,6 +44,8 @@ class MathPix {
                             "app_key" : "a5f0c88b21f281282fce1adfa9609aaf"
             ])
             .responseJSON{ response in
+                if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
+                
                 if let json = response.result.value {
 //                    let json = try? JSONSerialization.jsonObject(with: data as! Data, options: []) as? [String: Any]
 //                    print("\(JSON)")

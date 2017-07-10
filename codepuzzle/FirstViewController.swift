@@ -16,9 +16,11 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     @IBOutlet weak var methodOutput: UILabel!
     
     let cardList = CardListWrapper()!
-//    let s3Util = S3Util()
+    let s3Util = S3Util()
     let mathPix = MathPix()
+    let functions = Functions()
     var index = Int32(0)
+    var showTimer = Timer()
     var timer = Timer()
     var rotation = Int32(0)
     
@@ -85,31 +87,52 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        
         cardList.clear()
         OpenCVWrapper.process(imageView.image, cardList)
-        
+
         for i in 0..<cardList.count() {
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
-            mathPix.processImage(image: cardList.getFunctionImage(i)!, identifier: "function\(i)")
+            mathPix.processImage(
+                image: cardList.getFunctionImage(i)!,
+                identifier: "function\(i)"
+            )
+            mathPix.processImage(
+                image: cardList.getParamImage(Int32(i))!,
+                identifier: "param\(i)"
+            )
         }
         
-        while mathPix.processing() {
-            sleep(1)
-        }
-        
-        index = 0
         timer.invalidate() // just in case this button is tapped multiple times
         
         // start the timer
         timer = Timer.scheduledTimer(
             timeInterval: 1,
             target: self,
-            selector: #selector(showCard),
+            selector: #selector(checkCardProcessing),
             userInfo: nil,
             repeats: true
         )
+    }
+    
+    func checkCardProcessing() {
+        if (!mathPix.processing()) {
+            timer.invalidate()
+            
+            index = 0
+            showTimer.invalidate() // just in case this button is tapped multiple times
+            
+            // start the timer
+            showTimer = Timer.scheduledTimer(
+                timeInterval: 1,
+                target: self,
+                selector: #selector(showCard),
+                userInfo: nil,
+                repeats: true
+            )
+        
+        }
     }
     
     func showCard() {
@@ -125,7 +148,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             return
         }
 
-        let displayImage = cardList.getFunctionImage(index)!
+        let displayImage = cardList.getFullImage(index)!
         resizeView(image: displayImage)
         imageView.image = displayImage
         
@@ -137,7 +160,10 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        tesseract.image = cardList.getFunctionImage(index)!.g8_blackAndWhite()
 //        tesseract.recognize()
 //        methodOutput.text  = "Method: \(tesseract.recognizedText)"
-        methodOutput.text  = "Method: \(mathPix.getValue(identifier: "function\(index)"))"
+        
+        let code = mathPix.getValue(identifier: "function\(index)")
+        let param = mathPix.getValue(identifier: "param\(index)")
+        methodOutput.text  = functions.signature(code: code, param: param)
         
 //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
 //        MathPix.processSingleImage(imageData : imageData)
