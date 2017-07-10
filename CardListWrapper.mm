@@ -26,6 +26,14 @@
     self.cardList->clear();
 }
 
+//- (void) setAnalyzedImage :(UIImage*) image {
+//    self.analyzedImage = image;
+//}
+//
+//- (UIImage *) getAnalyzedImage {
+//    return self.analyzedImage;
+//}
+
 - (void) printHex :(int) index {
     return self.cardList->printHex(index);
 }

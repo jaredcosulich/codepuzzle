@@ -11,9 +11,13 @@
 
 @interface CardListWrapper : NSObject
 
+@property UIImage * analyzedImage;
+
 - (instancetype) init;
 - (void) clear;
 - (void) printHex :(int) index;
+//- (UIImage *) getAnalyzedImage;
+//- (void) setAnalyzedImage :(UIImage *) image;
 - (UIImage *) getHexImage :(int) index;
 - (UIImage *) getFullImage :(int) index;
 - (UIImage *) getFunctionImage :(int) index;

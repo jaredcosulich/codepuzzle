@@ -31,8 +31,10 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         // Do any additional setup after loading the view, typically from a nib.
         
         // REMOVE THIS FOR MOST IMAGES
-//        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
-//        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
         
         functions = Functions(uiImageView: drawingView)
     }
@@ -91,6 +93,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        return
 //        
         cardList.clear()
+        methodOutput.text = "Processing..."
+
         OpenCVWrapper.process(imageView.image, cardList)
 
         for i in 0..<cardList.count() {
@@ -108,8 +112,6 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
                 identifier: "param\(i)"
             )
         }
-        
-        methodOutput.text = "Processing..."
         
         timer.invalidate() // just in case this button is tapped multiple times
         
@@ -153,6 +155,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             timer.invalidate()
             return
         } else if (index >= cardCount) {
+            imageView.image = cardList.analyzedImage;
             methodOutput.text  = "All cards displayed. Total: \(cardCount)"
             timer.invalidate()
             return

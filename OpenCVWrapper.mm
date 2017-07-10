@@ -135,6 +135,8 @@ using namespace std;
     std::vector<std::vector<cv::Point>> rotatedHexagons;
     std::vector<int> rotations;
     
+    cardListWrapper.analyzedImage = image;
+    
     cv::Mat src;
     UIImageToMat(image, src);
 
