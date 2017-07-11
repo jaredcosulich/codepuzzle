@@ -89,11 +89,18 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
     
     @IBAction func processbutton(_ sender: UIButton) {
-//        imageView.image = OpenCVWrapper.cannify(imageView.image)
-//        return
-//        
-        cardList.clear()
         methodOutput.text = "Processing..."
+        Timer.scheduledTimer(
+            timeInterval: 0.5,
+            target: self,
+            selector: #selector(process),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+     
+    func process() {
+        cardList.clear()
 
         OpenCVWrapper.process(imageView.image, cardList)
 
@@ -136,7 +143,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             
             // start the timer
             showTimer = Timer.scheduledTimer(
-                timeInterval: 1,
+                timeInterval: 2,
                 target: self,
                 selector: #selector(showCard),
                 userInfo: nil,
@@ -155,7 +162,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             timer.invalidate()
             return
         } else if (index >= cardCount) {
-            imageView.image = cardList.analyzedImage;
+//            imageView.image = cardList.analyzedImage;
             methodOutput.text  = "All cards displayed. Total: \(cardCount)"
             timer.invalidate()
             return

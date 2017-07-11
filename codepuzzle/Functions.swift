@@ -15,7 +15,7 @@ class Functions {
     var imageView: UIImageView
     
     var currentPoint = CGPoint(x: 0.0, y: 0.0)
-    var currentAngle = CGFloat(0)
+    var currentAngle = CGFloat(90.0)
     
     var penIsUp = false
     
@@ -56,8 +56,17 @@ class Functions {
         currentPoint = CGPoint(x: s.width / 5.0, y: s.height)
     }
     
+    func translate(code: String) -> String {
+        switch (code) {
+        case "A T":
+            return "A 1"
+        default:
+            return code
+        }
+    }
+    
     func info(code: String) -> [String: String] {
-        return functionInfo[compactCode(code: code)]!
+        return functionInfo[compactCode(code: translate(code: code))]!
     }
     
     func compactCode(code: String) -> String {
@@ -66,15 +75,28 @@ class Functions {
         return compactCode
     }
     
+    func calculateXDistance(param: CGFloat) -> CGFloat {
+        if (currentAngle == 90 || currentAngle == 270) {
+            return 0
+        }
+        return cos(currentAngle) * param
+    }
+
+    func calculateYDistance(param: CGFloat) -> CGFloat {
+        if (currentAngle == 0 || currentAngle == 180) {
+            return 0
+        }
+        return sin(currentAngle) * param
+    }
+
     func signature(code: String, param: String) -> String {
 //        let regex = NSRegularExpression(pattern: "[\\s]+", optionparam:nil, error: nil)
 //        let compactCode = regex!.stringByReplacingMatchesInString(code, optionparam: nil, range: NSMakeRange(0, count(code)), withTemplate: nil)
     
-        return "\(info(code: code)["name"] ?? "Bad Function") \(param)"
+        return "\(info(code: translate(code: code))["name"] ?? "Bad Function") \(param)"
     }
     
     func execute(code: String, param: String) {
-        
         UIGraphicsBeginImageContext(imageView.frame.size)
         imageView.image?.draw(in: CGRect(x: 0, y: 0, width: imageView.frame.width, height: imageView.frame.height))
         let context = UIGraphicsGetCurrentContext()
@@ -83,13 +105,13 @@ class Functions {
 
         let paramNumber = CGFloat((param as NSString).floatValue)
 
-        let methodName = info(code: code)["method"] ?? ""
+        let methodName = info(code: translate(code: code))["method"] ?? ""
 
         var toPoint = currentPoint
         
         switch methodName {
         case "moveForward":
-            let xDistance = paramNumber * (cos(currentAngle))
+            let xDistance = calculateXDistance(param: paramNumber)
             let yDistance = paramNumber * (sin(currentAngle))
             toPoint = CGPoint(x: currentPoint.x + xDistance, y: currentPoint.y - yDistance)
             context?.addLines(between: [currentPoint, toPoint])
@@ -99,9 +121,11 @@ class Functions {
             toPoint = CGPoint(x: currentPoint.x - xDistance, y: currentPoint.y + yDistance)
             context?.addLine(to: toPoint)
         case "rotateRight":
-            currentAngle += paramNumber
-        case "rotateLeft":
+            print("ROTATE RIGHT: \(currentAngle) - \(paramNumber) = \(currentAngle - paramNumber)")
             currentAngle -= paramNumber
+        case "rotateLeft":
+            print("ROTATE Left: \(currentAngle) + \(paramNumber) = \(currentAngle + paramNumber)")
+            currentAngle += paramNumber
         case "penUp":
             penIsUp = true
         case "penDown":
