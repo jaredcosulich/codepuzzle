@@ -12,6 +12,7 @@
 #import <opencv2/imgproc/imgproc.hpp>
 #import <stdio.h>
 #import <stdlib.h>
+#import <ctime>
 
 #import "OpenCVWrapper.h"
 #import "CardListWrapper.h"
@@ -144,7 +145,7 @@ using namespace std;
 
     hexagons = [[self class] findHexagons:src];
     
-    printf("Hexagons: %lu\n", hexagons.size());
+    printf("Hexagons: %lu found\n ", hexagons.size());
 
     for (int i = 0; i < hexagons.size(); ++i) {
         cv::Rect bound = boundingRect(hexagons[i]);
@@ -170,27 +171,32 @@ using namespace std;
         CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
         CGRect hexRect = [[self class] CvRectToCgRect:bound];
         
-        cv::Point p1(9999, -1);
-        cv::Point p2(-1, -1);
-        for (int c = 0; c<hexagons[i].size(); ++c) {
-            if (hexagons[i][c].x < p1.x) {
-                p1 = hexagons[i][c];
-            }
-            if (hexagons[i][c].x > p2.x) {
-                p2 = hexagons[i][c];
-            }
-        }
-
-        float distance = (float)(p2.x - p1.x);
-        
-        float slope = ((float)(p2.y - p1.y)/distance);
-        double rotation = (atan(slope) * 180 / CV_PI);
-
+//        cv::Point p1(9999, -1);
+//        cv::Point p2(-1, -1);
+//        for (int c = 0; c<hexagons[i].size(); ++c) {
+//            if (hexagons[i][c].x < p1.x) {
+//                p1 = hexagons[i][c];
+//            }
+//            if (hexagons[i][c].x > p2.x) {
+//                p2 = hexagons[i][c];
+//            }
+//        }
+//
+//        float distance = (float)(p2.x - p1.x);
+//        
+//        float slope = ((float)(p2.y - p1.y)/distance);
+//        double rotation = (atan(slope) * 180 / CV_PI);
+//
+//        cv::Rect fullCardBound;
+//        fullCardBound.x = bound.x - (bound.width * 2.75);
+//        fullCardBound.y = bound.y - (bound.height * 5.5);
+//        fullCardBound.width = bound.width * 6.5;
+//        fullCardBound.height = bound.height * 8;
         cv::Rect fullCardBound;
-        fullCardBound.x = bound.x - (bound.width * 2.75);
-        fullCardBound.y = bound.y - (bound.height * 5.5);
-        fullCardBound.width = bound.width * 6.5;
-        fullCardBound.height = bound.height * 8;
+        fullCardBound.x = bound.x - (bound.width * 1.5);
+        fullCardBound.y = bound.y - (bound.height * 4.6);
+        fullCardBound.width = bound.width * 4.2;
+        fullCardBound.height = bound.height * 6.1;
         
         if (fullCardBound.x < 0) fullCardBound.x = 0;
         if (fullCardBound.y < 0) fullCardBound.y = 0;
@@ -204,72 +210,80 @@ using namespace std;
         cv::Mat full(src, fullCardBound);
         cv::Mat cardFull;
         full.copyTo(cardFull);
-
-        cv::Mat rotated = [[self class] rotate :cardFull :rotation];
-
-        rotatedHexagons = [[self class] findHexagons:rotated];
-
-        int largestIndex = -1;
-        double largestArea = -1;
-        for (int r=0; r<rotatedHexagons.size(); ++r) {
-            double area = cv::boundingRect(rotatedHexagons[r]).area();
-            if (largestArea < area) {
-                largestArea = area;
-                largestIndex = r;
-            }
-        }
         
-        cv::Rect hexBound = cv::boundingRect(rotatedHexagons[largestIndex]);
+//        clock_t start;
+//        double diff;
+//        start = clock();
 
-        cv::Mat rotatedHex(rotated, hexBound);
-        cv::Mat cardHex;
-        rotatedHex.copyTo(cardHex);
+//        cv::Mat rotated = [[self class] rotate :cardFull :rotation];
+
+//        diff = ( std::clock() - start ) / (double)CLOCKS_PER_SEC;
+//        printf("CLOCK: %d: %f seconds\n ", i, diff);
         
-        cv::Rect rotatedFullCardBound;
-        rotatedFullCardBound.x = hexBound.x - (hexBound.width * 1.1);
-        rotatedFullCardBound.y = hexBound.y - (hexBound.height * 4.5);
-        rotatedFullCardBound.width = hexBound.width * 3.2;
-        rotatedFullCardBound.height = hexBound.height * 5.75;
-        
-        if (rotatedFullCardBound.x < 0) rotatedFullCardBound.x = 0;
-        if (rotatedFullCardBound.y < 0) rotatedFullCardBound.y = 0;
-        if (rotatedFullCardBound.x + rotatedFullCardBound.width > rotated.size().width) {
-            rotatedFullCardBound.width = rotated.size().width - rotatedFullCardBound.x;
-        }
-        if (rotatedFullCardBound.y + rotatedFullCardBound.height > rotated.size().height) {
-            rotatedFullCardBound.height = rotated.size().height - rotatedFullCardBound.y;
-        }
-        
-        cv::Mat rotatedFull(rotated, rotatedFullCardBound);
-        cv::Mat rotatedCardFull;
-        rotatedFull.copyTo(rotatedCardFull);
+//        rotatedHexagons = [[self class] findHexagons:rotated];
+//
+//        int largestIndex = -1;
+//        double largestArea = -1;
+//        for (int r=0; r<rotatedHexagons.size(); ++r) {
+//            double area = cv::boundingRect(rotatedHexagons[r]).area();
+//            if (largestArea < area) {
+//                largestArea = area;
+//                largestIndex = r;
+//            }
+//        }
+//        
+//        cv::Rect hexBound = cv::boundingRect(rotatedHexagons[largestIndex]);
+//
+//        cv::Mat rotatedHex(rotated, hex);
+//        cv::Mat cardHex;
+//        rotatedHex.copyTo(cardHex);
+//        
+//        cv::Rect rotatedFullCardBound;
+//        rotatedFullCardBound.x = hex.x - (hex.width * 1.1);
+//        rotatedFullCardBound.y = hex.y - (hex.height * 4.5);
+//        rotatedFullCardBound.width = hex.width * 3.2;
+//        rotatedFullCardBound.height = hex.height * 5.75;
+//        
+//        if (rotatedFullCardBound.x < 0) rotatedFullCardBound.x = 0;
+//        if (rotatedFullCardBound.y < 0) rotatedFullCardBound.y = 0;
+//        if (rotatedFullCardBound.x + rotatedFullCardBound.width > rotated.size().width) {
+//            rotatedFullCardBound.width = rotated.size().width - rotatedFullCardBound.x;
+//        }
+//        if (rotatedFullCardBound.y + rotatedFullCardBound.height > rotated.size().height) {
+//            rotatedFullCardBound.height = rotated.size().height - rotatedFullCardBound.y;
+//        }
+//        
+//        cv::Mat rotatedFull(rotated, rotatedFullCardBound);
+//        cv::Mat rotatedCardFull;
+//        rotatedFull.copyTo(rotatedCardFull);
 //        rotatedCardFull.copyTo(analyzed);
-
+        
         cv::Rect functionBound;
-        functionBound.x = hexBound.x + (hexBound.width * 0.2);
-        functionBound.y = hexBound.y + (hexBound.height * 0.2);
-        functionBound.width = hexBound.width - (hexBound.width * 0.4);
-        functionBound.height = hexBound.height - (hexBound.height * 0.4);
+        functionBound.x = bound.x + (bound.width * 0.2);
+        functionBound.y = bound.y + (bound.height * 0.2);
+        functionBound.width = bound.width - (bound.width * 0.4);
+        functionBound.height = bound.height - (bound.height * 0.4);
 
-        cv::Mat function(rotated, functionBound);
+        cv::Mat function(src, functionBound);
 //        cv::Mat unsizedCardFunction;
         cv::Mat cardFunction;
         function.copyTo(cardFunction);
 //        cv::resize(unsizedCardFunction, cardFunction, cv::Size(200, (200 * (functionBound.height / functionBound.width))));
 
         cv::Rect paramBound;
-        paramBound.x = hexBound.x - hexBound.width * 0.4;
-        paramBound.y = hexBound.y - hexBound.height * 3;
-        paramBound.width = hexBound.width * 1.45;
-        paramBound.height = hexBound.height * 1.6;
+        paramBound.x = bound.x - bound.width * 0.4;
+        paramBound.y = bound.y - bound.height * 3;
+        paramBound.width = bound.width * 1.75;
+        paramBound.height = bound.height * 1.6;
 
-        printf("5 (%d, %d) %d x %d - %d x %d\n", paramBound.x, paramBound.y, paramBound.width, paramBound.height, rotated.size().width, rotated.size().height);
-        cv::Mat param(rotated, paramBound);
+//        printf("5 (%d, %d) %d x %d - %d x %d\n", paramBound.x, paramBound.y, paramBound.width, paramBound.height, rotated.size().width, rotated.size().height);
+        cv::Mat param(src, paramBound);
         cv::Mat cardParam;
         param.copyTo(cardParam);
 
-        printf("6\n");
-        [cardListWrapper add :rotation :hexRect :innerHexRect :MatToUIImage(cardHex) :MatToUIImage(rotated) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+        int rotation = 0;
+        
+        [cardListWrapper add :rotation :hexRect :innerHexRect :MatToUIImage(hex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
     }
     
     cardListWrapper.analyzedImage = MatToUIImage(analyzed);

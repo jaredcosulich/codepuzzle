@@ -36,6 +36,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
         
+        drawingView.contentMode = .bottomLeft
+        
         functions = Functions(uiImageView: drawingView)
     }
 
@@ -110,14 +112,14 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
-            mathPix.processImage(
-                image: cardList.getFunctionImage(i)!,
-                identifier: "function\(i)"
-            )
-            mathPix.processImage(
-                image: cardList.getParamImage(Int32(i))!,
-                identifier: "param\(i)"
-            )
+//            mathPix.processImage(
+//                image: cardList.getFunctionImage(i)!,
+//                identifier: "function\(i)"
+//            )
+//            mathPix.processImage(
+//                image: cardList.getParamImage(Int32(i))!,
+//                identifier: "param\(i)"
+//            )
         }
         
         timer.invalidate() // just in case this button is tapped multiple times
@@ -180,12 +182,14 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        tesseract.image = cardList.getFunctionImage(index)!.g8_blackAndWhite()
 //        tesseract.recognize()
 //        methodOutput.text  = "Method: \(tesseract.recognizedText)"
+
+        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
+        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "58"]
+//        let code = mathPix.getValue(identifier: "function\(index)")
+//        let param = mathPix.getValue(identifier: "param\(index)")
+        methodOutput.text  = functions.signature(code: codes[Int(index)], param: params[Int(index)])
         
-        let code = mathPix.getValue(identifier: "function\(index)")
-        let param = mathPix.getValue(identifier: "param\(index)")
-        methodOutput.text  = functions.signature(code: code, param: param)
-        
-        functions.execute(code: code, param: param)
+        functions.execute(code: codes[Int(index)], param: params[Int(index)])
         
 //        let imageData = UIImagePNGRepresentation((cardList.getFunctionImage(index))!)! as NSData
 //        MathPix.processSingleImage(imageData : imageData)

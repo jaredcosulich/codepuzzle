@@ -78,6 +78,10 @@ class Functions {
     func calculateXDistance(param: CGFloat) -> CGFloat {
         if (currentAngle == 90 || currentAngle == 270) {
             return 0
+        } else if (currentAngle >= 90 && currentAngle < 180) {
+            return cos(currentAngle - 90) * param * -1
+        } else if (currentAngle >= 270 && currentAngle < 360) {
+            return cos(currentAngle - 270) * param * -1
         }
         return cos(currentAngle) * param
     }
@@ -85,6 +89,8 @@ class Functions {
     func calculateYDistance(param: CGFloat) -> CGFloat {
         if (currentAngle == 0 || currentAngle == 180) {
             return 0
+        } else if (currentAngle > 90) {
+            return sin(currentAngle - 90) * param
         }
         return sin(currentAngle) * param
     }
@@ -112,19 +118,19 @@ class Functions {
         switch methodName {
         case "moveForward":
             let xDistance = calculateXDistance(param: paramNumber)
-            let yDistance = paramNumber * (sin(currentAngle))
+            let yDistance = calculateYDistance(param: paramNumber)
             toPoint = CGPoint(x: currentPoint.x + xDistance, y: currentPoint.y - yDistance)
             context?.addLines(between: [currentPoint, toPoint])
         case "moveBackward":
-            let xDistance = paramNumber * (cos(currentAngle))
-            let yDistance = paramNumber * (sin(currentAngle))
+            let xDistance = calculateXDistance(param: paramNumber)
+            let yDistance = calculateYDistance(param: paramNumber)
             toPoint = CGPoint(x: currentPoint.x - xDistance, y: currentPoint.y + yDistance)
             context?.addLine(to: toPoint)
         case "rotateRight":
-            print("ROTATE RIGHT: \(currentAngle) - \(paramNumber) = \(currentAngle - paramNumber)")
+//            print("ROTATE RIGHT: \(currentAngle) - \(paramNumber) = \(currentAngle - paramNumber)")
             currentAngle -= paramNumber
         case "rotateLeft":
-            print("ROTATE Left: \(currentAngle) + \(paramNumber) = \(currentAngle + paramNumber)")
+//            print("ROTATE Left: \(currentAngle) + \(paramNumber) = \(currentAngle + paramNumber)")
             currentAngle += paramNumber
         case "penUp":
             penIsUp = true
