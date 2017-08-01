@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,36 +22,91 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBJ-I1-NRw">
-                                <rect key="frame" x="138" y="414" width="44" height="30"/>
-                                <state key="normal" title="Canny"/>
-                                <connections>
-                                    <action selector="cannybutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="PKR-Dn-5ah"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_2780" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
+                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="noshadows" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
                                 <rect key="frame" x="16" y="20" width="288" height="294"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZx-yQ-9u1">
-                                <rect key="frame" x="137.5" y="459" width="45" height="30"/>
-                                <state key="normal" title="Revert"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
+                                <rect key="frame" x="47.5" y="419" width="75" height="30"/>
+                                <state key="normal" title="New Photo"/>
                                 <connections>
-                                    <action selector="revertbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="lJg-eN-iyo"/>
+                                    <action selector="newphotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7sB-My-jkr"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBJ-I1-NRw">
+                                <rect key="frame" x="207.5" y="469" width="55" height="30"/>
+                                <state key="normal" title="Process"/>
+                                <connections>
+                                    <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="feX-SX-6gh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5H-ru-g6w">
+                                <rect key="frame" x="46" y="469" width="78" height="30"/>
+                                <state key="normal" title="Save Photo"/>
+                                <connections>
+                                    <action selector="savephotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="9Fm-wf-lTC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
+                                <rect key="frame" x="196" y="419" width="78" height="30"/>
+                                <state key="normal" title="Load Photo"/>
+                                <connections>
+                                    <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
+                                <rect key="frame" x="47" y="369" width="76" height="30"/>
+                                <state key="normal" title="Rotate Left"/>
+                                <connections>
+                                    <action selector="rotateleft:" destination="9pv-A4-QxB" eventType="touchUpInside" id="UfK-ZB-E9q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzL-hW-vmB">
+                                <rect key="frame" x="192.5" y="369" width="85" height="30"/>
+                                <state key="normal" title="Rotate Right"/>
+                                <connections>
+                                    <action selector="rotateright:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ywO-vL-S5l"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method Output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
+                                <rect key="frame" x="102" y="328.5" width="117" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
+                                <rect key="frame" x="36" y="369" width="248" height="130"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="IZx-yQ-9u1" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="1qQ-AV-Nh2"/>
-                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="X3W-Nf-90P"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="75" id="ogx-vW-okE"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="IZx-yQ-9u1" secondAttribute="bottom" constant="30" id="peW-7M-ukh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6rf-pU-4to" secondAttribute="trailing" constant="20" id="7Po-NS-Oow"/>
+                            <constraint firstItem="6rf-pU-4to" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="20" id="81d-ID-DIe"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="6rf-pU-4to" secondAttribute="bottom" constant="20" id="EuW-AG-Qxb"/>
+                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="FvY-9v-y83"/>
+                            <constraint firstItem="N9z-JF-GIm" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="K6L-Vx-gIs"/>
+                            <constraint firstItem="6rf-pU-4to" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="KpQ-cP-ZMf"/>
+                            <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="LoN-on-AR9"/>
+                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="20" id="RE8-eJ-W8j"/>
+                            <constraint firstItem="nzL-hW-vmB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="Tdy-z3-Rpq"/>
+                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="X3W-Nf-90P"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="i5H-ru-g6w" secondAttribute="bottom" constant="20" id="b2h-N3-6cK"/>
+                            <constraint firstItem="6rf-pU-4to" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="csQ-2p-nxX"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="75" id="jca-yi-pry"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="top" secondItem="nzL-hW-vmB" secondAttribute="bottom" constant="20" id="khC-Kr-KRV"/>
+                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="2qb-cf-lUO" secondAttribute="bottom" constant="20" id="mKo-Sk-XuR"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="20" id="ogx-vW-okE"/>
+                            <constraint firstItem="nzL-hW-vmB" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="siX-ip-PJ3"/>
+                            <constraint firstItem="i5H-ru-g6w" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="-75" id="t5y-o2-d26"/>
+                            <constraint firstItem="qvc-0w-NOq" firstAttribute="top" secondItem="N9z-JF-GIm" secondAttribute="bottom" constant="20" id="uVl-iu-YOp"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="drawingView" destination="6rf-pU-4to" id="toC-Yr-Qwo"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
+                        <outlet property="methodOutput" destination="37k-nZ-asA" id="4Rx-tX-mHP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -118,8 +174,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="IMG_2780" width="2387" height="2429"/>
         <image name="first" width="30" height="30"/>
+        <image name="noshadows" width="3264" height="2448"/>
         <image name="second" width="30" height="30"/>
     </resources>
 </document>

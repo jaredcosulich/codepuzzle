@@ -6,6 +6,9 @@ target 'codepuzzle' do
   use_frameworks!
 
   pod 'Alamofire', '~> 4.4'
+  pod 'AWSCore'
+  pod 'AWSCognito'
+  pod 'AWSS3'
 
   target 'codepuzzleTests' do
     inherit! :search_paths

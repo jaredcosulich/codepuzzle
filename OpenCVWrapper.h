@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "CardListWrapper.h"
 
 @interface OpenCVWrapper : NSObject
 
-+ (UIImage *) canny: (UIImage *) image;
++ (UIImage *) cannify :(UIImage *) image;
+
++ (void) process :(UIImage *) image :(CardListWrapper *) cards;
 
 @end

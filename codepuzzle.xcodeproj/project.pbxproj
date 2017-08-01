@@ -17,10 +17,16 @@
 		3A2B65DC1EE9B37900E8B7BD /* codepuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65DB1EE9B37900E8B7BD /* codepuzzleTests.swift */; };
 		3A2B65E71EE9B37900E8B7BD /* codepuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65E61EE9B37900E8B7BD /* codepuzzleUITests.swift */; };
 		3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */; };
+		3A2F89511F06EF600076E10A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F89501F06EF600076E10A /* Constants.swift */; };
 		3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F421EF033A80069384D /* TesseractOCR.framework */; };
 		3A5A0F4E1EF040CD0069384D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3A5A0F4D1EF040CD0069384D /* tessdata */; };
 		3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F941EFAFD6C0069384D /* MathPix.swift */; };
+		3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F991EFC32660069384D /* CardList.mm */; };
+		3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
+		3ACB55451F1171D600382476 /* S3Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55441F1171D600382476 /* S3Util.swift */; };
+		3ACB55471F12AAC200382476 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55461F12AAC200382476 /* Functions.swift */; };
+		3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */; };
 		A590C4ECBB68DC8749A60197 /* Pods_codepuzzleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B2F9BDA847479BF2AE247C /* Pods_codepuzzleTests.framework */; };
 		C5C53EA35C98D1FF82C30F77 /* Pods_codepuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F1875460C5C0E0CD305CD1 /* Pods_codepuzzle.framework */; };
 /* End PBXBuildFile section */
@@ -63,10 +69,18 @@
 		3A2B65F61EE9B43900E8B7BD /* codepuzzle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "codepuzzle-Bridging-Header.h"; sourceTree = "<group>"; };
 		3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		3A2F89501F06EF600076E10A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3A5A0F421EF033A80069384D /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
 		3A5A0F4D1EF040CD0069384D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		3A5A0F941EFAFD6C0069384D /* MathPix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathPix.swift; path = ../MathPix.swift; sourceTree = "<group>"; };
+		3A5A0F991EFC32660069384D /* CardList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CardList.mm; sourceTree = "<group>"; };
+		3A5A0F9A1EFC32660069384D /* CardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardList.h; sourceTree = "<group>"; };
+		3A5A0FA21EFC3D430069384D /* CardListWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardListWrapper.h; sourceTree = "<group>"; };
+		3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CardListWrapper.mm; sourceTree = "<group>"; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		3ACB55441F1171D600382476 /* S3Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3Util.swift; sourceTree = "<group>"; };
+		3ACB55461F12AAC200382476 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
 		54F1875460C5C0E0CD305CD1 /* Pods_codepuzzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_codepuzzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		880FB6235960906F7A3C76DA /* Pods-codepuzzleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzleUITests/Pods-codepuzzleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF6E823DAC9EF063685600C4 /* Pods_codepuzzleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_codepuzzleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +122,10 @@
 		3A2B65B81EE9B37800E8B7BD = {
 			isa = PBXGroup;
 			children = (
+				3A5A0FA21EFC3D430069384D /* CardListWrapper.h */,
+				3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */,
+				3A5A0F991EFC32660069384D /* CardList.mm */,
+				3A5A0F9A1EFC32660069384D /* CardList.h */,
 				3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */,
 				3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */,
 				3A5A0F421EF033A80069384D /* TesseractOCR.framework */,
@@ -144,6 +162,10 @@
 				3A2B65CF1EE9B37900E8B7BD /* LaunchScreen.storyboard */,
 				3A2B65D21EE9B37900E8B7BD /* Info.plist */,
 				3A5A0F4D1EF040CD0069384D /* tessdata */,
+				3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */,
+				3A2F89501F06EF600076E10A /* Constants.swift */,
+				3ACB55441F1171D600382476 /* S3Util.swift */,
+				3ACB55461F12AAC200382476 /* Functions.swift */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -476,10 +498,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A2B65C91EE9B37900E8B7BD /* SecondViewController.swift in Sources */,
+				3ACB55451F1171D600382476 /* S3Util.swift in Sources */,
+				3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */,
+				3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */,
+				3ACB55471F12AAC200382476 /* Functions.swift in Sources */,
 				3A2B65C51EE9B37900E8B7BD /* AppDelegate.swift in Sources */,
 				3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */,
 				3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */,
+				3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */,
 				3A2B65C71EE9B37900E8B7BD /* FirstViewController.swift in Sources */,
+				3A2F89511F06EF600076E10A /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,7 +663,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = YR46RFDS4W;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -644,6 +675,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IrrationalDesign.codepuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -656,7 +688,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = YR46RFDS4W;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -665,6 +700,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IrrationalDesign.codepuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
