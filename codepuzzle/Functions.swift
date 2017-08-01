@@ -89,6 +89,7 @@ class Functions {
         
         path.stroke()
         
+        layer.position = startingPoint
         layer.path = path.cgPath
         layer.opacity = 0.0
         layer.fillColor = UIColor.red.cgColor
@@ -164,20 +165,14 @@ class Functions {
         return "\(info(code: translate(code: code))["name"] ?? "Bad Function") \(param)"
     }
     
-    func drawPointer() {
-        layer.opacity = 1.0
-        layer.position = currentPoint
-        let rotation = CGAffineTransform(rotationAngle: (currentAngle - 90.0) * (CGFloat.pi / 180.0))
+    func drawPointer(at: CGPoint, angle: CGFloat) {
+        layer.position = at
+        let rotation = CGAffineTransform(rotationAngle: (angle - 90.0) * (CGFloat.pi / 180.0))
         layer.setAffineTransform(rotation)
+        layer.opacity = 1.0
     }
     
     func execute(code: String, param: String) {
-        UIGraphicsBeginImageContext(imageView.frame.size)
-        imageView.image?.draw(in: CGRect(x: 0, y: 0, width: imageView.frame.width, height: imageView.frame.height))
-        let context = UIGraphicsGetCurrentContext()
-        
-        context?.move(to: currentPoint)
-
         let paramNumber = CGFloat((param as NSString).floatValue)
 
         let methodName = info(code: translate(code: code))["method"] ?? ""
@@ -187,15 +182,11 @@ class Functions {
         switch methodName {
         case "moveForward":
             nextPoint = calculatePoint(from: currentPoint, distance: paramNumber, angle: currentAngle)
-            context?.addLine(to: nextPoint)
         case "moveBackward":
             nextPoint = calculatePoint(from: currentPoint, distance: paramNumber * -1, angle: currentAngle)
-            context?.addLine(to: nextPoint)
         case "rotateRight":
-//            print("ROTATE RIGHT: \(currentAngle) - \(paramNumber) = \(currentAngle - paramNumber)")
             currentAngle += paramNumber
         case "rotateLeft":
-//            print("ROTATE Left: \(currentAngle) + \(paramNumber) = \(currentAngle + paramNumber)")
             currentAngle -= paramNumber
         case "penUp":
             penIsUp = true
@@ -205,87 +196,30 @@ class Functions {
             print("Method Not Found")
         }
         
+        drawPointer(at: nextPoint, angle: currentAngle)
+
+        if (currentPoint != nextPoint) {
+            let path = UIBezierPath()
+            path.move(to: currentPoint)
+            path.addLine(to: nextPoint)
+            
+            let pathLayer = CAShapeLayer()
+            pathLayer.fillColor = UIColor.black.cgColor
+            pathLayer.strokeColor = UIColor.black.cgColor
+            pathLayer.lineWidth = 1
+            pathLayer.path = path.cgPath
+
+            path.stroke()
+
+            imageView.layer.addSublayer(pathLayer)
+            
+            let animation = CABasicAnimation(keyPath: "strokeEnd")
+            animation.fromValue = 0
+            animation.duration = 0.2
+            pathLayer.add(animation, forKey: "pathAnimation")
+        }
+        
         currentPoint = nextPoint
-
-        drawPointer()
-        
-        context?.setBlendMode(CGBlendMode.normal)
-        context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(1)
-        context?.setStrokeColor(UIColor.black.cgColor)
-        
-        context?.strokePath()
-        
-        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        
-
-        
-        
-//        UIGraphicsBeginImageContext(imageView.frame.size)
-//        let context = UIGraphicsGetCurrentContext()
-//        imageView.image?.draw(in: CGRect(x: 0, y: 0, width: imageView.frame.size.width , height: imageView.frame.size.height))
-////        tempImageView.image?.draw(in: CGRect(x: 20, y: 0, width: imageView.frame.size.width - 40, height: imageView.frame.size.height))
-//        
-//        context?.setLineCap(CGLineCap.round)
-//        context?.setLineWidth(3.0)
-//        context?.setStrokeColor(red: 200.0, green: 0.0, blue: 0.0, alpha: 1.0)
-//        context?.setBlendMode(CGBlendMode.normal)
-//
-////        context?.move(to: currentPoint)
-//
-//        context?.beginPath()
-//
-//        let paramNumber = CGFloat((param as NSString).floatValue)
-//        
-//        let methodName = info(code: code)["method"] ?? ""
-//        switch methodName {
-//        case "moveForward":
-//            let toPoint = CGPoint(x: currentPoint.x, y: currentPoint.y + paramNumber)
-//            context?.addLines(between: [currentPoint, toPoint])
-//        case "moveBackward":
-//            let toPoint = CGPoint(x: currentPoint.x, y: currentPoint.y + paramNumber)
-//            context?.addLine(to: toPoint)
-//        case "rotateRight":
-//            let toPoint = CGPoint(x: currentPoint.x, y: currentPoint.y + paramNumber)
-//            context?.addLine(to: toPoint)
-//        case "rotateLeft":
-//            let toPoint = CGPoint(x: currentPoint.x, y: currentPoint.y + paramNumber)
-//            context?.addLine(to: toPoint)
-//        case "penUp":
-//            let toPoint = CGPoint(x: currentPoint.x, y: currentPoint.y + paramNumber)
-//            context?.addLine(to: toPoint)
-//        case "penDown":
-//            let toPoint = CGPoint(x: currentPoint.x, y: currentPoint.y + paramNumber)
-//            context?.addLine(to: toPoint)
-//        default:
-//            print("Method Not Found")
-//        }
-//        
-//        context?.closePath()
-//        // 4
-//        context?.strokePath()
-//        
-//        context?.replacePathWithStrokedPath()
-//
-//        UIGraphicsEndImageContext()
-//
-//        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
-//        imageView.alpha = 1
-//        
-////        // 5
-////        tempImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-////        tempImageView.alpha = 1
-////        UIGraphicsEndImageContext()
-////        
-////        UIGraphicsBeginImageContext(imageView.frame.size)
-////        imageView.image?.draw(in: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height), blendMode: CGBlendMode.normal, alpha: 1.0)
-////        tempImageView.image?.draw(in: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height), blendMode: CGBlendMode.normal, alpha: 1.0)
-////        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
-////        UIGraphicsEndImageContext()
-////
-////        tempImageView.image = nil
     }
 
 
