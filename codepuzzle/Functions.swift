@@ -87,7 +87,7 @@ class Functions {
 
         path.close()
         
-        path.stroke()
+//        path.stroke()
         
         layer.position = startingPoint
         layer.path = path.cgPath
@@ -119,9 +119,11 @@ class Functions {
     }
     
     func compactCode(code: String) -> String {
-        var compactCode = code
-        compactCode.remove(at: code.index(code.endIndex, offsetBy: -2))
-        return compactCode
+        return code.replacingOccurrences(of: " ", with: "")
+                   .replacingOccurrences(of: "\n", with: "")
+                   .replacingOccurrences(of: "'", with: "")
+                   .replacingOccurrences(of: ".", with: "")
+                   .replacingOccurrences(of: "‘", with: "")
     }
     
     func calculateXDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
@@ -209,7 +211,7 @@ class Functions {
             pathLayer.lineWidth = 1
             pathLayer.path = path.cgPath
 
-            path.stroke()
+//            path.stroke()
 
             imageView.layer.addSublayer(pathLayer)
             
