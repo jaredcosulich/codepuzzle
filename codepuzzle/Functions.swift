@@ -13,6 +13,8 @@ class Functions {
     let tempImageView = UIImageView()
     
     var imageView: UIImageView
+
+    let layer = CAShapeLayer()
     
     var currentPoint = CGPoint(x: 0.0, y: 0.0)
     var currentAngle = CGFloat(90.0)
@@ -54,6 +56,52 @@ class Functions {
         imageView = uiImageView;
         let s = imageView.bounds.size
         currentPoint = CGPoint(x: s.width / 5.0, y: s.height)
+        
+        initArrow()
+    }
+    
+    func initArrow() {
+        layer.isGeometryFlipped = false
+        layer.opacity = 1.0
+        layer.isHidden = false
+
+        let path = UIBezierPath()
+        let startingPoint = CGPoint(x: 0, y: 0)
+        var angle = CGFloat(90.0)
+        
+        let point1 = calculatePoint(from: startingPoint, distance: 5.543, angle: angle)
+        
+        path.move(to: point1)
+
+        angle = angle + (180 - 22.5)
+        
+        let point2 = calculatePoint(from: point1, distance: 6, angle: angle)
+        
+        path.addLine(to: point2)
+        
+        angle = angle + (90 + 22.5)
+        
+        let point3 = calculatePoint(from: point2, distance: 4.592, angle: angle)
+        
+        path.addLine(to: point3)
+
+        path.close()
+        
+        path.stroke()
+        
+        layer.path = path.cgPath
+        layer.opacity = 0.0
+        layer.fillColor = UIColor.red.cgColor
+        layer.fillRule = kCAFillRuleNonZero
+        layer.lineCap = kCALineCapButt
+        layer.lineDashPattern = nil
+        layer.lineDashPhase = 0.0
+        layer.lineJoin = kCALineJoinMiter
+        layer.lineWidth = 1.0
+        layer.miterLimit = 10.0
+        layer.strokeColor = UIColor.red.cgColor
+        
+        imageView.layer.addSublayer(layer)
     }
     
     func translate(code: String) -> String {
@@ -75,24 +123,38 @@ class Functions {
         return compactCode
     }
     
-    func calculateXDistance(param: CGFloat) -> CGFloat {
-        if (currentAngle == 90 || currentAngle == 270) {
+    func calculateXDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
+        let adjustedAngle = angle.truncatingRemainder(dividingBy: 360)
+
+        if (adjustedAngle == 90.0 || adjustedAngle == 270.0) {
             return 0
-        } else if (currentAngle >= 90 && currentAngle < 180) {
-            return cos(currentAngle - 90) * param * -1
-        } else if (currentAngle >= 270 && currentAngle < 360) {
-            return cos(currentAngle - 270) * param * -1
+        } else if (adjustedAngle == 0.0) {
+            return distance * -1
+        } else if (adjustedAngle == 180.0) {
+            return distance
         }
-        return cos(currentAngle) * param
+        
+        return cos(adjustedAngle * (CGFloat.pi / 180.0)) * distance * -1
     }
 
-    func calculateYDistance(param: CGFloat) -> CGFloat {
-        if (currentAngle == 0 || currentAngle == 180) {
+    func calculateYDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
+        let adjustedAngle = angle.truncatingRemainder(dividingBy: 360)
+        
+        if (adjustedAngle == 0.0 || adjustedAngle == 180.0) {
             return 0
-        } else if (currentAngle > 90) {
-            return sin(currentAngle - 90) * param
+        } else if (adjustedAngle == 270.0) {
+            return distance
+        } else if (adjustedAngle == 90.0) {
+            return distance * -1
         }
-        return sin(currentAngle) * param
+
+        return sin(adjustedAngle * (CGFloat.pi / 180.0)) * distance * -1
+    }
+    
+    func calculatePoint(from: CGPoint, distance: CGFloat, angle: CGFloat) -> CGPoint {
+        let xDistance = calculateXDistance(distance: distance, angle: angle)
+        let yDistance = calculateYDistance(distance: distance, angle: angle)
+        return CGPoint(x: from.x + xDistance, y: from.y + yDistance)
     }
 
     func signature(code: String, param: String) -> String {
@@ -100,6 +162,13 @@ class Functions {
 //        let compactCode = regex!.stringByReplacingMatchesInString(code, optionparam: nil, range: NSMakeRange(0, count(code)), withTemplate: nil)
     
         return "\(info(code: translate(code: code))["name"] ?? "Bad Function") \(param)"
+    }
+    
+    func drawPointer() {
+        layer.opacity = 1.0
+        layer.position = currentPoint
+        let rotation = CGAffineTransform(rotationAngle: (currentAngle - 90.0) * (CGFloat.pi / 180.0))
+        layer.setAffineTransform(rotation)
     }
     
     func execute(code: String, param: String) {
@@ -113,25 +182,21 @@ class Functions {
 
         let methodName = info(code: translate(code: code))["method"] ?? ""
 
-        var toPoint = currentPoint
+        var nextPoint = currentPoint
         
         switch methodName {
         case "moveForward":
-            let xDistance = calculateXDistance(param: paramNumber)
-            let yDistance = calculateYDistance(param: paramNumber)
-            toPoint = CGPoint(x: currentPoint.x + xDistance, y: currentPoint.y - yDistance)
-            context?.addLines(between: [currentPoint, toPoint])
+            nextPoint = calculatePoint(from: currentPoint, distance: paramNumber, angle: currentAngle)
+            context?.addLine(to: nextPoint)
         case "moveBackward":
-            let xDistance = calculateXDistance(param: paramNumber)
-            let yDistance = calculateYDistance(param: paramNumber)
-            toPoint = CGPoint(x: currentPoint.x - xDistance, y: currentPoint.y + yDistance)
-            context?.addLine(to: toPoint)
+            nextPoint = calculatePoint(from: currentPoint, distance: paramNumber * -1, angle: currentAngle)
+            context?.addLine(to: nextPoint)
         case "rotateRight":
 //            print("ROTATE RIGHT: \(currentAngle) - \(paramNumber) = \(currentAngle - paramNumber)")
-            currentAngle -= paramNumber
+            currentAngle += paramNumber
         case "rotateLeft":
 //            print("ROTATE Left: \(currentAngle) + \(paramNumber) = \(currentAngle + paramNumber)")
-            currentAngle += paramNumber
+            currentAngle -= paramNumber
         case "penUp":
             penIsUp = true
         case "penDown":
@@ -140,12 +205,14 @@ class Functions {
             print("Method Not Found")
         }
         
-        currentPoint = toPoint
+        currentPoint = nextPoint
+
+        drawPointer()
         
         context?.setBlendMode(CGBlendMode.normal)
         context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(2)
-        context?.setStrokeColor(UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).cgColor)
+        context?.setLineWidth(1)
+        context?.setStrokeColor(UIColor.black.cgColor)
         
         context?.strokePath()
         
@@ -153,9 +220,7 @@ class Functions {
         UIGraphicsEndImageContext()
         
         
-        
-        
-        
+
         
         
 //        UIGraphicsBeginImageContext(imageView.frame.size)

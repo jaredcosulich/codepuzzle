@@ -184,7 +184,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //        methodOutput.text  = "Method: \(tesseract.recognizedText)"
 
         let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
-        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "58"]
+        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
 //        let code = mathPix.getValue(identifier: "function\(index)")
 //        let param = mathPix.getValue(identifier: "param\(index)")
         methodOutput.text  = functions.signature(code: codes[Int(index)], param: params[Int(index)])
