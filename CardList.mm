@@ -23,6 +23,7 @@ struct Hex {
 
 struct Card {
     Hex hex;
+    CGRect fullRect;
     UIImage* full;
     UIImage* function;
     UIImage* param;
@@ -69,6 +70,10 @@ void CardList::printHex(int index) {
     printf("INR: X: %d Y: %d WIDTH: %d HEIGHT: %d\n\n", hex.innerX, hex.innerY, hex.innerWidth, hex.innerHeight);
 }
 
+CGRect CardList::getFullRect(int index) {
+    return cards[index].fullRect;
+}
+
 UIImage* CardList::getHexImage(int index) {
     return cards[index].hex.image;
 }
@@ -103,7 +108,7 @@ double CardList::getRotation(int index) {
     return cards[index].hex.rotation;
 }
 
-void CardList::add(double rotation, CGRect hex, CGRect innerHex, UIImage* hexImage, UIImage* fullImage, UIImage* functionImage, UIImage* paramImage) {
+void CardList::add(double rotation, CGRect fullRect, CGRect hex, CGRect innerHex, UIImage* hexImage, UIImage* fullImage, UIImage* functionImage, UIImage* paramImage) {
     Hex h;
     h.x = hex.origin.x;
     h.y = hex.origin.y;
@@ -120,6 +125,7 @@ void CardList::add(double rotation, CGRect hex, CGRect innerHex, UIImage* hexIma
     h.image = hexImage;
     
     Card c;
+    c.fullRect = fullRect;
     c.hex = h;
     c.full = fullImage;
     c.function = functionImage;

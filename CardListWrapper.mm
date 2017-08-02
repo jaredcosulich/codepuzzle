@@ -38,6 +38,10 @@
     return self.cardList->printHex(index);
 }
 
+- (CGRect) getFullRect :(int) index {
+    return self.cardList->getFullRect(index);
+}
+
 - (UIImage *) getHexImage :(int) index {
     return self.cardList->getHexImage(index);
 }
@@ -66,8 +70,8 @@
     return self.cardList->getRotation(index);
 }
 
-- (void) add :(double) rotation :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage {
-    self.cardList->add(rotation, hex, innerHex, hexImage, fullImage, functionImage, paramImage);
+- (void) add :(double) rotation :(CGRect) fullRect :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage {
+    self.cardList->add(rotation, fullRect, hex, innerHex, hexImage, fullImage, functionImage, paramImage);
 }
 
 - (int) count {

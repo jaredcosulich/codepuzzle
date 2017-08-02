@@ -282,8 +282,9 @@ using namespace std;
         param.copyTo(cardParam);
 
         int rotation = 0;
+        CGRect fullRect = [[self class] CvRectToCgRect:fullCardBound];
         
-        [cardListWrapper add :rotation :hexRect :innerHexRect :MatToUIImage(hex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+        [cardListWrapper add :rotation :fullRect :hexRect :innerHexRect :MatToUIImage(hex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
     }
     
     cardListWrapper.analyzedImage = MatToUIImage(analyzed);

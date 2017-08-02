@@ -52,6 +52,13 @@ class ImageProcessor {
         return newImage
         
     }
+    
+    class func borderCards(image: UIImage, cardList: CardListWrapper) -> UIImage {
+        for i in 0..<cardList.count() {
+            print(cardList.getFullRect(i))
+        }
+        return image
+    }
         
     
 //    class func upload(uploadRequest: AWSS3TransferManagerUploadRequest) {

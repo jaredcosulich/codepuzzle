@@ -23,6 +23,7 @@ public:
     CardList();
     void clear();
     void printHex(int);
+    CGRect getFullRect(int);
     UIImage* getHexImage(int);
     UIImage* getFullImage(int);
     UIImage* getFunctionImage(int);
@@ -30,7 +31,7 @@ public:
     void setFullImage(int, UIImage*);
     UIImage* getParamImage(int);
     double getRotation(int);
-    void add(double, CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);
+    void add(double, CGRect, CGRect, CGRect, UIImage*, UIImage*, UIImage*, UIImage*);
     int count();
     
 private:
