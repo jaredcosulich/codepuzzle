@@ -89,9 +89,8 @@ class Functions {
         
 //        path.stroke()
         
-        layer.position = startingPoint
+        layer.position = currentPoint
         layer.path = path.cgPath
-        layer.opacity = 0.0
         layer.fillColor = UIColor.red.cgColor
         layer.fillRule = kCAFillRuleNonZero
         layer.lineCap = kCALineCapButt
@@ -171,7 +170,6 @@ class Functions {
         layer.position = at
         let rotation = CGAffineTransform(rotationAngle: (angle - 90.0) * (CGFloat.pi / 180.0))
         layer.setAffineTransform(rotation)
-        layer.opacity = 1.0
     }
     
     func execute(code: String, param: String) {

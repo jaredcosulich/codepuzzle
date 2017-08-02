@@ -27,6 +27,7 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     var showTimer = Timer()
     var timer = Timer()
     var rotation = Int32(0)
+    var speed = 1500.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +82,19 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         UIImageWriteToSavedPhotosAlbum(imageView.image!, photoSaved(), nil, nil)
     }
     
+    
+    @IBAction func speedbutton(_ sender: UISegmentedControl) {
+        switch (sender.selectedSegmentIndex) {
+        case 0:
+            speed = 200.0
+        case 2:
+            speed = 5000.0
+        default:
+            speed = 1500.0
+        }
+        initShowTimer()
+    }
+    
     func photoSaved() {
         methodOutput.text = "Photo Saved!"
     }
@@ -104,6 +118,9 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
      
     func process() {
+        speedSegment.isHidden = false
+        drawingView.isHidden = false
+
         cardList.clear()
 
         OpenCVWrapper.process(imageView.image, cardList)
@@ -142,22 +159,25 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
             
             index = 0
             
-            speedSegment.isHidden = false
-            drawingView.isHidden = false
-
             showCard()
-            
-            // start the timer
-            showTimer = Timer.scheduledTimer(
-                timeInterval: 2,
-                target: self,
-                selector: #selector(showCard),
-                userInfo: nil,
-                repeats: true
-            )
+            initShowTimer()
         } else {
             methodOutput.text = "Still Processing..."
         }
+    }
+    
+    func initShowTimer() {
+        showTimer.invalidate()
+        
+        // start the timer
+        showTimer = Timer.scheduledTimer(
+            timeInterval: TimeInterval(speed / 1000.0),
+            target: self,
+            selector: #selector(showCard),
+            userInfo: nil,
+            repeats: true
+        )
+        showCard()
     }
     
     func showCard() {

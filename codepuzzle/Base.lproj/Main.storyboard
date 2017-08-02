@@ -82,6 +82,9 @@
                                     <segment title="Default"/>
                                     <segment title="Slow"/>
                                 </segments>
+                                <connections>
+                                    <action selector="speedbutton:" destination="9pv-A4-QxB" eventType="valueChanged" id="Ojk-oI-vMX"/>
+                                </connections>
                             </segmentedControl>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
                                 <rect key="frame" x="16" y="314.5" width="288" height="136.5"/>
