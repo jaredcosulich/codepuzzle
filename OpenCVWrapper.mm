@@ -193,9 +193,9 @@ using namespace std;
 //        fullCardBound.width = bound.width * 6.5;
 //        fullCardBound.height = bound.height * 8;
         cv::Rect fullCardBound;
-        fullCardBound.x = bound.x - (bound.width * 1.5);
+        fullCardBound.x = bound.x - (bound.width * 1.1);
         fullCardBound.y = bound.y - (bound.height * 4.6);
-        fullCardBound.width = bound.width * 4.2;
+        fullCardBound.width = bound.width * 3.4;
         fullCardBound.height = bound.height * 6.1;
         
         if (fullCardBound.x < 0) fullCardBound.x = 0;

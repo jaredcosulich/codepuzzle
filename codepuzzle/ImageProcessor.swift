@@ -54,10 +54,21 @@ class ImageProcessor {
     }
     
     class func borderCards(image: UIImage, cardList: CardListWrapper) -> UIImage {
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(at: CGPoint.zero)
+        let ctx = UIGraphicsGetCurrentContext()
+        ctx?.setStrokeColor(UIColor.green.cgColor)
+        ctx?.setLineWidth(10)
+        
         for i in 0..<cardList.count() {
-            print(cardList.getFullRect(i))
+            ctx?.stroke(cardList.getFullRect(i))
         }
-        return image
+
+        let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return modifiedImage!
     }
         
     

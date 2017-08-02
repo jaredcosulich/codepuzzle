@@ -125,7 +125,8 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
 
         OpenCVWrapper.process(imageView.image, cardList)
         
-        ImageProcessor.borderCards(image: imageView.image!, cardList: cardList)
+        imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList)
+        return
 
         for i in 0..<cardList.count() {
 //            s3Util.upload(
