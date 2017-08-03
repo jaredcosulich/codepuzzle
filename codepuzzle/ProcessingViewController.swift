@@ -10,7 +10,7 @@ import UIKit
 
 struct Card {
     var image: UIImage
-    var fuction: String
+    var code: String
     var param: String
 }
 
@@ -26,8 +26,6 @@ class ProcessingViewController: UIViewController {
     var timer = Timer()
 
     var image: UIImage!
-    
-//    var functions: Functions!
 
     var cards = [Card]()
     
@@ -94,9 +92,9 @@ class ProcessingViewController: UIViewController {
                 tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
                 tesseract.recognize()
                 let cardImage = cardList.getFullImage(i)
-                let function = tesseract.recognizedText!
+                let code = tesseract.recognizedText!
                 let param = mathPix.getValue(identifier: "param\(i)")
-                cards.append(Card(image: cardImage!, fuction: function, param: param))
+                cards.append(Card(image: cardImage!, code: code, param: param))
             }
             
             performSegue(withIdentifier: "execution-segue", sender: nil)
