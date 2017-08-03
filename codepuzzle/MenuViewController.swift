@@ -16,17 +16,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBOutlet weak var methodOutput: UILabel!
     
-    @IBOutlet weak var drawingView: UIImageView!
-    
-    @IBOutlet weak var speedSegment: UISegmentedControl!
-    
-    
     let s3Util = S3Util()
-    var index = Int32(0)
-    var showTimer = Timer()
-    var timer = Timer()
-    var rotation = Int32(0)
-    var speed = 1500.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +27,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
-        
-//        drawingView.contentMode = .bottomLeft
-        
-//        functions = Functions(uiImageView: drawingView)
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,19 +66,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func savephotobutton(_ sender: UIButton) {
         UIImageWriteToSavedPhotosAlbum(imageView.image!, photoSaved(), nil, nil)
     }
-    
-    
-//    @IBAction func speedbutton(_ sender: UISegmentedControl) {
-//        switch (sender.selectedSegmentIndex) {
-//        case 0:
-//            speed = 200.0
-//        case 2:
-//            speed = 5000.0
-//        default:
-//            speed = 1500.0
-//        }
-//        initShowTimer()
-//    }
     
     func photoSaved() {
         methodOutput.text = "Photo Saved!"

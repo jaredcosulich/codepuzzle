@@ -44,6 +44,7 @@ class ExecutionViewController: UIViewController {
     
     func initExecution() {
         // start the timer
+        timer.invalidate()
         timer = Timer.scheduledTimer(
             timeInterval: TimeInterval(speed / 1000.0),
             target: self,
@@ -66,5 +67,18 @@ class ExecutionViewController: UIViewController {
         functions.execute(code: card.code, param: card.param)
         executionIndex += 1
     }
+    
+    @IBAction func speedbutton(_ sender: UISegmentedControl) {
+        switch (sender.selectedSegmentIndex) {
+        case 0:
+            speed = 200.0
+        case 2:
+            speed = 5000.0
+        default:
+            speed = 1500.0
+        }
+        initExecution()
+    }
+
     
 }
