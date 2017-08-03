@@ -25,6 +25,7 @@
 		3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */; };
 		3A6A99591F329A02000B89E1 /* ProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
+		3AA2D01E1F339BB700B90963 /* ExecutionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */; };
 		3ACB55451F1171D600382476 /* S3Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55441F1171D600382476 /* S3Util.swift */; };
 		3ACB55471F12AAC200382476 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55461F12AAC200382476 /* Functions.swift */; };
 		3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */; };
@@ -80,6 +81,7 @@
 		3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CardListWrapper.mm; sourceTree = "<group>"; };
 		3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessingViewController.swift; sourceTree = "<group>"; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionViewController.swift; sourceTree = "<group>"; };
 		3ACB55441F1171D600382476 /* S3Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3Util.swift; sourceTree = "<group>"; };
 		3ACB55461F12AAC200382476 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				3ACB55441F1171D600382476 /* S3Util.swift */,
 				3ACB55461F12AAC200382476 /* Functions.swift */,
 				3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */,
+				3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */,
 				3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */,
 				3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */,
+				3AA2D01E1F339BB700B90963 /* ExecutionViewController.swift in Sources */,
 				3A6A99591F329A02000B89E1 /* ProcessingViewController.swift in Sources */,
 				3A2B65C71EE9B37900E8B7BD /* MenuViewController.swift in Sources */,
 				3A2F89511F06EF600076E10A /* Constants.swift in Sources */,

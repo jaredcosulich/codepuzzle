@@ -98,13 +98,20 @@ class ProcessingViewController: UIViewController {
                 let param = mathPix.getValue(identifier: "param\(i)")
                 cards.append(Card(image: cardImage!, fuction: function, param: param))
             }
-            output.text = "Processing Complete!"
+            
+            performSegue(withIdentifier: "execution-segue", sender: nil)
 
         } else {
             output.text = "\(cardList.count()) cards identified. Still processing..."
         }
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "execution-segue" {
+            let dvc = segue.destination as! ExecutionViewController
+            dvc.cards = cards
+        }
+    }
     
 }
 

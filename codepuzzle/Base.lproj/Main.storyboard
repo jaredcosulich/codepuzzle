@@ -69,6 +69,12 @@
                                     <action selector="rotateright:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ywO-vL-S5l"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Method Output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
+                                <rect key="frame" x="102" y="314" width="117" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -77,6 +83,7 @@
                             <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="2qb-cf-lUO" secondAttribute="bottom" constant="20" id="K6g-M9-Jtf"/>
                             <constraint firstItem="i5H-ru-g6w" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="20" id="MeI-Sh-oeF"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="30" id="P7M-Nd-u16"/>
+                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="87.5" id="PJw-xU-Sqf"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="20" id="XRT-Hh-XcV"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="top" secondItem="nzL-hW-vmB" secondAttribute="bottom" constant="20" id="ZxL-VD-s9l"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CBJ-I1-NRw" secondAttribute="trailing" constant="30" id="eYb-Ai-Ic3"/>
@@ -167,6 +174,7 @@
                     <connections>
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
                         <outlet property="output" destination="OIT-q5-Y3J" id="FhS-x7-rqo"/>
+                        <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="OVi-Ig-nvb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A8I-m6-4t1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -176,7 +184,7 @@
         <!--Execution-->
         <scene sceneID="1Ov-rW-JqR">
             <objects>
-                <viewController title="Execution" id="yyQ-YR-DlG" sceneMemberID="viewController">
+                <viewController title="Execution" id="yyQ-YR-DlG" customClass="ExecutionViewController" customModule="codepuzzle" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ksj-fo-c9n"/>
                         <viewControllerLayoutGuide type="bottom" id="tJC-fq-UVp"/>
@@ -201,17 +209,10 @@
                                 <rect key="frame" x="16" y="63" width="288" height="239"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Method Output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
-                                <rect key="frame" x="102" y="319" width="117" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="6rf-pU-4to" secondAttribute="trailing" id="1O7-Es-beX"/>
-                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" constant="0.5" id="6Vb-em-L31"/>
                             <constraint firstItem="6rf-pU-4to" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="9oA-XQ-xU5"/>
                             <constraint firstItem="ito-3F-4r1" firstAttribute="leading" secondItem="MHB-EX-G77" secondAttribute="leadingMargin" constant="30" id="Orl-OJ-f8v"/>
                             <constraint firstItem="ito-3F-4r1" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="P3d-nM-AAg"/>

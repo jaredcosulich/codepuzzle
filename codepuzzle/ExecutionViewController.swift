@@ -1,0 +1,25 @@
+//
+//  ExecutionViewController.swift
+//  codepuzzle
+//
+//  Created by Jared Cosulich on 8/3/17.
+//  Copyright © 2017 Irrational Design. All rights reserved.
+//
+
+import UIKit
+
+class ExecutionViewController: UIViewController {
+    
+    var cards = [Card]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+}
