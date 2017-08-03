@@ -22,8 +22,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     
     let s3Util = S3Util()
-    let mathPix = MathPix()
-    var functions: Functions!
     var index = Int32(0)
     var showTimer = Timer()
     var timer = Timer()
