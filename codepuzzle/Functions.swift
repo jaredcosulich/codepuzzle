@@ -87,8 +87,6 @@ class Functions {
 
         path.close()
         
-//        path.stroke()
-        
         layer.position = currentPoint
         layer.path = path.cgPath
         layer.fillColor = UIColor.red.cgColor
@@ -160,9 +158,6 @@ class Functions {
     }
 
     func signature(code: String, param: String) -> String {
-//        let regex = NSRegularExpression(pattern: "[\\s]+", optionparam:nil, error: nil)
-//        let compactCode = regex!.stringByReplacingMatchesInString(code, optionparam: nil, range: NSMakeRange(0, count(code)), withTemplate: nil)
-    
         return "\(info(code: translate(code: code))["name"] ?? "Bad Function") \(param)"
     }
     
@@ -208,8 +203,6 @@ class Functions {
             pathLayer.strokeColor = UIColor.black.cgColor
             pathLayer.lineWidth = 1
             pathLayer.path = path.cgPath
-
-//            path.stroke()
 
             imageView.layer.addSublayer(pathLayer)
             
