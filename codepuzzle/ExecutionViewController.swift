@@ -174,5 +174,18 @@ class ExecutionViewController: UIViewController {
         startTimer()
     }
 
+    @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
+        print("TRANSLATION: \(sender.translation(in: imageView))")
+        print("VELOCITY: \(sender.velocity(in: imageView))")
+        
+//        let pictureString:String = self.myArray[index]
+//        self.picture.image = UIImage(named: pictureString)
+//        
+//        index = (index < myArray.count-1) ? index+1 : 0
+    }
+    
+    @IBAction func executionTap(sender: UITapGestureRecognizer) {
+        print("\(sender.location(in: imageView))")
+    }
     
 }
