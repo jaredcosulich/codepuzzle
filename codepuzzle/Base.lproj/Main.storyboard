@@ -192,19 +192,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
-                                <rect key="frame" x="16" y="28" width="288" height="261"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgm-Ga-ZhA">
-                                <rect key="frame" x="16" y="297" width="288" height="41"/>
+                                <rect key="frame" x="16" y="349" width="288" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="55S-Gc-Zaf">
-                                <rect key="frame" x="16" y="346" width="288" height="121"/>
+                                <rect key="frame" x="0.0" y="398" width="320" height="121"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -212,19 +212,35 @@
                                     <outletCollection property="gestureRecognizers" destination="aak-Ec-rBO" appends="YES" id="Cs7-qF-cUr"/>
                                 </connections>
                             </imageView>
-                            <segmentedControl contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="ito-3F-4r1">
-                                <rect key="frame" x="46" y="475" width="228" height="29"/>
+                            <segmentedControl hidden="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="ito-3F-4r1">
+                                <rect key="frame" x="14" y="491" width="288.00000000000011" height="29.000000000000014"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <segments>
-                                    <segment title="Instant"/>
-                                    <segment title="Fast"/>
+                                    <segment title="Pause"/>
                                     <segment title="Slow"/>
+                                    <segment title="Fast"/>
+                                    <segment title="Instant"/>
                                 </segments>
                                 <connections>
                                     <action selector="speedbutton:" destination="yyQ-YR-DlG" eventType="valueChanged" id="VUL-AA-ySY"/>
                                 </connections>
                             </segmentedControl>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nS6-7g-Dsd">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="compose" id="SVg-nz-WAx"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="EHb-WE-QUZ"/>
+                                    <barButtonItem systemItem="play" id="zEN-Sh-Pv4">
+                                        <connections>
+                                            <action selector="play:" destination="yyQ-YR-DlG" id="NeV-ZS-4OJ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="m8I-e6-8lw"/>
+                                    <barButtonItem systemItem="stop" id="a2R-wc-oQ0"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -232,6 +248,7 @@
                         <outlet property="drawingView" destination="6rf-pU-4to" id="Akv-cf-b3C"/>
                         <outlet property="imageView" destination="55S-Gc-Zaf" id="yJO-Ay-yWh"/>
                         <outlet property="output" destination="wgm-Ga-ZhA" id="mx5-Au-a3H"/>
+                        <outlet property="speedButtons" destination="ito-3F-4r1" id="s5p-CF-j3M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WgL-kg-KnU" userLabel="First Responder" sceneMemberID="firstResponder"/>

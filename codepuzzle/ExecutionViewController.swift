@@ -16,11 +16,13 @@ class ExecutionViewController: UIViewController {
     
     @IBOutlet weak var output: UILabel!
     
+    @IBOutlet weak var speedButtons: UISegmentedControl!
+    
     var cards = [Card]()
     
     var timer = Timer()
     
-    var speed = 2000.0
+    var speed = 500.0
     
     var executionIndex = 0
     
@@ -95,13 +97,15 @@ class ExecutionViewController: UIViewController {
     
     func startTimer() {
         timer.invalidate()
-        timer = Timer.scheduledTimer(
-            timeInterval: TimeInterval(speed / 1000.0),
-            target: self,
-            selector: #selector(executeCard),
-            userInfo: nil,
-            repeats: true
-        )
+        if (speed > -1) {
+            timer = Timer.scheduledTimer(
+                timeInterval: TimeInterval(speed / 1000.0),
+                target: self,
+                selector: #selector(executeCard),
+                userInfo: nil,
+                repeats: true
+            )
+        }
     }
     
     func drawReplay(x: CGFloat) {
@@ -142,16 +146,19 @@ class ExecutionViewController: UIViewController {
     }
     
     func executeCard() {
-        if (executionIndex >= cards.count) {
-            output.text = "All cards executed."
-            timer.invalidate()
+        if (speed == -1 || executionIndex >= executedLayers.count) {
             return
         }
         
-        let card = cards[executionIndex]
-        output.text = functions.signature(code: card.code, param: card.param)
-        functions.execute(code: card.code, param: card.param)
-
+        if (executionIndex >= cards.count) {
+            output.text = "All cards executed."
+            timer.invalidate()
+        } else {
+            let card = cards[executionIndex]
+            output.text = functions.signature(code: card.code, param: card.param)
+            functions.execute(code: card.code, param: card.param)
+        }
+        
         for i in 0..<executedLayers.count {
             let l = executedLayers[i]
             if (i != executedLayers.count - 1) {  // Don't hide the replay button
@@ -174,13 +181,16 @@ class ExecutionViewController: UIViewController {
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
         switch (sender.selectedSegmentIndex) {
         case 0:
-            speed = 0.0
-        case 2:
+            speed = -1
+        case 1:
             speed = 1500.0
-        default:
+        case 2:
             speed = 500.0
+        default:
+            speed = 0.0
         }
         startTimer()
+        speedButtons.isHidden = true
     }
 
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
@@ -194,7 +204,6 @@ class ExecutionViewController: UIViewController {
             let l = executedLayers[i]
             let x = l.position.x - (scrollLayerWidth / 4)
             if (x <= tapX && tapX < x + scrollLayerWidth) {
-                print("CLICKED ON \(i)")
                 if (i == cards.count) {
                     reset()
                     initExecution()
@@ -203,4 +212,7 @@ class ExecutionViewController: UIViewController {
         }
     }
     
+    @IBAction func play(_ sender: UIBarButtonItem) {
+        speedButtons.isHidden = !speedButtons.isHidden
+    }
 }
