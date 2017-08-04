@@ -58,7 +58,7 @@ class ExecutionViewController: UIViewController {
 
             let functionLayer = CALayer()
             let image = card.image
-
+            
             functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.25
         
@@ -109,14 +109,14 @@ class ExecutionViewController: UIViewController {
     }
     
     func drawReplay(x: CGFloat) {
-        let radius = 10.0
-        let triangleSide = 3.0
+        let radius = CGFloat(10.0)
+        let triangleSide = CGFloat(3.0)
 
         let layer = CAShapeLayer()
-        layer.bounds = CGRect(x: 0, y: 0, width: radius*2, height: (radius * 2) + (triangleSide / 2.0))
+        layer.bounds = CGRect(x: 0, y: 0, width: scrollLayerWidth, height: (radius * 2) + (triangleSide / 2.0))
         
         let path = UIBezierPath()
-        let center = CGPoint(x: radius, y: (radius + (triangleSide / 2.0)))
+        let center = CGPoint(x: scrollLayerWidth / 2, y: radius + (triangleSide / 2.0))
         path.addArc(
             withCenter: center,
             radius: CGFloat(radius),
@@ -125,12 +125,13 @@ class ExecutionViewController: UIViewController {
             clockwise: false
         )
 
-        path.move(to: CGPoint(x: radius - triangleSide, y: triangleSide / 2.0))
-        path.addLine(to: CGPoint(x: radius, y: triangleSide))
-        path.addLine(to: CGPoint(x: radius, y: 0))
+        let centerX = (scrollLayerWidth / 2)
+        path.move(to: CGPoint(x: centerX - triangleSide, y: triangleSide / 2.0))
+        path.addLine(to: CGPoint(x: centerX, y: triangleSide))
+        path.addLine(to: CGPoint(x: centerX, y: 0))
         path.close()
         
-        layer.position = CGPoint(x: x - CGFloat(radius), y: imageView.bounds.height/2.0)
+        layer.position = CGPoint(x: x, y: imageView.bounds.height/2.0)
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
