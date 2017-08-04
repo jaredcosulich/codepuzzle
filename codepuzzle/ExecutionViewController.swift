@@ -28,6 +28,8 @@ class ExecutionViewController: UIViewController {
     
     var functions: Functions!
     
+    var executionLayer = CALayer()
+    
     var executedLayers = [CALayer]()
     
     let scrollLayerWidth = CGFloat(85.0)
@@ -77,22 +79,26 @@ class ExecutionViewController: UIViewController {
             cardOffset += scrollLayerWidth
             
             executedLayers.append(functionLayer)
-            imageView.layer.addSublayer(functionLayer)
+            executionLayer.addSublayer(functionLayer)
         }
         
         drawReplay(x: cardOffset)
 
+        imageView.layer.addSublayer(executionLayer)
+            
         executeCard()
         startTimer()
     }
     
     func reset() {
         timer.invalidate()
-        imageView.layer.sublayers?.removeAll()
-        drawingView.layer.sublayers?.removeAll()
-        functions.reset()
         executionIndex = 0
         executedLayers.removeAll()
+        executionLayer.sublayers?.removeAll()
+        executionLayer.position = CGPoint.zero
+        imageView.layer.sublayers?.removeAll()
+        drawingView.layer.sublayers?.removeAll()
+        functions.reset() // this must come last
     }
     
     func startTimer() {
@@ -142,7 +148,7 @@ class ExecutionViewController: UIViewController {
         layer.strokeColor = UIColor.black.cgColor
         layer.fillColor = UIColor.clear.cgColor
         
-        imageView.layer.addSublayer(layer)
+        executionLayer.addSublayer(layer)
         executedLayers.append(layer)
     }
     
@@ -157,7 +163,7 @@ class ExecutionViewController: UIViewController {
         } else {
             let card = cards[executionIndex]
             output.text = functions.signature(code: card.code, param: card.param)
-            functions.execute(code: card.code, param: card.param)
+            functions.execute(code: card.code, param: card.param, instant: (speed == 0))
         }
         
         for i in 0..<executedLayers.count {
@@ -171,9 +177,10 @@ class ExecutionViewController: UIViewController {
                     l.shadowOffset = CGSize(width: 2, height: 2)
                 }
             }
-            if (executionIndex > 0) {
-                l.position = CGPoint(x: l.position.x - scrollLayerWidth, y: l.position.y)
-            }
+        }
+
+        if (executionIndex > 0) {
+            executionLayer.position.x -= scrollLayerWidth
         }
 
         executionIndex += 1
@@ -195,15 +202,19 @@ class ExecutionViewController: UIViewController {
     }
 
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
+        
+//        if (sender.state == UIGestureRecognizer.) {
+//            
+//        }
         print("TRANSLATION: \(sender.translation(in: imageView))")
         print("VELOCITY: \(sender.velocity(in: imageView))")
     }
     
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
-        let tapX = sender.location(in: imageView).x
+        let tapX = sender.location(in: imageView).x - executionLayer.position.x
         for i in 0..<executedLayers.count {
             let l = executedLayers[i]
-            let x = l.position.x - (scrollLayerWidth / 4)
+            let x = l.position.x - (scrollLayerWidth / 2)
             if (x <= tapX && tapX < x + scrollLayerWidth) {
                 if (i == cards.count) {
                     reset()

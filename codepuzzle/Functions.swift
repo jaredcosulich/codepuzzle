@@ -60,7 +60,7 @@ class Functions {
     func initDrawing() {
         let s = imageView.bounds.size
         currentPoint = CGPoint(x: s.width / 5.0, y: s.height)
-        currentAngle = CGFloat(90.0)
+        currentAngle = CGFloat(90)
         
         initArrow()
     }
@@ -176,7 +176,7 @@ class Functions {
         layer.setAffineTransform(rotation)
     }
     
-    func execute(code: String, param: String) {
+    func execute(code: String, param: String, instant: Bool = false) {
         let paramNumber = CGFloat((param as NSString).floatValue)
 
         let methodName = info(code: translate(code: code))["method"] ?? ""
@@ -215,10 +215,12 @@ class Functions {
 
             imageView.layer.addSublayer(pathLayer)
             
-            let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.fromValue = 0
-            animation.duration = 0.2
-            pathLayer.add(animation, forKey: "pathAnimation")
+            if (!instant) {
+                let animation = CABasicAnimation(keyPath: "strokeEnd")
+                animation.fromValue = 0
+                animation.duration = 0.2
+                pathLayer.add(animation, forKey: "pathAnimation")
+            }
         }
         
         currentPoint = nextPoint
