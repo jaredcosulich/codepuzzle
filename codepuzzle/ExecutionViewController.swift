@@ -28,6 +28,8 @@ class ExecutionViewController: UIViewController {
     
     var executedLayers = [CALayer]()
     
+    let scrollLayerWidth = 85.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -70,7 +72,7 @@ class ExecutionViewController: UIViewController {
             functionLayer.shadowRadius = 2.0
             
             functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
-            cardOffset += bounds.width + 20
+            cardOffset += CGFloat(scrollLayerWidth)
             
             executedLayers.append(functionLayer)
             imageView.layer.addSublayer(functionLayer)
@@ -115,8 +117,7 @@ class ExecutionViewController: UIViewController {
         path.addLine(to: CGPoint(x: radius, y: 0))
         path.close()
         
-
-        layer.position = CGPoint(x: x, y: imageView.bounds.height/2.0)
+        layer.position = CGPoint(x: x - CGFloat(radius), y: imageView.bounds.height/2.0)
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
@@ -144,15 +145,17 @@ class ExecutionViewController: UIViewController {
 
         for i in 0..<executedLayers.count {
             let l = executedLayers[i]
-            if (i == executionIndex) {
-                l.opacity = 1.0
-                l.shadowOffset = CGSize(width: 5, height: 5)
-            } else {
-                l.opacity = 0.25
-                l.shadowOffset = CGSize(width: 2, height: 2)
+            if (i != executedLayers.count - 1) {  // Don't hide the replay button
+                if (i == executionIndex) {
+                    l.opacity = 1.0
+                    l.shadowOffset = CGSize(width: 5, height: 5)
+                } else {
+                    l.opacity = 0.25
+                    l.shadowOffset = CGSize(width: 2, height: 2)
+                }
             }
             if (executionIndex > 0) {
-                l.position = CGPoint(x: l.position.x - (l.bounds.width + 20), y: l.position.y)
+                l.position = CGPoint(x: l.position.x - CGFloat(scrollLayerWidth), y: l.position.y)
             }
         }
 
