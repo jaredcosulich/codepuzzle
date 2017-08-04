@@ -20,7 +20,7 @@ class ExecutionViewController: UIViewController {
     
     var timer = Timer()
     
-    var speed = 1500.0
+    var speed = 2000.0
     
     var executionIndex = 0
     
@@ -62,7 +62,7 @@ class ExecutionViewController: UIViewController {
             
             functionLayer.bounds = bounds
             functionLayer.shadowColor = UIColor.black.cgColor
-            functionLayer.shadowOffset = CGSize(width: 5, height: 10)
+            functionLayer.shadowOffset = CGSize(width: 2, height: 2)
             functionLayer.shadowOpacity = 0.25
             functionLayer.shadowRadius = 2.0
             
@@ -98,8 +98,10 @@ class ExecutionViewController: UIViewController {
             let l = executedLayers[i]
             if (i == executionIndex) {
                 l.opacity = 1.0
+                l.shadowOffset = CGSize(width: 5, height: 5)
             } else {
-                l.opacity = 0.5
+                l.opacity = 0.25
+                l.shadowOffset = CGSize(width: 2, height: 2)
             }
             l.position = CGPoint(x: l.position.x - (l.bounds.width + 20), y: l.position.y)
         }
@@ -110,11 +112,11 @@ class ExecutionViewController: UIViewController {
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
         switch (sender.selectedSegmentIndex) {
         case 0:
-            speed = 200.0
+            speed = 500.0
         case 2:
             speed = 5000.0
         default:
-            speed = 1500.0
+            speed = 2000.0
         }
         initExecution()
     }
