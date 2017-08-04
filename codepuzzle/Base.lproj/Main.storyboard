@@ -217,8 +217,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <segments>
+                                    <segment title="Instant"/>
                                     <segment title="Fast"/>
-                                    <segment title="Default"/>
                                     <segment title="Slow"/>
                                 </segments>
                                 <connections>

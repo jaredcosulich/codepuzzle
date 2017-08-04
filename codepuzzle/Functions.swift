@@ -16,8 +16,8 @@ class Functions {
 
     let layer = CAShapeLayer()
     
-    var currentPoint = CGPoint(x: 0.0, y: 0.0)
-    var currentAngle = CGFloat(90.0)
+    var currentPoint = CGPoint(x: 0, y: 0)
+    var currentAngle = CGFloat(90)
     
     var penIsUp = false
     
@@ -54,10 +54,19 @@ class Functions {
     
     init(uiImageView: UIImageView) {
         imageView = uiImageView;
+        initDrawing()
+    }
+    
+    func initDrawing() {
         let s = imageView.bounds.size
         currentPoint = CGPoint(x: s.width / 5.0, y: s.height)
+        currentAngle = CGFloat(90.0)
         
         initArrow()
+    }
+    
+    func reset() {
+        initDrawing()
     }
     
     func initArrow() {

@@ -28,7 +28,7 @@ class ExecutionViewController: UIViewController {
     
     var executedLayers = [CALayer]()
     
-    let scrollLayerWidth = 85.0
+    let scrollLayerWidth = CGFloat(85.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,7 @@ class ExecutionViewController: UIViewController {
             functionLayer.shadowRadius = 2.0
             
             functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
-            cardOffset += CGFloat(scrollLayerWidth)
+            cardOffset += scrollLayerWidth
             
             executedLayers.append(functionLayer)
             imageView.layer.addSublayer(functionLayer)
@@ -82,6 +82,15 @@ class ExecutionViewController: UIViewController {
 
         executeCard()
         startTimer()
+    }
+    
+    func reset() {
+        timer.invalidate()
+        imageView.layer.sublayers?.removeAll()
+        drawingView.layer.sublayers?.removeAll()
+        functions.reset()
+        executionIndex = 0
+        executedLayers.removeAll()
     }
     
     func startTimer() {
@@ -155,7 +164,7 @@ class ExecutionViewController: UIViewController {
                 }
             }
             if (executionIndex > 0) {
-                l.position = CGPoint(x: l.position.x - CGFloat(scrollLayerWidth), y: l.position.y)
+                l.position = CGPoint(x: l.position.x - scrollLayerWidth, y: l.position.y)
             }
         }
 
@@ -165,11 +174,11 @@ class ExecutionViewController: UIViewController {
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
         switch (sender.selectedSegmentIndex) {
         case 0:
-            speed = 500.0
+            speed = 0.0
         case 2:
-            speed = 5000.0
+            speed = 1500.0
         default:
-            speed = 2000.0
+            speed = 500.0
         }
         startTimer()
     }
@@ -177,15 +186,21 @@ class ExecutionViewController: UIViewController {
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
         print("TRANSLATION: \(sender.translation(in: imageView))")
         print("VELOCITY: \(sender.velocity(in: imageView))")
-        
-//        let pictureString:String = self.myArray[index]
-//        self.picture.image = UIImage(named: pictureString)
-//        
-//        index = (index < myArray.count-1) ? index+1 : 0
     }
     
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
-        print("\(sender.location(in: imageView))")
+        let tapX = sender.location(in: imageView).x
+        for i in 0..<executedLayers.count {
+            let l = executedLayers[i]
+            let x = l.position.x - (scrollLayerWidth / 4)
+            if (x <= tapX && tapX < x + scrollLayerWidth) {
+                print("CLICKED ON \(i)")
+                if (i == cards.count) {
+                    reset()
+                    initExecution()
+                }
+            }
+        }
     }
     
 }
