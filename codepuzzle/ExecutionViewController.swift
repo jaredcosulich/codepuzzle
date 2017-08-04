@@ -24,6 +24,8 @@ class ExecutionViewController: UIViewController {
     
     var speed = 500.0
     
+    var paused = false
+    
     var executionIndex = 0
     
     var functions: Functions!
@@ -33,6 +35,8 @@ class ExecutionViewController: UIViewController {
     var executedLayers = [CALayer]()
     
     let scrollLayerWidth = CGFloat(85.0)
+    
+    var currentTranslation = CGFloat(0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +89,10 @@ class ExecutionViewController: UIViewController {
         drawReplay(x: cardOffset)
 
         imageView.layer.addSublayer(executionLayer)
-            
-        executeCard()
+        
+        paused = false
+
+        executeNextCard()
         startTimer()
     }
     
@@ -103,11 +109,11 @@ class ExecutionViewController: UIViewController {
     
     func startTimer() {
         timer.invalidate()
-        if (speed > -1) {
+        if (!paused && speed > -1) {
             timer = Timer.scheduledTimer(
                 timeInterval: TimeInterval(speed / 1000.0),
                 target: self,
-                selector: #selector(executeCard),
+                selector: #selector(executeNextCard),
                 userInfo: nil,
                 repeats: true
             )
@@ -152,8 +158,8 @@ class ExecutionViewController: UIViewController {
         executedLayers.append(layer)
     }
     
-    func executeCard() {
-        if (speed == -1 || executionIndex >= executedLayers.count) {
+    func executeNextCard() {
+        if (paused || speed == -1 || executionIndex >= executedLayers.count) {
             return
         }
         
@@ -190,27 +196,53 @@ class ExecutionViewController: UIViewController {
         switch (sender.selectedSegmentIndex) {
         case 0:
             speed = -1
+            paused = true
         case 1:
             speed = 1500.0
+            paused = false
         case 2:
             speed = 500.0
+            paused = false
         default:
             speed = 0.0
+            paused = false
         }
         startTimer()
         speedButtons.isHidden = true
     }
 
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
+//        print("TRANSLATION: \(sender.translation(in: imageView))")
+//        print("VELOCITY: \(sender.velocity(in: imageView))")
+        paused = true
+
+        let maxX = executedLayers[executedLayers.count - 1].position.x
+
+        let translation = sender.translation(in: imageView).x
+        let deltaTranslation = translation - currentTranslation
+        currentTranslation = translation
         
-//        if (sender.state == UIGestureRecognizer.) {
-//            
-//        }
-        print("TRANSLATION: \(sender.translation(in: imageView))")
-        print("VELOCITY: \(sender.velocity(in: imageView))")
+        var moveTo = executionLayer.position.x + deltaTranslation
+        if moveTo < (maxX - (imageView.bounds.width / 2)) * -1 {
+            moveTo = (maxX - (imageView.bounds.width / 2)) * -1
+        }
+        
+        if moveTo > 0 {
+            moveTo = 0
+        }
+        
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        executionLayer.position.x = moveTo
+        CATransaction.commit()
+        
+        if (sender.state == UIGestureRecognizerState.ended) {
+            currentTranslation = 0
+        }
     }
     
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
+        paused = true
         let tapX = sender.location(in: imageView).x - executionLayer.position.x
         for i in 0..<executedLayers.count {
             let l = executedLayers[i]
