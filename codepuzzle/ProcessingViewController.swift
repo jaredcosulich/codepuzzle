@@ -52,8 +52,8 @@ class ProcessingViewController: UIViewController {
         
         output.text = "\(cardList.count()) cards identified. Processing cards..."
 
-        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
-        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
+//        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
+//        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
 
         for i in 0..<cardList.count() {
 //            s3Util.upload(
@@ -65,11 +65,11 @@ class ProcessingViewController: UIViewController {
 //                image: cardList.getFunctionImage(i)!,
 //                identifier: "function\(i)"
 //            )
-//            mathPix.processImage(
-//                image: cardList.getParamImage(Int32(i))!,
-//                identifier: "param\(i)"
-//            )
-            cards.append(Card(image: cardList.getFullImage(i), code: codes[Int(i)], param: params[Int(i)]))
+            mathPix.processImage(
+                image: cardList.getParamImage(Int32(i))!,
+                identifier: "param\(i)"
+            )
+//            cards.append(Card(image: cardList.getFullImage(i), code: codes[Int(i)], param: params[Int(i)]))
         }
         
         // start the timer
@@ -86,20 +86,20 @@ class ProcessingViewController: UIViewController {
         if (!mathPix.processing()) {
             timer.invalidate()
             
-//            let tesseract = G8Tesseract()
-//            tesseract.language = "eng+fra"
-//            tesseract.engineMode = .tesseractOnly
-//            tesseract.pageSegmentationMode = .auto
-//            tesseract.maximumRecognitionTime = 60.0
-//            
-//            for i in 0..<cardList.count() {
-//                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
-//                tesseract.recognize()
-//                let cardImage = cardList.getFullImage(i)
-//                let code = tesseract.recognizedText!
-//                let param = mathPix.getValue(identifier: "param\(i)")
-//                cards.append(Card(image: cardImage!, code: code, param: param))
-//            }
+            let tesseract = G8Tesseract()
+            tesseract.language = "eng+fra"
+            tesseract.engineMode = .tesseractOnly
+            tesseract.pageSegmentationMode = .auto
+            tesseract.maximumRecognitionTime = 60.0
+            
+            for i in 0..<cardList.count() {
+                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
+                tesseract.recognize()
+                let cardImage = cardList.getFullImage(i)
+                let code = tesseract.recognizedText!
+                let param = mathPix.getValue(identifier: "param\(i)")
+                cards.append(Card(image: cardImage!, code: code, param: param))
+            }
             
             performSegue(withIdentifier: "execution-segue", sender: nil)
 

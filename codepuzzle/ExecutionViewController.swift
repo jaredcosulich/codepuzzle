@@ -47,6 +47,8 @@ class ExecutionViewController: UIViewController {
     func initExecution() {
         // start the timer
         
+        var cardOffset = imageView.bounds.width / 2.0
+        
         for i in 0..<cards.count {
             let card = cards[i]
 
@@ -54,6 +56,7 @@ class ExecutionViewController: UIViewController {
             let image = card.image
 
             functionLayer.contents = image.cgImage
+            functionLayer.opacity = 0.25
         
             let ratio = (imageView.bounds.height - 5) / image.size.height
             let layerWidth = image.size.width * ratio
@@ -66,13 +69,20 @@ class ExecutionViewController: UIViewController {
             functionLayer.shadowOpacity = 0.25
             functionLayer.shadowRadius = 2.0
             
-            let cardOffset = (imageView.bounds.width / 2.0) + (bounds.width + 20) * CGFloat(i + 1)
             functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
-        
+            cardOffset += bounds.width + 20
+            
             executedLayers.append(functionLayer)
             imageView.layer.addSublayer(functionLayer)
         }
         
+        drawReplay(x: cardOffset)
+
+        executeCard()
+        startTimer()
+    }
+    
+    func startTimer() {
         timer.invalidate()
         timer = Timer.scheduledTimer(
             timeInterval: TimeInterval(speed / 1000.0),
@@ -81,6 +91,44 @@ class ExecutionViewController: UIViewController {
             userInfo: nil,
             repeats: true
         )
+    }
+    
+    func drawReplay(x: CGFloat) {
+        let radius = 10.0
+        let triangleSide = 3.0
+
+        let layer = CAShapeLayer()
+        layer.bounds = CGRect(x: 0, y: 0, width: radius*2, height: (radius * 2) + (triangleSide / 2.0))
+        
+        let path = UIBezierPath()
+        let center = CGPoint(x: radius, y: (radius + (triangleSide / 2.0)))
+        path.addArc(
+            withCenter: center,
+            radius: CGFloat(radius),
+            startAngle: 180*(CGFloat.pi/180.0),
+            endAngle: 270*(CGFloat.pi/180.0),
+            clockwise: false
+        )
+
+        path.move(to: CGPoint(x: radius - triangleSide, y: triangleSide / 2.0))
+        path.addLine(to: CGPoint(x: radius, y: triangleSide))
+        path.addLine(to: CGPoint(x: radius, y: 0))
+        path.close()
+        
+
+        layer.position = CGPoint(x: x, y: imageView.bounds.height/2.0)
+        layer.path = path.cgPath
+        layer.lineCap = kCALineCapButt
+        layer.lineDashPattern = nil
+        layer.lineDashPhase = 0.0
+        layer.lineJoin = kCALineJoinMiter
+        layer.lineWidth = 2.0
+        layer.miterLimit = 10.0
+        layer.strokeColor = UIColor.black.cgColor
+        layer.fillColor = UIColor.clear.cgColor
+        
+        imageView.layer.addSublayer(layer)
+        executedLayers.append(layer)
     }
     
     func executeCard() {
@@ -103,7 +151,9 @@ class ExecutionViewController: UIViewController {
                 l.opacity = 0.25
                 l.shadowOffset = CGSize(width: 2, height: 2)
             }
-            l.position = CGPoint(x: l.position.x - (l.bounds.width + 20), y: l.position.y)
+            if (executionIndex > 0) {
+                l.position = CGPoint(x: l.position.x - (l.bounds.width + 20), y: l.position.y)
+            }
         }
 
         executionIndex += 1
@@ -118,7 +168,7 @@ class ExecutionViewController: UIViewController {
         default:
             speed = 2000.0
         }
-        initExecution()
+        startTimer()
     }
 
     
