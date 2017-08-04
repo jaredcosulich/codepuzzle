@@ -103,8 +103,7 @@ class ExecutionViewController: UIViewController {
         executionLayer.sublayers?.removeAll()
         executionLayer.position = CGPoint.zero
         imageView.layer.sublayers?.removeAll()
-        drawingView.layer.sublayers?.removeAll()
-        functions.reset() // this must come last
+        functions.reset()
     }
     
     func startTimer() {
@@ -167,29 +166,63 @@ class ExecutionViewController: UIViewController {
             output.text = "All cards executed."
             timer.invalidate()
         } else {
-            let card = cards[executionIndex]
-            output.text = functions.signature(code: card.code, param: card.param)
-            functions.execute(code: card.code, param: card.param, instant: (speed == 0))
+            selectCard(index: executionIndex)
+            executeCard(index: executionIndex, redraw: false)
         }
         
-        for i in 0..<executedLayers.count {
-            let l = executedLayers[i]
-            if (i != executedLayers.count - 1) {  // Don't hide the replay button
-                if (i == executionIndex) {
-                    l.opacity = 1.0
-                    l.shadowOffset = CGSize(width: 5, height: 5)
-                } else {
-                    l.opacity = 0.25
-                    l.shadowOffset = CGSize(width: 2, height: 2)
-                }
-            }
-        }
-
         if (executionIndex > 0) {
             executionLayer.position.x -= scrollLayerWidth
         }
+    }
+    
+    func findCardIndex(x: CGFloat) -> Int {
+        for i in 0..<executedLayers.count {
+            let l = executedLayers[i]
+            let positionX = l.position.x - (scrollLayerWidth / 2) + (scrollLayerWidth / 8)
+            if (positionX <= x && x < positionX + scrollLayerWidth) {
+                return i
+            }
+        }
+        return -1
+    }
+    
+    func selectCard(index: Int) {
+        if index == -1 || index >= cards.count {
+            return
+        }
+        
+        for i in 0..<cards.count {
+            let l = executedLayers[i]
+            if (i == index) {
+                l.opacity = 1.0
+                l.shadowOffset = CGSize(width: 5, height: 5)
+            } else {
+                l.opacity = 0.25
+                l.shadowOffset = CGSize(width: 2, height: 2)
+            }
+        }
+    }
+    
+    func executeCard(index: Int, redraw: Bool = false) {
+        if index == -1 || index >= cards.count {
+            return
+        }
+        
+        let card = cards[index]
 
-        executionIndex += 1
+        output.text = functions.signature(code: card.code, param: card.param)
+
+        if (redraw) {
+            functions.reset()
+            for i in 0..<index + 1 {
+                let c = cards[i]
+                functions.execute(code: c.code, param: c.param, instant: true)
+            }
+        } else {
+            functions.execute(code: card.code, param: card.param, instant: (speed == 0))
+        }
+        
+        executionIndex = index + 1
     }
     
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
@@ -234,6 +267,9 @@ class ExecutionViewController: UIViewController {
         CATransaction.begin()
         CATransaction.setAnimationDuration(0)
         executionLayer.position.x = moveTo
+        let cardIndex = findCardIndex(x: (moveTo * -1) + (imageView.bounds.width / 2))
+        selectCard(index: cardIndex)
+        executeCard(index: cardIndex, redraw: true)
         CATransaction.commit()
         
         if (sender.state == UIGestureRecognizerState.ended) {
@@ -244,16 +280,12 @@ class ExecutionViewController: UIViewController {
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
         paused = true
         let tapX = sender.location(in: imageView).x - executionLayer.position.x
-        for i in 0..<executedLayers.count {
-            let l = executedLayers[i]
-            let x = l.position.x - (scrollLayerWidth / 2)
-            if (x <= tapX && tapX < x + scrollLayerWidth) {
-                if (i == cards.count) {
-                    reset()
-                    initExecution()
-                }
-            }
+        let cardIndex = findCardIndex(x: tapX);
+        if (cardIndex == cards.count) {
+            reset()
+            initExecution()
         }
+
     }
     
     @IBAction func play(_ sender: UIBarButtonItem) {
