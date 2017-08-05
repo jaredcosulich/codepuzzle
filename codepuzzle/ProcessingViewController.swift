@@ -29,6 +29,8 @@ class ProcessingViewController: UIViewController {
 
     var cards = [Card]()
     
+    var cardCount = Int32(0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -48,10 +50,7 @@ class ProcessingViewController: UIViewController {
         output.text = "Scanning photo for cards..."
         
         OpenCVWrapper.process(imageView.image, cardList)
-        imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList)
         
-        output.text = "\(cardList.count()) cards identified. Processing cards..."
-
         let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
         let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
 
@@ -72,9 +71,11 @@ class ProcessingViewController: UIViewController {
             cards.append(Card(image: cardList.getFullImage(i), code: codes[Int(i)], param: params[Int(i)]))
         }
         
+        checkCardProcessing()
+        
         // start the timer
         timer = Timer.scheduledTimer(
-            timeInterval: 0.5,
+            timeInterval: 0.25,
             target: self,
             selector: #selector(checkCardProcessing),
             userInfo: nil,
@@ -83,7 +84,13 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardProcessing() {
-        if (!mathPix.processing()) {
+        if (cardCount < cardList.count()) {
+            imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
+
+            cardCount += 1
+
+            output.text = "Identifying Card\n\n\(cardCount) found..."
+        } else if (!mathPix.processing()) {
             timer.invalidate()
             
 //            let tesseract = G8Tesseract()
