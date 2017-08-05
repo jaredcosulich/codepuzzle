@@ -89,7 +89,7 @@ class ProcessingViewController: UIViewController {
 
             cardCount += 1
 
-            output.text = "Identifying Cards: \r\r\(cardCount) found..."
+            output.text = "Identifying Cards:\r\r\(cardCount)"
         } else if (!mathPix.processing()) {
             timer.invalidate()
             
