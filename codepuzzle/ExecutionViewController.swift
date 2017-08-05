@@ -26,7 +26,7 @@ class ExecutionViewController: UIViewController {
     
     var paused = false
     
-    var executionIndex = 0
+    var executionIndex = -1
     
     var functions: Functions!
     
@@ -41,8 +41,6 @@ class ExecutionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        drawingView.contentMode = .bottomLeft
         
         functions = Functions(uiImageView: drawingView)
         
@@ -97,13 +95,18 @@ class ExecutionViewController: UIViewController {
     }
     
     func reset() {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+
         timer.invalidate()
-        executionIndex = 0
+        executionIndex = -1
         executedLayers.removeAll()
         executionLayer.sublayers?.removeAll()
         executionLayer.position = CGPoint.zero
         imageView.layer.sublayers?.removeAll()
         functions.reset()
+
+        CATransaction.commit()
     }
     
     func startTimer() {
@@ -158,9 +161,12 @@ class ExecutionViewController: UIViewController {
     }
     
     func executeNextCard() {
-        if (paused || speed == -1 || executionIndex >= executedLayers.count) {
+        if (paused || speed == -1 || executionIndex >= cards.count) {
+            timer.invalidate()
             return
         }
+
+        executionIndex += 1
         
         if (executionIndex >= cards.count) {
             output.text = "All cards executed."
@@ -171,7 +177,7 @@ class ExecutionViewController: UIViewController {
         }
         
         if (executionIndex > 0) {
-            executionLayer.position.x -= scrollLayerWidth
+            executionLayer.position.x = (CGFloat(executionIndex) * scrollLayerWidth * -1)
         }
     }
     
@@ -222,7 +228,7 @@ class ExecutionViewController: UIViewController {
             functions.execute(code: card.code, param: card.param, instant: (speed == 0))
         }
         
-        executionIndex = index + 1
+        executionIndex = index
     }
     
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
@@ -248,6 +254,7 @@ class ExecutionViewController: UIViewController {
 //        print("TRANSLATION: \(sender.translation(in: imageView))")
 //        print("VELOCITY: \(sender.velocity(in: imageView))")
         paused = true
+        speedButtons.selectedSegmentIndex = 0
 
         let maxX = executedLayers[executedLayers.count - 1].position.x
 
@@ -266,10 +273,12 @@ class ExecutionViewController: UIViewController {
         
         CATransaction.begin()
         CATransaction.setAnimationDuration(0)
+        
         executionLayer.position.x = moveTo
         let cardIndex = findCardIndex(x: (moveTo * -1) + (imageView.bounds.width / 2))
         selectCard(index: cardIndex)
         executeCard(index: cardIndex, redraw: true)
+        
         CATransaction.commit()
         
         if (sender.state == UIGestureRecognizerState.ended) {

@@ -61,7 +61,7 @@ class Functions {
         imageView.layer.sublayers?.removeAll()
         
         let s = imageView.bounds.size
-        currentPoint = CGPoint(x: s.width / 5.0, y: s.height)
+        currentPoint = CGPoint(x: s.width / 2.5, y: s.height / 1.75)
         currentAngle = CGFloat(90)
         
         initArrow()
