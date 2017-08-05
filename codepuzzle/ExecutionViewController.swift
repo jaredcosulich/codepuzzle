@@ -296,7 +296,6 @@ class ExecutionViewController: UIViewController {
     }
     
     func pause() {
-        print("PAUSE \(paused)")
         paused = true
         speedButtons.selectedSegmentIndex = -1
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.play, target: self, action: #selector(playbutton))
@@ -304,7 +303,6 @@ class ExecutionViewController: UIViewController {
     }
     
     func play() {
-        print("PLAY \(paused)")
         paused = false
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.pause, target: self, action: #selector(playbutton))
         toolbar.items?[2] = button        
