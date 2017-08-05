@@ -75,7 +75,7 @@ class ProcessingViewController: UIViewController {
         
         // start the timer
         timer = Timer.scheduledTimer(
-            timeInterval: 0.25,
+            timeInterval: 0.2,
             target: self,
             selector: #selector(checkCardProcessing),
             userInfo: nil,
