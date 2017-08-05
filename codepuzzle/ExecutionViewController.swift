@@ -18,6 +18,8 @@ class ExecutionViewController: UIViewController {
     
     @IBOutlet weak var speedButtons: UISegmentedControl!
     
+    @IBOutlet weak var toolbar: UIToolbar!
+    
     var cards = [Card]()
     
     var timer = Timer()
@@ -88,7 +90,7 @@ class ExecutionViewController: UIViewController {
 
         imageView.layer.addSublayer(executionLayer)
         
-        paused = false
+        play()
 
         executeNextCard()
         startTimer()
@@ -111,7 +113,7 @@ class ExecutionViewController: UIViewController {
     
     func startTimer() {
         timer.invalidate()
-        if (!paused && speed > -1) {
+        if (!paused) {
             timer = Timer.scheduledTimer(
                 timeInterval: TimeInterval(speed / 1000.0),
                 target: self,
@@ -161,8 +163,9 @@ class ExecutionViewController: UIViewController {
     }
     
     func executeNextCard() {
-        if (paused || speed == -1 || executionIndex >= cards.count) {
+        if (paused || executionIndex >= cards.count) {
             timer.invalidate()
+            pause()
             return
         }
 
@@ -171,6 +174,7 @@ class ExecutionViewController: UIViewController {
         if (executionIndex >= cards.count) {
             output.text = "All cards executed."
             timer.invalidate()
+            pause()
         } else {
             selectCard(index: executionIndex)
             executeCard(index: executionIndex, redraw: false)
@@ -234,18 +238,13 @@ class ExecutionViewController: UIViewController {
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
         switch (sender.selectedSegmentIndex) {
         case 0:
-            speed = -1
-            paused = true
-        case 1:
             speed = 1500.0
-            paused = false
-        case 2:
+        case 1:
             speed = 500.0
-            paused = false
         default:
             speed = 0.0
-            paused = false
         }
+        play()
         startTimer()
         speedButtons.isHidden = true
     }
@@ -253,8 +252,7 @@ class ExecutionViewController: UIViewController {
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
 //        print("TRANSLATION: \(sender.translation(in: imageView))")
 //        print("VELOCITY: \(sender.velocity(in: imageView))")
-        paused = true
-        speedButtons.selectedSegmentIndex = 0
+        pause()
 
         let maxX = executedLayers[executedLayers.count - 1].position.x
 
@@ -287,7 +285,7 @@ class ExecutionViewController: UIViewController {
     }
     
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
-        paused = true
+        pause()
         let tapX = sender.location(in: imageView).x - executionLayer.position.x
         let cardIndex = findCardIndex(x: tapX);
         if (cardIndex == cards.count) {
@@ -297,7 +295,28 @@ class ExecutionViewController: UIViewController {
 
     }
     
-    @IBAction func play(_ sender: UIBarButtonItem) {
-        speedButtons.isHidden = !speedButtons.isHidden
+    func pause() {
+        print("PAUSE \(paused)")
+        paused = true
+        speedButtons.selectedSegmentIndex = -1
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.play, target: self, action: #selector(playbutton))
+        toolbar.items?[2] = button
+    }
+    
+    func play() {
+        print("PLAY \(paused)")
+        paused = false
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.pause, target: self, action: #selector(playbutton))
+        toolbar.items?[2] = button        
+    }
+    
+    @IBAction func playbutton(_ sender: UIBarButtonItem) {
+        print("PLAYBUTTON \(paused)")
+        if (paused) {
+            speedButtons.isHidden = !speedButtons.isHidden
+            play()
+        } else {
+            pause()
+        }
     }
 }
