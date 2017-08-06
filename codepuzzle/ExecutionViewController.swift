@@ -40,7 +40,7 @@ class ExecutionViewController: UIViewController {
     
     var currentTranslation = CGFloat(0)
     
-    var selectedCard: Card!
+    var selectedIndex: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +49,11 @@ class ExecutionViewController: UIViewController {
         functions = Functions(uiImageView: drawingView)
         
         initExecution()
+        
+        if (selectedIndex != nil) {
+            highlightCard(index: selectedIndex)
+            executeCard(index: selectedIndex, redraw: true)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,10 +97,15 @@ class ExecutionViewController: UIViewController {
 
         imageView.layer.addSublayer(executionLayer)
         
-        play()
-
-        executeNextCard()
-        startTimer()
+        if (!paused) {
+            play()
+            executeNextCard()
+            startTimer()
+        } else if (selectedIndex != nil) {
+            scrollToCard(index: selectedIndex)
+            highlightCard(index: selectedIndex)
+            executeCard(index: selectedIndex, redraw: true)
+        }
     }
     
     func reset() {
@@ -178,13 +188,11 @@ class ExecutionViewController: UIViewController {
             timer.invalidate()
             pause()
         } else {
-            selectCard(index: executionIndex)
+            highlightCard(index: executionIndex)
             executeCard(index: executionIndex, redraw: false)
         }
         
-        if (executionIndex > 0) {
-            executionLayer.position.x = (CGFloat(executionIndex) * scrollLayerWidth * -1)
-        }
+        scrollToCard(index: executionIndex)
     }
     
     func findCardIndex(x: CGFloat) -> Int {
@@ -198,11 +206,11 @@ class ExecutionViewController: UIViewController {
         return -1
     }
     
-    func selectCard(index: Int) {
+    func highlightCard(index: Int) {
         if index == -1 || index >= cards.count {
             return
         }
-        
+    
         for i in 0..<cards.count {
             let l = executedLayers[i]
             if (i == index) {
@@ -213,6 +221,10 @@ class ExecutionViewController: UIViewController {
                 l.shadowOffset = CGSize(width: 2, height: 2)
             }
         }
+    }
+    
+    func scrollToCard(index: Int) {
+        executionLayer.position.x = (CGFloat(index) * scrollLayerWidth * -1)
     }
     
     func executeCard(index: Int, redraw: Bool = false) {
@@ -235,6 +247,7 @@ class ExecutionViewController: UIViewController {
         }
         
         executionIndex = index
+        selectedIndex = index
     }
     
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
@@ -276,7 +289,7 @@ class ExecutionViewController: UIViewController {
         
         executionLayer.position.x = moveTo
         let cardIndex = findCardIndex(x: (moveTo * -1) + (imageView.bounds.width / 2))
-        selectCard(index: cardIndex)
+        highlightCard(index: cardIndex)
         executeCard(index: cardIndex, redraw: true)
         
         CATransaction.commit()
@@ -289,13 +302,19 @@ class ExecutionViewController: UIViewController {
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
         if (paused) {
             let tapX = sender.location(in: imageView).x - executionLayer.position.x
-            let cardIndex = findCardIndex(x: tapX);
+            let cardIndex = findCardIndex(x: tapX)
             if (cardIndex == cards.count) {
                 reset()
                 initExecution()
             } else {
-                selectedCard = cards[cardIndex]
-                performSegue(withIdentifier: "edit-command-segue", sender: nil)
+                if (selectedIndex == cardIndex) {
+                    performSegue(withIdentifier: "edit-command-segue", sender: nil)
+                } else {
+                    selectedIndex = cardIndex
+                    scrollToCard(index: selectedIndex)
+                    highlightCard(index: selectedIndex)
+                    executeCard(index: selectedIndex, redraw: true)
+                }
             }
         } else {
             pause()
@@ -306,7 +325,8 @@ class ExecutionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
-            dvc.card = selectedCard
+            dvc.cards = cards
+            dvc.selectedIndex = selectedIndex
         }
     }
 
