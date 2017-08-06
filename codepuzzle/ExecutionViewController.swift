@@ -185,6 +185,7 @@ class ExecutionViewController: UIViewController {
         
         if (executionIndex >= cards.count) {
             output.text = "All cards executed."
+            selectedIndex = -1
             timer.invalidate()
             pause()
         } else {
@@ -259,9 +260,15 @@ class ExecutionViewController: UIViewController {
         default:
             speed = 0.0
         }
-        play()
-        startTimer()
         speedButtons.isHidden = true
+
+        if (selectedIndex == -1) {
+            reset()
+            initExecution()
+        } else {
+            play()
+            startTimer()
+        }
     }
 
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
@@ -305,6 +312,7 @@ class ExecutionViewController: UIViewController {
             let cardIndex = findCardIndex(x: tapX)
             if (cardIndex == cards.count) {
                 reset()
+                play()
                 initExecution()
             } else {
                 if (selectedIndex == cardIndex) {
@@ -340,7 +348,7 @@ class ExecutionViewController: UIViewController {
     func play() {
         paused = false
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.pause, target: self, action: #selector(playbutton))
-        toolbar.items?[2] = button        
+        toolbar.items?[2] = button
     }
     
     @IBAction func playbutton(_ sender: UIBarButtonItem) {
