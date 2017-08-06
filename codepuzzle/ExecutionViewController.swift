@@ -40,20 +40,19 @@ class ExecutionViewController: UIViewController {
     
     var currentTranslation = CGFloat(0)
     
-    var selectedIndex: Int!
+    var selectedIndex = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         functions = Functions(uiImageView: drawingView)
+
+        if (selectedIndex != -1) {
+            pause()
+        }
         
         initExecution()
-        
-        if (selectedIndex != nil) {
-            highlightCard(index: selectedIndex)
-            executeCard(index: selectedIndex, redraw: true)
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,7 +100,7 @@ class ExecutionViewController: UIViewController {
             play()
             executeNextCard()
             startTimer()
-        } else if (selectedIndex != nil) {
+        } else if (selectedIndex > -1) {
             scrollToCard(index: selectedIndex)
             highlightCard(index: selectedIndex)
             executeCard(index: selectedIndex, redraw: true)
@@ -352,8 +351,8 @@ class ExecutionViewController: UIViewController {
     }
     
     @IBAction func playbutton(_ sender: UIBarButtonItem) {
+        speedButtons.isHidden = !speedButtons.isHidden
         if (paused) {
-            speedButtons.isHidden = !speedButtons.isHidden
             play()
         } else {
             pause()

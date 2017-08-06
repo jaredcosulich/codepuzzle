@@ -22,6 +22,7 @@ class ProcessingViewController: UIViewController {
     
     let cardList = CardListWrapper()!
     let mathPix = MathPix()
+    let tesseract = G8Tesseract()
     
     var timer = Timer()
 
@@ -37,6 +38,11 @@ class ProcessingViewController: UIViewController {
         imageView.image = image
         
         initCardList()
+        
+        tesseract.language = "eng+fra"
+        tesseract.engineMode = .tesseractOnly
+        tesseract.pageSegmentationMode = .auto
+        tesseract.maximumRecognitionTime = 60.0
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,12 +91,6 @@ class ProcessingViewController: UIViewController {
     
     func checkCardProcessing() {
 //        if (!mathPix.processing()) {
-//            let tesseract = G8Tesseract()
-//            tesseract.language = "eng+fra"
-//            tesseract.engineMode = .tesseractOnly
-//            tesseract.pageSegmentationMode = .auto
-//            tesseract.maximumRecognitionTime = 60.0
-//
 //            for i in Int32(cards.count)..<cardCount {
 //                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
 //                tesseract.recognize()
