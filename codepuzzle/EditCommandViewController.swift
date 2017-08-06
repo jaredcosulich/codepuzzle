@@ -16,21 +16,52 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     var cards = [Card]()
     
+    var uneditedCard: Card!
+    
     var selectedIndex: Int!
     
-    let pickerData = [
-        ["10\"","14\"","18\"","24\""],
-        ["Cheese","Pepperoni","Sausage","Veggie","BBQ Chicken"]
-    ]
-
+    var functionCodes = [String]()
+    
+    var pickerData = [[String]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        cardView.image = cards[selectedIndex].image
+        print(cards[selectedIndex])
+
+        let selectedCard = cards[selectedIndex]
+        let selectedCode = Functions.processedCode(code: selectedCard.code)
+        cardView.image = selectedCard.image
+        
+        uneditedCard = Card(
+            image: selectedCard.image,
+            code: selectedCard.code,
+            param: selectedCard.param,
+            originalImage: selectedCard.originalImage,
+            originalCode: selectedCard.originalCode,
+            originalParam: selectedCard.originalParam
+        )
+        
+        var selectedFunctionIndex = -1
+        
+        functionCodes = Array(Functions.functionInfo.keys).sorted()
+        
+        var functionNames = [String]()
+        for i in 0..<Functions.functionInfo.count {
+            let functionCode = functionCodes[i]
+            if (functionCode == selectedCode) {
+                selectedFunctionIndex = i
+            }
+            functionNames.append(
+                "\((Functions.functionInfo[functionCode]?["name"])!) (\(functionCode))"
+            )
+        }
+        pickerData = [functionNames]
         
         functionPicker.delegate = self
         functionPicker.dataSource = self
+        
+        functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,7 +77,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int
         ) -> Int {
-        return pickerData.count
+        return pickerData[component].count
     }
 
     func pickerView(_
@@ -62,20 +93,31 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         didSelectRow row: Int,
         inComponent component: Int)
     {
-        updateLabel()
+        var selectedCard = cards[selectedIndex]
+        let newCode = functionCodes[row]
+        if (newCode != selectedCard.code) {
+            selectedCard.code = newCode
+            selectedCard.image = UIImage(named: "12")!
+            cardView.image = selectedCard.image
+            cards[selectedIndex] = selectedCard
+        }
     }
-    
-    func updateLabel() {
-        
+
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func cancel(_ sender: UIBarButtonItem) {
+        cards[selectedIndex] = uneditedCard
         self.dismiss(animated: true, completion: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "close-edit-command-segue" {
+        if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
+            print("")
+            print(cards[selectedIndex])
+
             dvc.cards = cards
             dvc.selectedIndex = selectedIndex
             dvc.paused = true

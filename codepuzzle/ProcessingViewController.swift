@@ -12,6 +12,9 @@ struct Card {
     var image: UIImage
     var code: String
     var param: String
+    var originalImage: UIImage
+    var originalCode: String
+    var originalParam: String
 }
 
 class ProcessingViewController: UIViewController {
@@ -74,7 +77,16 @@ class ProcessingViewController: UIViewController {
 //                image: cardList.getParamImage(Int32(i))!,
 //                identifier: "param\(i)"
 //            )
-            cards.append(Card(image: cardList.getFullImage(i), code: codes[Int(i)], param: params[Int(i)]))
+            cards.append(
+                Card(
+                    image: cardList.getFullImage(i),
+                    code: codes[Int(i)],
+                    param: params[Int(i)],
+                    originalImage: cardList.getFullImage(i),
+                    originalCode: codes[Int(i)],
+                    originalParam: params[Int(i)]
+                )
+            )
         }
         
         checkCardProcessing()

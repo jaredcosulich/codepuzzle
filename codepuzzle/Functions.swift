@@ -10,18 +10,7 @@ import Foundation
 
 class Functions {
     
-    let tempImageView = UIImageView()
-    
-    var imageView: UIImageView
-
-    let layer = CAShapeLayer()
-    
-    var currentPoint = CGPoint(x: 0, y: 0)
-    var currentAngle = CGFloat(90)
-    
-    var penIsUp = false
-    
-    let functionInfo = [
+    static let functionInfo = [
         "A1": [
             "name": "Move Foward",
             "method": "moveForward"
@@ -51,6 +40,17 @@ class Functions {
             "method": "moveTo"
         ]
     ]
+
+    let tempImageView = UIImageView()
+    
+    var imageView: UIImageView
+
+    let layer = CAShapeLayer()
+    
+    var currentPoint = CGPoint(x: 0, y: 0)
+    var currentAngle = CGFloat(90)
+    
+    var penIsUp = false
     
     init(uiImageView: UIImageView) {
         imageView = uiImageView;
@@ -113,7 +113,11 @@ class Functions {
         imageView.layer.addSublayer(layer)
     }
     
-    func translate(code: String) -> String {
+    class func processedCode(code: String) -> String {
+        return Functions.compactCode(code: Functions.translate(code: code))
+    }
+    
+    class func translate(code: String) -> String {
         switch (code) {
         case "A T":
             return "A 1"
@@ -122,16 +126,16 @@ class Functions {
         }
     }
     
-    func info(code: String) -> [String: String] {
-        return functionInfo[compactCode(code: translate(code: code))]!
+    class func compactCode(code: String) -> String {
+        return code.replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "\n", with: "")
+            .replacingOccurrences(of: "'", with: "")
+            .replacingOccurrences(of: ".", with: "")
+            .replacingOccurrences(of: "‘", with: "")
     }
     
-    func compactCode(code: String) -> String {
-        return code.replacingOccurrences(of: " ", with: "")
-                   .replacingOccurrences(of: "\n", with: "")
-                   .replacingOccurrences(of: "'", with: "")
-                   .replacingOccurrences(of: ".", with: "")
-                   .replacingOccurrences(of: "‘", with: "")
+    func info(code: String) -> [String: String] {
+        return Functions.functionInfo[Functions.processedCode(code: code)]!
     }
     
     func calculateXDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
@@ -169,7 +173,7 @@ class Functions {
     }
 
     func signature(code: String, param: String) -> String {
-        return "\(info(code: translate(code: code))["name"] ?? "Bad Function") \(param)"
+        return "\(info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(param)"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -181,7 +185,7 @@ class Functions {
     func execute(code: String, param: String, instant: Bool = false) {
         let paramNumber = CGFloat((param as NSString).floatValue)
 
-        let methodName = info(code: translate(code: code))["method"] ?? ""
+        let methodName = info(code: Functions.translate(code: code))["method"] ?? ""
 
         var nextPoint = currentPoint
         
