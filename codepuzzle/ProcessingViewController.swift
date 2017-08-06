@@ -84,6 +84,23 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardProcessing() {
+//        if (!mathPix.processing()) {
+//            let tesseract = G8Tesseract()
+//            tesseract.language = "eng+fra"
+//            tesseract.engineMode = .tesseractOnly
+//            tesseract.pageSegmentationMode = .auto
+//            tesseract.maximumRecognitionTime = 60.0
+//
+//            for i in Int32(cards.count)..<cardCount {
+//                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
+//                tesseract.recognize()
+//                let cardImage = cardList.getFullImage(i)
+//                let code = tesseract.recognizedText!
+//                let param = mathPix.getValue(identifier: "param\(i)")
+//                cards.append(Card(image: cardImage!, code: code, param: param))
+//            }
+//        }
+        
         if (cardCount < cardList.count()) {
             imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
 
@@ -93,25 +110,9 @@ class ProcessingViewController: UIViewController {
         } else if (!mathPix.processing()) {
             timer.invalidate()
             
-//            let tesseract = G8Tesseract()
-//            tesseract.language = "eng+fra"
-//            tesseract.engineMode = .tesseractOnly
-//            tesseract.pageSegmentationMode = .auto
-//            tesseract.maximumRecognitionTime = 60.0
-//            
-//            for i in 0..<cardList.count() {
-//                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
-//                tesseract.recognize()
-//                let cardImage = cardList.getFullImage(i)
-//                let code = tesseract.recognizedText!
-//                let param = mathPix.getValue(identifier: "param\(i)")
-//                cards.append(Card(image: cardImage!, code: code, param: param))
-//            }
-            
             performSegue(withIdentifier: "execution-segue", sender: nil)
-
         } else {
-            output.text = "\(cardList.count()) cards identified. Still processing..."
+            output.text = "Processing \(cardList.count()) cards..."
         }
     }
     

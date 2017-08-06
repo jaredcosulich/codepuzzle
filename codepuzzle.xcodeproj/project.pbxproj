@@ -26,6 +26,7 @@
 		3A6A99591F329A02000B89E1 /* ProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
 		3AA2D01E1F339BB700B90963 /* ExecutionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */; };
+		3AA2D0201F36535900B90963 /* EditCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */; };
 		3ACB55451F1171D600382476 /* S3Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55441F1171D600382476 /* S3Util.swift */; };
 		3ACB55471F12AAC200382476 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55461F12AAC200382476 /* Functions.swift */; };
 		3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */; };
@@ -82,6 +83,7 @@
 		3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessingViewController.swift; sourceTree = "<group>"; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionViewController.swift; sourceTree = "<group>"; };
+		3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCommandViewController.swift; sourceTree = "<group>"; };
 		3ACB55441F1171D600382476 /* S3Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3Util.swift; sourceTree = "<group>"; };
 		3ACB55461F12AAC200382476 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		3ACE663C1EFCAB720061BBC0 /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				3A2B65C61EE9B37900E8B7BD /* MenuViewController.swift */,
 				3A2B65C81EE9B37900E8B7BD /* SecondViewController.swift */,
 				3A2B65CA1EE9B37900E8B7BD /* Main.storyboard */,
+				3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */,
 				3A2B65CD1EE9B37900E8B7BD /* Assets.xcassets */,
 				3A2B65CF1EE9B37900E8B7BD /* LaunchScreen.storyboard */,
 				3A2B65D21EE9B37900E8B7BD /* Info.plist */,
@@ -505,6 +508,7 @@
 			files = (
 				3A2B65C91EE9B37900E8B7BD /* SecondViewController.swift in Sources */,
 				3ACB55451F1171D600382476 /* S3Util.swift in Sources */,
+				3AA2D0201F36535900B90963 /* EditCommandViewController.swift in Sources */,
 				3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */,
 				3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */,
 				3ACB55471F12AAC200382476 /* Functions.swift in Sources */,

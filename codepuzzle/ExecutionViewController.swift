@@ -40,6 +40,8 @@ class ExecutionViewController: UIViewController {
     
     var currentTranslation = CGFloat(0)
     
+    var selectedCard: Card!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -285,16 +287,29 @@ class ExecutionViewController: UIViewController {
     }
     
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
-        pause()
-        let tapX = sender.location(in: imageView).x - executionLayer.position.x
-        let cardIndex = findCardIndex(x: tapX);
-        if (cardIndex == cards.count) {
-            reset()
-            initExecution()
+        if (paused) {
+            let tapX = sender.location(in: imageView).x - executionLayer.position.x
+            let cardIndex = findCardIndex(x: tapX);
+            if (cardIndex == cards.count) {
+                reset()
+                initExecution()
+            } else {
+                selectedCard = cards[cardIndex]
+                performSegue(withIdentifier: "edit-command-segue", sender: nil)
+            }
+        } else {
+            pause()
         }
 
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "edit-command-segue" {
+            let dvc = segue.destination as! EditCommandViewController
+            dvc.card = selectedCard
+        }
+    }
+
     func pause() {
         paused = true
         speedButtons.selectedSegmentIndex = -1
@@ -309,7 +324,6 @@ class ExecutionViewController: UIViewController {
     }
     
     @IBAction func playbutton(_ sender: UIBarButtonItem) {
-        print("PLAYBUTTON \(paused)")
         if (paused) {
             speedButtons.isHidden = !speedButtons.isHidden
             play()
