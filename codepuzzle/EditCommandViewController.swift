@@ -12,6 +12,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
+    @IBOutlet weak var param: UITextField!
     @IBOutlet weak var cardView: UIImageView!
     
     var cards = [Card]()
@@ -29,6 +30,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         // Do any additional setup after loading the view, typically from a nib.
         let selectedCard = cards[selectedIndex]
         let selectedCode = Functions.processedCode(code: selectedCard.code)
+        param.text = selectedCard.param
         cardView.image = selectedCard.image
         
         uneditedCard = Card(
@@ -95,13 +97,25 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         let newCode = functionCodes[row]
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
+            selectedCard.param = param.text!
             selectedCard.image = drawCard(
                 image: UIImage(named: newCode)!,
-                param: selectedCard.param
+                param: param.text!
             )
             cardView.image = selectedCard.image
             cards[selectedIndex] = selectedCard
         }
+    }
+    
+    @IBAction func showParam(_ sender: Any) {
+        var selectedCard = cards[selectedIndex]
+        selectedCard.param = param.text!
+        
+        let code = selectedCard.code
+        
+        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
+        cardView.image = selectedCard.image
+        cards[selectedIndex] = selectedCard
     }
     
     func drawCard(image: UIImage, param: String) -> UIImage {
