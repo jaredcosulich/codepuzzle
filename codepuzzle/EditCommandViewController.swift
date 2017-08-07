@@ -27,8 +27,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        print(cards[selectedIndex])
-
         let selectedCard = cards[selectedIndex]
         let selectedCode = Functions.processedCode(code: selectedCard.code)
         cardView.image = selectedCard.image
@@ -97,7 +95,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         let newCode = functionCodes[row]
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
-            selectedCard.image = UIImage(named: "12")!
+            selectedCard.image = UIImage(named: newCode)!
             cardView.image = selectedCard.image
             cards[selectedIndex] = selectedCard
         }
@@ -115,9 +113,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
-            print("")
-            print(cards[selectedIndex])
-
             dvc.cards = cards
             dvc.selectedIndex = selectedIndex
             dvc.paused = true
