@@ -77,13 +77,15 @@ class ProcessingViewController: UIViewController {
 //                image: cardList.getParamImage(Int32(i))!,
 //                identifier: "param\(i)"
 //            )
+            
+            let code = Functions.processedCode(code: codes[Int(i)])
             cards.append(
                 Card(
                     image: cardList.getFullImage(i),
-                    code: codes[Int(i)],
+                    code: code,
                     param: params[Int(i)],
                     originalImage: cardList.getFullImage(i),
-                    originalCode: codes[Int(i)],
+                    originalCode: code,
                     originalParam: params[Int(i)]
                 )
             )
@@ -107,7 +109,7 @@ class ProcessingViewController: UIViewController {
 //                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
 //                tesseract.recognize()
 //                let cardImage = cardList.getFullImage(i)
-//                let code = tesseract.recognizedText!
+//                let code = Functions.processedCode(code: tesseract.recognizedText!) 
 //                let param = mathPix.getValue(identifier: "param\(i)")
 //                cards.append(Card(image: cardImage!, code: code, param: param))
 //            }

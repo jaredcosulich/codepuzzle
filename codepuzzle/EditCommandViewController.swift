@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
@@ -29,7 +29,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let selectedCard = cards[selectedIndex]
-        let selectedCode = Functions.processedCode(code: selectedCard.code)
+        let selectedCode = selectedCard.code
         param.text = selectedCard.param
         cardView.image = selectedCard.image
         
@@ -60,6 +60,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         functionPicker.delegate = self
         functionPicker.dataSource = self
+        
+        param.delegate = self
         
         functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
     }
@@ -107,6 +109,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
     }
     
+    func textFieldShouldReturn(_ sender: UITextField) -> Bool {
+        param.resignFirstResponder()
+        return true
+    }
+
     @IBAction func showParam(_ sender: Any) {
         var selectedCard = cards[selectedIndex]
         selectedCard.param = param.text!
