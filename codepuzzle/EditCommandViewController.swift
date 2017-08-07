@@ -95,10 +95,37 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         let newCode = functionCodes[row]
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
-            selectedCard.image = UIImage(named: newCode)!
+            selectedCard.image = drawCard(
+                image: UIImage(named: newCode)!,
+                param: selectedCard.param
+            )
             cardView.image = selectedCard.image
             cards[selectedIndex] = selectedCard
         }
+    }
+    
+    func drawCard(image: UIImage, param: String) -> UIImage {
+        let textColor = UIColor.black
+        let textFont = UIFont(name: "Helvetica Bold", size: 45)!
+        
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        
+        let textFontAttributes = [
+            NSFontAttributeName: textFont,
+            NSForegroundColorAttributeName: textColor,
+            ] as [String : Any]
+        
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        
+        let textOrigin = CGPoint(x: 110, y: 180)
+        let rect = CGRect(origin: textOrigin, size: image.size)
+        param.draw(in: rect, withAttributes: textFontAttributes)
+        
+        let newCardImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newCardImage!
     }
 
     @IBAction func save(_ sender: UIBarButtonItem) {
