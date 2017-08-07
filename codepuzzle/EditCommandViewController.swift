@@ -139,7 +139,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
         
-        let textOrigin = CGPoint(x: 110, y: 180)
+        let x = (image.size.width - CGFloat(25 * param.characters.count)) / 2
+        let textOrigin = CGPoint(x: x, y: 180)
         let rect = CGRect(origin: textOrigin, size: image.size)
         param.draw(in: rect, withAttributes: textFontAttributes)
         
@@ -149,16 +150,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         return newCardImage!
     }
 
-    @IBAction func save(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        cards[selectedIndex] = uneditedCard
-        self.dismiss(animated: true, completion: nil)
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "cancel-edit-segue" {
+            cards[selectedIndex] = uneditedCard
+        }
+        
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cards = cards

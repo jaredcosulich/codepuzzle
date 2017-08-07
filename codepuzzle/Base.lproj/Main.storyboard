@@ -27,50 +27,50 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
-                                <rect key="frame" x="46" y="419" width="75" height="30"/>
+                                <rect key="frame" x="46" y="468" width="75" height="30"/>
                                 <state key="normal" title="New Photo"/>
                                 <connections>
                                     <action selector="newphotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7sB-My-jkr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBJ-I1-NRw">
-                                <rect key="frame" x="219" y="469" width="55" height="30"/>
+                                <rect key="frame" x="219" y="518" width="55" height="30"/>
                                 <state key="normal" title="Process"/>
                                 <connections>
                                     <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="feX-SX-6gh"/>
-                                    <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" id="1jF-77-HlK"/>
+                                    <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" animates="NO" id="1jF-77-HlK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5H-ru-g6w">
-                                <rect key="frame" x="46" y="469" width="78" height="30"/>
+                                <rect key="frame" x="46" y="518" width="78" height="30"/>
                                 <state key="normal" title="Save Photo"/>
                                 <connections>
                                     <action selector="savephotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="9Fm-wf-lTC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
-                                <rect key="frame" x="196" y="419" width="78" height="30"/>
+                                <rect key="frame" x="196" y="468" width="78" height="30"/>
                                 <state key="normal" title="Load Photo"/>
                                 <connections>
                                     <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
-                                <rect key="frame" x="46" y="369" width="76" height="30"/>
+                                <rect key="frame" x="46" y="418" width="76" height="30"/>
                                 <state key="normal" title="Rotate Left"/>
                                 <connections>
                                     <action selector="rotateleft:" destination="9pv-A4-QxB" eventType="touchUpInside" id="UfK-ZB-E9q"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzL-hW-vmB">
-                                <rect key="frame" x="189" y="369" width="85" height="30"/>
+                                <rect key="frame" x="189" y="418" width="85" height="30"/>
                                 <state key="normal" title="Rotate Right"/>
                                 <connections>
                                     <action selector="rotateright:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ywO-vL-S5l"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Method Output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
-                                <rect key="frame" x="102" y="314" width="117" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method Output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
+                                <rect key="frame" x="101.5" y="377" width="117" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -83,11 +83,12 @@
                             <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="2qb-cf-lUO" secondAttribute="bottom" constant="20" id="K6g-M9-Jtf"/>
                             <constraint firstItem="i5H-ru-g6w" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="20" id="MeI-Sh-oeF"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="30" id="P7M-Nd-u16"/>
-                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" constant="87.5" id="PJw-xU-Sqf"/>
+                            <constraint firstItem="nzL-hW-vmB" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="SCW-AI-hJ2"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="20" id="XRT-Hh-XcV"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="top" secondItem="nzL-hW-vmB" secondAttribute="bottom" constant="20" id="ZxL-VD-s9l"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CBJ-I1-NRw" secondAttribute="trailing" constant="30" id="eYb-Ai-Ic3"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="30" id="eZW-1k-5ZN"/>
+                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="fND-0A-DRp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nzL-hW-vmB" secondAttribute="trailing" constant="30" id="kQ6-AQ-qHz"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="top" secondItem="N9z-JF-GIm" secondAttribute="bottom" constant="20" id="p6R-z0-G7s"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2qb-cf-lUO" secondAttribute="trailing" constant="30" id="vce-k2-jKm"/>
@@ -237,7 +238,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="m8I-e6-8lw"/>
-                                    <barButtonItem systemItem="stop" id="a2R-wc-oQ0"/>
+                                    <barButtonItem systemItem="stop" id="a2R-wc-oQ0">
+                                        <connections>
+                                            <segue destination="9pv-A4-QxB" kind="show" identifier="close-segue" id="aeD-bu-lfN"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -283,7 +288,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QnH-gw-C4f">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="196"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="180"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YP1-8k-suQ">
@@ -306,10 +311,10 @@
                                 </items>
                             </toolbar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="q9q-7h-wTc">
-                                <rect key="frame" x="59" y="189" width="203" height="30"/>
+                                <rect key="frame" x="59" y="206" width="203" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="showParam:" destination="L7d-Q3-87b" eventType="editingChanged" id="JmU-ZY-2PF"/>
@@ -354,6 +359,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6is-cO-B1I"/>
+        <segue reference="OVi-Ig-nvb"/>
+        <segue reference="aeD-bu-lfN"/>
     </inferredMetricsTieBreakers>
 </document>

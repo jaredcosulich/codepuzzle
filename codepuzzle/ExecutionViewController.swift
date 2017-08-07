@@ -334,6 +334,8 @@ class ExecutionViewController: UIViewController {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cards = cards
             dvc.selectedIndex = selectedIndex
+        } else if segue.identifier == "close-segue" {
+//            let dvc = segue.destination as! MenuViewController
         }
     }
 
@@ -358,4 +360,5 @@ class ExecutionViewController: UIViewController {
             pause()
         }
     }
+    
 }
