@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  MenuViewController.swift
 //  codepuzzle
 //
 //  Created by Jared Cosulich on 6/8/17.
@@ -12,15 +12,21 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet weak var projectTitle: UILabel!
+    
     var imagePicker: UIImagePickerController!
     
     @IBOutlet weak var methodOutput: UILabel!
     
     let s3Util = S3Util()
     
+    var project: CodeProject!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        projectTitle.text = project.title
         
         // REMOVE THIS FOR MOST IMAGES
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)

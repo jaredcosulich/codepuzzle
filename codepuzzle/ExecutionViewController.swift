@@ -71,11 +71,11 @@ class ExecutionViewController: UIViewController {
             let functionLayer = CALayer()
             let image = card.image
             
-            functionLayer.contents = image.cgImage
+            functionLayer.contents = image?.cgImage
             functionLayer.opacity = 0.25
         
-            let ratio = (imageView.bounds.height - 5) / image.size.height
-            let layerWidth = image.size.width * ratio
+            let ratio = (imageView.bounds.height - 5) / (image?.size.height)!
+            let layerWidth = (image?.size.width)! * ratio
             let layerHeight = (imageView.bounds.height - 5)
             let bounds = CGRect(x: 0, y: 0, width: layerWidth, height: layerHeight)
             

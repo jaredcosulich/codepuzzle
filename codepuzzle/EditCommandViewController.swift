@@ -34,12 +34,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         cardView.image = selectedCard.image
         
         uneditedCard = Card(
-            image: selectedCard.image,
             code: selectedCard.code,
             param: selectedCard.param,
-            originalImage: selectedCard.originalImage,
+            image: selectedCard.image,
             originalCode: selectedCard.originalCode,
-            originalParam: selectedCard.originalParam
+            originalParam: selectedCard.originalParam,
+            originalImage: selectedCard.originalImage
         )
         
         var selectedFunctionIndex = -1
@@ -95,7 +95,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         didSelectRow row: Int,
         inComponent component: Int)
     {
-        var selectedCard = cards[selectedIndex]
+        let selectedCard = cards[selectedIndex]
         let newCode = functionCodes[row]
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
@@ -115,12 +115,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
 
     @IBAction func showParam(_ sender: Any) {
-        var selectedCard = cards[selectedIndex]
+        let selectedCard = cards[selectedIndex]
         selectedCard.param = param.text!
         
         let code = selectedCard.code
         
-        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
+        selectedCard.image = drawCard(image: UIImage(named: code!)!, param: param.text!)
         cardView.image = selectedCard.image
         cards[selectedIndex] = selectedCard
     }

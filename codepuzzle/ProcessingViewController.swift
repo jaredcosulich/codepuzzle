@@ -8,15 +8,6 @@
 
 import UIKit
 
-struct Card {
-    var image: UIImage
-    var code: String
-    var param: String
-    var originalImage: UIImage
-    var originalCode: String
-    var originalParam: String
-}
-
 class ProcessingViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -81,12 +72,12 @@ class ProcessingViewController: UIViewController {
             let code = Functions.processedCode(code: codes[Int(i)])
             cards.append(
                 Card(
-                    image: cardList.getFullImage(i),
                     code: code,
                     param: params[Int(i)],
-                    originalImage: cardList.getFullImage(i),
+                    image: cardList.getFullImage(i),
                     originalCode: code,
-                    originalParam: params[Int(i)]
+                    originalParam: params[Int(i)],
+                    originalImage: cardList.getFullImage(i)
                 )
             )
         }
