@@ -8,7 +8,9 @@
 
 import Foundation
 
-class ProjectViewController: UIViewController {
+class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var projectTitleView: UIView!
     
@@ -16,7 +18,7 @@ class ProjectViewController: UIViewController {
     
     var projectLoader: ProjectLoader!
     
-    var project: CodeProject!
+    var cardProject: CardProject!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +30,42 @@ class ProjectViewController: UIViewController {
         
         projectLoader = ProjectLoader(appDelegate: appDelegate)
         
-        print("EXISTING PROJECTS: \(projectLoader.projects.count)")
-        
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as UITableViewCell
+        
+        let cardProject = projectLoader.cardProjects[indexPath.row]
+        cell.textLabel?.text = cardProject.title
+        cell.imageView?.image = cardProject.cardGroups.first?.image
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            projectLoader.delete(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath){
+        cardProject = projectLoader.cardProjects[indexPath.row]
+        performSegue(withIdentifier: "start-project-segue", sender: nil)
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        return projectLoader.cardProjects.count
     }
     
     @IBAction func newProjectButton(_ sender: UIButton) {
@@ -44,19 +75,19 @@ class ProjectViewController: UIViewController {
     @IBAction func startProjectButton(_ sender: UIButton) {
         var title = projectTitle.text
         if (title?.characters.count == 0) {
-            title = "Project \(projectLoader.projects.count)"
+            title = "Project \(projectLoader.cardProjects.count)"
         }
-        project = projectLoader.addProject(title: projectTitle.text!)
+        cardProject = projectLoader.addCardProject(title: projectTitle.text!)
+        print("start: \(title ?? "N/A") -> \(cardProject.title)")
         performSegue(withIdentifier: "start-project-segue", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "start-project-segue" {
             let dvc = segue.destination as! MenuViewController
-            dvc.project = project
+            dvc.cardProject = cardProject
         }
     }
-    
     
 }
 

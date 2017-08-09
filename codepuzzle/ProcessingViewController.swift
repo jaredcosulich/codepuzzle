@@ -20,16 +20,14 @@ class ProcessingViewController: UIViewController {
     
     var timer = Timer()
 
-    var image: UIImage!
-
-    var cards = [Card]()
-    
     var cardCount = Int32(0)
+    
+    var cardGroup: CardGroup!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        imageView.image = image
+        imageView.image = cardGroup.image
         
         initCardList()
         
@@ -70,15 +68,13 @@ class ProcessingViewController: UIViewController {
 //            )
             
             let code = Functions.processedCode(code: codes[Int(i)])
-            cards.append(
-                Card(
-                    code: code,
-                    param: params[Int(i)],
-                    image: cardList.getFullImage(i),
-                    originalCode: code,
-                    originalParam: params[Int(i)],
-                    originalImage: cardList.getFullImage(i)
-                )
+            _ = cardGroup.addCard(
+                code: code,
+                param: params[Int(i)],
+                image: cardList.getFullImage(i),
+                originalCode: code,
+                originalParam: params[Int(i)],
+                originalImage: cardList.getFullImage(i)
             )
         }
         
@@ -124,7 +120,7 @@ class ProcessingViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
-            dvc.cards = cards
+            dvc.cardGroup = cardGroup
         }
     }
     

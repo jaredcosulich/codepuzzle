@@ -15,67 +15,170 @@ class ProjectLoader {
     
     let managedObjectContext: NSManagedObjectContext!
     
-    var projects = [CodeProject]()
-    var projectDatas = [NSManagedObject]()
+    var cardProjects = [CardProject]()
  
     init(appDelegate: AppDelegate) {
         self.appDelegate = appDelegate
         
         managedObjectContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CodeProjectData")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CardProjectData")
         
         do {
             // Execute Fetch Request
             let records = try managedObjectContext.fetch(fetchRequest)
-            
-            if let records = records as? [NSManagedObject] {
-                projectDatas = records
+            print(records.count)
+
+            if let records = records as? [CardProjectData] {
+                for cardProjectData in records {
+                    print("title: \(cardProjectData.title ?? "N/A")")
+                    cardProjects.append(CardProject(cardProjectData: cardProjectData, managedObjectContext: managedObjectContext))
+                }
             }
             
         } catch {
-            print("Unable to fetch CodeProjects.")
+            print("Unable to fetch CardProjects.")
         }
     }
 
     func save() {
-        for project in projects {
-            project.save(managedObjectContext: managedObjectContext)
+        do {
+            try managedObjectContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error)")
         }
     }
     
-    func addProject(title: String) -> CodeProject {
-        let project = CodeProject(title: title)
-        projects.append(project)
+    func addCardProject(title: String) -> CardProject {
+        let entity = NSEntityDescription.entity(forEntityName: "CardProjectData", in: managedObjectContext)
+        let cardProjectData = CardProjectData(entity: entity!, insertInto: managedObjectContext)
+        
+        let cardProject = CardProject(cardProjectData: cardProjectData, managedObjectContext: managedObjectContext)
+        
+        cardProject.title = title
+        
+        cardProjects.append(cardProject)
         save()
-        return project
+        return cardProject
+    }
+    
+    func delete(at: Int) {
+        cardProjects[at].delete()
+        cardProjects.remove(at: at)
     }
     
 }
 
-class CodeProject {
+class CardProject {
     
-    var title: String!
+    var managedObjectContext: NSManagedObjectContext!
     
-    init(title: String) {
-        self.title = title
+    var cardProjectData: CardProjectData!
+    
+    var title: String {
+        get {
+            return (cardProjectData.title ?? "N/A")
+        }
+        
+        set {
+            cardProjectData.title = newValue
+        }
+    }
+
+    var cardGroups = [CardGroup]()
+    
+    init(cardProjectData: CardProjectData, managedObjectContext: NSManagedObjectContext) {
+        self.cardProjectData = cardProjectData
+        self.managedObjectContext = managedObjectContext
+        
+        for cardGroupData in cardProjectData.cardGroups! {
+            cardGroups.append(CardGroup(cardGroupData: cardGroupData as! CardGroupData, managedObjectContext: managedObjectContext))
+        }
+        
     }
     
-    func save(managedObjectContext: NSManagedObjectContext) {
-        
-        let entity = NSEntityDescription.entity(forEntityName: "CodeProjectData", in: managedObjectContext)
-        
-        let codeProjectData = CodeProjectData(entity: entity!, insertInto: managedObjectContext)
-        
-        codeProjectData.setValue(title, forKeyPath: "title")
-        
+    func save() {
         do {
             try managedObjectContext.save()
-            print("Saved Project: \(title)")
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        } catch {
+            fatalError("Failure to save context: \(error)")
         }
+    }
+    
+    func delete() {
+        managedObjectContext.delete(cardProjectData)
+        save()
+    }
+    
+    func addCardGroup(image: UIImage) -> CardGroup {
+        let entity = NSEntityDescription.entity(forEntityName: "CardGroupData", in: managedObjectContext)
+        let cardGroupData = CardGroupData(entity: entity!, insertInto: managedObjectContext)
+        
+        let cardGroup = CardGroup(cardGroupData: cardGroupData, managedObjectContext: managedObjectContext)
+        
+        cardGroup.image = image
+        
+        cardProjectData.addToCardGroups(cardGroup.cardGroupData)
+        cardGroups.append(cardGroup)
+        save()
+        return cardGroup
+    }
+    
+}
 
+class CardGroup {
+    
+    var cardGroupData: CardGroupData
+    
+    var managedObjectContext: NSManagedObjectContext!
+    
+    var image: UIImage {
+        get {
+            return UIImage(data: cardGroupData.image! as Data)!
+        }
+        
+        set {
+            cardGroupData.image = UIImagePNGRepresentation(newValue)! as NSData
+        }
+    }
+    
+    var cards = [Card]()
+    
+    init(cardGroupData: CardGroupData, managedObjectContext: NSManagedObjectContext) {
+        self.cardGroupData = cardGroupData
+        self.managedObjectContext = managedObjectContext
+        
+        for cardData in cardGroupData.cards! {
+            cards.append(Card(cardData: cardData as! CardData))
+        }
+    }
+    
+    func save() {
+        do {
+            try managedObjectContext.save()
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
+    }
+    
+    func addCard(code: String, param: String, image: UIImage, originalCode: String, originalParam: String, originalImage: UIImage) -> Card {
+        let entity = NSEntityDescription.entity(forEntityName: "CardData", in: managedObjectContext)
+        let cardData = CardData(entity: entity!, insertInto: managedObjectContext)
+        
+        let card = Card(cardData: cardData)
+        
+        card.code = code
+        card.param = param
+        card.image = image
+
+        card.originalCode = originalCode
+        card.originalParam = originalParam
+        card.originalImage = originalImage
+
+        cardGroupData.addToCards(card.cardData)
+        cards.append(card)
+        save()
+        return card
     }
     
 }
@@ -83,40 +186,65 @@ class CodeProject {
 
 class Card {
     
-    var code: String!
-    var param: String!
-    var image: UIImage!
+    var cardData: CardData!
     
-    var originalCode: String!
-    var originalParam: String!
-    var originalImage: UIImage!
-    
-    init(code: String, param: String, image: UIImage, originalCode: String, originalParam: String, originalImage: UIImage) {
-        self.code = code
-        self.param = param
-        self.image = image
-        
-        self.originalCode = originalCode
-        self.originalParam = originalParam
-        self.originalImage = originalImage
-    }
-    
-    func save(managedContext: NSManagedObjectContext) {
-        
-        let entity = NSEntityDescription.entity(forEntityName: "CardData", in: managedContext)
-        
-        let cardData = CardData(entity: entity!, insertInto: managedContext)
-        
-        cardData.setValue(code, forKeyPath: "code")
-        cardData.setValue(param, forKeyPath: "param")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+    var code: String {
+        get {
+            return cardData.code!
         }
-        
+        set {
+            cardData.code = newValue
+        }
+    }
+
+    var param: String {
+        get {
+            return cardData.param!
+        }
+        set {
+            cardData.param = newValue
+        }
+    }
+
+    var image: UIImage {
+        get {
+            return UIImage(data: cardData.image! as Data)!
+        }
+        set {
+            cardData.image = UIImagePNGRepresentation(newValue)! as NSData
+        }
+    }
+
+    var originalCode: String {
+        get {
+            return cardData.code!
+        }
+        set {
+            cardData.code = newValue
+        }
     }
     
+    var originalParam: String {
+        get {
+            return cardData.param!
+        }
+        set {
+            cardData.param = newValue
+        }
+    }
+    
+    var originalImage: UIImage {
+        get {
+            return UIImage(data: cardData.image! as Data)!
+        }
+        set {
+            cardData.image = UIImagePNGRepresentation(newValue)! as NSData
+        }
+    }
+    
+    init(cardData: CardData) {
+        self.cardData = cardData
+    }
+
 }
 

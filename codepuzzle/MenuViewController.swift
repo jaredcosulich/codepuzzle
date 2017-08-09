@@ -20,13 +20,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     let s3Util = S3Util()
     
-    var project: CodeProject!
+    var cardProject: CardProject!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        projectTitle.text = project.title
+        projectTitle.text = cardProject.title
+//        imageView.image = cardProject.cardGroups.first?.image
         
         // REMOVE THIS FOR MOST IMAGES
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
@@ -86,8 +87,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "processing-segue" {
+            let cardGroup = cardProject.addCardGroup(image: imageView.image!)
+            
             let dvc = segue.destination as! ProcessingViewController
-            dvc.image = imageView.image
+            dvc.cardGroup = cardGroup
         }
     }
     

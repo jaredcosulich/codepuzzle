@@ -36,8 +36,28 @@ class Functions {
             "method": "penDown"
         ],
         "A7": [
-            "name": "Move To",
-            "method": "moveTo"
+            "name": "Pen Size",
+            "method": "penSize"
+        ],
+        "A8": [
+            "name": "Pen Color",
+            "method": "penColor"
+        ],
+        "A9": [
+            "name": "Fill Color",
+            "method": "fillColor"
+        ],
+        "F1": [
+            "name": "Function",
+            "method": "function"
+        ],
+        "L1": [
+            "name": "Loop",
+            "method": "loop"
+        ],
+        "L2": [
+            "name": "End Loop",
+            "method": "endLoop"
         ]
     ]
 

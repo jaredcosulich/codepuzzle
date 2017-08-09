@@ -20,7 +20,7 @@ class ExecutionViewController: UIViewController {
     
     @IBOutlet weak var toolbar: UIToolbar!
     
-    var cards = [Card]()
+    var cardGroup: CardGroup!
     
     var timer = Timer()
     
@@ -65,17 +65,17 @@ class ExecutionViewController: UIViewController {
         
         var cardOffset = imageView.bounds.width / 2.0
         
-        for i in 0..<cards.count {
-            let card = cards[i]
+        for i in 0..<cardGroup.cards.count {
+            let card = cardGroup.cards[i]
 
             let functionLayer = CALayer()
             let image = card.image
             
-            functionLayer.contents = image?.cgImage
+            functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.25
         
-            let ratio = (imageView.bounds.height - 5) / (image?.size.height)!
-            let layerWidth = (image?.size.width)! * ratio
+            let ratio = (imageView.bounds.height - 5) / image.size.height
+            let layerWidth = image.size.width * ratio
             let layerHeight = (imageView.bounds.height - 5)
             let bounds = CGRect(x: 0, y: 0, width: layerWidth, height: layerHeight)
             
@@ -174,7 +174,7 @@ class ExecutionViewController: UIViewController {
     }
     
     func executeNextCard() {
-        if (paused || executionIndex >= cards.count) {
+        if (paused || executionIndex >= cardGroup.cards.count) {
             timer.invalidate()
             pause()
             return
@@ -182,7 +182,7 @@ class ExecutionViewController: UIViewController {
 
         executionIndex += 1
         
-        if (executionIndex >= cards.count) {
+        if (executionIndex >= cardGroup.cards.count) {
             output.text = "All cards executed."
             selectedIndex = -1
             timer.invalidate()
@@ -207,11 +207,11 @@ class ExecutionViewController: UIViewController {
     }
     
     func highlightCard(index: Int) {
-        if index == -1 || index >= cards.count {
+        if index == -1 || index >= cardGroup.cards.count {
             return
         }
     
-        for i in 0..<cards.count {
+        for i in 0..<cardGroup.cards.count {
             let l = executedLayers[i]
             if (i == index) {
                 l.opacity = 1.0
@@ -228,18 +228,18 @@ class ExecutionViewController: UIViewController {
     }
     
     func executeCard(index: Int, redraw: Bool = false) {
-        if index == -1 || index >= cards.count {
+        if index == -1 || index >= cardGroup.cards.count {
             return
         }
         
-        let card = cards[index]
+        let card = cardGroup.cards[index]
 
         output.text = functions.signature(code: card.code, param: card.param)
 
         if (redraw) {
             functions.reset()
             for i in 0..<index + 1 {
-                let c = cards[i]
+                let c = cardGroup.cards[i]
                 functions.execute(code: c.code, param: c.param, instant: true)
             }
         } else {
@@ -309,7 +309,7 @@ class ExecutionViewController: UIViewController {
         if (paused) {
             let tapX = sender.location(in: imageView).x - executionLayer.position.x
             let cardIndex = findCardIndex(x: tapX)
-            if (cardIndex == cards.count) {
+            if (cardIndex == cardGroup.cards.count) {
                 reset()
                 play()
                 initExecution()
@@ -332,7 +332,7 @@ class ExecutionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
-            dvc.cards = cards
+            dvc.cardGroup = cardGroup
             dvc.selectedIndex = selectedIndex
         } else if segue.identifier == "close-segue" {
 //            let dvc = segue.destination as! MenuViewController

@@ -8,6 +8,28 @@
 
 import Foundation
 
+struct TempCard {
+    var code: String
+    var param: String
+    var image: UIImage
+    var originalCode: String
+    var originalParam: String
+    var originalImage: UIImage
+    
+    func addToCardGroup(cardGroup: CardGroup) -> Card {
+        return cardGroup.addCard(code: code, param: param, image: image, originalCode: originalCode, originalParam: originalParam, originalImage: originalImage)
+    }
+
+    func updateCard(card: Card) {
+        card.code = code
+        card.param = param
+        card.image = image
+        card.originalCode = originalCode
+        card.originalParam = originalParam
+        card.originalImage = originalImage
+    }
+}
+
 class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var functionPicker: UIPickerView!
@@ -15,9 +37,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var param: UITextField!
     @IBOutlet weak var cardView: UIImageView!
     
-    var cards = [Card]()
-    
-    var uneditedCard: Card!
+    var uneditedCard: TempCard!
     
     var selectedIndex: Int!
     
@@ -25,15 +45,17 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     var pickerData = [[String]]()
     
+    var cardGroup: CardGroup!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let selectedCard = cards[selectedIndex]
+        let selectedCard = cardGroup.cards[selectedIndex]
         let selectedCode = selectedCard.code
         param.text = selectedCard.param
         cardView.image = selectedCard.image
         
-        uneditedCard = Card(
+        uneditedCard = TempCard(
             code: selectedCard.code,
             param: selectedCard.param,
             image: selectedCard.image,
@@ -95,7 +117,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         didSelectRow row: Int,
         inComponent component: Int)
     {
-        let selectedCard = cards[selectedIndex]
+        let selectedCard = cardGroup.cards[selectedIndex]
         let newCode = functionCodes[row]
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
@@ -105,7 +127,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 param: param.text!
             )
             cardView.image = selectedCard.image
-            cards[selectedIndex] = selectedCard
+            cardGroup.cards[selectedIndex] = selectedCard
         }
     }
     
@@ -115,14 +137,14 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
 
     @IBAction func showParam(_ sender: Any) {
-        let selectedCard = cards[selectedIndex]
+        let selectedCard = cardGroup.cards[selectedIndex]
         selectedCard.param = param.text!
         
         let code = selectedCard.code
         
-        selectedCard.image = drawCard(image: UIImage(named: code!)!, param: param.text!)
+        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
         cardView.image = selectedCard.image
-        cards[selectedIndex] = selectedCard
+        cardGroup.cards[selectedIndex] = selectedCard
     }
     
     func drawCard(image: UIImage, param: String) -> UIImage {
@@ -152,12 +174,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "cancel-edit-segue" {
-            cards[selectedIndex] = uneditedCard
+            uneditedCard.updateCard(card: cardGroup.cards[selectedIndex])
         }
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
-            dvc.cards = cards
+            dvc.cardGroup = cardGroup
             dvc.selectedIndex = selectedIndex
             dvc.paused = true
         }

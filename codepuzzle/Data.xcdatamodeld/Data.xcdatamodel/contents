@@ -12,15 +12,15 @@
     <entity name="CardGroupData" representedClassName="CardGroupData" syncable="YES" codeGenerationType="class">
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <relationship name="cards" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CardData" inverseName="cardGroup" inverseEntity="CardData" syncable="YES"/>
-        <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CodeProjectData" inverseName="cardGroups" inverseEntity="CodeProjectData" syncable="YES"/>
+        <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CardProjectData" inverseName="cardGroups" inverseEntity="CardProjectData" syncable="YES"/>
     </entity>
-    <entity name="CodeProjectData" representedClassName="CodeProjectData" syncable="YES" codeGenerationType="class">
+    <entity name="CardProjectData" representedClassName="CardProjectData" syncable="YES" codeGenerationType="class">
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="cardGroups" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CardGroupData" inverseName="project" inverseEntity="CardGroupData" syncable="YES"/>
     </entity>
     <elements>
         <element name="CardData" positionX="-27" positionY="18" width="128" height="150"/>
         <element name="CardGroupData" positionX="18" positionY="108" width="128" height="90"/>
-        <element name="CodeProjectData" positionX="54" positionY="135" width="128" height="75"/>
+        <element name="CardProjectData" positionX="54" positionY="135" width="128" height="75"/>
     </elements>
 </model>
