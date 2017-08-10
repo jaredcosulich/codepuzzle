@@ -41,13 +41,20 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as UITableViewCell
+        
+        let cellIdentifier = "Cell"
+        
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
+        }
         
         let cardProject = projectLoader.cardProjects[indexPath.row]
-        cell.textLabel?.text = cardProject.title
-        cell.imageView?.image = cardProject.cardGroups.first?.image
+        cell?.textLabel?.text = cardProject.title
+        cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
+        cell?.imageView?.image = cardProject.cardGroups.first?.image
         
-        return cell
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

@@ -163,7 +163,7 @@ class ExecutionViewController: UIViewController {
         path.addLine(to: CGPoint(x: centerX, y: 0))
         path.close()
         
-        layer.position = CGPoint(x: x, y: (imageView.bounds.height * 2 / 5) + radius)
+        layer.position = CGPoint(x: x, y: (imageView.bounds.height * (1 / 5)))
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
@@ -191,7 +191,7 @@ class ExecutionViewController: UIViewController {
         path.move(to: CGPoint(x: mid, y: mid - size))
         path.addLine(to: CGPoint(x: mid, y: mid + size))
         
-        layer.position = CGPoint(x: x, y: ((imageView.bounds.height * 3 / 5) + size))
+        layer.position = CGPoint(x: x, y: ((imageView.bounds.height * (4 / 5)) - size))
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
@@ -344,7 +344,7 @@ class ExecutionViewController: UIViewController {
             let tapY = sender.location(in: imageView).y - executionLayer.position.y
             let cardIndex = findCardIndex(x: tapX)
             if (cardIndex == cardGroup.cards.count) {
-                if (tapY < executionLayer.bounds.height / 2) {
+                if (tapY < imageView.bounds.size.height / 2) {
                     reset()
                     play()
                     initExecution()
@@ -397,10 +397,11 @@ class ExecutionViewController: UIViewController {
     }
     
     @IBAction func playbutton(_ sender: UIBarButtonItem) {
-        speedButtons.isHidden = !speedButtons.isHidden
         if (paused) {
+            speedButtons.isHidden = false
             play()
         } else {
+            speedButtons.isHidden = true
             pause()
         }
     }

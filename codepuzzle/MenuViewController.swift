@@ -16,6 +16,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     var imagePicker: UIImagePickerController!
     
+    @IBOutlet weak var rotateLeft: UIButton!
+    
+    @IBOutlet weak var rotateRight: UIButton!
+    
+    @IBOutlet weak var addPhotoLabel: UILabel!
+    
     @IBOutlet weak var methodOutput: UILabel!
     
     let s3Util = S3Util()
@@ -77,6 +83,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let normalized = ImageProcessor.normalize(image: image)
         resizeView(image: normalized)
         imageView.image = normalized
+        imageView.isHidden = false
+        rotateLeft.isHidden = false
+        rotateRight.isHidden = false
+        addPhotoLabel.isHidden = true
         self.dismiss(animated: true, completion: nil)
     }
     

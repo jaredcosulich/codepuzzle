@@ -41,16 +41,6 @@
                                 <rect key="frame" x="40" y="192" width="240" height="253"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProjectCell" id="bmu-aN-LVb">
-                                        <rect key="frame" x="0.0" y="28" width="240" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bmu-aN-LVb" id="C2W-3a-ssT">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mAd-nK-WV9">
                                 <rect key="frame" x="40" y="144" width="240" height="199"/>
@@ -181,8 +171,11 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
                         <outlet property="projectTitle" destination="jNS-lj-JFC" id="SFZ-gj-Wrg"/>
+                        <outlet property="rotateLeft" destination="N9z-JF-GIm" id="mHL-hU-ieO"/>
+                        <outlet property="rotateRight" destination="nzL-hW-vmB" id="mh1-Dj-c9z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -385,6 +378,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fpC-UC-s0J"/>
-        <segue reference="lGc-h7-Of0"/>
+        <segue reference="J9V-CR-a6i"/>
     </inferredMetricsTieBreakers>
 </document>
