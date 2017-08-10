@@ -97,6 +97,7 @@ class ExecutionViewController: UIViewController {
         }
         
         drawReplay(x: cardOffset)
+        drawAddCard(x: cardOffset)
 
         imageView.layer.addSublayer(executionLayer)
         
@@ -162,7 +163,7 @@ class ExecutionViewController: UIViewController {
         path.addLine(to: CGPoint(x: centerX, y: 0))
         path.close()
         
-        layer.position = CGPoint(x: x, y: imageView.bounds.height/2.0)
+        layer.position = CGPoint(x: x, y: imageView.bounds.height/3.0)
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
@@ -176,7 +177,35 @@ class ExecutionViewController: UIViewController {
         executionLayer.addSublayer(layer)
         executedLayers.append(layer)
     }
+
     
+    func drawAddCard(x: CGFloat) {
+        let size:CGFloat = 10
+        let layer = CAShapeLayer()
+        layer.bounds = CGRect(x: 0, y: 0, width: scrollLayerWidth, height: scrollLayerWidth)
+        
+        let path = UIBezierPath()
+        let mid = scrollLayerWidth / 2
+        path.move(to: CGPoint(x: mid - size, y: mid))
+        path.addLine(to: CGPoint(x: mid + size, y: mid))
+        path.move(to: CGPoint(x: mid, y: mid - size))
+        path.addLine(to: CGPoint(x: mid, y: mid + size))
+        
+        layer.position = CGPoint(x: x, y: (imageView.bounds.height * 2 / 3))
+        layer.path = path.cgPath
+        layer.lineCap = kCALineCapButt
+        layer.lineDashPattern = nil
+        layer.lineDashPhase = 0.0
+        layer.lineJoin = kCALineJoinMiter
+        layer.lineWidth = 2.0
+        layer.miterLimit = 10.0
+        layer.strokeColor = UIColor.black.cgColor
+        layer.fillColor = UIColor.clear.cgColor
+        
+        executionLayer.addSublayer(layer)
+        executedLayers.append(layer)
+    }
+
     func executeNextCard() {
         if (paused || executionIndex >= cardGroup.cards.count) {
             timer.invalidate()
