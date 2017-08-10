@@ -177,7 +177,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLh-tL-cSO">
                                 <rect key="frame" x="102" y="81" width="117" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Delete Project"/>
+                                <state key="normal" title="Delete Project">
+                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="deleteProjectButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="doj-yx-VYt"/>
                                 </connections>
@@ -198,6 +200,7 @@
                         <outlet property="rotateLeft" destination="N9z-JF-GIm" id="mHL-hU-ieO"/>
                         <outlet property="rotateRight" destination="nzL-hW-vmB" id="mh1-Dj-c9z"/>
                         <outlet property="tableView" destination="GDl-Vx-efq" id="AI2-Sg-CD0"/>
+                        <segue destination="ueC-M8-gXi" kind="show" identifier="delete-project-segue" id="Kvr-WZ-WZn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -400,6 +403,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fpC-UC-s0J"/>
+        <segue reference="Kvr-WZ-WZn"/>
         <segue reference="J9V-CR-a6i"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -63,7 +63,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
         let cardGroup = cardProject.cardGroups[indexPath.row]
-        cell?.textLabel?.text = "Card Photo \(indexPath.row)"
+        cell?.textLabel?.text = "Card Photo \(indexPath.row + 1)"
         cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
         cell?.imageView?.image = cardGroup.image
         
@@ -148,8 +148,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             _ = cardProject.addCardGroup(image: imageView.image!)
             let dvc = segue.destination as! ProcessingViewController
             dvc.cardProject = cardProject
-        }
-    }
+            dvc.selectedIndex = cardProject.cardGroups.count - 1
+        }    }
     
     @IBAction func changePhotoButton(_ sender: UIButton) {
         rotateRight.isHidden = true
@@ -168,7 +168,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }     
     
     @IBAction func deleteProjectButton(_ sender: UIButton) {
-        
+        cardProject.delete()
+        performSegue(withIdentifier: "delete-project-segue", sender: nil)
     }
     
     func resizeView(image: UIImage) {
