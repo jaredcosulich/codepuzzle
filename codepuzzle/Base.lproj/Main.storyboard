@@ -38,7 +38,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qqK-C0-w6u">
-                                <rect key="frame" x="40" y="192" width="240" height="253"/>
+                                <rect key="frame" x="16" y="192" width="288" height="356"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -72,14 +72,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6VN-re-PAD">
-                                <rect key="frame" x="109" y="37" width="103" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Last Project"/>
-                                <connections>
-                                    <action selector="lastProjectButton:" destination="ueC-M8-gXi" eventType="touchUpInside" id="MRU-dZ-lgc"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -123,7 +115,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
-                                <rect key="frame" x="47" y="295" width="76" height="30"/>
+                                <rect key="frame" x="47" y="269" width="76" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Rotate Left"/>
                                 <connections>
@@ -131,7 +123,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzL-hW-vmB">
-                                <rect key="frame" x="187" y="295" width="85" height="30"/>
+                                <rect key="frame" x="183" y="268" width="85" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Rotate Right"/>
                                 <connections>
@@ -147,7 +139,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add A Photo Of Cards To Your Project" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fB1-2o-fwd">
-                                <rect key="frame" x="16" y="88" width="288" height="125"/>
+                                <rect key="frame" x="16" y="119" width="288" height="125"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
@@ -157,13 +149,37 @@
                                 <rect key="frame" x="16" y="66" width="288" height="194"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyo-uf-VfJ">
-                                <rect key="frame" x="95" y="325" width="131" height="30"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyo-uf-VfJ">
+                                <rect key="frame" x="164" y="295" width="131" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Process Photo"/>
+                                <state key="normal" title="Process Photo">
+                                    <color key="titleColor" red="0.014507189133144192" green="0.60684504533678751" blue="0.0014503650282821827" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.0" green="0.044991018683365525" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="p5N-1A-JmC"/>
                                     <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" id="wUW-rb-M7n"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
+                                <rect key="frame" x="16" y="363" width="288" height="185"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu3-rI-zKi">
+                                <rect key="frame" x="29" y="295" width="113" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Change Photo"/>
+                                <connections>
+                                    <action selector="changePhotoButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="NVU-Kw-azz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLh-tL-cSO">
+                                <rect key="frame" x="102" y="81" width="117" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Delete Project"/>
+                                <connections>
+                                    <action selector="deleteProjectButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="doj-yx-VYt"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -172,10 +188,16 @@
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
+                        <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
+                        <outlet property="deleteProject" destination="BLh-tL-cSO" id="UAe-5i-vHL"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
+                        <outlet property="loadPhoto" destination="2qb-cf-lUO" id="zxg-pc-T9x"/>
+                        <outlet property="newPhoto" destination="qvc-0w-NOq" id="aoN-sY-u8J"/>
+                        <outlet property="processPhoto" destination="lyo-uf-VfJ" id="FbA-oo-XD4"/>
                         <outlet property="projectTitle" destination="jNS-lj-JFC" id="SFZ-gj-Wrg"/>
                         <outlet property="rotateLeft" destination="N9z-JF-GIm" id="mHL-hU-ieO"/>
                         <outlet property="rotateRight" destination="nzL-hW-vmB" id="mh1-Dj-c9z"/>
+                        <outlet property="tableView" destination="GDl-Vx-efq" id="AI2-Sg-CD0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>

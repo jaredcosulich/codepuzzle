@@ -122,6 +122,12 @@ class CardProject {
         return cardGroup
     }
     
+    func deleteCardGroup(at: Int) {
+        cardGroups[at].delete()
+        cardGroups.remove(at: at)
+    }
+
+    
 }
 
 class CardGroup {
@@ -158,6 +164,11 @@ class CardGroup {
         for cardData in cardGroupData.cards! {
             cards.append(Card(cardData: cardData as! CardData))
         }
+    }
+    
+    func delete() {
+        managedObjectContext.delete(cardGroupData)
+        save()
     }
     
     func save() {
