@@ -142,6 +142,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         for cardGroup in cardProject.cardGroups {
             if (indexTally + cardGroup.cards.count) > selectedIndex {
                 cardGroup.cards[selectedIndex - indexTally] = selectedCard
+                return
             } else {
                 indexTally += cardGroup.cards.count
             }

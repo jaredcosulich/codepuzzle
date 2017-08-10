@@ -274,6 +274,7 @@ class ExecutionViewController: UIViewController {
                 functions.execute(code: c.code, param: c.param, instant: true)
             }
         } else {
+            print("\(card.code) -> \(card.param)")
             functions.execute(code: card.code, param: card.param, instant: (speed == 0))
         }
         
@@ -366,6 +367,7 @@ class ExecutionViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        pause()
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
