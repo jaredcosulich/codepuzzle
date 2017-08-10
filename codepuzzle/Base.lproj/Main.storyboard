@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -118,55 +117,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
-                                <rect key="frame" x="46" y="468" width="75" height="30"/>
-                                <state key="normal" title="New Photo"/>
-                                <connections>
-                                    <action selector="newphotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7sB-My-jkr"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBJ-I1-NRw">
-                                <rect key="frame" x="219" y="518" width="55" height="30"/>
-                                <state key="normal" title="Process"/>
-                                <connections>
-                                    <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="feX-SX-6gh"/>
-                                    <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" animates="NO" id="1jF-77-HlK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5H-ru-g6w">
-                                <rect key="frame" x="46" y="518" width="78" height="30"/>
-                                <state key="normal" title="Save Photo"/>
-                                <connections>
-                                    <action selector="savephotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="9Fm-wf-lTC"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
-                                <rect key="frame" x="196" y="468" width="78" height="30"/>
-                                <state key="normal" title="Load Photo"/>
-                                <connections>
-                                    <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
-                                <rect key="frame" x="46" y="418" width="76" height="30"/>
-                                <state key="normal" title="Rotate Left"/>
-                                <connections>
-                                    <action selector="rotateleft:" destination="9pv-A4-QxB" eventType="touchUpInside" id="UfK-ZB-E9q"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzL-hW-vmB">
-                                <rect key="frame" x="189" y="418" width="85" height="30"/>
-                                <state key="normal" title="Rotate Right"/>
-                                <connections>
-                                    <action selector="rotateright:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ywO-vL-S5l"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-nZ-asA">
-                                <rect key="frame" x="160" y="398" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNS-lj-JFC">
                                 <rect key="frame" x="16" y="20" width="288" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -174,33 +124,64 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="noshadows" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
-                                <rect key="frame" x="16" y="72" width="288" height="270"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
+                                <rect key="frame" x="48" y="268" width="75" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="New Photo"/>
+                                <connections>
+                                    <action selector="newphotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7sB-My-jkr"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
+                                <rect key="frame" x="47" y="295" width="76" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Rotate Left"/>
+                                <connections>
+                                    <action selector="rotateleft:" destination="9pv-A4-QxB" eventType="touchUpInside" id="UfK-ZB-E9q"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzL-hW-vmB">
+                                <rect key="frame" x="187" y="295" width="85" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Rotate Right"/>
+                                <connections>
+                                    <action selector="rotateright:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ywO-vL-S5l"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
+                                <rect key="frame" x="190" y="268" width="78" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Load Photo"/>
+                                <connections>
+                                    <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add A Photo Of Cards To Your Project" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fB1-2o-fwd">
+                                <rect key="frame" x="16" y="88" width="288" height="125"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
+                                <rect key="frame" x="16" y="66" width="288" height="194"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyo-uf-VfJ">
+                                <rect key="frame" x="95" y="325" width="131" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Process Photo"/>
+                                <connections>
+                                    <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="p5N-1A-JmC"/>
+                                    <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" id="wUW-rb-M7n"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="i5H-ru-g6w" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="30" id="3YB-GQ-jIz"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="i5H-ru-g6w" secondAttribute="bottom" constant="20" id="4bo-td-P4b"/>
-                            <constraint firstItem="CBJ-I1-NRw" firstAttribute="top" secondItem="2qb-cf-lUO" secondAttribute="bottom" constant="20" id="K6g-M9-Jtf"/>
-                            <constraint firstItem="i5H-ru-g6w" firstAttribute="top" secondItem="qvc-0w-NOq" secondAttribute="bottom" constant="20" id="MeI-Sh-oeF"/>
-                            <constraint firstItem="N9z-JF-GIm" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="30" id="P7M-Nd-u16"/>
-                            <constraint firstItem="nzL-hW-vmB" firstAttribute="top" secondItem="37k-nZ-asA" secondAttribute="bottom" constant="20" id="SCW-AI-hJ2"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CBJ-I1-NRw" secondAttribute="bottom" constant="20" id="XRT-Hh-XcV"/>
-                            <constraint firstItem="2qb-cf-lUO" firstAttribute="top" secondItem="nzL-hW-vmB" secondAttribute="bottom" constant="20" id="ZxL-VD-s9l"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="CBJ-I1-NRw" secondAttribute="trailing" constant="30" id="eYb-Ai-Ic3"/>
-                            <constraint firstItem="qvc-0w-NOq" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="30" id="eZW-1k-5ZN"/>
-                            <constraint firstItem="37k-nZ-asA" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="fND-0A-DRp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nzL-hW-vmB" secondAttribute="trailing" constant="30" id="kQ6-AQ-qHz"/>
-                            <constraint firstItem="qvc-0w-NOq" firstAttribute="top" secondItem="N9z-JF-GIm" secondAttribute="bottom" constant="20" id="p6R-z0-G7s"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="2qb-cf-lUO" secondAttribute="trailing" constant="30" id="vce-k2-jKm"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
-                        <outlet property="methodOutput" destination="37k-nZ-asA" id="4Rx-tX-mHP"/>
                         <outlet property="projectTitle" destination="jNS-lj-JFC" id="SFZ-gj-Wrg"/>
                     </connections>
                 </viewController>
@@ -319,6 +300,7 @@
                         <outlet property="speedButtons" destination="ito-3F-4r1" id="s5p-CF-j3M"/>
                         <outlet property="toolbar" destination="nS6-7g-Dsd" id="rj6-qO-vZH"/>
                         <segue destination="L7d-Q3-87b" kind="presentation" identifier="edit-command-segue" id="wOF-ww-Kkf"/>
+                        <segue destination="9pv-A4-QxB" kind="show" identifier="add-photo-segue" id="lGc-h7-Of0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WgL-kg-KnU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -400,9 +382,9 @@
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
-        <image name="noshadows" width="3264" height="2448"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fpC-UC-s0J"/>
+        <segue reference="lGc-h7-Of0"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -163,7 +163,7 @@ class ExecutionViewController: UIViewController {
         path.addLine(to: CGPoint(x: centerX, y: 0))
         path.close()
         
-        layer.position = CGPoint(x: x, y: imageView.bounds.height/3.0)
+        layer.position = CGPoint(x: x, y: (imageView.bounds.height * 2 / 5) + radius)
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
@@ -191,7 +191,7 @@ class ExecutionViewController: UIViewController {
         path.move(to: CGPoint(x: mid, y: mid - size))
         path.addLine(to: CGPoint(x: mid, y: mid + size))
         
-        layer.position = CGPoint(x: x, y: (imageView.bounds.height * 2 / 3))
+        layer.position = CGPoint(x: x, y: ((imageView.bounds.height * 3 / 5) + size))
         layer.path = path.cgPath
         layer.lineCap = kCALineCapButt
         layer.lineDashPattern = nil
@@ -341,11 +341,16 @@ class ExecutionViewController: UIViewController {
     @IBAction func executionTap(sender: UITapGestureRecognizer) {
         if (paused) {
             let tapX = sender.location(in: imageView).x - executionLayer.position.x
+            let tapY = sender.location(in: imageView).y - executionLayer.position.y
             let cardIndex = findCardIndex(x: tapX)
             if (cardIndex == cardGroup.cards.count) {
-                reset()
-                play()
-                initExecution()
+                if (tapY < executionLayer.bounds.height / 2) {
+                    reset()
+                    play()
+                    initExecution()
+                } else {
+                    performSegue(withIdentifier: "add-photo-segue", sender: nil)
+                }
             } else {
                 if (selectedIndex == cardIndex) {
                     performSegue(withIdentifier: "edit-command-segue", sender: nil)
@@ -370,6 +375,10 @@ class ExecutionViewController: UIViewController {
         } else if segue.identifier == "close-segue" {
             cardProject.save()
             let dvc = segue.destination as! ProjectViewController
+            dvc.cardProject = cardProject
+        } else if segue.identifier == "add-photo-segue" {
+            cardProject.save()
+            let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject
         }
     }

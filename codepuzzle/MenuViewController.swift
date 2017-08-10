@@ -22,18 +22,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     var cardProject: CardProject!
     
+    var selectedIndex = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         projectTitle.text = cardProject.title
-//        imageView.image = cardProject.cardGroups.first?.image
-        
-        // REMOVE THIS FOR MOST IMAGES
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
     }
 
     override func didReceiveMemoryWarning() {
