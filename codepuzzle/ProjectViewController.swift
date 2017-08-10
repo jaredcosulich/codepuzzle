@@ -60,7 +60,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath){
         cardProject = projectLoader.cardProjects[indexPath.row]
-        performSegue(withIdentifier: "start-project-segue", sender: nil)
+        
+        if cardProject.cardGroups.count == 0 {
+            performSegue(withIdentifier: "start-project-segue", sender: nil)
+        } else {
+            for cardGroup in cardProject.cardGroups {
+                if !cardGroup.processed {
+                    
+                }
+            }
+            performSegue(withIdentifier: "execute-processed-segue", sender: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView,
@@ -78,7 +88,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             title = "Project \(projectLoader.cardProjects.count)"
         }
         cardProject = projectLoader.addCardProject(title: projectTitle.text!)
-        print("start: \(title ?? "N/A") -> \(cardProject.title)")
         performSegue(withIdentifier: "start-project-segue", sender: nil)
     }
     
@@ -86,8 +95,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         if segue.identifier == "start-project-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject
+        } else if segue.identifier == "execute-processed-segue" {
+            let dvc = segue.destination as! ExecutionViewController
+            dvc.cardProject = cardProject
         }
-    }
+}
     
 }
 

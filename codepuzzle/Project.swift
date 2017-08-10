@@ -27,11 +27,9 @@ class ProjectLoader {
         do {
             // Execute Fetch Request
             let records = try managedObjectContext.fetch(fetchRequest)
-            print(records.count)
 
             if let records = records as? [CardProjectData] {
                 for cardProjectData in records {
-                    print("title: \(cardProjectData.title ?? "N/A")")
                     cardProjects.append(CardProject(cardProjectData: cardProjectData, managedObjectContext: managedObjectContext))
                 }
             }
@@ -131,6 +129,15 @@ class CardGroup {
     var cardGroupData: CardGroupData
     
     var managedObjectContext: NSManagedObjectContext!
+    
+    var processed: Bool {
+        get {
+            return cardGroupData.processed
+        }
+        set {
+            cardGroupData.processed = newValue
+        }
+    }
     
     var image: UIImage {
         get {

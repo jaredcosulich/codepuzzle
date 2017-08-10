@@ -87,10 +87,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "processing-segue" {
-            let cardGroup = cardProject.addCardGroup(image: imageView.image!)
-            
+            _ = cardProject.addCardGroup(image: imageView.image!)
             let dvc = segue.destination as! ProcessingViewController
-            dvc.cardGroup = cardGroup
+            dvc.cardProject = cardProject
         }
     }
     

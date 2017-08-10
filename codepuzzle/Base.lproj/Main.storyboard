@@ -99,6 +99,7 @@
                         <outlet property="projectTitleView" destination="mAd-nK-WV9" id="17d-7k-r0i"/>
                         <outlet property="tableView" destination="qqK-C0-w6u" id="2j5-xR-Mm8"/>
                         <segue destination="9pv-A4-QxB" kind="show" identifier="start-project-segue" id="J9V-CR-a6i"/>
+                        <segue destination="yyQ-YR-DlG" kind="show" identifier="execute-processed-segue" id="fpC-UC-s0J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PY1-f2-oNC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -303,7 +304,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="m8I-e6-8lw"/>
                                     <barButtonItem systemItem="stop" id="a2R-wc-oQ0">
                                         <connections>
-                                            <segue destination="9pv-A4-QxB" kind="show" identifier="close-segue" id="aeD-bu-lfN"/>
+                                            <segue destination="ueC-M8-gXi" kind="show" identifier="close-segue" id="LUj-ho-ZVW"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -402,7 +403,6 @@
         <image name="noshadows" width="3264" height="2448"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="J9V-CR-a6i"/>
-        <segue reference="OVi-Ig-nvb"/>
+        <segue reference="fpC-UC-s0J"/>
     </inferredMetricsTieBreakers>
 </document>

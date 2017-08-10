@@ -20,6 +20,8 @@ class ExecutionViewController: UIViewController {
     
     @IBOutlet weak var toolbar: UIToolbar!
     
+    var cardProject: CardProject!
+    
     var cardGroup: CardGroup!
     
     var timer = Timer()
@@ -51,6 +53,8 @@ class ExecutionViewController: UIViewController {
         if (selectedIndex != -1) {
             pause()
         }
+        
+        cardGroup = cardProject.cardGroups.first
         
         initExecution()
     }
@@ -335,7 +339,9 @@ class ExecutionViewController: UIViewController {
             dvc.cardGroup = cardGroup
             dvc.selectedIndex = selectedIndex
         } else if segue.identifier == "close-segue" {
-//            let dvc = segue.destination as! MenuViewController
+            cardProject.save()
+            let dvc = segue.destination as! ProjectViewController
+            dvc.cardProject = cardProject
         }
     }
 

@@ -22,11 +22,17 @@ class ProcessingViewController: UIViewController {
 
     var cardCount = Int32(0)
     
+    var cardProject: CardProject!
+    
     var cardGroup: CardGroup!
+    
+    var selectedIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        cardGroup = cardProject.cardGroups[selectedIndex]
+        
         imageView.image = cardGroup.image
         
         initCardList()
@@ -109,6 +115,8 @@ class ProcessingViewController: UIViewController {
 
             output.text = "Identifying Cards:\r\r\(cardCount)"
         } else if (!mathPix.processing()) {
+            cardGroup.processed = true
+            cardGroup.save()
             timer.invalidate()
             
             performSegue(withIdentifier: "execution-segue", sender: nil)
@@ -120,7 +128,7 @@ class ProcessingViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
-            dvc.cardGroup = cardGroup
+            dvc.cardProject = cardProject
         }
     }
     
