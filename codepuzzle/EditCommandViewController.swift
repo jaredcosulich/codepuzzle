@@ -45,12 +45,14 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     var pickerData = [[String]]()
     
-    var cardGroup: CardGroup!
+    var cardProject: CardProject!
+    
+    var selectedCard: Card!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let selectedCard = cardGroup.cards[selectedIndex]
+        selectedCard = cardProject.allCards()[selectedIndex]
         let selectedCode = selectedCard.code
         param.text = selectedCard.param
         cardView.image = selectedCard.image
@@ -117,7 +119,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         didSelectRow row: Int,
         inComponent component: Int)
     {
-        let selectedCard = cardGroup.cards[selectedIndex]
         let newCode = functionCodes[row]
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
@@ -127,7 +128,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 param: param.text!
             )
             cardView.image = selectedCard.image
-            cardGroup.cards[selectedIndex] = selectedCard
+            setNewCard()
         }
     }
     
@@ -135,16 +136,26 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         param.resignFirstResponder()
         return true
     }
+    
+    func setNewCard() {
+        var indexTally = 0
+        for cardGroup in cardProject.cardGroups {
+            if (indexTally + cardGroup.cards.count) > selectedIndex {
+                cardGroup.cards[selectedIndex - indexTally] = selectedCard
+            } else {
+                indexTally += cardGroup.cards.count
+            }
+        }
+    }
 
     @IBAction func showParam(_ sender: Any) {
-        let selectedCard = cardGroup.cards[selectedIndex]
         selectedCard.param = param.text!
         
         let code = selectedCard.code
         
         selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
         cardView.image = selectedCard.image
-        cardGroup.cards[selectedIndex] = selectedCard
+        setNewCard()
     }
     
     func drawCard(image: UIImage, param: String) -> UIImage {
@@ -174,12 +185,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "cancel-edit-segue" {
-            uneditedCard.updateCard(card: cardGroup.cards[selectedIndex])
+            uneditedCard.updateCard(card: selectedCard)
         }
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
-            dvc.cardGroup = cardGroup
+            dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
             dvc.paused = true
         }

@@ -149,7 +149,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let dvc = segue.destination as! ProcessingViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = cardProject.cardGroups.count - 1
-        }    }
+        }
+    }
     
     @IBAction func changePhotoButton(_ sender: UIButton) {
         rotateRight.isHidden = true

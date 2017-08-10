@@ -126,6 +126,14 @@ class CardProject {
         cardGroups[at].delete()
         cardGroups.remove(at: at)
     }
+    
+    func allCards() -> [Card] {
+        var cards = [Card]()
+        for cardGroup in cardGroups {
+            cards += cardGroup.cards
+        }
+        return cards
+    }
 
     
 }
