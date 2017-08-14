@@ -31,6 +31,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var deleteProject: UIButton!
     @IBOutlet weak var methodOutput: UILabel!
     
+    @IBOutlet weak var editProjectView: UIView!    
+    @IBOutlet weak var editProjectTitle: UITextField!
+
+    
     let s3Util = S3Util()
     
     var cardProject: CardProject!
@@ -45,6 +49,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         tableView.dataSource = self
         
         projectTitle.text = cardProject.title
+        editProjectTitle.text = cardProject.title
     }
 
     override func didReceiveMemoryWarning() {
@@ -180,6 +185,21 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else {
             imageView.contentMode = UIViewContentMode.scaleAspectFit
         }
+    }
+    
+    @IBAction func editProjectTitleButton(_ sender: UIButton) {
+        editProjectView.isHidden = false
+    }
+    
+    @IBAction func saveProjectTitle(_ sender: UIButton) {
+        cardProject.title = editProjectTitle.text!
+        projectTitle.text = editProjectTitle.text!
+        editProjectView.isHidden = true
+    }
+    
+    @IBAction func cancelEditProject(_ sender: UIButton) {
+        editProjectTitle.text = cardProject.title
+        editProjectView.isHidden = true
     }
     
 }

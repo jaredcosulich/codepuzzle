@@ -174,8 +174,64 @@
                                     <action selector="changePhotoButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="NVU-Kw-azz"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N1s-qE-7Rk">
+                                <rect key="frame" x="16" y="119" width="288" height="141"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eLN-LB-i5H">
+                                        <rect key="frame" x="8" y="8" width="272" height="125"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Project Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nE-r0-zzo">
+                                                <rect key="frame" x="8" y="8" width="256" height="26"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ddf-J6-nlI">
+                                                <rect key="frame" x="8" y="49" width="256" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVi-bz-Dpx">
+                                                <rect key="frame" x="166" y="87" width="48" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="cancelEditProject:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="6OG-VO-rEL"/>
+                                                    <action selector="cancelEditProject:" destination="9pv-A4-QxB" eventType="touchUpInside" id="pJh-2K-JSA"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJ9-FC-tAu">
+                                                <rect key="frame" x="50" y="87" width="46" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Save"/>
+                                                <connections>
+                                                    <action selector="saveProjectTitle:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7E2-aH-J7u"/>
+                                                    <action selector="saveProjectTitle:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="AtS-4i-f8t"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsC-8U-XGs">
+                                <rect key="frame" x="38" y="81" width="85" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Edit Title"/>
+                                <connections>
+                                    <action selector="editProjectTitleButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="aeY-UB-5qs"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLh-tL-cSO">
-                                <rect key="frame" x="102" y="81" width="117" height="30"/>
+                                <rect key="frame" x="164" y="81" width="117" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete Project">
                                     <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -192,6 +248,8 @@
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
                         <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
                         <outlet property="deleteProject" destination="BLh-tL-cSO" id="UAe-5i-vHL"/>
+                        <outlet property="editProjectTitle" destination="ddf-J6-nlI" id="Jnf-eh-UpE"/>
+                        <outlet property="editProjectView" destination="N1s-qE-7Rk" id="kJI-cN-CV4"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
                         <outlet property="loadPhoto" destination="2qb-cf-lUO" id="zxg-pc-T9x"/>
                         <outlet property="newPhoto" destination="qvc-0w-NOq" id="aoN-sY-u8J"/>
@@ -293,7 +351,11 @@
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="compose" id="SVg-nz-WAx"/>
+                                    <barButtonItem systemItem="compose" id="SVg-nz-WAx">
+                                        <connections>
+                                            <action selector="editProject:" destination="yyQ-YR-DlG" id="0TA-Ow-6OM"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="EHb-WE-QUZ"/>
                                     <barButtonItem systemItem="pause" id="zEN-Sh-Pv4">
                                         <connections>
@@ -313,8 +375,10 @@
                     </view>
                     <connections>
                         <outlet property="drawingView" destination="6rf-pU-4to" id="Akv-cf-b3C"/>
+                        <outlet property="editProjectView" destination="N1s-qE-7Rk" id="6KL-vX-efR"/>
                         <outlet property="imageView" destination="55S-Gc-Zaf" id="yJO-Ay-yWh"/>
                         <outlet property="output" destination="wgm-Ga-ZhA" id="mx5-Au-a3H"/>
+                        <outlet property="projectTitle" destination="ddf-J6-nlI" id="zU9-Tm-2aS"/>
                         <outlet property="speedButtons" destination="ito-3F-4r1" id="s5p-CF-j3M"/>
                         <outlet property="toolbar" destination="nS6-7g-Dsd" id="rj6-qO-vZH"/>
                         <segue destination="L7d-Q3-87b" kind="presentation" identifier="edit-command-segue" id="wOF-ww-Kkf"/>
@@ -333,7 +397,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2983" y="-320"/>
+            <point key="canvasLocation" x="2981.25" y="-320.07042253521126"/>
         </scene>
         <!--Edit Command-->
         <scene sceneID="bYh-VE-9LX">
@@ -366,6 +430,8 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eI2-q4-NWk"/>
+                                    <barButtonItem title="Revert To Original" id="3NR-UE-Vpx"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="G43-Nb-vrJ"/>
                                     <barButtonItem title="Cancel" id="L3j-g0-smo">
                                         <connections>
                                             <action selector="cancel:" destination="L7d-Q3-87b" id="Wn8-zl-ZsP"/>
@@ -402,8 +468,8 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fpC-UC-s0J"/>
-        <segue reference="Kvr-WZ-WZn"/>
-        <segue reference="J9V-CR-a6i"/>
+        <segue reference="6is-cO-B1I"/>
+        <segue reference="LUj-ho-ZVW"/>
+        <segue reference="lGc-h7-Of0"/>
     </inferredMetricsTieBreakers>
 </document>

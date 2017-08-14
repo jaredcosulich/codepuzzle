@@ -19,7 +19,7 @@ class ExecutionViewController: UIViewController {
     @IBOutlet weak var speedButtons: UISegmentedControl!
     
     @IBOutlet weak var toolbar: UIToolbar!
-    
+        
     var cardProject: CardProject!
     
     var cards: [Card]!
@@ -51,7 +51,7 @@ class ExecutionViewController: UIViewController {
         functions = Functions(uiImageView: drawingView)
         
         cards = cardProject.allCards()
-
+        
         if (selectedIndex != -1) {
             pause()
         }
@@ -274,7 +274,6 @@ class ExecutionViewController: UIViewController {
                 functions.execute(code: c.code, param: c.param, instant: true)
             }
         } else {
-            print("\(card.code) -> \(card.param)")
             functions.execute(code: card.code, param: card.param, instant: (speed == 0))
         }
         
@@ -404,6 +403,10 @@ class ExecutionViewController: UIViewController {
             speedButtons.isHidden = true
             pause()
         }
+    }
+    
+    @IBAction func editProject(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "add-photo-segue", sender: nil)
     }
     
 }
