@@ -153,6 +153,16 @@ class CardGroup {
         }
     }
     
+    var processedImage: UIImage {
+        get {
+            return UIImage(data: cardGroupData.processedImage! as Data)!
+        }
+        
+        set {
+            cardGroupData.processedImage = UIImagePNGRepresentation(newValue)! as NSData
+        }
+    }
+    
     var image: UIImage {
         get {
             return UIImage(data: cardGroupData.image! as Data)!

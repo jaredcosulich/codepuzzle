@@ -72,7 +72,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             performSegue(withIdentifier: "start-project-segue", sender: nil)
         } else {
             for cardGroup in cardProject.cardGroups {
-                if !cardGroup.processed {
+                if cardGroup.processed {
+                    
+                } else {
                     
                 }
             }

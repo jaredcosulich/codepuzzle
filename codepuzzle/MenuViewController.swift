@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -28,12 +28,18 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var processPhoto: UIButton!
     @IBOutlet weak var addPhotoLabel: UILabel!
     
+    @IBOutlet weak var editTitle: UIButton!
+    @IBOutlet weak var playProject: UIButton!
     @IBOutlet weak var deleteProject: UIButton!
     @IBOutlet weak var methodOutput: UILabel!
     
     @IBOutlet weak var editProjectView: UIView!    
     @IBOutlet weak var editProjectTitle: UITextField!
 
+    var selectedCardGroupIndex: Int!
+    @IBOutlet weak var blurEffectView: UIVisualEffectView!
+    @IBOutlet weak var cardGroupView: UIScrollView!
+    @IBOutlet weak var cardGroupImageView: UIImageView!
     
     let s3Util = S3Util()
     
@@ -50,11 +56,18 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         projectTitle.text = cardProject.title
         editProjectTitle.text = cardProject.title
+        
+        cardGroupView.minimumZoomScale = 1.0
+        cardGroupView.maximumZoomScale = 6.0
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return cardGroupImageView
     }
     
     func tableView(_ tableView: UITableView,
@@ -83,8 +96,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath){
-//        cardGroup = cardProject.cardGroups[indexPath.row]
+                   didSelectRowAt indexPath: IndexPath) {
+        selectedCardGroupIndex = indexPath.row
+        showCardGroup(cardGroup: cardProject.cardGroups[selectedCardGroupIndex])
     }
     
     func tableView(_ tableView: UITableView,
@@ -141,6 +155,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         changePhoto.isHidden = false
         
         addPhotoLabel.isHidden = true
+        
+        editTitle.isHidden = true
+        playProject.isHidden = true
         deleteProject.isHidden = true
         newPhoto.isHidden = true
         loadPhoto.isHidden = true
@@ -154,6 +171,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let dvc = segue.destination as! ProcessingViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = cardProject.cardGroups.count - 1
+        } else if segue.identifier == "execution-segue" {
+            let dvc = segue.destination as! ExecutionViewController
+            dvc.cardProject = cardProject
         }
     }
     
@@ -165,7 +185,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         imageView.isHidden = true
         
         addPhotoLabel.isHidden = false
+        
+        editTitle.isHidden = false
+        playProject.isHidden = false
         deleteProject.isHidden = false
+        
         newPhoto.isHidden = false
         loadPhoto.isHidden = false
     }
@@ -202,5 +226,20 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         editProjectView.isHidden = true
     }
     
+    func showCardGroup(cardGroup: CardGroup) {
+        cardGroupImageView.image = cardGroup.processedImage
+        blurEffectView.isHidden = false
+    }
+    
+    @IBAction func playButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "execution-segue", sender: nil)
+    }
+    
+    @IBAction func closeCardGroupPhotoView(_ sender: UIButton) {
+        blurEffectView.isHidden = true
+    }
+    @IBAction func deleteCardGroupButton(_ sender: UIButton) {
+        cardProject.deleteCardGroup(at: selectedCardGroupIndex)
+    }
 }
 

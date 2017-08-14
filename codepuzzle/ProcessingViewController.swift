@@ -116,6 +116,7 @@ class ProcessingViewController: UIViewController {
             output.text = "Identifying Cards:\r\r\(cardCount)"
         } else if (!mathPix.processing()) {
             cardGroup.processed = true
+            cardGroup.processedImage = imageView.image!
             cardGroup.save()
             timer.invalidate()
             

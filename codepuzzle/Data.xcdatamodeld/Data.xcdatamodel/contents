@@ -12,6 +12,7 @@
     <entity name="CardGroupData" representedClassName="CardGroupData" syncable="YES" codeGenerationType="class">
         <attribute name="image" attributeType="Binary" syncable="YES"/>
         <attribute name="processed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="processedImage" optional="YES" attributeType="Binary" syncable="YES"/>
         <relationship name="cards" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardData" inverseName="cardGroup" inverseEntity="CardData" syncable="YES"/>
         <relationship name="project" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CardProjectData" inverseName="cardGroups" inverseEntity="CardProjectData" syncable="YES"/>
     </entity>
@@ -21,7 +22,7 @@
     </entity>
     <elements>
         <element name="CardData" positionX="-27" positionY="18" width="128" height="150"/>
-        <element name="CardGroupData" positionX="18" positionY="108" width="128" height="105"/>
+        <element name="CardGroupData" positionX="18" positionY="108" width="128" height="120"/>
         <element name="CardProjectData" positionX="54" positionY="135" width="128" height="75"/>
     </elements>
 </model>

@@ -223,7 +223,7 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsC-8U-XGs">
-                                <rect key="frame" x="38" y="81" width="85" height="30"/>
+                                <rect key="frame" x="16" y="81" width="85" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Edit Title"/>
                                 <connections>
@@ -231,34 +231,90 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLh-tL-cSO">
-                                <rect key="frame" x="164" y="81" width="117" height="30"/>
+                                <rect key="frame" x="233" y="81" width="71" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Delete Project">
+                                <state key="normal" title="Delete">
                                     <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="deleteProjectButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="doj-yx-VYt"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pNf-JY-GSp">
+                                <rect key="frame" x="137" y="81" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="playButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="N1k-R5-JLQ"/>
+                                </connections>
+                            </button>
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="544-bh-Z7X">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="1VQ-tK-dI1">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0KE-No-Ko6">
+                                            <rect key="frame" x="8" y="28" width="304" height="384"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k8N-HB-Nx5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="384"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                            <connections>
+                                                <outlet property="delegate" destination="9pv-A4-QxB" id="5Rq-GH-1Sw"/>
+                                            </connections>
+                                        </scrollView>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jo8-5C-7Rt">
+                                            <rect key="frame" x="169" y="448" width="121" height="82"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Cancel"/>
+                                            <connections>
+                                                <action selector="closeCardGroupPhotoView:" destination="9pv-A4-QxB" eventType="touchUpInside" id="11I-KG-jxh"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8W3-jS-RPS">
+                                            <rect key="frame" x="64" y="474" width="53" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Delete">
+                                                <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deleteCardGroupButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="MKs-Xc-m6i"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
+                        <outlet property="blurEffectView" destination="544-bh-Z7X" id="ILj-WC-TJO"/>
+                        <outlet property="cardGroupImageView" destination="k8N-HB-Nx5" id="0wc-Bh-gx0"/>
+                        <outlet property="cardGroupView" destination="0KE-No-Ko6" id="C1i-3y-iog"/>
                         <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
                         <outlet property="deleteProject" destination="BLh-tL-cSO" id="UAe-5i-vHL"/>
                         <outlet property="editProjectTitle" destination="ddf-J6-nlI" id="Jnf-eh-UpE"/>
                         <outlet property="editProjectView" destination="N1s-qE-7Rk" id="kJI-cN-CV4"/>
+                        <outlet property="editTitle" destination="hsC-8U-XGs" id="YHv-nj-RWV"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
                         <outlet property="loadPhoto" destination="2qb-cf-lUO" id="zxg-pc-T9x"/>
                         <outlet property="newPhoto" destination="qvc-0w-NOq" id="aoN-sY-u8J"/>
+                        <outlet property="playProject" destination="pNf-JY-GSp" id="xe2-oU-8QN"/>
                         <outlet property="processPhoto" destination="lyo-uf-VfJ" id="FbA-oo-XD4"/>
                         <outlet property="projectTitle" destination="jNS-lj-JFC" id="SFZ-gj-Wrg"/>
                         <outlet property="rotateLeft" destination="N9z-JF-GIm" id="mHL-hU-ieO"/>
                         <outlet property="rotateRight" destination="nzL-hW-vmB" id="mh1-Dj-c9z"/>
                         <outlet property="tableView" destination="GDl-Vx-efq" id="AI2-Sg-CD0"/>
                         <segue destination="ueC-M8-gXi" kind="show" identifier="delete-project-segue" id="Kvr-WZ-WZn"/>
+                        <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="zhG-AU-rJY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -468,8 +524,8 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6is-cO-B1I"/>
-        <segue reference="LUj-ho-ZVW"/>
+        <segue reference="zhG-AU-rJY"/>
         <segue reference="lGc-h7-Of0"/>
+        <segue reference="Kvr-WZ-WZn"/>
     </inferredMetricsTieBreakers>
 </document>
