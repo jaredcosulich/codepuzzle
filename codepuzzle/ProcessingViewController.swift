@@ -55,8 +55,8 @@ class ProcessingViewController: UIViewController {
         
         OpenCVWrapper.process(imageView.image, cardList)
         
-        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
-        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
+//        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
+//        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
 
         for i in 0..<cardList.count() {
 //            s3Util.upload(
@@ -68,20 +68,20 @@ class ProcessingViewController: UIViewController {
 //                image: cardList.getFunctionImage(i)!,
 //                identifier: "function\(i)"
 //            )
-//            mathPix.processImage(
-//                image: cardList.getParamImage(Int32(i))!,
-//                identifier: "param\(i)"
-//            )
-            
-            let code = Functions.processedCode(code: codes[Int(i)])
-            _ = cardGroup.addCard(
-                code: code,
-                param: params[Int(i)],
-                image: cardList.getFullImage(i),
-                originalCode: code,
-                originalParam: params[Int(i)],
-                originalImage: cardList.getFullImage(i)
+            mathPix.processImage(
+                image: cardList.getParamImage(Int32(i))!,
+                identifier: "param\(i)"
             )
+            
+//            let code = Functions.processedCode(code: codes[Int(i)])
+//            _ = cardGroup.addCard(
+//                code: code,
+//                param: params[Int(i)],
+//                image: cardList.getFullImage(i),
+//                originalCode: code,
+//                originalParam: params[Int(i)],
+//                originalImage: cardList.getFullImage(i)
+//            )
         }
         
         checkCardProcessing()
@@ -97,16 +97,24 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardProcessing() {
-//        if (!mathPix.processing()) {
-//            for i in Int32(cards.count)..<cardCount {
-//                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
-//                tesseract.recognize()
-//                let cardImage = cardList.getFullImage(i)
-//                let code = Functions.processedCode(code: tesseract.recognizedText!) 
-//                let param = mathPix.getValue(identifier: "param\(i)")
-//                cards.append(Card(image: cardImage!, code: code, param: param))
-//            }
-//        }
+        if (!mathPix.processing()) {
+            for i in Int32(cardGroup.cards.count)..<cardCount {
+                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
+                tesseract.recognize()
+                let cardImage = cardList.getFullImage(i)
+                let code = Functions.processedCode(code: tesseract.recognizedText!) 
+                let param = mathPix.getValue(identifier: "param\(i)")
+
+                _ = cardGroup.addCard(
+                    code: code,
+                    param: param,
+                    image: cardImage,
+                    originalCode: code,
+                    originalParam: param,
+                    originalImage: cardImage
+                )
+            }
+        }
         
         if (cardCount < cardList.count()) {
             imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
