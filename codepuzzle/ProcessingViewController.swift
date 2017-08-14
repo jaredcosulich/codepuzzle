@@ -101,7 +101,7 @@ class ProcessingViewController: UIViewController {
             for i in Int32(cardGroup.cards.count)..<cardCount {
                 tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
                 tesseract.recognize()
-                let cardImage = cardList.getFullImage(i)
+                let cardImage = cardList.getFullImage(i)!
                 let code = Functions.processedCode(code: tesseract.recognizedText!) 
                 let param = mathPix.getValue(identifier: "param\(i)")
 
