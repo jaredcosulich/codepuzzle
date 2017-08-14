@@ -10,18 +10,7 @@ import Foundation
 
 class Functions {
     
-    let tempImageView = UIImageView()
-    
-    var imageView: UIImageView
-
-    let layer = CAShapeLayer()
-    
-    var currentPoint = CGPoint(x: 0.0, y: 0.0)
-    var currentAngle = CGFloat(90.0)
-    
-    var penIsUp = false
-    
-    let functionInfo = [
+    static let functionInfo = [
         "A1": [
             "name": "Move Foward",
             "method": "moveForward"
@@ -47,17 +36,59 @@ class Functions {
             "method": "penDown"
         ],
         "A7": [
-            "name": "Move To",
-            "method": "moveTo"
+            "name": "Pen Size",
+            "method": "penSize"
+        ],
+        "A8": [
+            "name": "Pen Color",
+            "method": "penColor"
+        ],
+        "A9": [
+            "name": "Fill Color",
+            "method": "fillColor"
+        ],
+        "F1": [
+            "name": "Function",
+            "method": "function"
+        ],
+        "L1": [
+            "name": "Loop",
+            "method": "loop"
+        ],
+        "L2": [
+            "name": "End Loop",
+            "method": "endLoop"
         ]
     ]
+
+    let tempImageView = UIImageView()
+    
+    var imageView: UIImageView
+
+    let layer = CAShapeLayer()
+    
+    var currentPoint = CGPoint(x: 0, y: 0)
+    var currentAngle = CGFloat(90)
+    
+    var penIsUp = false
     
     init(uiImageView: UIImageView) {
         imageView = uiImageView;
+        initDrawing()
+    }
+    
+    func initDrawing() {
+        imageView.layer.sublayers?.removeAll()
+        
         let s = imageView.bounds.size
-        currentPoint = CGPoint(x: s.width / 5.0, y: s.height)
+        currentPoint = CGPoint(x: s.width / 2.5, y: s.height / 1.75)
+        currentAngle = CGFloat(90)
         
         initArrow()
+    }
+    
+    func reset() {
+        initDrawing()
     }
     
     func initArrow() {
@@ -87,8 +118,6 @@ class Functions {
 
         path.close()
         
-//        path.stroke()
-        
         layer.position = currentPoint
         layer.path = path.cgPath
         layer.fillColor = UIColor.red.cgColor
@@ -104,7 +133,11 @@ class Functions {
         imageView.layer.addSublayer(layer)
     }
     
-    func translate(code: String) -> String {
+    class func processedCode(code: String) -> String {
+        return Functions.compactCode(code: Functions.translate(code: code))
+    }
+    
+    class func translate(code: String) -> String {
         switch (code) {
         case "A T":
             return "A 1"
@@ -113,16 +146,16 @@ class Functions {
         }
     }
     
-    func info(code: String) -> [String: String] {
-        return functionInfo[compactCode(code: translate(code: code))]!
+    class func compactCode(code: String) -> String {
+        return code.replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "\n", with: "")
+            .replacingOccurrences(of: "'", with: "")
+            .replacingOccurrences(of: ".", with: "")
+            .replacingOccurrences(of: "‘", with: "")
     }
     
-    func compactCode(code: String) -> String {
-        return code.replacingOccurrences(of: " ", with: "")
-                   .replacingOccurrences(of: "\n", with: "")
-                   .replacingOccurrences(of: "'", with: "")
-                   .replacingOccurrences(of: ".", with: "")
-                   .replacingOccurrences(of: "‘", with: "")
+    func info(code: String) -> [String: String] {
+        return Functions.functionInfo[Functions.processedCode(code: code)]!
     }
     
     func calculateXDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
@@ -160,10 +193,7 @@ class Functions {
     }
 
     func signature(code: String, param: String) -> String {
-//        let regex = NSRegularExpression(pattern: "[\\s]+", optionparam:nil, error: nil)
-//        let compactCode = regex!.stringByReplacingMatchesInString(code, optionparam: nil, range: NSMakeRange(0, count(code)), withTemplate: nil)
-    
-        return "\(info(code: translate(code: code))["name"] ?? "Bad Function") \(param)"
+        return "\(info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(param)"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -172,10 +202,10 @@ class Functions {
         layer.setAffineTransform(rotation)
     }
     
-    func execute(code: String, param: String) {
+    func execute(code: String, param: String, instant: Bool = false) {
         let paramNumber = CGFloat((param as NSString).floatValue)
 
-        let methodName = info(code: translate(code: code))["method"] ?? ""
+        let methodName = info(code: Functions.translate(code: code))["method"] ?? ""
 
         var nextPoint = currentPoint
         
@@ -209,14 +239,14 @@ class Functions {
             pathLayer.lineWidth = 1
             pathLayer.path = path.cgPath
 
-//            path.stroke()
-
             imageView.layer.addSublayer(pathLayer)
             
-            let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.fromValue = 0
-            animation.duration = 0.2
-            pathLayer.add(animation, forKey: "pathAnimation")
+            if (!instant) {
+                let animation = CABasicAnimation(keyPath: "strokeEnd")
+                animation.fromValue = 0
+                animation.duration = 0.2
+                pathLayer.add(animation, forKey: "pathAnimation")
+            }
         }
         
         currentPoint = nextPoint

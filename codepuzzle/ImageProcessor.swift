@@ -53,15 +53,19 @@ class ImageProcessor {
         
     }
     
-    class func borderCards(image: UIImage, cardList: CardListWrapper) -> UIImage {
+    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1) -> UIImage {
         UIGraphicsBeginImageContext(image.size)
         image.draw(at: CGPoint.zero)
         let ctx = UIGraphicsGetCurrentContext()
         ctx?.setStrokeColor(UIColor.green.cgColor)
         ctx?.setLineWidth(10)
         
-        for i in 0..<cardList.count() {
-            ctx?.stroke(cardList.getFullRect(i))
+        if (index == -1) {
+            for i in 0..<cardList.count() {
+                ctx?.stroke(cardList.getFullRect(i))
+            }
+        } else {
+            ctx?.stroke(cardList.getFullRect(index))
         }
 
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
