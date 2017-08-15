@@ -153,6 +153,10 @@ class ProcessingViewController: UIViewController {
                 imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
             }
             
+//            if (cardCount < 3) {
+//                imageView.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect)
+//            }
+            
             cardCount += 1
 
             output.text = "Identifying Cards:\(cardCount)\r\r\(Functions.signature(code: code, param: param))"

@@ -190,10 +190,10 @@ using namespace std;
 //        fullCardBound.width = bound.width * 6.5;
 //        fullCardBound.height = bound.height * 8;
         cv::Rect fullCardBound;
-        fullCardBound.x = bound.x - (bound.width * 1.1);
-        fullCardBound.y = bound.y - (bound.height * 4.6);
-        fullCardBound.width = bound.width * 3.4;
-        fullCardBound.height = bound.height * 6.1;
+        fullCardBound.x = bound.x - (bound.width * 1);
+        fullCardBound.y = bound.y - (bound.height * 4.5);
+        fullCardBound.width = bound.width * 2.9;
+        fullCardBound.height = bound.height * 5.9;
         
         if (fullCardBound.x < 0) fullCardBound.x = 0;
         if (fullCardBound.y < 0) fullCardBound.y = 0;
@@ -256,10 +256,10 @@ using namespace std;
 //        rotatedCardFull.copyTo(analyzed);
         
         cv::Rect functionBound;
-        functionBound.x = bound.x + (bound.width * 0.2);
-        functionBound.y = bound.y + (bound.height * 0.2);
-        functionBound.width = bound.width - (bound.width * 0.4);
-        functionBound.height = bound.height - (bound.height * 0.4);
+        functionBound.x = bound.x + (bound.width * 0.28);
+        functionBound.y = bound.y + (bound.height * 0.28);
+        functionBound.width = bound.width - (bound.width * 0.56);
+        functionBound.height = bound.height - (bound.height * 0.56);
 
 //        cv::Mat function(src, functionBound);
 //        cv::Mat unsizedCardFunction;
