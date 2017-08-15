@@ -25,13 +25,18 @@ class MathPix {
         return !results.keys.contains(identifier)
     }
     
-    func processImage(image: UIImage, identifier: String) {
+    func processImage(image: UIImage, identifier: String, result: String?) {
 //        if (identifier[identifier.startIndex] == "f") {
 //            self.results[identifier] = "A 1"
 //        } else {
 //            self.results[identifier] = "10"
 //        }
 
+        if (result != nil) {
+            self.results[identifier] = result
+            return
+        }
+        
         let imageData = UIImagePNGRepresentation(image)! as NSData
         let base64String = imageData.base64EncodedString(options: .init(rawValue: 0))
         let parameters : Parameters = [
