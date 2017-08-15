@@ -157,7 +157,6 @@
                                     <color key="titleShadowColor" red="0.0" green="0.044991018683365525" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="processbutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="p5N-1A-JmC"/>
                                     <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" id="wUW-rb-M7n"/>
                                 </connections>
                             </button>

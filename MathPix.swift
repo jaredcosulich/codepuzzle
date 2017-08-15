@@ -13,8 +13,6 @@ import AWSS3
 
 class MathPix {
 
-    var processingCount = 0
-    
     var results = [String: String]()
     
     init() {}
@@ -23,8 +21,8 @@ class MathPix {
         return results[identifier]!
     }
     
-    func processing() -> Bool {
-        return processingCount > 0
+    func processing(identifier: String) -> Bool {
+        return !results.keys.contains(identifier)
     }
     
     func processImage(image: UIImage, identifier: String) {
@@ -33,7 +31,7 @@ class MathPix {
 //        } else {
 //            self.results[identifier] = "10"
 //        }
-        processingCount += 1
+
         let imageData = UIImagePNGRepresentation(image)! as NSData
         let base64String = imageData.base64EncodedString(options: .init(rawValue: 0))
         let parameters : Parameters = [
@@ -57,7 +55,6 @@ class MathPix {
                     let value = (json as! NSDictionary)["latex"] as? String
                     print("\(identifier): \(value ?? "No Value")")
                     self.results[identifier] = value ?? "No Value"
-                    self.processingCount -= 1
                 }
         }
     }

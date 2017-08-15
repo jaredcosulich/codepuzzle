@@ -45,7 +45,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     var cardProject: CardProject!
     
-    var selectedIndex = 0
+    var selectedIndex: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +59,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         cardGroupView.minimumZoomScale = 1.0
         cardGroupView.maximumZoomScale = 6.0
+        
+        selectedIndex = cardProject.cardGroups.count
     }
 
     override func didReceiveMemoryWarning() {
@@ -129,10 +131,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func rotateleft(_ sender: UIButton) {
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        saveCardGroup()
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
         imageView.image = ImageProcessor.rotate(image: imageView.image!, left: false)
+        saveCardGroup()
     }
 
     @IBAction func savephotobutton(_ sender: UIButton) {
@@ -163,19 +167,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         loadPhoto.isHidden = true
         
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "processing-segue" {
-            _ = cardProject.addCardGroup(image: imageView.image!)
-            let dvc = segue.destination as! ProcessingViewController
-            dvc.cardProject = cardProject
-            dvc.selectedIndex = cardProject.cardGroups.count - 1
-        } else if segue.identifier == "execution-segue" {
-            let dvc = segue.destination as! ExecutionViewController
-            dvc.cardProject = cardProject
-        }
-    }
+        
+        saveCardGroup()
+}
     
     @IBAction func changePhotoButton(_ sender: UIButton) {
         rotateRight.isHidden = true
@@ -193,9 +187,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         newPhoto.isHidden = false
         loadPhoto.isHidden = false
     }
-    
-    @IBAction func processbutton(_ sender: UIButton) {
-    }     
     
     @IBAction func deleteProjectButton(_ sender: UIButton) {
         cardProject.delete()
@@ -238,8 +229,29 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func closeCardGroupPhotoView(_ sender: UIButton) {
         blurEffectView.isHidden = true
     }
+    
     @IBAction func deleteCardGroupButton(_ sender: UIButton) {
         cardProject.deleteCardGroup(at: selectedCardGroupIndex)
     }
+    
+    func saveCardGroup() {
+        if cardProject.cardGroups.count != selectedIndex + 1 {
+            _ = cardProject.addCardGroup(image: imageView.image!)
+        } else {
+            cardProject.cardGroups[selectedIndex].image = imageView.image!
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "processing-segue" {
+            let dvc = segue.destination as! ProcessingViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+        } else if segue.identifier == "execution-segue" {
+            let dvc = segue.destination as! ExecutionViewController
+            dvc.cardProject = cardProject
+        }
+    }
+    
 }
 

@@ -28,6 +28,8 @@ class ProcessingViewController: UIViewController {
     
     var selectedIndex = 0
     
+    var processing: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -49,16 +51,29 @@ class ProcessingViewController: UIViewController {
     }
     
     func initCardList() {
+        processing = true
+        output.text = "Scanning photo for cards..."
         cardList.clear()
         
-        output.text = "Scanning photo for cards..."
-        
-        OpenCVWrapper.process(imageView.image, cardList)
-        
-        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
-
-        for i in 0..<cardList.count() {
+        // start the timer
+        Timer.scheduledTimer(
+            timeInterval: 0.1,
+            target: self,
+            selector: #selector(startCardProcessing),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+    
+    func startCardProcessing() {
+        DispatchQueue.global(qos: .background).async {
+            
+            OpenCVWrapper.process(self.imageView.image, self.cardList)
+            
+            //        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
+            //        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
+            
+            for i in 0..<self.cardList.count() {
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
@@ -68,78 +83,87 @@ class ProcessingViewController: UIViewController {
 //                image: cardList.getFunctionImage(i)!,
 //                identifier: "function\(i)"
 //            )
-            
-//            let paramRect = cardList.getParamRect(Int32(i))
-//            mathPix.processImage(
-//                image: ImageProcessor.cropCard(image: cardGroup.image, rect: paramRect),
-//                identifier: "param\(i)"
+                
+                let paramRect = self.cardList.getParamRect(Int32(i))
+                self.mathPix.processImage(
+                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect),
+                    identifier: "param\(i)"
+                )
+                
+//            let code = Functions.processedCode(code: codes[Int(i)])
+//            let fullRect = cardList.getFullRect(Int32(i))
+//            let fullImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
+//            _ = cardGroup.addCard(
+//                code: code,
+//                param: params[Int(i)],
+//                image: fullImage,
+//                originalCode: code,
+//                originalParam: params[Int(i)],
+//                originalImage: fullImage
 //            )
+            }
             
-            let code = Functions.processedCode(code: codes[Int(i)])
-            let fullRect = cardList.getFullRect(Int32(i))
-            let fullImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
-            _ = cardGroup.addCard(
-                code: code,
-                param: params[Int(i)],
-                image: fullImage,
-                originalCode: code,
-                originalParam: params[Int(i)],
-                originalImage: fullImage
-            )
+            self.processing = false
         }
-        
-        checkCardProcessing()
+
+        self.checkCardProcessing()
         
         // start the timer
-        timer = Timer.scheduledTimer(
+        self.timer = Timer.scheduledTimer(
             timeInterval: 0.2,
             target: self,
-            selector: #selector(checkCardProcessing),
+            selector: #selector(self.checkCardProcessing),
             userInfo: nil,
             repeats: true
         )
     }
     
     func checkCardProcessing() {
-//        if (!mathPix.processing()) {
-//            for i in Int32(cardGroup.cards.count)..<cardCount {
-//                let functionRect = cardList.getFunctionRect(i)
-//                tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect).g8_blackAndWhite()
-//                tesseract.recognize()
-//
-//                let fullRect = cardList.getFullRect(i)
-//                let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
-//                let code = Functions.processedCode(code: tesseract.recognizedText!) 
-//                let param = mathPix.getValue(identifier: "param\(i)")
-//
-//                if (Functions.valid(code: code)) {
-//                    _ = cardGroup.addCard(
-//                        code: code,
-//                        param: param,
-//                        image: cardImage,
-//                        originalCode: code,
-//                        originalParam: param,
-//                        originalImage: cardImage
-//                    )
-//                }
-//            }
-//        }
+        if (processing) {
+            return
+        }
         
         if (cardCount < cardList.count()) {
-            imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
+            let nextIdentifier = "param\(cardCount)"
+        
+            print("\(cardCount) = \(nextIdentifier) = \(mathPix.processing(identifier: nextIdentifier))")
 
+            if (mathPix.processing(identifier: nextIdentifier)) {
+                return
+            }
+            
+            let functionRect = cardList.getFunctionRect(cardCount)
+            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect).g8_blackAndWhite()
+            tesseract.recognize()
+            
+            let fullRect = cardList.getFullRect(cardCount)
+            let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
+            let code = Functions.processedCode(code: tesseract.recognizedText!)
+            let param = mathPix.getValue(identifier: "param\(cardCount)")
+            
+            if (Functions.valid(code: code)) {
+                _ = cardGroup.addCard(
+                    code: code,
+                    param: param,
+                    image: cardImage,
+                    originalCode: code,
+                    originalParam: param,
+                    originalImage: cardImage
+                )
+
+                imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
+            }
+            
             cardCount += 1
 
             output.text = "Identifying Cards:\r\r\(cardCount)"
-        } else if (!mathPix.processing()) {
+        } else {
             cardGroup.processed = true
             cardGroup.processedImage = imageView.image!
             cardGroup.save()
             timer.invalidate()
             
             performSegue(withIdentifier: "execution-segue", sender: nil)
-        } else {
-            output.text = "Processing \(cardList.count()) cards..."
         }
     }
     
