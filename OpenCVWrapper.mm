@@ -158,7 +158,7 @@ using namespace std;
         for (int j=0; j<innerHexagons.size(); ++j) {
             cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
             
-            if (innerBound.width != bound.width && innerBound.height != bound.height) {
+            if (std::abs(innerBound.width - bound.width) > 3 && std::abs(innerBound.height - bound.height)) {
                 validInnerHex = innerBound;
                 break;
             }

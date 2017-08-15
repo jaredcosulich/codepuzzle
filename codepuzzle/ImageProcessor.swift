@@ -58,7 +58,7 @@ class ImageProcessor {
         image.draw(at: CGPoint.zero)
         let ctx = UIGraphicsGetCurrentContext()
         ctx?.setStrokeColor(UIColor.green.cgColor)
-        ctx?.setLineWidth(10)
+        ctx?.setLineWidth(5)
         
         if (index == -1) {
             for i in 0..<cardList.count() {
@@ -67,11 +67,11 @@ class ImageProcessor {
         } else {
             ctx?.stroke(cardList.getFullRect(index))
 
-            ctx?.setStrokeColor(UIColor.red.cgColor)
-            ctx?.stroke(cardList.getHexRect(index))
-
-            ctx?.setStrokeColor(UIColor.black.cgColor)
-            ctx?.stroke(cardList.getFunctionRect(index))
+//            ctx?.setStrokeColor(UIColor.red.cgColor)
+//            ctx?.stroke(cardList.getParamRect(index))
+//
+//            ctx?.setStrokeColor(UIColor.blue.cgColor)
+//            ctx?.stroke(cardList.getFunctionRect(index))
         }
 
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()

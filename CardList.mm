@@ -25,19 +25,17 @@ bool roughlySame (int a, int b) {
 bool sameCard (Card cardA, Card cardB) {
     CGRect a = cardA.hexRect;
     CGRect b = cardB.hexRect;
-    CGRect innerA = cardA.innerHexRect;
-    CGRect innerB = cardB.innerHexRect;
     
     if (roughlySame(a.origin.x, b.origin.x) && roughlySame(a.origin.y, b.origin.y)) return true;
 
-    if (a.origin.x < innerB.origin.x && a.origin.x + a.size.width > innerB.origin.x + innerB.size.width) {
-        if (a.origin.y < innerB.origin.y && a.origin.y + a.size.height > innerB.origin.y + innerB.size.height) {
+    if (a.origin.x < b.origin.x && a.origin.x + a.size.width > b.origin.x + b.size.width) {
+        if (a.origin.y < b.origin.y && a.origin.y + a.size.height > b.origin.y + b.size.height) {
             return true;
         }
     }
 
-    if (b.origin.x < innerA.origin.x && b.origin.x + b.size.width > innerA.origin.x + innerA.size.width) {
-        if (b.origin.y < innerA.origin.y && b.origin.y + b.size.height > innerA.origin.y + innerA.size.height) {
+    if (b.origin.x < a.origin.x && b.origin.x + b.size.width > a.origin.x + a.size.width) {
+        if (b.origin.y < a.origin.y && b.origin.y + b.size.height > a.origin.y + a.size.height) {
             return true;
         }
     }

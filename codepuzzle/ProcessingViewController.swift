@@ -55,8 +55,8 @@ class ProcessingViewController: UIViewController {
         
         OpenCVWrapper.process(imageView.image, cardList)
         
-//        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1"]
-//        let params: [String] = ["50", "45", "35.355", "90", "35.355", "45", "50", "90", "50"]
+        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
+        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
 
         for i in 0..<cardList.count() {
 //            s3Util.upload(
@@ -69,21 +69,23 @@ class ProcessingViewController: UIViewController {
 //                identifier: "function\(i)"
 //            )
             
-            let paramRect = cardList.getParamRect(Int32(i))
-            mathPix.processImage(
-                image: ImageProcessor.cropCard(image: cardGroup.image, rect: paramRect),
-                identifier: "param\(i)"
-            )
-            
-//            let code = Functions.processedCode(code: codes[Int(i)])
-//            _ = cardGroup.addCard(
-//                code: code,
-//                param: params[Int(i)],
-//                image: cardList.getFullImage(i),
-//                originalCode: code,
-//                originalParam: params[Int(i)],
-//                originalImage: cardList.getFullImage(i)
+//            let paramRect = cardList.getParamRect(Int32(i))
+//            mathPix.processImage(
+//                image: ImageProcessor.cropCard(image: cardGroup.image, rect: paramRect),
+//                identifier: "param\(i)"
 //            )
+            
+            let code = Functions.processedCode(code: codes[Int(i)])
+            let fullRect = cardList.getFullRect(Int32(i))
+            let fullImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
+            _ = cardGroup.addCard(
+                code: code,
+                param: params[Int(i)],
+                image: fullImage,
+                originalCode: code,
+                originalParam: params[Int(i)],
+                originalImage: fullImage
+            )
         }
         
         checkCardProcessing()
@@ -99,29 +101,29 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardProcessing() {
-        if (!mathPix.processing()) {
-            for i in Int32(cardGroup.cards.count)..<cardCount {
-                let functionRect = cardList.getFunctionRect(i)
-                tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect).g8_blackAndWhite()
-                tesseract.recognize()
-
-                let fullRect = cardList.getFullRect(i)
-                let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
-                let code = Functions.processedCode(code: tesseract.recognizedText!) 
-                let param = mathPix.getValue(identifier: "param\(i)")
-
-                if (Functions.valid(code: code)) {
-                    _ = cardGroup.addCard(
-                        code: code,
-                        param: param,
-                        image: cardImage,
-                        originalCode: code,
-                        originalParam: param,
-                        originalImage: cardImage
-                    )
-                }
-            }
-        }
+//        if (!mathPix.processing()) {
+//            for i in Int32(cardGroup.cards.count)..<cardCount {
+//                let functionRect = cardList.getFunctionRect(i)
+//                tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect).g8_blackAndWhite()
+//                tesseract.recognize()
+//
+//                let fullRect = cardList.getFullRect(i)
+//                let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
+//                let code = Functions.processedCode(code: tesseract.recognizedText!) 
+//                let param = mathPix.getValue(identifier: "param\(i)")
+//
+//                if (Functions.valid(code: code)) {
+//                    _ = cardGroup.addCard(
+//                        code: code,
+//                        param: param,
+//                        image: cardImage,
+//                        originalCode: code,
+//                        originalParam: param,
+//                        originalImage: cardImage
+//                    )
+//                }
+//            }
+//        }
         
         if (cardCount < cardList.count()) {
             imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
