@@ -171,6 +171,7 @@ class Functions {
     class func info(code: String) -> [String: String] {
         let function = Functions.functionInfo[Functions.processedCode(code: code)]
         if (function == nil) {
+            print("NO FUNCTION: \(code)")
             return [
                 "name": "N/A",
                 "method": "n/a"
