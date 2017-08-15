@@ -265,7 +265,7 @@ class ExecutionViewController: UIViewController {
         
         let card = cards[index]
 
-        output.text = functions.signature(code: card.code, param: card.param)
+        output.text = Functions.signature(code: card.code, param: card.param)
 
         if (redraw) {
             functions.reset()

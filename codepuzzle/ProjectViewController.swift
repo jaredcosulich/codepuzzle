@@ -89,6 +89,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBAction func newProjectButton(_ sender: UIButton) {
         projectTitleView.isHidden = false
+        projectTitle.becomeFirstResponder()
     }
     
     @IBAction func startProjectButton(_ sender: UIButton) {

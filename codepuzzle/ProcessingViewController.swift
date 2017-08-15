@@ -126,8 +126,6 @@ class ProcessingViewController: UIViewController {
         if (cardCount < cardList.count()) {
             let nextIdentifier = "param\(cardCount)"
         
-            print("\(cardCount) = \(nextIdentifier) = \(mathPix.processing(identifier: nextIdentifier))")
-
             if (mathPix.processing(identifier: nextIdentifier)) {
                 return
             }
@@ -156,7 +154,7 @@ class ProcessingViewController: UIViewController {
             
             cardCount += 1
 
-            output.text = "Identifying Cards:\r\r\(cardCount)"
+            output.text = "Identifying Cards:\(cardCount)\r\r\(Functions.signature(code: code, param: param))"
         } else {
             cardGroup.processed = true
             cardGroup.processedImage = imageView.image!

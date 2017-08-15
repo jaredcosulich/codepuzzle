@@ -168,8 +168,16 @@ class Functions {
         return true
     }
     
-    func info(code: String) -> [String: String] {
-        return Functions.functionInfo[Functions.processedCode(code: code)]!
+    class func info(code: String) -> [String: String] {
+        let function = Functions.functionInfo[Functions.processedCode(code: code)]
+        if (function == nil) {
+            return [
+                "name": "N/A",
+                "method": "n/a"
+            ]
+        } else {
+            return function!
+        }
     }
     
     func calculateXDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
@@ -206,8 +214,8 @@ class Functions {
         return CGPoint(x: from.x + xDistance, y: from.y + yDistance)
     }
 
-    func signature(code: String, param: String) -> String {
-        return "\(info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(param)"
+    class func signature(code: String, param: String) -> String {
+        return "\(Functions.info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(param)"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -219,7 +227,7 @@ class Functions {
     func execute(code: String, param: String, instant: Bool = false) {
         let paramNumber = CGFloat((param as NSString).floatValue)
 
-        let methodName = info(code: Functions.translate(code: code))["method"] ?? ""
+        let methodName = Functions.info(code: Functions.translate(code: code))["method"] ?? ""
 
         var nextPoint = currentPoint
         
