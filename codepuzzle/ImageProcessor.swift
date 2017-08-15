@@ -66,6 +66,12 @@ class ImageProcessor {
             }
         } else {
             ctx?.stroke(cardList.getFullRect(index))
+
+            ctx?.setStrokeColor(UIColor.red.cgColor)
+            ctx?.stroke(cardList.getHexRect(index))
+
+            ctx?.setStrokeColor(UIColor.black.cgColor)
+            ctx?.stroke(cardList.getFunctionRect(index))
         }
 
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -73,6 +79,10 @@ class ImageProcessor {
         UIGraphicsEndImageContext()
         
         return modifiedImage!
+    }
+    
+    class func cropCard(image: UIImage, rect: CGRect) -> UIImage {
+        return UIImage(cgImage: (image.cgImage?.cropping(to: rect))!)
     }
         
     

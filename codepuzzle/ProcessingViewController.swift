@@ -68,8 +68,10 @@ class ProcessingViewController: UIViewController {
 //                image: cardList.getFunctionImage(i)!,
 //                identifier: "function\(i)"
 //            )
+            
+            let paramRect = cardList.getParamRect(Int32(i))
             mathPix.processImage(
-                image: cardList.getParamImage(Int32(i))!,
+                image: ImageProcessor.cropCard(image: cardGroup.image, rect: paramRect),
                 identifier: "param\(i)"
             )
             
@@ -99,20 +101,25 @@ class ProcessingViewController: UIViewController {
     func checkCardProcessing() {
         if (!mathPix.processing()) {
             for i in Int32(cardGroup.cards.count)..<cardCount {
-                tesseract.image = cardList.getFunctionImage(i)!.g8_blackAndWhite()
+                let functionRect = cardList.getFunctionRect(i)
+                tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect).g8_blackAndWhite()
                 tesseract.recognize()
-                let cardImage = cardList.getFullImage(i)!
+
+                let fullRect = cardList.getFullRect(i)
+                let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
                 let code = Functions.processedCode(code: tesseract.recognizedText!) 
                 let param = mathPix.getValue(identifier: "param\(i)")
 
-                _ = cardGroup.addCard(
-                    code: code,
-                    param: param,
-                    image: cardImage,
-                    originalCode: code,
-                    originalParam: param,
-                    originalImage: cardImage
-                )
+                if (Functions.valid(code: code)) {
+                    _ = cardGroup.addCard(
+                        code: code,
+                        param: param,
+                        image: cardImage,
+                        originalCode: code,
+                        originalParam: param,
+                        originalImage: cardImage
+                    )
+                }
             }
         }
         

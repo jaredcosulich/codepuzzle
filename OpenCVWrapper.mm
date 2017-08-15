@@ -168,9 +168,6 @@ using namespace std;
             continue;
         }
         
-        CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
-        CGRect hexRect = [[self class] CvRectToCgRect:bound];
-        
 //        cv::Point p1(9999, -1);
 //        cv::Point p2(-1, -1);
 //        for (int c = 0; c<hexagons[i].size(); ++c) {
@@ -207,9 +204,9 @@ using namespace std;
             fullCardBound.height = src.size().height - fullCardBound.y;
         }
         
-        cv::Mat full(src, fullCardBound);
-        cv::Mat cardFull;
-        full.copyTo(cardFull);
+//        cv::Mat full(src, fullCardBound);
+//        cv::Mat cardFull;
+//        full.copyTo(cardFull);
         
 //        clock_t start;
 //        double diff;
@@ -264,10 +261,10 @@ using namespace std;
         functionBound.width = bound.width - (bound.width * 0.4);
         functionBound.height = bound.height - (bound.height * 0.4);
 
-        cv::Mat function(src, functionBound);
+//        cv::Mat function(src, functionBound);
 //        cv::Mat unsizedCardFunction;
-        cv::Mat cardFunction;
-        function.copyTo(cardFunction);
+//        cv::Mat cardFunction;
+//        function.copyTo(cardFunction);
 //        cv::resize(unsizedCardFunction, cardFunction, cv::Size(200, (200 * (functionBound.height / functionBound.width))));
 
         cv::Rect paramBound;
@@ -277,17 +274,21 @@ using namespace std;
         paramBound.height = bound.height * 1.6;
 
 //        printf("5 (%d, %d) %d x %d - %d x %d\n", paramBound.x, paramBound.y, paramBound.width, paramBound.height, rotated.size().width, rotated.size().height);
-        cv::Mat param(src, paramBound);
-        cv::Mat cardParam;
-        param.copyTo(cardParam);
+//        cv::Mat param(src, paramBound);
+//        cv::Mat cardParam;
+//        param.copyTo(cardParam);
 
         int rotation = 0;
         CGRect fullRect = [[self class] CvRectToCgRect:fullCardBound];
+        CGRect hexRect = [[self class] CvRectToCgRect:bound];
+        CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
+        CGRect functionRect = [[self class] CvRectToCgRect:functionBound];
+        CGRect paramRect = [[self class] CvRectToCgRect:paramBound];
         
-        [cardListWrapper add :rotation :fullRect :hexRect :innerHexRect :MatToUIImage(hex) :MatToUIImage(cardFull) :MatToUIImage(cardFunction) :MatToUIImage(cardParam)];
+        [cardListWrapper add :rotation :fullRect :hexRect :innerHexRect :functionRect :paramRect];
     }
     
-    cardListWrapper.analyzedImage = MatToUIImage(analyzed);
+//    cardListWrapper.analyzedImage = MatToUIImage(analyzed);
 
     printf("CARDS: %d\n", cardListWrapper.count);
     

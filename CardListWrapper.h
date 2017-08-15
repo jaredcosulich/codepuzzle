@@ -16,17 +16,13 @@
 - (instancetype) init;
 - (void) clear;
 - (void) printHex :(int) index;
-//- (UIImage *) getAnalyzedImage;
-//- (void) setAnalyzedImage :(UIImage *) image;
-- (CGRect) getFullRect :(int) index;
-- (UIImage *) getHexImage :(int) index;
-- (UIImage *) getFullImage :(int) index;
-- (UIImage *) getFunctionImage :(int) index;
-- (void) setFunctionImage :(int) index :(UIImage *) functionImage;
-- (void) setFullImage :(int) index :(UIImage *) fullImage;
-- (UIImage *) getParamImage :(int) index;
 - (double) getRotation :(int) index;
-- (void) add :(double) rotation :(CGRect) fullRect :(CGRect) hex :(CGRect) innerHex :(UIImage*) hexImage :(UIImage*) fullImage :(UIImage*) functionImage :(UIImage*) paramImage;
+- (CGRect) getFullRect :(int) index;
+- (CGRect) getHexRect :(int) index;
+- (CGRect) getInnerHexRect :(int) index;
+- (CGRect) getFunctionRect :(int) index;
+- (CGRect) getParamRect :(int) index;
+- (void) add :(double) rotation :(CGRect) fullRect :(CGRect) hexRect :(CGRect) innerHexRect :(CGRect) functionRect :(CGRect) paramRect;
 - (int) count;
 
 @end

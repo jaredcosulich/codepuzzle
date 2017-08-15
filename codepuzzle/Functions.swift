@@ -141,6 +141,10 @@ class Functions {
         switch (code) {
         case "A T":
             return "A 1"
+        case "All":
+            return "A1"
+        case "A41":
+            return "A4"
         default:
             return code
         }
@@ -152,6 +156,16 @@ class Functions {
             .replacingOccurrences(of: "'", with: "")
             .replacingOccurrences(of: ".", with: "")
             .replacingOccurrences(of: "‘", with: "")
+            .replacingOccurrences(of: "_", with: "")
+            .replacingOccurrences(of: ":", with: "")
+    }
+    
+    class func valid(code: String) -> Bool {
+        if (code.characters.count == 0) {
+            return false
+        }
+        
+        return true
     }
     
     func info(code: String) -> [String: String] {
