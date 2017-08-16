@@ -41,15 +41,24 @@ using namespace std;
     return cgRect;
 }
 
-+ (UIImage *) cannify :(UIImage *) image {
++ (UIImage *) debug :(UIImage *) image {
     cv::Mat src;
     cv::Mat gray;
+    cv::Mat threshold;
     cv::Mat canny;
+    cv::Mat dilated;
+    
+    Mat element = getStructuringElement( cv::MORPH_RECT,
+                                        cv::Size(5, 5),
+                                        cv::Point(0,0) );
     
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
+//    cv::threshold(gray, threshold, 150, 255, 0);
     cv::Canny(gray, canny, 80, 240, 3);
+//    cv::dilate(canny, dilated, element);
+    
     return MatToUIImage(canny);
 }
 
@@ -100,15 +109,24 @@ using namespace std;
 
 + (std::vector<std::vector<cv::Point>>) findHexagons :(cv::Mat) src {
     cv::Mat gray;
+    cv::Mat threshold;
     cv::Mat canny;
+    cv::Mat dilated;
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     std::vector<cv::Point> approx;
     std::vector<std::vector<cv::Point>> hexagons;
     cv::Rect bound;
 
+    
+    Mat element = getStructuringElement( cv::MORPH_RECT,
+                                        cv::Size(5, 5),
+                                        cv::Point(0,0) );
+
     cv::cvtColor(src, gray, CV_BGR2GRAY);
+//    cv::threshold(gray, threshold, 150, 255, 0);
     cv::Canny(gray, canny, 80, 240, 3);
+//    cv::dilate(canny, dilated, element);
     
     cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     

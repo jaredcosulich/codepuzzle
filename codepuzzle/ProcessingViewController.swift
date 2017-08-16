@@ -69,6 +69,7 @@ class ProcessingViewController: UIViewController {
         DispatchQueue.global(qos: .background).async {
             
             OpenCVWrapper.process(self.imageView.image, self.cardList)
+            
             self.processing = false
             
             //        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]

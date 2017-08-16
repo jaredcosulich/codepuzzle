@@ -247,6 +247,16 @@
                                     <action selector="playButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="N1k-R5-JLQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STb-mJ-6cP">
+                                <rect key="frame" x="137" y="325" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Debug">
+                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="bVL-Zx-Wui" kind="show" identifier="debug-segue" id="d1F-8O-Tzk"/>
+                                </connections>
+                            </button>
                             <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="544-bh-Z7X">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -319,6 +329,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1486.875" y="-320.07042253521126"/>
+        </scene>
+        <!--Debug-->
+        <scene sceneID="kul-TQ-eQi">
+            <objects>
+                <viewController title="Debug" id="bVL-Zx-Wui" customClass="DebugViewController" customModule="codepuzzle" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="S7O-ge-LDb"/>
+                        <viewControllerLayoutGuide type="bottom" id="igD-xx-jTp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CMq-o8-bnB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKi-0U-dTz">
+                                <rect key="frame" x="99" y="243" width="121" height="82"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="closeCardGroupPhotoView:" destination="9pv-A4-QxB" eventType="touchUpInside" id="LBJ-Kd-PZ7"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d6D-Yb-0lM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zCb-jc-Uk4">
+                                        <rect key="frame" x="8" y="92" width="304" height="384"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="delegate" destination="bVL-Zx-Wui" id="Sbv-Te-MpC"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="cardGroupImageView" destination="zCb-jc-Uk4" id="aGy-lk-78k"/>
+                        <outlet property="cardGroupView" destination="d6D-Yb-0lM" id="wEH-uT-o6h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uc2-wL-6db" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1486.875" y="445.77464788732397"/>
         </scene>
         <!--Processing-->
         <scene sceneID="ysb-Q9-2Bg">
@@ -525,6 +580,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="J9V-CR-a6i"/>
         <segue reference="Kvr-WZ-WZn"/>
-        <segue reference="fpC-UC-s0J"/>
+        <segue reference="zhG-AU-rJY"/>
     </inferredMetricsTieBreakers>
 </document>

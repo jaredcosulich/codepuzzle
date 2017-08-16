@@ -218,8 +218,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func showCardGroup(cardGroup: CardGroup) {
-        cardGroupImageView.image = cardGroup.processedImage
-        blurEffectView.isHidden = false
+        cardGroupImageView.image = cardGroup.image
+        performSegue(withIdentifier: "debug-segue", sender: nil)
+//        cardGroupImageView.image = cardGroup.processed ? cardGroup.processedImage : cardGroup.image
+//        if cardGroup.processed {
+//            blurEffectView.isHidden = false
+//        } else {
+//            performSegue(withIdentifier: "debug-segue", sender: nil)
+//        }
     }
     
     @IBAction func playButton(_ sender: UIButton) {
@@ -239,6 +245,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             _ = cardProject.addCardGroup(image: imageView.image!)
         } else {
             cardProject.cardGroups[selectedIndex].image = imageView.image!
+            cardProject.save()
         }
     }
     
@@ -250,6 +257,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
+        } else if segue.identifier == "debug-segue" {
+            let dvc = segue.destination as! DebugViewController
+            dvc.image = cardGroupImageView.image //imageView.image
         }
     }
     

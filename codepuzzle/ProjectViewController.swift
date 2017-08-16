@@ -73,9 +73,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             for cardGroup in cardProject.cardGroups {
                 if cardGroup.processed {
-                    
                 } else {
-                    
+                    performSegue(withIdentifier: "start-project-segue", sender: nil)
+                    return
                 }
             }
             performSegue(withIdentifier: "execute-processed-segue", sender: nil)

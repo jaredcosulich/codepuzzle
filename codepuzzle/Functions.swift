@@ -143,6 +143,8 @@ class Functions {
             return "A 1"
         case "All":
             return "A1"
+        case "Al":
+            return "A1"
         case "A41":
             return "A4"
         default:
