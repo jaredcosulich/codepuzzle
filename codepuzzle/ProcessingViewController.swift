@@ -73,7 +73,7 @@ class ProcessingViewController: UIViewController {
             self.processing = false
             
             //        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-                    let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
+//                    let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
             
             for i in 0..<self.cardList.count() {
 //            s3Util.upload(
@@ -90,7 +90,7 @@ class ProcessingViewController: UIViewController {
                 self.mathPix.processImage(
                     image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect),
                     identifier: "param\(i)",
-                    result: params[Int(i)]
+                    result: nil//params[Int(i)]
                 )
                 
 //            let code = Functions.processedCode(code: codes[Int(i)])
