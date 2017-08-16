@@ -55,11 +55,11 @@ using namespace std;
     UIImageToMat(image, src);
     
     cv::cvtColor(src, gray, CV_BGR2GRAY);
-//    cv::threshold(gray, threshold, 150, 255, 0);
+//    cv::threshold(gray, threshold, 200, 255, 0);
     cv::Canny(gray, canny, 80, 240, 3);
-//    cv::dilate(canny, dilated, element);
+    cv::dilate(canny, dilated, element);
     
-    return MatToUIImage(canny);
+    return MatToUIImage(dilated);
 }
 
 + (cv::Mat) deskew :(cv::Mat) img angle:(double) angle {
@@ -124,11 +124,11 @@ using namespace std;
                                         cv::Point(0,0) );
 
     cv::cvtColor(src, gray, CV_BGR2GRAY);
-//    cv::threshold(gray, threshold, 150, 255, 0);
+//    cv::threshold(gray, threshold, 200, 255, 0);
     cv::Canny(gray, canny, 80, 240, 3);
-//    cv::dilate(canny, dilated, element);
+    cv::dilate(canny, dilated, element);
     
-    cv::findContours(canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    cv::findContours(dilated, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
@@ -274,10 +274,10 @@ using namespace std;
 //        rotatedCardFull.copyTo(analyzed);
         
         cv::Rect functionBound;
-        functionBound.x = bound.x + (bound.width * 0.28);
-        functionBound.y = bound.y + (bound.height * 0.28);
-        functionBound.width = bound.width - (bound.width * 0.56);
-        functionBound.height = bound.height - (bound.height * 0.56);
+        functionBound.x = bound.x + (bound.width * 0.29);
+        functionBound.y = bound.y + (bound.height * 0.3);
+        functionBound.width = bound.width - (bound.width * 0.58);
+        functionBound.height = bound.height - (bound.height * 0.6);
 
 //        cv::Mat function(src, functionBound);
 //        cv::Mat unsizedCardFunction;
@@ -286,10 +286,10 @@ using namespace std;
 //        cv::resize(unsizedCardFunction, cardFunction, cv::Size(200, (200 * (functionBound.height / functionBound.width))));
 
         cv::Rect paramBound;
-        paramBound.x = bound.x - bound.width * 0.4;
-        paramBound.y = bound.y - bound.height * 3;
-        paramBound.width = bound.width * 1.75;
-        paramBound.height = bound.height * 1.6;
+        paramBound.x = bound.x - bound.width * 0.25;
+        paramBound.y = bound.y - bound.height * 2.75;
+        paramBound.width = bound.width * 1.5;
+        paramBound.height = bound.height * 1.4;
 
 //        printf("5 (%d, %d) %d x %d - %d x %d\n", paramBound.x, paramBound.y, paramBound.width, paramBound.height, rotated.size().width, rotated.size().height);
 //        cv::Mat param(src, paramBound);

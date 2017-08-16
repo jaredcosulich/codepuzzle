@@ -53,25 +53,37 @@ class ImageProcessor {
         
     }
     
-    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1) -> UIImage {
+    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1, style: String = "full") -> UIImage {
         UIGraphicsBeginImageContext(image.size)
         image.draw(at: CGPoint.zero)
         let ctx = UIGraphicsGetCurrentContext()
-        ctx?.setStrokeColor(UIColor.red.cgColor)
+        ctx?.setStrokeColor(UIColor.green.cgColor)
         ctx?.setLineWidth(8)
         
         if (index == -1) {
             for i in 0..<cardList.count() {
-                ctx?.stroke(cardList.getHexRect(i))
+                switch style {
+                case "hex":
+                    ctx?.stroke(cardList.getHexRect(i))
+                case "function":
+                    ctx?.stroke(cardList.getFunctionRect(i))
+                case "param":
+                    ctx?.stroke(cardList.getParamRect(i))
+                default:
+                    ctx?.stroke(cardList.getFullRect(i))
+                }
             }
         } else {
-            ctx?.stroke(cardList.getFullRect(index))
-
-//            ctx?.setStrokeColor(UIColor.red.cgColor)
-//            ctx?.stroke(cardList.getHexRect(index))
-
-//            ctx?.setStrokeColor(UIColor.blue.cgColor)
-//            ctx?.stroke(cardList.getFunctionRect(index))
+            switch style {
+            case "hex":
+                ctx?.stroke(cardList.getHexRect(index))
+            case "function":
+                ctx?.stroke(cardList.getFunctionRect(index))
+            case "param":
+                ctx?.stroke(cardList.getParamRect(index))
+            default:
+                ctx?.stroke(cardList.getFullRect(index))
+            }
         }
 
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()

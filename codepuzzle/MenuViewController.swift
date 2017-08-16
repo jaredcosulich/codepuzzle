@@ -259,6 +259,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             dvc.cardProject = cardProject
         } else if segue.identifier == "debug-segue" {
             let dvc = segue.destination as! DebugViewController
+            dvc.cardProject = cardProject
             dvc.image = cardGroupImageView.image //imageView.image
         }
     }
