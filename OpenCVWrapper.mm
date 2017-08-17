@@ -121,8 +121,8 @@ using namespace std;
                     angle = atan(slope);
                     rotation = (angle * 180 / CV_PI);
                     
-                    
-                    for (int c = 0; c<1; ++c) {
+                    printf("DRAWING ROTATION: %lu\n", innerHexagons[j].size());
+                    for (int c = 0; c<innerHexagons[j].size(); ++c) {
                         cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
                         cv::Scalar color = cv::Scalar(0,0,0);
                         cv::circle(dilated, corner, 1, color, 6, 8, 0);
@@ -309,10 +309,10 @@ using namespace std;
 //        fullCardBound.width = bound.width * 6.5;
 //        fullCardBound.height = bound.height * 8;
         cv::Rect fullCardBound;
-        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 0.95);
-        fullCardBound.y = rotatedBound.y - (rotatedBound.height * 4.35);
-        fullCardBound.width = rotatedBound.width * 2.95;
-        fullCardBound.height = rotatedBound.height * 5.9;
+        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 1);
+        fullCardBound.y = rotatedBound.y - (rotatedBound.height * 4.4);
+        fullCardBound.width = rotatedBound.width * 3.06;
+        fullCardBound.height = rotatedBound.height * 5.86;
         
         if (fullCardBound.x < 0) fullCardBound.x = 0;
         if (fullCardBound.y < 0) fullCardBound.y = 0;
