@@ -88,6 +88,9 @@ using namespace std;
             cv::Rect validInnerHex;
             innerHexagons = [[self class] findHexagons:hex];
             
+            double rotation = 0;
+            double angle = 0;
+            
             for (int j=0; j<innerHexagons.size(); ++j) {
                 cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
                 
@@ -105,6 +108,7 @@ using namespace std;
                             }
                             p2 = corner;
                         }
+                        
                     }
                     if (p2.x < p1.x) {
                         cv::Point p3 = p1;
@@ -112,9 +116,51 @@ using namespace std;
                         p2 = p3;
                     }
 
-                    cv::Scalar color = cv::Scalar(200,200,0);
-                    cv::circle(dilated, p1, 1, color, 6, 8, 0);
-                    cv::circle(dilated, p2, 1, color, 6, 8, 0);
+                    float distance = (float)(p2.x - p1.x);
+                    float slope = ((float)(p2.y - p1.y)/distance);
+                    angle = atan(slope);
+                    rotation = (angle * 180 / CV_PI);
+                    
+                    
+                    for (int c = 0; c<1; ++c) {
+                        cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
+                        cv::Scalar color = cv::Scalar(0,0,0);
+                        cv::circle(dilated, corner, 1, color, 6, 8, 0);
+
+                        int xOrigin = bound.x + (bound.size().width / 2);
+                        int yOrigin = bound.y + (bound.size().height / 2);
+
+                        int x = corner.x;
+                        int y = corner.y;
+                        
+                        float s1 = sin(angle * -1);
+                        float c1 = cos(angle * -1);
+                        
+                        // translate point back to origin:
+                        x -= xOrigin;
+                        y -= yOrigin;
+                        
+                        // rotate point
+                        float xnew = x * c1 - y * s1;
+                        float ynew = x * s1 + y * c1;
+                        
+                        // translate point back:
+                        float xRotated = xnew + xOrigin;
+                        float yRotated = ynew + yOrigin;
+                        
+//                        int xRotated = ((x - xOrigin) * cos(rotation)) - ((yOrigin - y) * sin(rotation)) + xOrigin;
+//                        int yRotated = ((yOrigin - y) * cos(rotation)) - ((x - xOrigin) * sin(rotation)) + yOrigin;
+                        printf("rotation: %f, %d -> %f\n", rotation, corner.y, yRotated);
+                        corner.x = xRotated;
+                        corner.y = yRotated;
+                        cv::Scalar color2 = cv::Scalar(200,0,200);
+                        cv::circle(dilated, corner, 1, color2, 6, 8, 0);
+                    }
+
+
+//                    cv::Scalar color = cv::Scalar(200,200,0);
+//                    cv::circle(dilated, p1, 1, color, 6, 8, 0);
+//                    cv::circle(dilated, p2, 1, color, 6, 8, 0);
                     break;
                 }
             }
@@ -168,6 +214,7 @@ using namespace std;
 + (void) process :(UIImage *) image :(CardListWrapper *) cardListWrapper {
     std::vector<std::vector<cv::Point>> hexagons;
     std::vector<std::vector<cv::Point>> innerHexagons;
+    double angle = 0;
     double rotation = 0;
     
     cv::Mat analyzed;
@@ -216,10 +263,9 @@ using namespace std;
                 float distance = (float)(p2.x - p1.x);
                 
                 float slope = ((float)(p2.y - p1.y)/distance);
-                rotation = (atan(slope) * 180 / CV_PI);
-                
-                printf("Rotation: %f, Bound: %dx%d \n ", rotation,
-                       bound.width, bound.height);
+                angle = atan(slope);
+                rotation = (angle * 180 / CV_PI);
+                printf("Rotation: %f, Bound: %dx%d \n ", rotation, bound.width, bound.height);
 
                 break;
             }
@@ -229,17 +275,44 @@ using namespace std;
             continue;
         }
         
-//
+        int xOrigin = bound.x + (bound.size().width / 2);
+        int yOrigin = bound.y + (bound.size().height / 2);
+        for (int j = 0; j<hexagons[i].size(); ++j) {
+            int x = hexagons[i][j].x;
+            int y = hexagons[i][j].y;
+            
+            float s1 = sin(angle * -1);
+            float c1 = cos(angle * -1);
+            
+            x -= xOrigin;
+            y -= yOrigin;
+            
+            float xnew = x * c1 - y * s1;
+            float ynew = x * s1 + y * c1;
+            
+            float xRotated = xnew + xOrigin;
+            float yRotated = ynew + yOrigin;
+
+            hexagons[i][j].x = xRotated;
+            hexagons[i][j].y = yRotated;
+            
+            printf("Point: %d, %d -> %f, %f\n", x, y, xRotated, yRotated);
+        }
+
+        cv::Rect rotatedBound = boundingRect(hexagons[i]);
+        printf("Rotation: %f, Bound: %dx%d \n\n", angle, rotatedBound.width, rotatedBound.height);
+
+        
 //        cv::Rect fullCardBound;
 //        fullCardBound.x = bound.x - (bound.width * 2.75);
 //        fullCardBound.y = bound.y - (bound.height * 5.5);
 //        fullCardBound.width = bound.width * 6.5;
 //        fullCardBound.height = bound.height * 8;
         cv::Rect fullCardBound;
-        fullCardBound.x = bound.x - (bound.width * 1);
-        fullCardBound.y = bound.y - (bound.height * 4.5);
-        fullCardBound.width = bound.width * 2.9;
-        fullCardBound.height = bound.height * 5.9;
+        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 0.95);
+        fullCardBound.y = rotatedBound.y - (rotatedBound.height * 4.35);
+        fullCardBound.width = rotatedBound.width * 2.95;
+        fullCardBound.height = rotatedBound.height * 5.9;
         
         if (fullCardBound.x < 0) fullCardBound.x = 0;
         if (fullCardBound.y < 0) fullCardBound.y = 0;
@@ -302,10 +375,10 @@ using namespace std;
 //        rotatedCardFull.copyTo(analyzed);
         
         cv::Rect functionBound;
-        functionBound.x = bound.x + (bound.width * 0.29);
-        functionBound.y = bound.y + (bound.height * 0.3);
-        functionBound.width = bound.width - (bound.width * 0.58);
-        functionBound.height = bound.height - (bound.height * 0.6);
+        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.29);
+        functionBound.y = rotatedBound.y + (rotatedBound.height * 0.3);
+        functionBound.width = rotatedBound.width - (rotatedBound.width * 0.58);
+        functionBound.height = rotatedBound.height - (rotatedBound.height * 0.6);
 
 //        cv::Mat function(src, functionBound);
 //        cv::Mat unsizedCardFunction;
@@ -314,10 +387,10 @@ using namespace std;
 //        cv::resize(unsizedCardFunction, cardFunction, cv::Size(200, (200 * (functionBound.height / functionBound.width))));
 
         cv::Rect paramBound;
-        paramBound.x = bound.x - bound.width * 0.25;
-        paramBound.y = bound.y - bound.height * 2.75;
-        paramBound.width = bound.width * 1.5;
-        paramBound.height = bound.height * 1.4;
+        paramBound.x = rotatedBound.x - rotatedBound.width * 0.25;
+        paramBound.y = rotatedBound.y - rotatedBound.height * 2.75;
+        paramBound.width = rotatedBound.width * 1.75;
+        paramBound.height = rotatedBound.height * 1.4;
 
 //        printf("5 (%d, %d) %d x %d - %d x %d\n", paramBound.x, paramBound.y, paramBound.width, paramBound.height, rotated.size().width, rotated.size().height);
 //        cv::Mat param(src, paramBound);
@@ -325,7 +398,7 @@ using namespace std;
 //        param.copyTo(cardParam);
 
         CGRect fullRect = [[self class] CvRectToCgRect:fullCardBound];
-        CGRect hexRect = [[self class] CvRectToCgRect:bound];
+        CGRect hexRect = [[self class] CvRectToCgRect:rotatedBound];
         CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
         CGRect functionRect = [[self class] CvRectToCgRect:functionBound];
         CGRect paramRect = [[self class] CvRectToCgRect:paramBound];
