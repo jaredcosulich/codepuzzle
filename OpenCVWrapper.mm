@@ -96,16 +96,13 @@ using namespace std;
                     
                     cv::Point p1(-1, 9999);
                     cv::Point p2(-1, 9999);
-                    printf("\nSTART SORT\n");
                     for (int c = 0; c<innerHexagons[j].size(); ++c) {
                         cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
-                        cv::Scalar color = cv::Scalar(200,200,0);
-                        cv::circle(dilated, corner, 1, color, 6, 8, 0);
-
-                        printf("Point: %dx%d\n", corner.x, corner.y);
                         
-                        if (corner.y < p1.y) {
-                            p1 = p2;
+                        if (corner.y < p1.y || corner.y < p2.y) {
+                            if (p2.y < p1.y) {
+                                p1 = p2;
+                            }
                             p2 = corner;
                         }
                     }
@@ -114,14 +111,10 @@ using namespace std;
                         p1 = p2;
                         p2 = p3;
                     }
-                    
-                    printf("END SORT: P1: %dx%d, P2: %dx%d\n", p1.x, p1.y, p2.x, p2.y);
-                    
-                    float distance = (float)(p2.x - p1.x);
-                    
-                    float slope = ((float)(p2.y - p1.y)/distance);
-                    printf("Rotation: %f\n", (atan(slope) * 180 / CV_PI));
-                    
+
+                    cv::Scalar color = cv::Scalar(200,200,0);
+                    cv::circle(dilated, p1, 1, color, 6, 8, 0);
+                    cv::circle(dilated, p2, 1, color, 6, 8, 0);
                     break;
                 }
             }
@@ -204,10 +197,8 @@ using namespace std;
 
                 cv::Point p1(-1, 9999);
                 cv::Point p2(-1, 9999);
-                printf("\nSTART SORT\n");
                 for (int c = 0; c<innerHexagons[j].size(); ++c) {
                     cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
-                    printf("Point: %dx%d\n", corner.x, corner.y);
 
                     if (corner.y < p1.y || corner.y < p2.y) {
                         if (p2.y < p1.y) {
@@ -222,20 +213,14 @@ using namespace std;
                     p2 = p3;
                 }
                 
-                printf("END SORT: P1: %dx%d, P2: %dx%d\n", p1.x, p1.y, p2.x, p2.y);
-                
                 float distance = (float)(p2.x - p1.x);
                 
                 float slope = ((float)(p2.y - p1.y)/distance);
                 rotation = (atan(slope) * 180 / CV_PI);
-                printf("Rotation: %f\n", rotation);
-
                 break;
             }
         }
         
-
-        printf("Rotation: %f\n", rotation);
         if (validInnerHex.width == 0) {
             continue;
         }
@@ -341,7 +326,6 @@ using namespace std;
         CGRect functionRect = [[self class] CvRectToCgRect:functionBound];
         CGRect paramRect = [[self class] CvRectToCgRect:paramBound];
         
-        printf("STORE ROTATION: %f\n", rotation);
         [cardListWrapper add :rotation :fullRect :hexRect :innerHexRect :functionRect :paramRect];
     }
     
