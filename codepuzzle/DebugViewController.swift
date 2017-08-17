@@ -50,6 +50,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func openCVButton(_ sender: UIButton) {
+//        var rotatedImage = cardList.getRotation(i)
         cardGroupImageView.image = OpenCVWrapper.debug(image)
     }
     

@@ -130,12 +130,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: true)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90))
         saveCardGroup()
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, left: false)
+        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90))
         saveCardGroup()
     }
 

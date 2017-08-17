@@ -25,8 +25,7 @@ class ImageProcessor {
         return normalizedImage!;
     }
     
-    class func rotate(image: UIImage, left: Bool) -> UIImage {
-        let degrees = CGFloat(left ? -90 : 90.0)
+    class func rotate(image: UIImage, degrees: CGFloat) -> UIImage {
         let size = image.size
                
         //Calculate the size of the rotated view's containing box for our drawing space
@@ -62,6 +61,20 @@ class ImageProcessor {
         
         if (index == -1) {
             for i in 0..<cardList.count() {
+                let rotation = CGFloat(cardList.getRotation(i))
+                print("ROTATING: \(rotation)")
+                let hex = cardList.getHexRect(i)
+                let xTranslation = hex.minX + (hex.size.width / 2)
+                let yTranslation = hex.minY + (hex.size.height / 2)
+
+//                if (i == cardList.count()-1) {
+//                    ctx?.setStrokeColor(UIColor.red.cgColor)
+                ctx?.translateBy(x: xTranslation, y: yTranslation)
+                ctx?.rotate(by: (rotation * CGFloat(CGFloat.pi / 180)))
+//                    ctx?.stroke(CGRect(x: -20, y: -20, width: 40, height: 40))
+                ctx?.translateBy(x: xTranslation * -1, y: yTranslation * -1)
+//                }
+                
                 switch style {
                 case "hex":
                     ctx?.stroke(cardList.getHexRect(i))
@@ -72,6 +85,10 @@ class ImageProcessor {
                 default:
                     ctx?.stroke(cardList.getFullRect(i))
                 }
+
+                ctx?.translateBy(x: xTranslation, y: yTranslation)
+                ctx?.rotate(by: (rotation * CGFloat(CGFloat.pi / 180)) * -1)
+                ctx?.translateBy(x: xTranslation * -1, y: yTranslation * -1)
             }
         } else {
             switch style {
