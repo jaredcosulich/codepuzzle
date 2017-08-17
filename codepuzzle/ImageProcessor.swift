@@ -61,46 +61,10 @@ class ImageProcessor {
         
         if (index == -1) {
             for i in 0..<cardList.count() {
-                let rotation = CGFloat(cardList.getRotation(i))
-                print("ROTATING: \(rotation)")
-                let hex = cardList.getHexRect(i)
-                let xTranslation = hex.minX + (hex.size.width / 2)
-                let yTranslation = hex.minY + (hex.size.height / 2)
-
-//                if (i == cardList.count()-1) {
-//                    ctx?.setStrokeColor(UIColor.red.cgColor)
-                ctx?.translateBy(x: xTranslation, y: yTranslation)
-                ctx?.rotate(by: (rotation * CGFloat(CGFloat.pi / 180)))
-//                    ctx?.stroke(CGRect(x: -20, y: -20, width: 40, height: 40))
-                ctx?.translateBy(x: xTranslation * -1, y: yTranslation * -1)
-//                }
-                
-                switch style {
-                case "hex":
-                    ctx?.stroke(cardList.getHexRect(i))
-                case "function":
-                    ctx?.stroke(cardList.getFunctionRect(i))
-                case "param":
-                    ctx?.stroke(cardList.getParamRect(i))
-                default:
-                    ctx?.stroke(cardList.getFullRect(i))
-                }
-
-                ctx?.translateBy(x: xTranslation, y: yTranslation)
-                ctx?.rotate(by: (rotation * CGFloat(CGFloat.pi / 180)) * -1)
-                ctx?.translateBy(x: xTranslation * -1, y: yTranslation * -1)
+                _borderCard(ctx: ctx!, image: image, cardList: cardList, index: i, style: style)
             }
         } else {
-            switch style {
-            case "hex":
-                ctx?.stroke(cardList.getHexRect(index))
-            case "function":
-                ctx?.stroke(cardList.getFunctionRect(index))
-            case "param":
-                ctx?.stroke(cardList.getParamRect(index))
-            default:
-                ctx?.stroke(cardList.getFullRect(index))
-            }
+            _borderCard(ctx: ctx!, image: image, cardList: cardList, index: index, style: style)
         }
 
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -110,8 +74,47 @@ class ImageProcessor {
         return modifiedImage!
     }
     
-    class func cropCard(image: UIImage, rect: CGRect) -> UIImage {
-        return UIImage(cgImage: (image.cgImage?.cropping(to: rect))!)
+    class func _borderCard(ctx: CGContext, image: UIImage, cardList: CardListWrapper, index: Int32, style: String = "full") {
+        let rotation = CGFloat(cardList.getRotation(index))
+        let hex = cardList.getHexRect(index)
+        let xTranslation = hex.minX + (hex.size.width / 2)
+        let yTranslation = hex.minY + (hex.size.height / 2)
+        
+        ctx.translateBy(x: xTranslation, y: yTranslation)
+        ctx.rotate(by: (rotation * CGFloat(CGFloat.pi / 180)))
+        ctx.translateBy(x: xTranslation * -1, y: yTranslation * -1)
+        
+        switch style {
+        case "hex":
+            ctx.stroke(cardList.getHexRect(index))
+        case "function":
+            ctx.stroke(cardList.getFunctionRect(index))
+        case "param":
+            ctx.stroke(cardList.getParamRect(index))
+        default:
+            ctx.stroke(cardList.getFullRect(index))
+        }
+
+        ctx.translateBy(x: xTranslation, y: yTranslation)
+        ctx.rotate(by: (rotation * CGFloat(CGFloat.pi / 180) * -1))
+        ctx.translateBy(x: xTranslation * -1, y: yTranslation * -1)
+}
+    
+    class func cropCard(image: UIImage, rect: CGRect, rotation: Double) -> UIImage {
+        
+        print("Rotation: \(rotation) = \(rect.size.width)x\(rect.size.height)")
+        UIGraphicsBeginImageContext(rect.size)
+        let ctx = UIGraphicsGetCurrentContext()
+        
+        ctx?.rotate(by: (CGFloat(rotation) * CGFloat(CGFloat.pi / 180) * -1))
+        ctx?.translateBy(x: rect.minX * -1, y: rect.minY * -1)
+        image.draw(at: CGPoint.zero)
+        
+        let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return modifiedImage!//ImageProcessor.rotate(image: modifiedImage!, degrees: CGFloat(rotation * -1))
     }
         
     

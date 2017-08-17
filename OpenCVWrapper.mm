@@ -217,6 +217,10 @@ using namespace std;
                 
                 float slope = ((float)(p2.y - p1.y)/distance);
                 rotation = (atan(slope) * 180 / CV_PI);
+                
+                printf("Rotation: %f, Bound: %dx%d \n ", rotation,
+                       bound.width, bound.height);
+
                 break;
             }
         }

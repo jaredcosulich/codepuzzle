@@ -86,9 +86,10 @@ class ProcessingViewController: UIViewController {
 //                identifier: "function\(i)"
 //            )
                 
+                let rotation = self.cardList.getRotation(Int32(i))
                 let paramRect = self.cardList.getParamRect(Int32(i))
                 self.mathPix.processImage(
-                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect),
+                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, rotation: rotation),
                     identifier: "param\(i)",
                     result: nil//params[Int(i)]
                 )
@@ -132,12 +133,13 @@ class ProcessingViewController: UIViewController {
                 return
             }
             
+            let rotation = self.cardList.getRotation(cardCount)
             let functionRect = cardList.getFunctionRect(cardCount)
-            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect).g8_blackAndWhite()
+            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect, rotation: rotation).g8_blackAndWhite()
             tesseract.recognize()
             
             let fullRect = cardList.getFullRect(cardCount)
-            let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
+            let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect, rotation: rotation)
             let code = Functions.processedCode(code: tesseract.recognizedText!)
             let param = mathPix.getValue(identifier: "param\(cardCount)")
             

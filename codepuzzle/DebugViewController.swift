@@ -50,7 +50,6 @@ class DebugViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func openCVButton(_ sender: UIButton) {
-//        var rotatedImage = cardList.getRotation(i)
         cardGroupImageView.image = OpenCVWrapper.debug(image)
     }
     
@@ -94,11 +93,12 @@ class DebugViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func showNextParam() {
+        let rotation = cardList.getRotation(Int32(paramIndex))
         let functionRect = cardList.getFunctionRect(Int32(paramIndex))
-        tesseract.image = ImageProcessor.cropCard(image: image, rect: functionRect).g8_blackAndWhite()
+        tesseract.image = ImageProcessor.cropCard(image: image, rect: functionRect, rotation: rotation).g8_blackAndWhite()
         tesseract.recognize()
         cardGroupImageView.image = tesseract.image
-        output.text = "Code: \(tesseract.recognizedText!)"
+//        output.text = "Code: \(tesseract.recognizedText!)"
         paramIndex += 1
         if (Int32(paramIndex) >= cardList.count()) {
             timer.invalidate()
