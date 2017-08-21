@@ -36,14 +36,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var editProjectView: UIView!    
     @IBOutlet weak var editProjectTitle: UITextField!
 
-    var selectedCardGroupIndex: Int!
+    var selectedCardGroupIndex = -1
     
     let s3Util = S3Util()
     
     var cardProject: CardProject!
-    
-    var selectedIndex: Int!
-    var debugImage: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +52,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         projectTitle.text = cardProject.title
         editProjectTitle.text = cardProject.title
         
-        selectedIndex = cardProject.cardGroups.count
+        for i in 0..<cardProject.cardGroups.count {
+            let cardGroup = cardProject.cardGroups[i]
+            if (!cardGroup.processed) {
+                selectedCardGroupIndex = i
+                imageView.image = cardGroup.image
+                showPhoto()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,28 +79,45 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let cardGroup = cardProject.cardGroups[indexPath.row]
         cell?.textLabel?.text = "Card Photo \(indexPath.row + 1)"
-        cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
+        if (cardGroup.processed) {
+            cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
+        } else  {
+            cell?.detailTextLabel?.text = "Not Yet Processed"
+        }
         cell?.imageView?.image = cardGroup.image
         
         return cell!
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_
+        tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             cardProject.deleteCardGroup(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
-    func tableView(_ tableView: UITableView,
+    func tableView(_
+        tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         selectedCardGroupIndex = indexPath.row
-        performSegue(withIdentifier: "debug-segue", sender: nil)
+        if (cardProject.cardGroups[selectedCardGroupIndex].processed) {
+            performSegue(withIdentifier: "debug-segue", sender: nil)
+        } else {
+            performSegue(withIdentifier: "processing-segue", sender: nil)            
+        }
     }
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return cardProject.cardGroups.count
+        var cardGroupCount = cardProject.cardGroups.count
+        if (cardGroupCount > 0 && !cardProject.cardGroups.last!.processed) {
+            cardGroupCount -= 1
+        }
+        print("CARD GROUP COUNT: \(cardGroupCount)")
+        return cardGroupCount
     }
     
     @IBAction func newphotobutton(_ sender: UIButton) {
@@ -143,19 +164,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         resizeView(image: normalized)
         imageView.image = normalized
 
-        imageView.isHidden = false
-        rotateRight.isHidden = false
-        rotateLeft.isHidden = false
-        processPhoto.isHidden = false
-        changePhoto.isHidden = false
-        
-        addPhotoLabel.isHidden = true
-        
-        editTitle.isHidden = true
-        playProject.isHidden = true
-        deleteProject.isHidden = true
-        newPhoto.isHidden = true
-        loadPhoto.isHidden = true
+        showPhoto()
         
         self.dismiss(animated: true, completion: nil)
         
@@ -163,8 +172,28 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 }
     
     @IBAction func changePhotoButton(_ sender: UIButton) {
+        hidePhoto()
+    }
+    
+    func showPhoto() {
+        imageView.isHidden = false
+        rotateRight.isHidden = false
+        rotateLeft.isHidden = false
+        analyzePhoto.isHidden = false
+        processPhoto.isHidden = false
+        changePhoto.isHidden = false
+        addPhotoLabel.isHidden = true
+        editTitle.isHidden = true
+        playProject.isHidden = true
+        deleteProject.isHidden = true
+        newPhoto.isHidden = true
+        loadPhoto.isHidden = true
+    }
+    
+    func hidePhoto() {
         rotateRight.isHidden = true
         rotateLeft.isHidden = true
+        analyzePhoto.isHidden = true
         processPhoto.isHidden = true
         changePhoto.isHidden = true
         imageView.isHidden = true
@@ -217,12 +246,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func saveCardGroup() {
-        if cardProject.cardGroups.count != selectedIndex + 1 {
+        if selectedCardGroupIndex == -1 {
             _ = cardProject.addCardGroup(image: imageView.image!)
         } else {
-            cardProject.cardGroups[selectedIndex].image = imageView.image!
+            cardProject.cardGroups[selectedCardGroupIndex].image = imageView.image!
             cardProject.save()
         }
+        selectedCardGroupIndex = cardProject.cardGroups.count - 1
     }
     
     @IBAction func homeButton(_ sender: UIButton) {
@@ -230,7 +260,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func debugImage(_ sender: UIButton) {
-        debugImage = imageView.image
         performSegue(withIdentifier: "debug-segue", sender: nil)
     }
     
@@ -238,17 +267,18 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if segue.identifier == "processing-segue" {
             let dvc = segue.destination as! ProcessingViewController
             dvc.cardProject = cardProject
-            dvc.selectedIndex = selectedIndex
+            dvc.selectedIndex = selectedCardGroupIndex
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
         } else if segue.identifier == "debug-segue" {
             let dvc = segue.destination as! DebugViewController
             dvc.cardProject = cardProject
-            dvc.selectedIndex = selectedCardGroupIndex
-            if selectedCardGroupIndex > -1 {
+            if selectedCardGroupIndex > -1 && cardProject.cardGroups[selectedCardGroupIndex].processed {
+                dvc.selectedIndex = selectedCardGroupIndex
                 dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
             } else {
+                dvc.selectedIndex = -1
                 dvc.image = imageView.image
             }
         }

@@ -245,7 +245,6 @@ using namespace std;
     dilated = [[self class] dilate:canny];
     
     cv::findContours(dilated, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
-    
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
@@ -289,7 +288,7 @@ using namespace std;
         cv::Rect rotatedBound;
         cv::Rect validInnerHex;
         innerHexagons = [[self class] findHexagons:hex];
-        
+
         for (int j=0; j<innerHexagons.size(); ++j) {
             cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
             
