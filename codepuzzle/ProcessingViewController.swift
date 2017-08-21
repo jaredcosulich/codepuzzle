@@ -167,7 +167,7 @@ class ProcessingViewController: UIViewController {
             
             cardCount += 1
 
-            output.text = "Identifying Cards:\(cardCount)\r\r\(Functions.signature(code: code, param: param))"
+            output.text = "Identifying Cards: \(cardCount)\r\r\(Functions.signature(code: code, param: param))"
         } else {
             cardGroup.processed = true
             cardGroup.processedImage = imageView.image!
