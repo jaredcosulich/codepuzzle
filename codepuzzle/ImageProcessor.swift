@@ -100,21 +100,36 @@ class ImageProcessor {
         ctx.translateBy(x: xTranslation * -1, y: yTranslation * -1)
 }
     
-    class func cropCard(image: UIImage, rect: CGRect, rotation: Double) -> UIImage {
+    class func cropCard(image: UIImage, rect: CGRect, hexRect: CGRect, rotation: Double) -> UIImage {
         
-        print("Rotation: \(rotation) = \(rect.size.width)x\(rect.size.height)")
+        let rotationPoint = CGPoint(x: hexRect.midX, y: hexRect.midY)
+
+        let angle = (CGFloat(rotation) * CGFloat(CGFloat.pi / 180) * -1)
+        
         UIGraphicsBeginImageContext(rect.size)
         let ctx = UIGraphicsGetCurrentContext()
+        ctx?.rotate(by: angle)
+
+        var x = rect.minX;
+        var y = rect.minY;
         
-        ctx?.rotate(by: (CGFloat(rotation) * CGFloat(CGFloat.pi / 180) * -1))
-        ctx?.translateBy(x: rect.minX * -1, y: rect.minY * -1)
-        image.draw(at: CGPoint.zero)
+        let s = sin(angle * -1);
+        let c = cos(angle * -1);
+        
+        x -= rotationPoint.x;
+        y -= rotationPoint.y;
+        
+        let newX = (x * c - y * s) + rotationPoint.x;
+        let newY = (x * s + y * c) + rotationPoint.y;
+        
+        image.draw(at: CGPoint(x: newX * -1, y: newY * -1))
         
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
         
-        return modifiedImage!//ImageProcessor.rotate(image: modifiedImage!, degrees: CGFloat(rotation * -1))
+        return modifiedImage!
+        
     }
         
     

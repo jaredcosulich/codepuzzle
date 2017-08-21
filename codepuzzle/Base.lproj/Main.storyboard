@@ -150,7 +150,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyo-uf-VfJ">
-                                <rect key="frame" x="164" y="295" width="131" height="30"/>
+                                <rect key="frame" x="95" y="325" width="131" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Process Photo">
                                     <color key="titleColor" red="0.014507189133144192" green="0.60684504533678751" blue="0.0014503650282821827" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -247,67 +247,29 @@
                                     <action selector="playButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="N1k-R5-JLQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STb-mJ-6cP">
-                                <rect key="frame" x="137" y="325" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znf-Yq-NS3">
+                                <rect key="frame" x="140" y="27" width="41" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Debug">
-                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
+                                <state key="normal" title="Home"/>
                                 <connections>
-                                    <segue destination="bVL-Zx-Wui" kind="show" identifier="debug-segue" id="d1F-8O-Tzk"/>
+                                    <action selector="homeButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="6EF-2F-h5Y"/>
                                 </connections>
                             </button>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="544-bh-Z7X">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STb-mJ-6cP">
+                                <rect key="frame" x="175" y="295" width="100" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="1VQ-tK-dI1">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0KE-No-Ko6">
-                                            <rect key="frame" x="8" y="28" width="304" height="384"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k8N-HB-Nx5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="304" height="384"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                            </subviews>
-                                            <connections>
-                                                <outlet property="delegate" destination="9pv-A4-QxB" id="5Rq-GH-1Sw"/>
-                                            </connections>
-                                        </scrollView>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jo8-5C-7Rt">
-                                            <rect key="frame" x="169" y="448" width="121" height="82"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Cancel"/>
-                                            <connections>
-                                                <action selector="closeCardGroupPhotoView:" destination="9pv-A4-QxB" eventType="touchUpInside" id="11I-KG-jxh"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8W3-jS-RPS">
-                                            <rect key="frame" x="64" y="474" width="53" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Delete">
-                                                <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="deleteCardGroupButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="MKs-Xc-m6i"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
+                                <state key="normal" title="Analyze Photo"/>
+                                <connections>
+                                    <action selector="debugImage:" destination="9pv-A4-QxB" eventType="touchUpInside" id="FiR-g7-8tO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
-                        <outlet property="blurEffectView" destination="544-bh-Z7X" id="ILj-WC-TJO"/>
-                        <outlet property="cardGroupImageView" destination="k8N-HB-Nx5" id="0wc-Bh-gx0"/>
-                        <outlet property="cardGroupView" destination="0KE-No-Ko6" id="C1i-3y-iog"/>
+                        <outlet property="analyzePhoto" destination="STb-mJ-6cP" id="LoQ-BA-l5Y"/>
                         <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
                         <outlet property="deleteProject" destination="BLh-tL-cSO" id="UAe-5i-vHL"/>
                         <outlet property="editProjectTitle" destination="ddf-J6-nlI" id="Jnf-eh-UpE"/>
@@ -324,6 +286,8 @@
                         <outlet property="tableView" destination="GDl-Vx-efq" id="AI2-Sg-CD0"/>
                         <segue destination="ueC-M8-gXi" kind="show" identifier="delete-project-segue" id="Kvr-WZ-WZn"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="zhG-AU-rJY"/>
+                        <segue destination="ueC-M8-gXi" kind="show" identifier="home-segue" id="XtV-ht-CVw"/>
+                        <segue destination="bVL-Zx-Wui" kind="show" identifier="debug-segue" id="Z1L-qb-ND3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -343,12 +307,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d6D-Yb-0lM">
-                                <rect key="frame" x="-1" y="20" width="320" height="409"/>
+                                <rect key="frame" x="-1" y="20" width="320" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zCb-jc-Uk4">
-                                        <rect key="frame" x="8" y="8" width="304" height="384"/>
+                                        <rect key="frame" x="8" y="8" width="304" height="280"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.47875216557635969" green="0.49615064489050675" blue="0.50410864637305697" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                 </subviews>
                                 <connections>
@@ -365,67 +330,43 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bO9-xt-UGx">
                                 <rect key="frame" x="257" y="530" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
+                                <state key="normal" title="Cancel"/>
                                 <connections>
                                     <segue destination="9pv-A4-QxB" kind="show" identifier="cancel-debug-segue" id="Wia-qE-qhr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FSs-RA-FlL">
-                                <rect key="frame" x="10" y="530" width="51" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzI-Kq-pjL">
+                                <rect key="frame" x="16" y="530" width="89" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Params"/>
+                                <state key="normal" title="Delete Photo">
+                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2V7-2f-iIv">
+                                <rect key="frame" x="132" y="487" width="55" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Process">
+                                    <color key="titleColor" red="0.026313179589999999" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
-                                    <action selector="paramButton:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="aaZ-d5-rcb"/>
+                                    <action selector="processImage:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="c1B-6v-Gnr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R5U-iH-b76">
-                                <rect key="frame" x="247" y="492" width="68" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Functions"/>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ega-IL-pW6">
+                                <rect key="frame" x="-1" y="281" width="320" height="198"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="functionButton:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="tJD-XU-CuO"/>
+                                    <outlet property="dataSource" destination="bVL-Zx-Wui" id="WWq-De-e5p"/>
+                                    <outlet property="delegate" destination="bVL-Zx-Wui" id="dVg-4n-ZNu"/>
                                 </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TrE-ZY-obw">
-                                <rect key="frame" x="170" y="492" width="69" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Full Cards"/>
-                                <connections>
-                                    <action selector="fullButton:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="4Lz-b0-Z4Y"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lm9-U3-fPP">
-                                <rect key="frame" x="84" y="492" width="69" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Hexagons"/>
-                                <connections>
-                                    <action selector="hexButton:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="ufN-ra-eEb"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZi-7V-nDh">
-                                <rect key="frame" x="3" y="492" width="66" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="OpenCV"/>
-                                <connections>
-                                    <action selector="openCVButton:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="MS5-yo-502"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Sb-Ha-I4x">
-                                <rect key="frame" x="84" y="530" width="101" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Each Function"/>
-                                <connections>
-                                    <action selector="individualParams:" destination="bVL-Zx-Wui" eventType="touchUpInside" id="u4P-iX-fyf"/>
-                                </connections>
-                            </button>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="cardGroupImageView" destination="zCb-jc-Uk4" id="aGy-lk-78k"/>
                         <outlet property="cardGroupView" destination="d6D-Yb-0lM" id="wEH-uT-o6h"/>
+                        <outlet property="functionPicker" destination="Ega-IL-pW6" id="9FK-YY-zI0"/>
                         <outlet property="output" destination="dhM-rf-Xlz" id="2Pl-d4-CAm"/>
                     </connections>
                 </viewController>
@@ -637,7 +578,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Wia-qE-qhr"/>
-        <segue reference="Kvr-WZ-WZn"/>
-        <segue reference="zhG-AU-rJY"/>
+        <segue reference="XtV-ht-CVw"/>
+        <segue reference="6is-cO-B1I"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -12,7 +12,7 @@ class Functions {
     
     static let functionInfo = [
         "A1": [
-            "name": "Move Foward",
+            "name": "Move Forward",
             "method": "moveForward"
         ],
         "A2": [
@@ -227,8 +227,17 @@ class Functions {
         layer.setAffineTransform(rotation)
     }
     
+    func translate(param: String) -> CGFloat {
+        let translatedParam = param.replacingOccurrences(of: ">", with: "7")
+            .replacingOccurrences(of: "\n", with: "")
+
+
+        
+        return CGFloat((translatedParam as NSString).floatValue)
+    }
+    
     func execute(code: String, param: String, instant: Bool = false) {
-        let paramNumber = CGFloat((param as NSString).floatValue)
+        let paramNumber = translate(param: param)
 
         let methodName = Functions.info(code: Functions.translate(code: code))["method"] ?? ""
 

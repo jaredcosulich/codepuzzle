@@ -12,6 +12,8 @@
 
 @interface OpenCVWrapper : NSObject
 
++ (UIImage *) individualProcess :(UIImage *) image :(int) process;
+
 + (UIImage *) debug :(UIImage *) image;
 
 + (void) process :(UIImage *) image :(CardListWrapper *) cards;

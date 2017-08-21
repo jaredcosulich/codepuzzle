@@ -81,15 +81,18 @@ class ProcessingViewController: UIViewController {
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
-//            mathPix.processImage(
-//                image: cardList.getFunctionImage(i)!,
-//                identifier: "function\(i)"
-//            )
-                
                 let rotation = self.cardList.getRotation(Int32(i))
+                let hexRect = self.cardList.getHexRect(Int32(i))
+                let functionRect = self.cardList.getFunctionRect(Int32(i))
+                self.mathPix.processImage(
+                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: rotation),
+                    identifier: "function\(i)",
+                    result: nil
+                )
+                
                 let paramRect = self.cardList.getParamRect(Int32(i))
                 self.mathPix.processImage(
-                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, rotation: rotation),
+                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, hexRect: hexRect, rotation: rotation),
                     identifier: "param\(i)",
                     result: nil//params[Int(i)]
                 )
@@ -134,13 +137,15 @@ class ProcessingViewController: UIViewController {
             }
             
             let rotation = self.cardList.getRotation(cardCount)
-            let functionRect = cardList.getFunctionRect(cardCount)
-            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect, rotation: rotation).g8_blackAndWhite()
-            tesseract.recognize()
+            let hexRect = cardList.getHexRect(cardCount)
+//            let functionRect = cardList.getFunctionRect(cardCount)
+//            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
+//            tesseract.recognize()
             
             let fullRect = cardList.getFullRect(cardCount)
-            let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect, rotation: rotation)
-            let code = Functions.processedCode(code: tesseract.recognizedText!)
+            let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect, hexRect: hexRect, rotation: rotation)
+//            let code = Functions.processedCode(code: tesseract.recognizedText!)
+            let code = Functions.processedCode(code: mathPix.getValue(identifier: "function\(cardCount)"))
             let param = mathPix.getValue(identifier: "param\(cardCount)")
             
             if (Functions.valid(code: code)) {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -26,26 +26,24 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var loadPhoto: UIButton!
     @IBOutlet weak var changePhoto: UIButton!
     @IBOutlet weak var processPhoto: UIButton!
+    @IBOutlet weak var analyzePhoto: UIButton!
     @IBOutlet weak var addPhotoLabel: UILabel!
     
     @IBOutlet weak var editTitle: UIButton!
     @IBOutlet weak var playProject: UIButton!
     @IBOutlet weak var deleteProject: UIButton!
-    @IBOutlet weak var methodOutput: UILabel!
     
     @IBOutlet weak var editProjectView: UIView!    
     @IBOutlet weak var editProjectTitle: UITextField!
 
     var selectedCardGroupIndex: Int!
-    @IBOutlet weak var blurEffectView: UIVisualEffectView!
-    @IBOutlet weak var cardGroupView: UIScrollView!
-    @IBOutlet weak var cardGroupImageView: UIImageView!
     
     let s3Util = S3Util()
     
     var cardProject: CardProject!
     
     var selectedIndex: Int!
+    var debugImage: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,19 +55,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         projectTitle.text = cardProject.title
         editProjectTitle.text = cardProject.title
         
-        cardGroupView.minimumZoomScale = 1.0
-        cardGroupView.maximumZoomScale = 6.0
-        
         selectedIndex = cardProject.cardGroups.count
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return cardGroupImageView
     }
     
     func tableView(_ tableView: UITableView,
@@ -100,7 +91,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         selectedCardGroupIndex = indexPath.row
-        showCardGroup(cardGroup: cardProject.cardGroups[selectedCardGroupIndex])
+        performSegue(withIdentifier: "debug-segue", sender: nil)
     }
     
     func tableView(_ tableView: UITableView,
@@ -139,13 +130,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         saveCardGroup()
     }
 
-    @IBAction func savephotobutton(_ sender: UIButton) {
-        UIImageWriteToSavedPhotosAlbum(imageView.image!, photoSaved(), nil, nil)
-    }
+//    @IBAction func savephotobutton(_ sender: UIButton) {
+//        UIImageWriteToSavedPhotosAlbum(imageView.image!, photoSaved(), nil, nil)
+//    }
     
-    func photoSaved() {
-        methodOutput.text = "Photo Saved!"
-    }
+//    func photoSaved() {
+//        methodOutput.text = "Photo Saved!"
+//    }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         let normalized = ImageProcessor.normalize(image: image)
@@ -216,24 +207,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         editProjectTitle.text = cardProject.title
         editProjectView.isHidden = true
     }
-    
-    func showCardGroup(cardGroup: CardGroup) {
-        cardGroupImageView.image = cardGroup.image
-        performSegue(withIdentifier: "debug-segue", sender: nil)
-//        cardGroupImageView.image = cardGroup.processed ? cardGroup.processedImage : cardGroup.image
-//        if cardGroup.processed {
-//            blurEffectView.isHidden = false
-//        } else {
-//            performSegue(withIdentifier: "debug-segue", sender: nil)
-//        }
-    }
-    
+
     @IBAction func playButton(_ sender: UIButton) {
         performSegue(withIdentifier: "execution-segue", sender: nil)
-    }
-    
-    @IBAction func closeCardGroupPhotoView(_ sender: UIButton) {
-        blurEffectView.isHidden = true
     }
     
     @IBAction func deleteCardGroupButton(_ sender: UIButton) {
@@ -249,6 +225,15 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
     
+    @IBAction func homeButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "home-segue", sender: nil)
+    }
+    
+    @IBAction func debugImage(_ sender: UIButton) {
+        debugImage = imageView.image
+        performSegue(withIdentifier: "debug-segue", sender: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "processing-segue" {
             let dvc = segue.destination as! ProcessingViewController
@@ -260,7 +245,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else if segue.identifier == "debug-segue" {
             let dvc = segue.destination as! DebugViewController
             dvc.cardProject = cardProject
-            dvc.image = cardGroupImageView.image //imageView.image
+            dvc.selectedIndex = selectedCardGroupIndex
+            if selectedCardGroupIndex > -1 {
+                dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
+            } else {
+                dvc.image = imageView.image
+            }
         }
     }
     
