@@ -35,13 +35,13 @@ class Card: NSManagedObject {
     @NSManaged var originalImageFilename: String
     var originalImage: UIImage {
         get {
-            return ImageSaver.retrieve(filename: imageFilename)
+            return ImageSaver.retrieve(filename: originalImageFilename)
         }
         
         set {
             let filename = "\(cardGroup.cardProject.title)-\(cardGroup.cardGroupIndex())-\(cardIndex())Original"
             if ImageSaver.save(image: newValue, filename: filename) {
-                imageFilename = filename
+                originalImageFilename = filename
             }
         }
     }

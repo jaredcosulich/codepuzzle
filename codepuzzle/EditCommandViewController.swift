@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import MagicalRecord
 
 struct TempCard {
+    var cardProject: CardProject!
     var code: String
     var param: String
     var image: UIImage
@@ -16,17 +18,38 @@ struct TempCard {
     var originalParam: String
     var originalImage: UIImage
     
-//    func addToCardGroup(cardGroup: CardGroup) -> Card {
-//        return cardGroup.addCard(code: code, param: param, image: image, originalCode: originalCode, originalParam: originalParam, originalImage: originalImage)
-//    }
+    func addToCardGroup(cardGroup: CardGroup) -> Card {
+        var newCard: Card!
+        cardProject.persistedManagedObjectContext.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
+            newCard?.cardGroup = cardGroup
+            newCard?.code = self.code
+            newCard?.param = self.param
+            newCard?.image = self.image
+            newCard?.originalCode = self.originalCode
+            newCard?.originalParam = self.originalParam
+            newCard?.originalImage = self.originalImage
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+        })
+        return newCard
+    }
 
     func updateCard(card: Card) {
-//        card.code = code
-//        card.param = param
-//        card.image = image
-//        card.originalCode = originalCode
-//        card.originalParam = originalParam
-//        card.originalImage = originalImage
+        cardProject.persistedManagedObjectContext.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            card.code = self.code
+            card.param = self.param
+            card.image = self.image
+            card.originalCode = self.originalCode
+            card.originalParam = self.originalParam
+            card.originalImage = self.originalImage
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+        })
     }
 }
 
@@ -52,19 +75,20 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-//        selectedCard = cardProject.allCards()[selectedIndex]
+        selectedCard = cardProject.allCards()[selectedIndex]
         let selectedCode = selectedCard.code
         param.text = selectedCard.param
-//        cardView.image = selectedCard.image
+        cardView.image = selectedCard.image
         
-//        uneditedCard = TempCard(
-//            code: selectedCard.code,
-//            param: selectedCard.param,
-//            image: selectedCard.image,
-//            originalCode: selectedCard.originalCode,
-//            originalParam: selectedCard.originalParam,
-//            originalImage: selectedCard.originalImage
-//        )
+        uneditedCard = TempCard(
+            cardProject: cardProject,
+            code: selectedCard.code,
+            param: selectedCard.param,
+            image: selectedCard.image,
+            originalCode: selectedCard.originalCode,
+            originalParam: selectedCard.originalParam,
+            originalImage: selectedCard.originalImage
+        )
         
         var selectedFunctionIndex = -1
         
@@ -123,11 +147,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
             selectedCard.param = param.text!
-//            selectedCard.image = drawCard(
-//                image: UIImage(named: newCode)!,
-//                param: param.text!
-//            )
-//            cardView.image = selectedCard.image
+            selectedCard.image = drawCard(
+                image: UIImage(named: newCode)!,
+                param: param.text!
+            )
+            cardView.image = selectedCard.image
             setNewCard()
         }
     }
@@ -152,10 +176,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBAction func showParam(_ sender: Any) {
         selectedCard.param = param.text!
         
-//        let code = selectedCard.code
+        let code = selectedCard.code
         
-//        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
-//        cardView.image = selectedCard.image
+        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
+        cardView.image = selectedCard.image
         setNewCard()
     }
     

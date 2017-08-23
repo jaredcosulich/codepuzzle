@@ -176,14 +176,12 @@ class ProcessingViewController: UIViewController {
             timer.invalidate()
             self.cardProject.persistedManagedObjectContext.mr_save({
                 (localContext: NSManagedObjectContext!) in
-                self.cardGroup.processed = true
+                self.cardGroup.isProcessed = true
                 self.cardGroup.processedImage = self.imageView.image!
             }, completion: {
                 (MRSaveCompletionHandler) in
                 self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-                print(1)
                 self.performSegue(withIdentifier: "execution-segue", sender: nil)
-                print(2)
             })
         }
     }

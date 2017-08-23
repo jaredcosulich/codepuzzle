@@ -243,9 +243,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func saveProjectTitle(_ sender: UIButton) {
-        MagicalRecord.save({
+        print("SAVE TITLE: \(self.cardProject.persistedManagedObjectContext!)")
+        self.cardProject.persistedManagedObjectContext.mr_save({
             (localContext: NSManagedObjectContext!) in
                 self.cardProject.title = self.editProjectTitle.text!
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            print ("PERSIST SAVE TITLE")
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
         })
         projectTitle.text = editProjectTitle.text!
         editProjectView.isHidden = true
