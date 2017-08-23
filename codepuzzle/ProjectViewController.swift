@@ -24,12 +24,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        cardProjects = CardProject.mr_findAll() as! [CardProject]
-        
-        for cp in cardProjects {
-            cp.persistedManagedObjectContext = cp.managedObjectContext!
-        }
+
+        loadCardProjects()
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -38,6 +34,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadCardProjects() {
+        cardProjects = CardProject.mr_findAll() as! [CardProject]
+        
+        for cp in cardProjects {
+            cp.persistedManagedObjectContext = cp.managedObjectContext!
+        }
     }
     
     func tableView(_ tableView: UITableView,
@@ -60,8 +64,16 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            projectLoader.delete  (at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            let cardProject = self.cardProjects[indexPath.row]
+            cardProject.persistedManagedObjectContext.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                cardProject.mr_deleteEntity(in: cardProject.persistedManagedObjectContext)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                self.loadCardProjects()
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            })
         }
     }
     
@@ -103,6 +115,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             self.cardProject = CardProject.mr_createEntity(in: localContext)
             self.cardProject.title = self.projectTitle.text!
             self.cardProject.persistedManagedObjectContext = localContext
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
         })
         performSegue(withIdentifier: "start-project-segue", sender: nil)
     }
