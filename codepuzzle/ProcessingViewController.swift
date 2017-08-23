@@ -99,6 +99,16 @@ class ProcessingViewController: UIViewController {
     
     @IBAction func rejectCard(_ sender: UIButton) {
         timer.invalidate()
+        Timer.scheduledTimer(
+            timeInterval: 0.2,
+            target: self,
+            selector: #selector(self.completeCardRejection),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+    
+    func completeCardRejection() {
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
