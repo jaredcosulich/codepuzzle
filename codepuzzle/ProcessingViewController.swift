@@ -31,6 +31,13 @@ class ProcessingViewController: UIViewController {
     
     var processing: Bool!
     
+    var execute = false
+    
+    @IBOutlet weak var yesButton: UIButton!
+    
+    @IBOutlet weak var noButton: UIButton!
+    
+    
 //    var start = NSDate()
     
     override func viewDidLoad() {
@@ -69,44 +76,77 @@ class ProcessingViewController: UIViewController {
     }
     
     func startCardProcessing() {
-        DispatchQueue.global(qos: .background).async {
-            OpenCVWrapper.process(self.imageView.image, self.cardList)
+        OpenCVWrapper.process(self.imageView.image, self.cardList)
+        
+        imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: -1)
 
-            self.processing = false
-            
-            let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-            let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
-            
-            for i in 0..<self.cardList.count() {
+        output.text = "Identified \(cardList.count()) cards\r\rIs that correct?"
+        
+        yesButton.isHidden = false
+        noButton.isHidden = false
+        
+        startCardAnalysis()
+    }
+    
+    @IBAction func confirmCard(_ sender: UIButton) {
+        if (cardCount < cardList.count()) {
+            execute = true
+            output.text = "Processing cards. One moment..."
+        } else {
+            self.performSegue(withIdentifier: "execution-segue", sender: nil)
+        }
+    }
+    
+    @IBAction func rejectCard(_ sender: UIButton) {
+        timer.invalidate()
+        let context = self.cardProject.persistedManagedObjectContext!
+        context.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            self.cardGroup.isProcessed = false
+            self.cardGroup.processedImage = nil
+            for card in self.cardGroup.cards {
+                card.mr_deleteEntity(in: context)
+            }
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            context.mr_saveToPersistentStoreAndWait()
+            self.performSegue(withIdentifier: "cancel-segue", sender: nil)
+        })
+    }
+
+    func startCardAnalysis() {
+        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
+        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
+        
+        for i in 0..<self.cardList.count() {
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
 
-                let rotation = self.cardList.getRotation(Int32(i))
-                let hexRect = self.cardList.getHexRect(Int32(i))
-                let functionRect = self.cardList.getFunctionRect(Int32(i))
-                self.mathPix.processImage(
-                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: rotation),
-                    identifier: "function\(i)",
-                    result: codes[Int(i)]
-                )
-                
-                let paramRect = self.cardList.getParamRect(Int32(i))
-                self.mathPix.processImage(
-                    image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, hexRect: hexRect, rotation: rotation),
-                    identifier: "param\(i)",
-                    result: params[Int(i)]
-                )
-            }
+            let rotation = self.cardList.getRotation(Int32(i))
+            let hexRect = self.cardList.getHexRect(Int32(i))
+            let functionRect = self.cardList.getFunctionRect(Int32(i))
+            self.mathPix.processImage(
+                image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: rotation),
+                identifier: "function\(i)",
+                result: codes[Int(i)]
+            )
+            
+            let paramRect = self.cardList.getParamRect(Int32(i))
+            self.mathPix.processImage(
+                image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, hexRect: hexRect, rotation: rotation),
+                identifier: "param\(i)",
+                result: params[Int(i)]
+            )
         }
 
         self.checkCardProcessing()
         
         // start the timer
         self.timer = Timer.scheduledTimer(
-            timeInterval: 0.2,
+            timeInterval: 0.1,
             target: self,
             selector: #selector(self.checkCardProcessing),
             userInfo: nil,
@@ -115,10 +155,6 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardProcessing() {
-        if (processing) {
-            return
-        }
-        
         if (cardCount < cardList.count()) {
             let nextParamIdentifier = "param\(cardCount)"
             let nextFunctionIdentifier = "function\(cardCount)"
@@ -153,8 +189,6 @@ class ProcessingViewController: UIViewController {
                     newCard?.originalParam = param
                     newCard?.originalImage = cardImage
                 })
-
-                imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
             }
             
 //            if (cardCount < 3) {
@@ -162,8 +196,6 @@ class ProcessingViewController: UIViewController {
 //            }
             
             cardCount += 1
-
-            output.text = "Identifying Cards: \(cardCount)\r\r\(Functions.signature(code: code, param: param))"
         } else {
             timer.invalidate()
             self.cardProject.persistedManagedObjectContext.mr_save({
@@ -173,13 +205,18 @@ class ProcessingViewController: UIViewController {
             }, completion: {
                 (MRSaveCompletionHandler) in
                 self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-                self.performSegue(withIdentifier: "execution-segue", sender: nil)
+                if (self.execute) {
+                    self.performSegue(withIdentifier: "execution-segue", sender: nil)
+                }
             })
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "execution-segue" {
+        if segue.identifier == "cancel-segue" {
+            let dvc = segue.destination as! MenuViewController
+            dvc.cardProject = cardProject
+        } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
         }

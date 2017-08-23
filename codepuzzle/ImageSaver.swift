@@ -13,17 +13,24 @@ class ImageSaver {
 
     class func save(image: UIImage, filename: String) -> Bool {
         if let data = UIImagePNGRepresentation(image) {
-            let uri = getDocumentsDirectory().appendingPathComponent("CodePuzzle-\(filename)")
-            try? data.write(to: uri)
+            try? data.write(to: uri(filename: filename))
             return true
         }
         return false
     }
     
+    class func delete(filename: String) {
+        let fileManager = FileManager.default
+        try? fileManager.removeItem(at: uri(filename: filename))
+    }
+    
     class func retrieve(filename: String) -> UIImage {
-        let uri = getDocumentsDirectory().appendingPathComponent("CodePuzzle-\(filename)")
-        let imageData = NSData(contentsOf: uri)! as Data
+        let imageData = NSData(contentsOf: uri(filename: filename))! as Data
         return UIImage(data: imageData)!
+    }
+    
+    class func uri(filename: String) -> URL {
+        return getDocumentsDirectory().appendingPathComponent("CodePuzzle-\(filename)")
     }
     
     class func getDocumentsDirectory() -> URL {

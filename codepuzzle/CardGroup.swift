@@ -50,7 +50,9 @@ class CardGroup: NSManagedObject {
         
         set {
             let filename = "\(cardProject.title)-\(cardGroupIndex())Processed"
-            if ImageSaver.save(image: newValue!, filename: filename) {
+            if newValue == nil {
+                ImageSaver.delete(filename: filename)
+            } else if ImageSaver.save(image: newValue!, filename: filename) {
                 processedImageFilename = NSString(string: filename)
             }
         }

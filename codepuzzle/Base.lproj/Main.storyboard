@@ -391,24 +391,49 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIT-q5-Y3J">
-                                <rect key="frame" x="16" y="315" width="288" height="184"/>
+                                <rect key="frame" x="16" y="315" width="288" height="146"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPC-WB-rbs">
+                                <rect key="frame" x="67" y="485" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="No">
+                                    <color key="titleColor" red="1" green="0.099114384230000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="rejectCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="76Z-qt-T5g"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fip-F0-ggz">
+                                <rect key="frame" x="199" y="480" width="52" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Yes">
+                                    <color key="titleColor" red="0.026313179589999999" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="confirmCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="Ywq-gP-GZH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
+                        <outlet property="noButton" destination="NPC-WB-rbs" id="TdV-du-tjJ"/>
                         <outlet property="output" destination="OIT-q5-Y3J" id="FhS-x7-rqo"/>
+                        <outlet property="yesButton" destination="fip-F0-ggz" id="vx8-Jk-saQ"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="OVi-Ig-nvb"/>
+                        <segue destination="9pv-A4-QxB" kind="show" identifier="cancel-segue" id="M45-p5-jnD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A8I-m6-4t1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2248" y="-320"/>
+            <point key="canvasLocation" x="2246.25" y="-320.07042253521126"/>
         </scene>
         <!--Execution-->
         <scene sceneID="1Ov-rW-JqR">
@@ -582,8 +607,8 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zhG-AU-rJY"/>
-        <segue reference="Wia-qE-qhr"/>
+        <segue reference="M45-p5-jnD"/>
+        <segue reference="OVi-Ig-nvb"/>
         <segue reference="XtV-ht-CVw"/>
     </inferredMetricsTieBreakers>
 </document>
