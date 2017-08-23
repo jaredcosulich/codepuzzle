@@ -173,19 +173,18 @@ class ProcessingViewController: UIViewController {
 
             output.text = "Identifying Cards: \(cardCount)\r\r\(Functions.signature(code: code, param: param))"
         } else {
-            MagicalRecord.save({
+            timer.invalidate()
+            self.cardProject.persistedManagedObjectContext.mr_save({
                 (localContext: NSManagedObjectContext!) in
                 self.cardGroup.processed = true
                 self.cardGroup.processedImage = self.imageView.image!
             }, completion: {
                 (MRSaveCompletionHandler) in
-                self.timer.invalidate()
-                self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStore(completion: {
-                    (MRSaveCompletionHandler) in
-                    self.performSegue(withIdentifier: "execution-segue", sender: nil)
-                })
+                self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+                print(1)
+                self.performSegue(withIdentifier: "execution-segue", sender: nil)
+                print(2)
             })
-        
         }
     }
     
