@@ -45,13 +45,13 @@ class CardGroup: NSManagedObject {
 
     var processedImage: UIImage? {
         get {
-            return ImageSaver.retrieve(filename: String(imageFilename))
+            return ImageSaver.retrieve(filename: String(processedImageFilename!))
         }
         
         set {
             let filename = "\(cardProject.title)-\(cardGroupIndex())Processed"
             if ImageSaver.save(image: newValue!, filename: filename) {
-                imageFilename = NSString(string: filename)
+                processedImageFilename = NSString(string: filename)
             }
         }
     }

@@ -31,6 +31,8 @@ class ProcessingViewController: UIViewController {
     
     var processing: Bool!
     
+//    var start = NSDate()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -68,13 +70,12 @@ class ProcessingViewController: UIViewController {
     
     func startCardProcessing() {
         DispatchQueue.global(qos: .background).async {
-            
             OpenCVWrapper.process(self.imageView.image, self.cardList)
-            
+
             self.processing = false
             
-            //        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-//                    let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
+            let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
+            let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
             
             for i in 0..<self.cardList.count() {
 //            s3Util.upload(
@@ -82,35 +83,23 @@ class ProcessingViewController: UIViewController {
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
+
                 let rotation = self.cardList.getRotation(Int32(i))
                 let hexRect = self.cardList.getHexRect(Int32(i))
                 let functionRect = self.cardList.getFunctionRect(Int32(i))
                 self.mathPix.processImage(
                     image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: rotation),
                     identifier: "function\(i)",
-                    result: nil
+                    result: codes[Int(i)]
                 )
                 
                 let paramRect = self.cardList.getParamRect(Int32(i))
                 self.mathPix.processImage(
                     image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, hexRect: hexRect, rotation: rotation),
                     identifier: "param\(i)",
-                    result: nil//params[Int(i)]
+                    result: params[Int(i)]
                 )
-                
-//            let code = Functions.processedCode(code: codes[Int(i)])
-//            let fullRect = cardList.getFullRect(Int32(i))
-//            let fullImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect)
-//            _ = cardGroup.addCard(
-//                code: code,
-//                param: params[Int(i)],
-//                image: fullImage,
-//                originalCode: code,
-//                originalParam: params[Int(i)],
-//                originalImage: fullImage
-//            )
             }
-            
         }
 
         self.checkCardProcessing()
@@ -137,7 +126,7 @@ class ProcessingViewController: UIViewController {
             if (mathPix.processing(identifier: nextParamIdentifier) || mathPix.processing(identifier: nextFunctionIdentifier)) {
                 return
             }
-            
+
             let rotation = self.cardList.getRotation(cardCount)
             let hexRect = cardList.getHexRect(cardCount)
 //            let functionRect = cardList.getFunctionRect(cardCount)
@@ -145,7 +134,9 @@ class ProcessingViewController: UIViewController {
 //            tesseract.recognize()
             
             let fullRect = cardList.getFullRect(cardCount)
+
             let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect, hexRect: hexRect, rotation: rotation)
+
 //            let code = Functions.processedCode(code: tesseract.recognizedText!)
             let code = Functions.processedCode(code: mathPix.getValue(identifier: nextFunctionIdentifier))
             let param = mathPix.getValue(identifier: "param\(cardCount)")

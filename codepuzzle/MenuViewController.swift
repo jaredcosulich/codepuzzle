@@ -95,8 +95,17 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                    commit editingStyle: UITableViewCellEditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            cardProject.deleteCardGroup(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            let context = self.cardProject.persistedManagedObjectContext!
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                let cardGroup = self.cardProject.cardGroups[indexPath.row]
+                cardGroup.mr_deleteEntity(in: context)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                self.selectedCardGroupIndex = -1
+                context.mr_saveToPersistentStoreAndWait()
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            })
         }
     }
     
@@ -263,27 +272,25 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         performSegue(withIdentifier: "execution-segue", sender: nil)
     }
     
-    @IBAction func deleteCardGroupButton(_ sender: UIButton) {
-//        cardProject.deleteCardGroup(at: selectedCardGroupIndex)
-    }
-    
     func saveCardGroup() {
-        self.cardProject.persistedManagedObjectContext.mr_save({
+        let context = self.cardProject.persistedManagedObjectContext!
+
+        context.mr_save({
             (localContext: NSManagedObjectContext!) in
             var editingCardGroup: CardGroup!
             
             if self.selectedCardGroupIndex == -1 {
-                editingCardGroup = CardGroup.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
+                editingCardGroup = CardGroup.mr_createEntity(in: context)
                 editingCardGroup?.cardProject = self.cardProject
             } else {
                 editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
             }
-
             editingCardGroup?.image = self.imageView.image!
+            print("IMAGE SET: \(editingCardGroup?.image)")
         }, completion: {
             (MRSaveCompletionHandler) in
             self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1
-            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            context.mr_saveToPersistentStoreAndWait()
         })
     }
 
@@ -298,8 +305,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "processing-segue" {
             let dvc = segue.destination as! ProcessingViewController
+            dvc.selectedIndex = (selectedCardGroupIndex > -1 ? selectedCardGroupIndex : 0)
             dvc.cardProject = cardProject
-            dvc.selectedIndex = selectedCardGroupIndex
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
