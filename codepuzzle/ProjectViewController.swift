@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MagicalRecord
 
 class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -16,20 +17,16 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var projectTitle: UITextField!
     
-    var projectLoader: ProjectLoader!
+    var cardProjects = [CardProject]()
     
     var cardProject: CardProject!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        projectLoader = ProjectLoader(appDelegate: appDelegate)
-        
+
+        loadCardProjects()
+
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -37,6 +34,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadCardProjects() {
+        cardProjects = CardProject.mr_findAll() as! [CardProject]
+        
+        for cp in cardProjects {
+            cp.persistedManagedObjectContext = cp.managedObjectContext!
+        }
     }
     
     func tableView(_ tableView: UITableView,
@@ -49,7 +54,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
         }
         
-        let cardProject = projectLoader.cardProjects[indexPath.row]
+        let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
         cell?.imageView?.image = cardProject.cardGroups.first?.image
@@ -59,23 +64,31 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            projectLoader.delete(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            let cardProject = self.cardProjects[indexPath.row]
+            cardProject.persistedManagedObjectContext.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                cardProject.mr_deleteEntity(in: cardProject.persistedManagedObjectContext)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                self.loadCardProjects()
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            })
         }
     }
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath){
-        cardProject = projectLoader.cardProjects[indexPath.row]
+        cardProject = cardProjects[indexPath.row]
         
         if cardProject.cardGroups.count == 0 {
             performSegue(withIdentifier: "start-project-segue", sender: nil)
         } else {
             for cardGroup in cardProject.cardGroups {
-                if cardGroup.processed {
-                    
+                if cardGroup.isProcessed {
                 } else {
-                    
+                    performSegue(withIdentifier: "start-project-segue", sender: nil)
+                    return
                 }
             }
             performSegue(withIdentifier: "execute-processed-segue", sender: nil)
@@ -84,19 +97,28 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return projectLoader.cardProjects.count
+        return cardProjects.count
     }
     
     @IBAction func newProjectButton(_ sender: UIButton) {
         projectTitleView.isHidden = false
+        projectTitle.becomeFirstResponder()
     }
     
     @IBAction func startProjectButton(_ sender: UIButton) {
         var title = projectTitle.text
         if (title?.characters.count == 0) {
-            title = "Project \(projectLoader.cardProjects.count)"
+            title = "Project \(cardProjects.count)"
         }
-        cardProject = projectLoader.addCardProject(title: projectTitle.text!)
+        MagicalRecord.save({
+            (localContext: NSManagedObjectContext!) in
+            self.cardProject = CardProject.mr_createEntity(in: localContext)
+            self.cardProject.title = self.projectTitle.text!
+            self.cardProject.persistedManagedObjectContext = localContext
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+        })
         performSegue(withIdentifier: "start-project-segue", sender: nil)
     }
     
@@ -108,7 +130,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
         }
-}
+    }
     
 }
 

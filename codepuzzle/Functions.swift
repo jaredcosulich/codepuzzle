@@ -12,7 +12,7 @@ class Functions {
     
     static let functionInfo = [
         "A1": [
-            "name": "Move Foward",
+            "name": "Move Forward",
             "method": "moveForward"
         ],
         "A2": [
@@ -141,6 +141,12 @@ class Functions {
         switch (code) {
         case "A T":
             return "A 1"
+        case "All":
+            return "A1"
+        case "Al":
+            return "A1"
+        case "A41":
+            return "A4"
         default:
             return code
         }
@@ -152,10 +158,29 @@ class Functions {
             .replacingOccurrences(of: "'", with: "")
             .replacingOccurrences(of: ".", with: "")
             .replacingOccurrences(of: "‘", with: "")
+            .replacingOccurrences(of: "_", with: "")
+            .replacingOccurrences(of: ":", with: "")
     }
     
-    func info(code: String) -> [String: String] {
-        return Functions.functionInfo[Functions.processedCode(code: code)]!
+    class func valid(code: String) -> Bool {
+        if (code.characters.count == 0) {
+            return false
+        }
+        
+        return true
+    }
+    
+    class func info(code: String) -> [String: String] {
+        let function = Functions.functionInfo[Functions.processedCode(code: code)]
+        if (function == nil) {
+            print("NO FUNCTION: \(code)")
+            return [
+                "name": "N/A",
+                "method": "n/a"
+            ]
+        } else {
+            return function!
+        }
     }
     
     func calculateXDistance(distance: CGFloat, angle: CGFloat) -> CGFloat {
@@ -192,8 +217,8 @@ class Functions {
         return CGPoint(x: from.x + xDistance, y: from.y + yDistance)
     }
 
-    func signature(code: String, param: String) -> String {
-        return "\(info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(param)"
+    class func signature(code: String, param: String) -> String {
+        return "\(Functions.info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(Functions.translate(param: param))"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -202,10 +227,16 @@ class Functions {
         layer.setAffineTransform(rotation)
     }
     
-    func execute(code: String, param: String, instant: Bool = false) {
-        let paramNumber = CGFloat((param as NSString).floatValue)
+    class func translate(param: String) -> CGFloat {
+        let translatedParam = param.replacingOccurrences(of: ">", with: "7")
 
-        let methodName = info(code: Functions.translate(code: code))["method"] ?? ""
+        return CGFloat((translatedParam as NSString).floatValue)
+    }
+    
+    func execute(code: String, param: String, instant: Bool = false) {
+        let paramNumber = Functions.translate(param: param)
+
+        let methodName = Functions.info(code: Functions.translate(code: code))["method"] ?? ""
 
         var nextPoint = currentPoint
         

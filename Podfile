@@ -8,7 +8,8 @@ target 'codepuzzle' do
   pod 'Alamofire', '~> 4.4'
   pod 'AWSCore'
   pod 'AWSCognito'
-  pod 'AWSS3'
+  pod 'AWSS3' 
+  pod "MagicalRecord"
 
   target 'codepuzzleTests' do
     inherit! :search_paths

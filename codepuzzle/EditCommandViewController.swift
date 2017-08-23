@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import MagicalRecord
 
 struct TempCard {
+    var cardProject: CardProject!
     var code: String
     var param: String
     var image: UIImage
@@ -17,16 +19,37 @@ struct TempCard {
     var originalImage: UIImage
     
     func addToCardGroup(cardGroup: CardGroup) -> Card {
-        return cardGroup.addCard(code: code, param: param, image: image, originalCode: originalCode, originalParam: originalParam, originalImage: originalImage)
+        var newCard: Card!
+        cardProject.persistedManagedObjectContext.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
+            newCard?.cardGroup = cardGroup
+            newCard?.code = self.code
+            newCard?.param = self.param
+            newCard?.image = self.image
+            newCard?.originalCode = self.originalCode
+            newCard?.originalParam = self.originalParam
+            newCard?.originalImage = self.originalImage
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+        })
+        return newCard
     }
 
     func updateCard(card: Card) {
-        card.code = code
-        card.param = param
-        card.image = image
-        card.originalCode = originalCode
-        card.originalParam = originalParam
-        card.originalImage = originalImage
+        cardProject.persistedManagedObjectContext.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            card.code = self.code
+            card.param = self.param
+            card.image = self.image
+            card.originalCode = self.originalCode
+            card.originalParam = self.originalParam
+            card.originalImage = self.originalImage
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+        })
     }
 }
 
@@ -58,6 +81,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         cardView.image = selectedCard.image
         
         uneditedCard = TempCard(
+            cardProject: cardProject,
             code: selectedCard.code,
             param: selectedCard.param,
             image: selectedCard.image,
@@ -141,7 +165,19 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         var indexTally = 0
         for cardGroup in cardProject.cardGroups {
             if (indexTally + cardGroup.cards.count) > selectedIndex {
-                cardGroup.cards[selectedIndex - indexTally] = selectedCard
+                let card = cardGroup.cards[selectedIndex - indexTally]
+                cardProject.persistedManagedObjectContext.mr_save({
+                    (localContext: NSManagedObjectContext!) in
+                    card.code = self.selectedCard.code
+                    card.param = self.selectedCard.param
+                    card.image = self.selectedCard.image
+                    card.originalCode = self.selectedCard.originalCode
+                    card.originalParam = self.selectedCard.originalParam
+                    card.originalImage = self.selectedCard.originalImage
+                }, completion: {
+                    (MRSaveCompletionHandler) in
+                    self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+                })
                 return
             } else {
                 indexTally += cardGroup.cards.count
@@ -156,6 +192,30 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
         cardView.image = selectedCard.image
+    }
+    
+    @IBAction func saveParam(_ sender: Any) {
+        showParam(sender: sender)
+        setNewCard()
+    }
+    
+    
+    @IBAction func revert(_ sender: UIBarButtonItem) {
+        param.text = selectedCard.originalParam
+        cardView.image = selectedCard.originalImage
+        
+        var selectedFunctionIndex = -1
+        for i in 0..<Functions.functionInfo.count {
+            let functionCode = functionCodes[i]
+            if (functionCode == selectedCard.originalCode) {
+                selectedFunctionIndex = i
+            }
+        }
+        functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
+
+        selectedCard.param = selectedCard.originalParam
+        selectedCard.code = selectedCard.originalCode
+        selectedCard.image = selectedCard.originalImage
         setNewCard()
     }
     
