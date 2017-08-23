@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MagicalRecord
 
 class ProcessingViewController: UIViewController {
 
@@ -149,14 +150,17 @@ class ProcessingViewController: UIViewController {
             let param = mathPix.getValue(identifier: "param\(cardCount)")
             
             if (Functions.valid(code: code)) {
-                _ = cardGroup.addCard(
-                    code: code,
-                    param: param,
-                    image: cardImage,
-                    originalCode: code,
-                    originalParam: param,
-                    originalImage: cardImage
-                )
+                self.cardProject.persistedManagedObjectContext.mr_save({
+                    (localContext: NSManagedObjectContext!) in
+                    let newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
+                    newCard?.cardGroup = self.cardGroup!
+                    newCard?.code = code
+                    newCard?.param = param
+                    newCard?.image = cardImage
+                    newCard?.originalCode = code
+                    newCard?.originalParam = param
+                    newCard?.originalImage = cardImage
+                })
 
                 imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: cardCount)
             }
@@ -169,12 +173,19 @@ class ProcessingViewController: UIViewController {
 
             output.text = "Identifying Cards: \(cardCount)\r\r\(Functions.signature(code: code, param: param))"
         } else {
-            cardGroup.processed = true
-            cardGroup.processedImage = imageView.image!
-            cardGroup.save()
-            timer.invalidate()
-            
-            performSegue(withIdentifier: "execution-segue", sender: nil)
+            MagicalRecord.save({
+                (localContext: NSManagedObjectContext!) in
+                self.cardGroup.processed = true
+                self.cardGroup.processedImage = self.imageView.image!
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                self.timer.invalidate()
+                self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStore(completion: {
+                    (MRSaveCompletionHandler) in
+                    self.performSegue(withIdentifier: "execution-segue", sender: nil)
+                })
+            })
+        
         }
     }
     

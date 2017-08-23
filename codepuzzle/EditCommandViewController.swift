@@ -16,17 +16,17 @@ struct TempCard {
     var originalParam: String
     var originalImage: UIImage
     
-    func addToCardGroup(cardGroup: CardGroup) -> Card {
-        return cardGroup.addCard(code: code, param: param, image: image, originalCode: originalCode, originalParam: originalParam, originalImage: originalImage)
-    }
+//    func addToCardGroup(cardGroup: CardGroup) -> Card {
+//        return cardGroup.addCard(code: code, param: param, image: image, originalCode: originalCode, originalParam: originalParam, originalImage: originalImage)
+//    }
 
     func updateCard(card: Card) {
-        card.code = code
-        card.param = param
-        card.image = image
-        card.originalCode = originalCode
-        card.originalParam = originalParam
-        card.originalImage = originalImage
+//        card.code = code
+//        card.param = param
+//        card.image = image
+//        card.originalCode = originalCode
+//        card.originalParam = originalParam
+//        card.originalImage = originalImage
     }
 }
 
@@ -52,19 +52,19 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        selectedCard = cardProject.allCards()[selectedIndex]
+//        selectedCard = cardProject.allCards()[selectedIndex]
         let selectedCode = selectedCard.code
         param.text = selectedCard.param
-        cardView.image = selectedCard.image
+//        cardView.image = selectedCard.image
         
-        uneditedCard = TempCard(
-            code: selectedCard.code,
-            param: selectedCard.param,
-            image: selectedCard.image,
-            originalCode: selectedCard.originalCode,
-            originalParam: selectedCard.originalParam,
-            originalImage: selectedCard.originalImage
-        )
+//        uneditedCard = TempCard(
+//            code: selectedCard.code,
+//            param: selectedCard.param,
+//            image: selectedCard.image,
+//            originalCode: selectedCard.originalCode,
+//            originalParam: selectedCard.originalParam,
+//            originalImage: selectedCard.originalImage
+//        )
         
         var selectedFunctionIndex = -1
         
@@ -123,11 +123,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         if (newCode != selectedCard.code) {
             selectedCard.code = newCode
             selectedCard.param = param.text!
-            selectedCard.image = drawCard(
-                image: UIImage(named: newCode)!,
-                param: param.text!
-            )
-            cardView.image = selectedCard.image
+//            selectedCard.image = drawCard(
+//                image: UIImage(named: newCode)!,
+//                param: param.text!
+//            )
+//            cardView.image = selectedCard.image
             setNewCard()
         }
     }
@@ -152,10 +152,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBAction func showParam(_ sender: Any) {
         selectedCard.param = param.text!
         
-        let code = selectedCard.code
+//        let code = selectedCard.code
         
-        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
-        cardView.image = selectedCard.image
+//        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
+//        cardView.image = selectedCard.image
         setNewCard()
     }
     

@@ -372,11 +372,9 @@ class ExecutionViewController: UIViewController {
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
         } else if segue.identifier == "close-segue" {
-            cardProject.save()
             let dvc = segue.destination as! ProjectViewController
             dvc.cardProject = cardProject
         } else if segue.identifier == "add-photo-segue" {
-            cardProject.save()
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject
         }

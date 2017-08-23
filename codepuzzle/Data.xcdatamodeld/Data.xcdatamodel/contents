@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16A323" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Data">
-    <entity name="CardData" representedClassName="CardData" syncable="YES" codeGenerationType="class">
+    <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="code" attributeType="String" syncable="YES"/>
-        <attribute name="image" attributeType="Binary" syncable="YES"/>
-        <attribute name="originalCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="originalImage" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="originalParam" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageFilename" attributeType="String" syncable="YES"/>
+        <attribute name="originalCode" attributeType="String" syncable="YES"/>
+        <attribute name="originalImageFilename" attributeType="String" syncable="YES"/>
+        <attribute name="originalParam" attributeType="String" syncable="YES"/>
         <attribute name="param" attributeType="String" syncable="YES"/>
-        <relationship name="cardGroup" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CardGroupData" inverseName="cards" inverseEntity="CardGroupData" syncable="YES"/>
+        <relationship name="cardGroup" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CardGroup" inverseName="cards" inverseEntity="CardGroup" syncable="YES"/>
     </entity>
-    <entity name="CardGroupData" representedClassName="CardGroupData" syncable="YES" codeGenerationType="class">
-        <attribute name="image" attributeType="Binary" syncable="YES"/>
+    <entity name="CardGroup" representedClassName="CardGroup" syncable="YES">
+        <attribute name="imageFilename" attributeType="String" syncable="YES"/>
         <attribute name="processed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="processedImage" optional="YES" attributeType="Binary" syncable="YES"/>
-        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardData" inverseName="cardGroup" inverseEntity="CardData" syncable="YES"/>
-        <relationship name="project" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CardProjectData" inverseName="cardGroups" inverseEntity="CardProjectData" syncable="YES"/>
+        <attribute name="processedImageFilename" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cardProject" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CardProject" inverseName="cardGroups" inverseEntity="CardProject" syncable="YES"/>
+        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Card" inverseName="cardGroup" inverseEntity="Card" syncable="YES"/>
     </entity>
-    <entity name="CardProjectData" representedClassName="CardProjectData" syncable="YES" codeGenerationType="class">
+    <entity name="CardProject" representedClassName="CardProject" syncable="YES">
         <attribute name="title" attributeType="String" syncable="YES"/>
-        <relationship name="cardGroups" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardGroupData" inverseName="project" inverseEntity="CardGroupData" syncable="YES"/>
+        <relationship name="cardGroups" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardGroup" inverseName="cardProject" inverseEntity="CardGroup" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CardData" positionX="-27" positionY="18" width="128" height="150"/>
-        <element name="CardGroupData" positionX="18" positionY="108" width="128" height="120"/>
-        <element name="CardProjectData" positionX="54" positionY="135" width="128" height="75"/>
+        <element name="Card" positionX="-27" positionY="18" width="128" height="150"/>
+        <element name="CardGroup" positionX="18" positionY="108" width="128" height="120"/>
+        <element name="CardProject" positionX="54" positionY="135" width="128" height="75"/>
     </elements>
 </model>
