@@ -218,7 +218,7 @@ class Functions {
     }
 
     class func signature(code: String, param: String) -> String {
-        return "\(Functions.info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(param)"
+        return "\(Functions.info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(Functions.translate(param: param))"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -227,17 +227,14 @@ class Functions {
         layer.setAffineTransform(rotation)
     }
     
-    func translate(param: String) -> CGFloat {
+    class func translate(param: String) -> CGFloat {
         let translatedParam = param.replacingOccurrences(of: ">", with: "7")
-            .replacingOccurrences(of: "\n", with: "")
 
-
-        
         return CGFloat((translatedParam as NSString).floatValue)
     }
     
     func execute(code: String, param: String, instant: Bool = false) {
-        let paramNumber = translate(param: param)
+        let paramNumber = Functions.translate(param: param)
 
         let methodName = Functions.info(code: Functions.translate(code: code))["method"] ?? ""
 

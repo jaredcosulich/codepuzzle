@@ -131,9 +131,10 @@ class ProcessingViewController: UIViewController {
         }
         
         if (cardCount < cardList.count()) {
-            let nextIdentifier = "param\(cardCount)"
+            let nextParamIdentifier = "param\(cardCount)"
+            let nextFunctionIdentifier = "function\(cardCount)"
         
-            if (mathPix.processing(identifier: nextIdentifier)) {
+            if (mathPix.processing(identifier: nextParamIdentifier) || mathPix.processing(identifier: nextFunctionIdentifier)) {
                 return
             }
             
@@ -146,7 +147,7 @@ class ProcessingViewController: UIViewController {
             let fullRect = cardList.getFullRect(cardCount)
             let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect, hexRect: hexRect, rotation: rotation)
 //            let code = Functions.processedCode(code: tesseract.recognizedText!)
-            let code = Functions.processedCode(code: mathPix.getValue(identifier: "function\(cardCount)"))
+            let code = Functions.processedCode(code: mathPix.getValue(identifier: nextFunctionIdentifier))
             let param = mathPix.getValue(identifier: "param\(cardCount)")
             
             if (Functions.valid(code: code)) {
