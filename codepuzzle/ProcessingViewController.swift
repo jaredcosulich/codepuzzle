@@ -109,7 +109,6 @@ class ProcessingViewController: UIViewController {
     }
     
     @IBAction func rejectCard(_ sender: UIButton) {
-        print("REJECT!")
         timer.invalidate()
         Timer.scheduledTimer(
             timeInterval: 0.2,
