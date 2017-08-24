@@ -25,6 +25,24 @@ class ImageProcessor {
         return normalizedImage!;
     }
     
+    class func scale(image: UIImage, view: UIView) -> UIImage {
+        let xRatio = view.bounds.size.width / image.size.width
+        let yRatio = view.bounds.size.height / image.size.height
+
+        return scale(image: image, scale: (xRatio < yRatio ? xRatio : yRatio))
+    }
+    
+    class func scale(image: UIImage, scale: CGFloat) -> UIImage {
+        let size = image.size.applying(CGAffineTransform(scaleX: scale, y: scale))
+        
+        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return scaledImage!
+    }
+    
     class func rotate(image: UIImage, degrees: CGFloat) -> UIImage {
         let size = image.size
                

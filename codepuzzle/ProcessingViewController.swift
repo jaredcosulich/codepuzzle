@@ -45,7 +45,7 @@ class ProcessingViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         cardGroup = cardProject.cardGroups[selectedIndex]
         
-        imageView.image = cardGroup.image
+        imageView.image = ImageProcessor.scale(image: cardGroup.image!, view: imageView)
         
         initCardList()
         
@@ -78,19 +78,24 @@ class ProcessingViewController: UIViewController {
     func startCardProcessing() {
         OpenCVWrapper.process(cardGroup.image, self.cardList)
         
-//        imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: -1)
+        setProcessedImage(
+            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1),
+            completion: {
+                self.imageView.image = ImageProcessor.scale(image: self.cardGroup.processedImage!, view: self.imageView)
 
-        output.text = "Identified \(cardList.count()) cards\r\rIs that correct?"
-        
-        yesButton.isHidden = false
-        noButton.isHidden = false
-        
-        Timer.scheduledTimer(
-            timeInterval: 0,
-            target: self,
-            selector: #selector(startCardAnalysis),
-            userInfo: nil,
-            repeats: false
+                self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
+                
+                self.yesButton.isHidden = false
+                self.noButton.isHidden = false
+                
+                Timer.scheduledTimer(
+                    timeInterval: 0,
+                    target: self,
+                    selector: #selector(self.startCardAnalysis),
+                    userInfo: nil,
+                    repeats: false
+                )
+            }
         )
     }
     
@@ -180,60 +185,77 @@ class ProcessingViewController: UIViewController {
 
                 return
             }
-
-            let rotation = self.cardList.getRotation(cardCount)
-            let hexRect = cardList.getHexRect(cardCount)
-//            let functionRect = cardList.getFunctionRect(cardCount)
-//            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
-//            tesseract.recognize()
-            
-            let fullRect = cardList.getFullRect(cardCount)
-
-            let cardImage = ImageProcessor.cropCard(image: cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
-
-//            let code = Functions.processedCode(code: tesseract.recognizedText!)
-            let code = Functions.processedCode(code: mathPix.getValue(identifier: nextFunctionIdentifier))
-            let param = mathPix.getValue(identifier: "param\(cardCount)")
-            
-            if (Functions.valid(code: code)) {
-                self.cardProject.persistedManagedObjectContext.mr_save({
-                    (localContext: NSManagedObjectContext!) in
-                    let newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
-                    newCard?.cardGroup = self.cardGroup!
-                    newCard?.code = code
-                    newCard?.param = param
-                    newCard?.image = cardImage
-                    
-                    newCard?.originalCode = code
-                    newCard?.originalParam = param
-                    newCard?.originalImage = cardImage
-                })
-            }
             
             cardCount += 1
             checkCardProcessing()
         } else {
             timer.invalidate()
-            self.cardProject.persistedManagedObjectContext.mr_save({
-                (localContext: NSManagedObjectContext!) in
-                self.cardGroup.isProcessed = true
-//                self.cardGroup.processedImage = self.imageView.image!
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-                if (self.execute) {
-                    self.performSegue(withIdentifier: "execution-segue", sender: nil)
-                }
-            })
         }
     }
     
+    func setProcessedImage(image: UIImage, completion: @escaping () -> Void) {
+        let context = self.cardProject.persistedManagedObjectContext!
+        context.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            self.cardGroup.processedImage = image
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            context.mr_saveToPersistentStoreAndWait()
+            completion()
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        imageView?.removeFromSuperview()
+        
         if segue.identifier == "cancel-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
+            
+            let context = self.cardProject.persistedManagedObjectContext!
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+
+                for i in 0..<self.cardCount {
+                    let rotation = self.cardList.getRotation(i)
+                    let hexRect = self.cardList.getHexRect(i)
+                    //            let functionRect = self.cardList.getFunctionRect(i)
+                    //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
+                    //            tesseract.recognize()
+                    
+                    let fullRect = self.cardList.getFullRect(i)
+                    
+                    let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+                    
+                    //            let code = Functions.processedCode(code: tesseract.recognizedText!)
+                    let code = Functions.processedCode(code: self.mathPix.getValue(identifier: "function\(i)"))
+                    let param = self.mathPix.getValue(identifier: "param\(i)")
+                    
+                    if (Functions.valid(code: code)) {
+                        self.cardProject.persistedManagedObjectContext.mr_save({
+                            (localContext: NSManagedObjectContext!) in
+                            let newCard = Card.mr_createEntity(in: context)
+                            newCard?.cardGroup = self.cardGroup!
+                            newCard?.code = code
+                            newCard?.param = param
+                            newCard?.image = cardImage
+                            
+                            newCard?.originalCode = code
+                            newCard?.originalParam = param
+                            newCard?.originalImage = cardImage
+                        })
+                    }
+                }
+                
+                self.cardGroup.isProcessed = true
+
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+            })
+
             dvc.cardProject = cardProject
         }
     }

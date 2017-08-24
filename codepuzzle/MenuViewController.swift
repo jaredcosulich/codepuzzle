@@ -14,7 +14,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var imageView: UIImageView!
-    weak var cardImage: UIImage!
     
     @IBOutlet weak var projectTitle: UILabel!
     
@@ -58,8 +57,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
                 selectedCardGroupIndex = i
-//                imageView.image = cardGroup.image
-                cardImage = cardGroup.image
                 showPhoto()
                 break
             }
@@ -88,7 +85,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else  {
             cell?.detailTextLabel?.text = "Not Yet Processed"
         }
-//        cell?.imageView?.image = cardGroup.image
+        cell?.imageView?.image = cardGroup.image
         
         return cell!
     }
@@ -154,13 +151,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-//        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90))
-        saveCardGroup()
+        saveCardGroup(image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90)))
+        showPhoto()
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-//        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90))
-        saveCardGroup()
+        saveCardGroup(image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90)))
+        showPhoto()
     }
 
 //    @IBAction func savephotobutton(_ sender: UIButton) {
@@ -188,14 +185,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 //        print("Time 2 \(start.timeIntervalSinceNow) seconds");
 //        start = NSDate()
         
-//        imageView.image = normalized
-        cardImage = normalized
+        saveCardGroup(image: normalized)
         
         showPhoto()
         
         self.dismiss(animated: true, completion: nil)
-        
-        saveCardGroup()
 
 //        print("Time 3 \(start.timeIntervalSinceNow) seconds");
 }
@@ -205,6 +199,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func showPhoto() {
+        let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+        imageView.image = ImageProcessor.scale(image: cardImage, view: imageView)
+
         imageView.isHidden = false
         rotateRight.isHidden = false
         rotateLeft.isHidden = false
@@ -276,10 +273,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         performSegue(withIdentifier: "execution-segue", sender: nil)
     }
     
-    func saveCardGroup() {
+    func saveCardGroup(image: UIImage) {
         let context = self.cardProject.persistedManagedObjectContext!
-
-        let image = self.cardImage!
 
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
@@ -291,8 +286,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             } else {
                 editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
             }
-            editingCardGroup?.image = image //self.imageView.image!
-            print("IMAGE SET: \(editingCardGroup?.image)")
+            editingCardGroup?.image = image
         }, completion: {
             (MRSaveCompletionHandler) in
             self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1
@@ -309,6 +303,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        imageView.removeFromSuperview()
+        tableView.removeFromSuperview()
+        
         if segue.identifier == "processing-segue" {
             let dvc = segue.destination as! ProcessingViewController
             dvc.selectedIndex = (selectedCardGroupIndex > -1 ? selectedCardGroupIndex : 0)
@@ -324,7 +321,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
             } else {
                 dvc.selectedIndex = -1
-                dvc.image = imageView.image
+                dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
             }
         }
     }
