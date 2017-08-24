@@ -84,10 +84,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             cardProject: cardProject,
             code: selectedCard.code,
             param: selectedCard.param,
-            image: selectedCard.image,
-            originalCode: selectedCard.originalCode,
-            originalParam: selectedCard.originalParam,
-            originalImage: selectedCard.originalImage
+            image: selectedCard.image!,
+            originalCode: selectedCard.originalCode!,
+            originalParam: selectedCard.originalParam!,
+            originalImage: selectedCard.originalImage!
         )
         
         var selectedFunctionIndex = -1
@@ -213,9 +213,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
         functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
 
-        selectedCard.param = selectedCard.originalParam
-        selectedCard.code = selectedCard.originalCode
-        selectedCard.image = selectedCard.originalImage
+        selectedCard.param = selectedCard.originalParam!
+        selectedCard.code = selectedCard.originalCode!
+        selectedCard.image = selectedCard.originalImage!
         setNewCard()
     }
     

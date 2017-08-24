@@ -24,9 +24,13 @@ class ImageSaver {
         try? fileManager.removeItem(at: uri(filename: filename))
     }
     
-    class func retrieve(filename: String) -> UIImage {
-        let imageData = NSData(contentsOf: uri(filename: filename))! as Data
-        return UIImage(data: imageData)!
+    class func retrieve(filename: String) -> UIImage? {
+        let imageData = NSData(contentsOf: uri(filename: filename))
+        if imageData == nil {
+            return nil
+        } else {
+            return UIImage(data: imageData! as Data)!
+        }
     }
     
     class func uri(filename: String) -> URL {

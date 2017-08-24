@@ -14,6 +14,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var imageView: UIImageView!
+    weak var cardImage: UIImage!
     
     @IBOutlet weak var projectTitle: UILabel!
     
@@ -57,8 +58,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
                 selectedCardGroupIndex = i
-                imageView.image = cardGroup.image
+//                imageView.image = cardGroup.image
+                cardImage = cardGroup.image
                 showPhoto()
+                break
             }
         }
     }
@@ -85,7 +88,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else  {
             cell?.detailTextLabel?.text = "Not Yet Processed"
         }
-        cell?.imageView?.image = cardGroup.image
+//        cell?.imageView?.image = cardGroup.image
         
         return cell!
     }
@@ -151,12 +154,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90))
+//        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90))
         saveCardGroup()
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90))
+//        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90))
         saveCardGroup()
     }
 
@@ -185,8 +188,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 //        print("Time 2 \(start.timeIntervalSinceNow) seconds");
 //        start = NSDate()
         
-        imageView.image = normalized
-
+//        imageView.image = normalized
+        cardImage = normalized
+        
         showPhoto()
         
         self.dismiss(animated: true, completion: nil)
@@ -275,6 +279,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func saveCardGroup() {
         let context = self.cardProject.persistedManagedObjectContext!
 
+        let image = self.cardImage!
+
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
             var editingCardGroup: CardGroup!
@@ -285,7 +291,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             } else {
                 editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
             }
-            editingCardGroup?.image = self.imageView.image!
+            editingCardGroup?.image = image //self.imageView.image!
             print("IMAGE SET: \(editingCardGroup?.image)")
         }, completion: {
             (MRSaveCompletionHandler) in

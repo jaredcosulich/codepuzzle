@@ -71,7 +71,7 @@ class ExecutionViewController: UIViewController {
         
         for card in cards {
             let functionLayer = CALayer()
-            let image = card.image
+            let image = card.image!
             
             functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.25
