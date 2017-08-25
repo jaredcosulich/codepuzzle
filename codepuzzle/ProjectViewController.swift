@@ -122,13 +122,13 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            self.performSegue(withIdentifier: "start-project-segue", sender: nil)
         })
-        performSegue(withIdentifier: "start-project-segue", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        tableView.removeFromSuperview()
-        projectTitleView.removeFromSuperview()
+        tableView?.removeFromSuperview()
+        projectTitleView?.removeFromSuperview()
 
         if segue.identifier == "start-project-segue" {
             let dvc = segue.destination as! MenuViewController

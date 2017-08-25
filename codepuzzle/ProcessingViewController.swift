@@ -37,6 +37,7 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var noButton: UIButton!
     
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
 //    var start = NSDate()
     
@@ -65,6 +66,7 @@ class ProcessingViewController: UIViewController {
         processing = true
         output.text = "Scanning photo for cards..."
         cardList.clear()
+        activityView.startAnimating()
         
         Timer.scheduledTimer(
             timeInterval: 0,
@@ -83,6 +85,8 @@ class ProcessingViewController: UIViewController {
             completion: {
                 self.imageView.image = ImageProcessor.scale(image: self.cardGroup.processedImage!, view: self.imageView)
 
+                self.activityView.stopAnimating()
+                
                 self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
                 
                 self.yesButton.isHidden = false
@@ -104,7 +108,7 @@ class ProcessingViewController: UIViewController {
             execute = true
             output.text = "Processing cards. One moment..."
         } else {
-            self.performSegue(withIdentifier: "execution-segue", sender: nil)
+            executeCards()
         }
     }
     
@@ -189,6 +193,9 @@ class ProcessingViewController: UIViewController {
             checkCardProcessing()
         } else {
             timer.invalidate()
+            if execute {
+                executeCards()
+            }
         }
     }
     
@@ -204,6 +211,53 @@ class ProcessingViewController: UIViewController {
         })
     }
     
+    func executeCards() {
+        activityView.startAnimating()
+        yesButton.isHidden = true
+        noButton.isHidden = true
+        output.isHidden = true
+        
+        let context = self.cardProject.persistedManagedObjectContext!
+        context.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            
+            for i in 0..<self.cardCount {
+                let rotation = self.cardList.getRotation(i)
+                let hexRect = self.cardList.getHexRect(i)
+                //            let functionRect = self.cardList.getFunctionRect(i)
+                //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
+                //            tesseract.recognize()
+                
+                let fullRect = self.cardList.getFullRect(i)
+                
+                let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+                
+                //            let code = Functions.processedCode(code: tesseract.recognizedText!)
+                let code = Functions.processedCode(code: self.mathPix.getValue(identifier: "function\(i)"))
+                let param = self.mathPix.getValue(identifier: "param\(i)")
+                
+                if (Functions.valid(code: code)) {
+                    let newCard = Card.mr_createEntity(in: context)
+                    newCard?.cardGroup = self.cardGroup!
+                    newCard?.code = code
+                    newCard?.param = param
+                    newCard?.image = cardImage
+                    
+                    newCard?.originalCode = code
+                    newCard?.originalParam = param
+                    newCard?.originalImage = cardImage
+                }
+            }
+            
+            self.cardGroup.isProcessed = true
+            
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            context.mr_saveToPersistentStoreAndWait()
+            self.performSegue(withIdentifier: "execution-segue", sender: nil)
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         imageView?.removeFromSuperview()
         
@@ -212,49 +266,7 @@ class ProcessingViewController: UIViewController {
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
-            
-            let context = self.cardProject.persistedManagedObjectContext!
-            context.mr_save({
-                (localContext: NSManagedObjectContext!) in
-
-                for i in 0..<self.cardCount {
-                    let rotation = self.cardList.getRotation(i)
-                    let hexRect = self.cardList.getHexRect(i)
-                    //            let functionRect = self.cardList.getFunctionRect(i)
-                    //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
-                    //            tesseract.recognize()
-                    
-                    let fullRect = self.cardList.getFullRect(i)
-                    
-                    let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
-                    
-                    //            let code = Functions.processedCode(code: tesseract.recognizedText!)
-                    let code = Functions.processedCode(code: self.mathPix.getValue(identifier: "function\(i)"))
-                    let param = self.mathPix.getValue(identifier: "param\(i)")
-                    
-                    if (Functions.valid(code: code)) {
-                        self.cardProject.persistedManagedObjectContext.mr_save({
-                            (localContext: NSManagedObjectContext!) in
-                            let newCard = Card.mr_createEntity(in: context)
-                            newCard?.cardGroup = self.cardGroup!
-                            newCard?.code = code
-                            newCard?.param = param
-                            newCard?.image = cardImage
-                            
-                            newCard?.originalCode = code
-                            newCard?.originalParam = param
-                            newCard?.originalImage = cardImage
-                        })
-                    }
-                }
-                
-                self.cardGroup.isProcessed = true
-
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                context.mr_saveToPersistentStoreAndWait()
-            })
-
+ 
             dvc.cardProject = cardProject
         }
     }

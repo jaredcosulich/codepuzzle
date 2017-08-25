@@ -15,6 +15,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
     @IBOutlet weak var projectTitle: UILabel!
     
     var imagePicker: UIImagePickerController!
@@ -56,8 +58,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
+                showPhoto(activity: true)
                 selectedCardGroupIndex = i
-                showPhoto()
+                showPhoto(activity: false)
                 break
             }
         }
@@ -151,13 +154,19 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        saveCardGroup(image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90)))
-        showPhoto()
+        showPhoto(activity: true)
+        saveCardGroup(
+            image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90)),
+            completion: { self.showPhoto(activity: false) }
+        )
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        saveCardGroup(image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90)))
-        showPhoto()
+        showPhoto(activity: true)
+        saveCardGroup(
+            image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90)),
+            completion: { self.showPhoto(activity: false) }
+        )
     }
 
 //    @IBAction func savephotobutton(_ sender: UIButton) {
@@ -173,6 +182,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                didFinishPickingImage image: UIImage!,
                                editingInfo: [NSObject : AnyObject]!) {
         
+        showPhoto(activity: true)
 //        var start = NSDate()
 
         let normalized = ImageProcessor.normalize(image: image)
@@ -185,9 +195,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 //        print("Time 2 \(start.timeIntervalSinceNow) seconds");
 //        start = NSDate()
         
-        saveCardGroup(image: normalized)
-        
-        showPhoto()
+        saveCardGroup(image: normalized, completion: { self.showPhoto(activity: false) })
         
         self.dismiss(animated: true, completion: nil)
 
@@ -198,11 +206,17 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         hidePhoto()
     }
     
-    func showPhoto() {
-        let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
-        imageView.image = ImageProcessor.scale(image: cardImage, view: imageView)
-
-        imageView.isHidden = false
+    func showPhoto(activity: Bool) {
+        if (activity) {
+            activityView.startAnimating()
+            imageView.isHidden = true
+        } else {
+            activityView.stopAnimating()
+            let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+            imageView.image = ImageProcessor.scale(image: cardImage, view: imageView)
+            imageView.isHidden = false
+        }
+        
         rotateRight.isHidden = false
         rotateLeft.isHidden = false
         analyzePhoto.isHidden = false
@@ -217,12 +231,15 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func hidePhoto() {
+        activityView.stopAnimating()
+
         rotateRight.isHidden = true
         rotateLeft.isHidden = true
         analyzePhoto.isHidden = true
         processPhoto.isHidden = true
         changePhoto.isHidden = true
         imageView.isHidden = true
+
         
         addPhotoLabel.isHidden = false
         
@@ -273,7 +290,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         performSegue(withIdentifier: "execution-segue", sender: nil)
     }
     
-    func saveCardGroup(image: UIImage) {
+    func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
         let context = self.cardProject.persistedManagedObjectContext!
 
         context.mr_save({
@@ -291,6 +308,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             (MRSaveCompletionHandler) in
             self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1
             context.mr_saveToPersistentStoreAndWait()
+            completion()
         })
     }
 
