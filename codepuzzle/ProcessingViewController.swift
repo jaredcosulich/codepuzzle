@@ -21,7 +21,8 @@ class ProcessingViewController: UIViewController {
     
     var timer = Timer()
 
-    var cardCount = Int32(0)
+    var analyzedCardCount = Int32(0)
+    var processedCardCount = Int32(0)
     
     var cardProject: CardProject!
     
@@ -95,7 +96,7 @@ class ProcessingViewController: UIViewController {
                 Timer.scheduledTimer(
                     timeInterval: 0,
                     target: self,
-                    selector: #selector(self.startCardAnalysis),
+                    selector: #selector(self.analyzeCards),
                     userInfo: nil,
                     repeats: false
                 )
@@ -104,18 +105,28 @@ class ProcessingViewController: UIViewController {
     }
     
     @IBAction func confirmCard(_ sender: UIButton) {
-        if (cardCount < cardList.count()) {
+        activityView.startAnimating()
+        yesButton.isHidden = true
+        noButton.isHidden = true
+        output.text = "Processing cards. One moment..."
+
+        if (processedCardCount < cardList.count()) {
             execute = true
-            output.text = "Processing cards. One moment..."
         } else {
-            executeCards()
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(executeCards),
+                userInfo: nil,
+                repeats: false
+            )
         }
     }
     
     @IBAction func rejectCard(_ sender: UIButton) {
         timer.invalidate()
         Timer.scheduledTimer(
-            timeInterval: 0.2,
+            timeInterval: 0,
             target: self,
             selector: #selector(self.completeCardRejection),
             userInfo: nil,
@@ -139,60 +150,69 @@ class ProcessingViewController: UIViewController {
         })
     }
 
-    func startCardAnalysis() {
-        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
+    func analyzeCards() {
+//        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
+//        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
         
-        for i in 0..<self.cardList.count() {
+        
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
 
-            let rotation = self.cardList.getRotation(Int32(i))
-            let hexRect = self.cardList.getHexRect(Int32(i))
-            let functionRect = self.cardList.getFunctionRect(Int32(i))
-            self.mathPix.processImage(
-                image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
-                identifier: "function\(i)",
-                result: codes[Int(i)]
-            )
-            
-            let paramRect = self.cardList.getParamRect(Int32(i))
-            self.mathPix.processImage(
-                image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation),
-                identifier: "param\(i)",
-                result: params[Int(i)]
-            )
-        }
+        
+        let rotation = self.cardList.getRotation(Int32(analyzedCardCount))
+        let hexRect = self.cardList.getHexRect(Int32(analyzedCardCount))
+        let functionRect = self.cardList.getFunctionRect(Int32(analyzedCardCount))
+        self.mathPix.processImage(
+            image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
+            identifier: "function\(analyzedCardCount)",
+            result: nil//codes[Int(analyzedCardCount)]
+        )
+        
+        let paramRect = self.cardList.getParamRect(Int32(analyzedCardCount))
+        self.mathPix.processImage(
+            image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation),
+            identifier: "param\(analyzedCardCount)",
+            result: nil//params[Int(analyzedCardCount)]
+        )
 
-        self.checkCardProcessing()
+        analyzedCardCount += 1
+
+        if (analyzedCardCount < cardList.count()) {
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(analyzeCards),
+                userInfo: nil,
+                repeats: false
+            )
+        } else {
+            self.checkCardProcessing()
+        }
     }
     
     func checkCardProcessing() {
-        if (cardCount < cardList.count()) {
-            let nextParamIdentifier = "param\(cardCount)"
-            let nextFunctionIdentifier = "function\(cardCount)"
+        if (processedCardCount < cardList.count()) {
+            let nextParamIdentifier = "param\(processedCardCount)"
+            let nextFunctionIdentifier = "function\(processedCardCount)"
         
             if (mathPix.processing(identifier: nextParamIdentifier) || mathPix.processing(identifier: nextFunctionIdentifier)) {
-                
-                // start the timer
-                self.timer = Timer.scheduledTimer(
-                    timeInterval: 0.1,
+
+                Timer.scheduledTimer(
+                    timeInterval: 0.25,
                     target: self,
                     selector: #selector(self.checkCardProcessing),
                     userInfo: nil,
                     repeats: false
                 )
 
-                return
+            } else {
+                processedCardCount += 1
+                checkCardProcessing()
             }
-            
-            cardCount += 1
-            checkCardProcessing()
         } else {
-            timer.invalidate()
             if execute {
                 executeCards()
             }
@@ -212,16 +232,11 @@ class ProcessingViewController: UIViewController {
     }
     
     func executeCards() {
-        activityView.startAnimating()
-        yesButton.isHidden = true
-        noButton.isHidden = true
-        output.isHidden = true
-        
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
             
-            for i in 0..<self.cardCount {
+            for i in 0..<self.processedCardCount {
                 let rotation = self.cardList.getRotation(i)
                 let hexRect = self.cardList.getHexRect(i)
                 //            let functionRect = self.cardList.getFunctionRect(i)

@@ -155,16 +155,20 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func rotateleft(_ sender: UIButton) {
         showPhoto(activity: true)
+        let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+
         saveCardGroup(
-            image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90)),
+            image: ImageProcessor.rotate(image: cardImage, degrees: CGFloat(-90)),
             completion: { self.showPhoto(activity: false) }
         )
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
         showPhoto(activity: true)
+        let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+
         saveCardGroup(
-            image: ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90)),
+            image: ImageProcessor.rotate(image: cardImage, degrees: CGFloat(90)),
             completion: { self.showPhoto(activity: false) }
         )
     }
@@ -336,11 +340,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             dvc.cardProject = cardProject
             if selectedCardGroupIndex > -1 && cardProject.cardGroups[selectedCardGroupIndex].isProcessed {
                 dvc.selectedIndex = selectedCardGroupIndex
-                dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
             } else {
                 dvc.selectedIndex = -1
-                dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
             }
+            dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
         }
     }
     

@@ -94,7 +94,8 @@ using namespace std;
     cv::Mat result;
     
     Mat element = getStructuringElement( cv::MORPH_RECT,
-                                        cv::Size(5, 5),
+                                        //cv::Size(5, 5),
+                                        cv::Size(2, 2),
                                         cv::Point(0,0) );
 
     cv::dilate(src, result, element);
@@ -362,10 +363,10 @@ using namespace std;
 //        fullCardBound.width = bound.width * 6.5;
 //        fullCardBound.height = bound.height * 8;
         cv::Rect fullCardBound;
-        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 1.5);
-        fullCardBound.y = rotatedBound.y - (rotatedBound.height * 5.4);
-        fullCardBound.width = rotatedBound.width * 4;
-        fullCardBound.height = rotatedBound.height * 7.2;
+        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 1.25);
+        fullCardBound.y = rotatedBound.y - (rotatedBound.height * 5);
+        fullCardBound.width = rotatedBound.width * 3.6;
+        fullCardBound.height = rotatedBound.height * 6.5;
         
         if (fullCardBound.x < 0) fullCardBound.x = 0;
         if (fullCardBound.y < 0) fullCardBound.y = 0;

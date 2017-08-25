@@ -138,7 +138,11 @@ class Functions {
     }
     
     class func translate(code: String) -> String {
-        switch (code) {
+        var translatedCode = code
+        if code.characters.first == "4" {
+            translatedCode = "A".appending(code.substring(from: code.index(code.startIndex, offsetBy: 1)))
+        }
+        switch (translatedCode) {
         case "A T":
             return "A 1"
         case "All":
@@ -148,7 +152,7 @@ class Functions {
         case "A41":
             return "A4"
         default:
-            return code
+            return translatedCode
         }
     }
     
@@ -229,6 +233,7 @@ class Functions {
     
     class func translate(param: String) -> CGFloat {
         let translatedParam = param.replacingOccurrences(of: ">", with: "7")
+            .replacingOccurrences(of: "$", with: "9")
 
         return CGFloat((translatedParam as NSString).floatValue)
     }
