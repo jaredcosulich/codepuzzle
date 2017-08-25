@@ -70,7 +70,7 @@ class Functions {
     var currentPoint = CGPoint(x: 0, y: 0)
     var currentAngle = CGFloat(90)
     
-    var penIsUp = false
+    var penIsDown = true
     
     init(uiImageView: UIImageView) {
         imageView = uiImageView;
@@ -260,33 +260,35 @@ class Functions {
         case "rotateLeft":
             currentAngle -= paramNumber
         case "penUp":
-            penIsUp = true
+            penIsDown = false
         case "penDown":
-            penIsUp = false
+            penIsDown = true
         default:
             print("Method Not Found")
         }
         
         drawPointer(at: nextPoint, angle: currentAngle)
 
-        if (currentPoint != nextPoint) {
-            let path = UIBezierPath()
-            path.move(to: currentPoint)
-            path.addLine(to: nextPoint)
-            
-            let pathLayer = CAShapeLayer()
-            pathLayer.fillColor = UIColor.black.cgColor
-            pathLayer.strokeColor = UIColor.black.cgColor
-            pathLayer.lineWidth = 1
-            pathLayer.path = path.cgPath
+        if (penIsDown) {
+            if (currentPoint != nextPoint) {
+                let path = UIBezierPath()
+                path.move(to: currentPoint)
+                path.addLine(to: nextPoint)
+                
+                let pathLayer = CAShapeLayer()
+                pathLayer.fillColor = UIColor.black.cgColor
+                pathLayer.strokeColor = UIColor.black.cgColor
+                pathLayer.lineWidth = 1
+                pathLayer.path = path.cgPath
 
-            imageView.layer.addSublayer(pathLayer)
-            
-            if (!instant) {
-                let animation = CABasicAnimation(keyPath: "strokeEnd")
-                animation.fromValue = 0
-                animation.duration = 0.2
-                pathLayer.add(animation, forKey: "pathAnimation")
+                imageView.layer.addSublayer(pathLayer)
+                
+                if (!instant) {
+                    let animation = CABasicAnimation(keyPath: "strokeEnd")
+                    animation.fromValue = 0
+                    animation.duration = 0.2
+                    pathLayer.add(animation, forKey: "pathAnimation")
+                }
             }
         }
         
