@@ -43,6 +43,8 @@ class ExecutionViewController: UIViewController {
     var currentTranslation = CGFloat(0)
     
     var selectedIndex = -1
+
+    var loops = [[Int]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -267,18 +269,52 @@ class ExecutionViewController: UIViewController {
 
         output.text = Functions.signature(code: card.code, param: card.param)
 
+        var loopIndex = index
+        
         if (redraw) {
             functions.reset()
             for i in 0..<index + 1 {
                 let c = cards[i]
-                functions.execute(code: c.code, param: c.param, instant: true)
+                let loopCount = functions.execute(code: c.code, param: c.param, instant: true)
+                if loopCount > 0 {
+                    startLoop(count: loopCount, start: index)
+                } else if loopCount < 0 {
+                    loopIndex = endLoop(end: index)
+                }
             }
         } else {
-            functions.execute(code: card.code, param: card.param, instant: (speed == 0))
+            let loopCount = functions.execute(code: card.code, param: card.param, instant: (speed == 0))
+            if loopCount > 0 {
+                startLoop(count: loopCount, start: index)
+            } else if loopCount < 0 {
+                loopIndex = endLoop(end: index)
+            }
         }
         
-        executionIndex = index
-        selectedIndex = index
+        executionIndex = loopIndex
+        selectedIndex = loopIndex
+    }
+    
+    func startLoop(count: Int, start: Int) {
+        // how many times to do the loop
+        // how many times it has been done
+        // starting card index
+        loops.append([count, 0, start])
+    }
+    
+    func endLoop(end: Int) -> Int {
+        var lastLoop = loops.last!
+        
+        lastLoop[1] += 1
+        loops[loops.count - 1] = lastLoop
+        if (lastLoop[1] == lastLoop[0]) {
+            return end
+        }
+        return lastLoop[2]
+    }
+    
+    func loopIndex() {
+        
     }
     
     @IBAction func speedbutton(_ sender: UISegmentedControl) {

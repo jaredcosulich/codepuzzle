@@ -85,6 +85,8 @@ class Functions {
         currentAngle = CGFloat(90)
         
         initArrow()
+
+        penIsDown = true
     }
     
     func reset() {
@@ -141,7 +143,12 @@ class Functions {
         var translatedCode = code
         if code.characters.first == "4" {
             translatedCode = "A".appending(code.substring(from: code.index(code.startIndex, offsetBy: 1)))
+        } else if code.characters.first == "9" {
+            translatedCode = "A".appending(code.substring(from: code.index(code.startIndex, offsetBy: 1)))
+        } else if code.characters.first == "1" {
+            translatedCode = "L".appending(code.substring(from: code.index(code.startIndex, offsetBy: 1)))
         }
+
         switch (translatedCode) {
         case "A T":
             return "A 1"
@@ -224,7 +231,9 @@ class Functions {
     }
 
     class func signature(code: String, param: String) -> String {
-        return "\(Functions.info(code: Functions.translate(code: code))["name"] ?? "Bad Function") \(Functions.translate(param: param))"
+        let processedCode = Functions.processedCode(code: code)
+        let translatedCode = Functions.translate(code: processedCode)
+        return "\(Functions.info(code: translatedCode)["name"] ?? "Bad Function") \(Functions.translate(param: param))"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -240,13 +249,12 @@ class Functions {
 
         return CGFloat((translatedParam as NSString).floatValue)
     }
-    
-    func execute(code: String, param: String, instant: Bool = false) {
+        
+    func execute(code: String, param: String, instant: Bool = false) -> Int {
         let paramNumber = Functions.translate(param: param)
 
-        let methodName = Functions.info(code: Functions.translate(code: code))["method"] ?? ""
-        
-        print("\(code)/\(param) -> \(methodName)/\(paramNumber)")
+        let processedCode = Functions.processedCode(code: code)
+        let methodName = Functions.info(code: Functions.translate(code: processedCode))["method"] ?? ""
         
         var nextPoint = currentPoint
         
@@ -263,6 +271,10 @@ class Functions {
             penIsDown = false
         case "penDown":
             penIsDown = true
+        case "loop":
+            return Int(paramNumber)
+        case "endLoop":
+            return -1
         default:
             print("Method Not Found")
         }
@@ -293,6 +305,7 @@ class Functions {
         }
         
         currentPoint = nextPoint
+        return 0
     }
 
 

@@ -65,7 +65,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
         }
         
-//        info()
+        info()
     }
     
     func info() {

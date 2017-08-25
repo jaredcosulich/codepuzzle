@@ -151,8 +151,8 @@ class ProcessingViewController: UIViewController {
     }
 
     func analyzeCards() {
-        let codes: [String] = ["A1", "A3", "A1", "A4", "A2", "A3", "A2", "A4", "A1", "A2", "A3", "A1", "A3", "A1", "A3", "A1", "A5", "A2", "A4", "A1", "A6", "A^{1}", "A3", "A1", "A3", "A1", "A4", "A2"]
-        let params: [String] = ["100", "45", "70.911", "90", "70.71", "45", "100", "$ 0", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "20", "90", "20", "90", "20", "90", "20"]
+        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 2", "A 3", "A 1", "A 3", "A 1", "A 3", "91", "A 5", "A 2", "A 4", "A 1", "A B", "11", "A 1", "A 3", "12"]
+        let params: [String] = ["100", "45", "70.711", "90", "70.71", "45", "100", "90", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "4", "20", "90", ""]
         
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
@@ -258,9 +258,12 @@ class ProcessingViewController: UIViewController {
                 let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
                 
                 //            let code = Functions.processedCode(code: tesseract.recognizedText!)
-                let code = Functions.processedCode(code: self.mathPix.getValue(identifier: "function\(i)"))
-                let param = self.mathPix.getValue(identifier: "param\(i)")
                 
+                let code = self.mathPix.getValue(identifier: "function\(i)")
+                let param = self.mathPix.getValue(identifier: "param\(i)")
+
+                print("\(self.mathPix.getValue(identifier: "function\(i)")), \(self.mathPix.getValue(identifier: "param\(i)")) -> \(Functions.signature(code: code, param: param))")
+
                 if (Functions.valid(code: code)) {
                     let newCard = Card.mr_createEntity(in: context)
                     newCard?.cardGroup = self.cardGroup!
