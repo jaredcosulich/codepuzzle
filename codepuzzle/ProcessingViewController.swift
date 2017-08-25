@@ -161,6 +161,9 @@ class ProcessingViewController: UIViewController {
 //                projectTimestamp: "TEST"
 //            )
 
+        if (execute) {
+            output.text = "Processing Card \(analyzedCardCount + 1)..."
+        }
         
         let rotation = self.cardList.getRotation(Int32(analyzedCardCount))
         let hexRect = self.cardList.getHexRect(Int32(analyzedCardCount))
@@ -194,6 +197,10 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardProcessing() {
+        if (execute) {
+            output.text = "Analyzing Card \(processedCardCount + 1)..."
+        }
+
         if (processedCardCount < cardList.count()) {
             let nextParamIdentifier = "param\(processedCardCount)"
             let nextFunctionIdentifier = "function\(processedCardCount)"
@@ -232,6 +239,10 @@ class ProcessingViewController: UIViewController {
     }
     
     func executeCards() {
+        if (execute) {
+            output.text = "Saving Cards..."
+        }
+
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
