@@ -584,7 +584,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="G43-Nb-vrJ"/>
                                     <barButtonItem title="Cancel" id="L3j-g0-smo">
                                         <connections>
-                                            <action selector="cancel:" destination="L7d-Q3-87b" id="Wn8-zl-ZsP"/>
+                                            <action selector="cancel:" destination="L7d-Q3-87b" id="QzB-Si-zLK"/>
                                             <segue destination="yyQ-YR-DlG" kind="show" identifier="cancel-edit-segue" id="6is-cO-B1I"/>
                                         </connections>
                                     </barButtonItem>
@@ -620,7 +620,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="M45-p5-jnD"/>
-        <segue reference="OVi-Ig-nvb"/>
         <segue reference="XtV-ht-CVw"/>
+        <segue reference="6is-cO-B1I"/>
     </inferredMetricsTieBreakers>
 </document>

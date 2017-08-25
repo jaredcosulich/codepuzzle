@@ -20,7 +20,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     @IBOutlet weak var output: UILabel!
     
     let cardList = CardListWrapper()!
-    let tesseract = G8Tesseract()
+//    let tesseract = G8Tesseract()
 
     var image: UIImage!
     
@@ -41,10 +41,10 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         
         cardGroupImageView.image = image
         
-        tesseract.language = "eng+fra"
-        tesseract.engineMode = .tesseractOnly
-        tesseract.pageSegmentationMode = .auto
-        tesseract.maximumRecognitionTime = 60.0
+//        tesseract.language = "eng+fra"
+//        tesseract.engineMode = .tesseractOnly
+//        tesseract.pageSegmentationMode = .auto
+//        tesseract.maximumRecognitionTime = 60.0
         
         pickerData["View All"] = [
             "Cards",
@@ -237,6 +237,11 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        image = nil
+        cardGroupImageView.removeFromSuperview()
+        cardGroupView.removeFromSuperview()
+        functionPicker.removeFromSuperview()
+        
         if segue.identifier == "cancel-debug-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject

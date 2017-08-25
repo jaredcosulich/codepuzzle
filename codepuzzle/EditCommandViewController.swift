@@ -13,10 +13,10 @@ struct TempCard {
     var cardProject: CardProject!
     var code: String
     var param: String
-    var image: UIImage
+    var image: UIImage?
     var originalCode: String
     var originalParam: String
-    var originalImage: UIImage
+    var originalImage: UIImage?
     
     func addToCardGroup(cardGroup: CardGroup) -> Card {
         var newCard: Card!
@@ -37,7 +37,7 @@ struct TempCard {
         return newCard
     }
 
-    func updateCard(card: Card) {
+    func updateCard(card: Card, completion: @escaping () -> Void) {
         cardProject.persistedManagedObjectContext.mr_save({
             (localContext: NSManagedObjectContext!) in
             card.code = self.code
@@ -49,6 +49,7 @@ struct TempCard {
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            completion()
         })
     }
 }
@@ -243,11 +244,21 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         return newCardImage!
     }
+    
+    
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        uneditedCard.updateCard(card: selectedCard, completion: {
+            self.performSegue(withIdentifier: "cancel-edit-segue", sender: nil)
+        })
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "cancel-edit-segue" {
-            uneditedCard.updateCard(card: selectedCard)
-        }
+        uneditedCard.image = nil
+        uneditedCard.originalImage = nil
+        
+        functionPicker.removeFromSuperview()
+        cardView.removeFromSuperview()
+        param.removeFromSuperview()
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
