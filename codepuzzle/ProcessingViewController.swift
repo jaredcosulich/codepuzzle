@@ -151,9 +151,8 @@ class ProcessingViewController: UIViewController {
     }
 
     func analyzeCards() {
-//        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-//        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
-        
+        let codes: [String] = ["A1", "A3", "A1", "A4", "A2", "A3", "A2", "A4", "A1", "A2", "A3", "A1", "A3", "A1", "A3", "A1", "A5", "A2", "A4", "A1", "A6", "A^{1}", "A3", "A1", "A3", "A1", "A4", "A2"]
+        let params: [String] = ["100", "45", "70.911", "90", "70.71", "45", "100", "$ 0", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "20", "90", "20", "90", "20", "90", "20"]
         
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
@@ -171,14 +170,14 @@ class ProcessingViewController: UIViewController {
         self.mathPix.processImage(
             image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
             identifier: "function\(analyzedCardCount)",
-            result: nil//codes[Int(analyzedCardCount)]
+            result: codes[Int(analyzedCardCount)]
         )
         
         let paramRect = self.cardList.getParamRect(Int32(analyzedCardCount))
         self.mathPix.processImage(
             image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation),
             identifier: "param\(analyzedCardCount)",
-            result: nil//params[Int(analyzedCardCount)]
+            result: params[Int(analyzedCardCount)]
         )
 
         analyzedCardCount += 1

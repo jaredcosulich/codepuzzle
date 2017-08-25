@@ -64,6 +64,21 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 break
             }
         }
+        
+//        info()
+    }
+    
+    func info() {
+        var codes = [String]()
+        var params = [String]()
+        for cardGroup in cardProject.cardGroups {
+            for card in cardGroup.cards {
+                codes.append("\"\(card.code)\"")
+                params.append("\"\(card.param)\"")
+            }
+        }
+        print(codes.joined(separator: ", "))
+        print(params.joined(separator: ", "))
     }
 
     override func didReceiveMemoryWarning() {
