@@ -15,6 +15,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
     @IBOutlet weak var projectTitle: UILabel!
     
     var imagePicker: UIImagePickerController!
@@ -56,11 +58,27 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
+                showPhoto(activity: true)
                 selectedCardGroupIndex = i
-                imageView.image = cardGroup.image
-                showPhoto()
+                showPhoto(activity: false)
+                break
             }
         }
+        
+//        info()
+    }
+    
+    func info() {
+        var codes = [String]()
+        var params = [String]()
+        for cardGroup in cardProject.cardGroups {
+            for card in cardGroup.cards {
+                codes.append("\"\(card.code)\"")
+                params.append("\"\(card.param)\"")
+            }
+        }
+        print(codes.joined(separator: ", "))
+        print(params.joined(separator: ", "))
     }
 
     override func didReceiveMemoryWarning() {
@@ -151,13 +169,23 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func rotateleft(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(-90))
-        saveCardGroup()
+        showPhoto(activity: true)
+        let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+
+        saveCardGroup(
+            image: ImageProcessor.rotate(image: cardImage, degrees: CGFloat(-90)),
+            completion: { self.showPhoto(activity: false) }
+        )
     }
 
     @IBAction func rotateright(_ sender: UIButton) {
-        imageView.image = ImageProcessor.rotate(image: imageView.image!, degrees: CGFloat(90))
-        saveCardGroup()
+        showPhoto(activity: true)
+        let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+
+        saveCardGroup(
+            image: ImageProcessor.rotate(image: cardImage, degrees: CGFloat(90)),
+            completion: { self.showPhoto(activity: false) }
+        )
     }
 
 //    @IBAction func savephotobutton(_ sender: UIButton) {
@@ -173,6 +201,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                didFinishPickingImage image: UIImage!,
                                editingInfo: [NSObject : AnyObject]!) {
         
+        showPhoto(activity: true)
 //        var start = NSDate()
 
         let normalized = ImageProcessor.normalize(image: image)
@@ -185,13 +214,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 //        print("Time 2 \(start.timeIntervalSinceNow) seconds");
 //        start = NSDate()
         
-        imageView.image = normalized
-
-        showPhoto()
+        saveCardGroup(image: normalized, completion: { self.showPhoto(activity: false) })
         
         self.dismiss(animated: true, completion: nil)
-        
-        saveCardGroup()
 
 //        print("Time 3 \(start.timeIntervalSinceNow) seconds");
 }
@@ -200,8 +225,17 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         hidePhoto()
     }
     
-    func showPhoto() {
-        imageView.isHidden = false
+    func showPhoto(activity: Bool) {
+        if (activity) {
+            activityView.startAnimating()
+            imageView.isHidden = true
+        } else {
+            activityView.stopAnimating()
+            let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
+            imageView.image = ImageProcessor.scale(image: cardImage, view: imageView)
+            imageView.isHidden = false
+        }
+        
         rotateRight.isHidden = false
         rotateLeft.isHidden = false
         analyzePhoto.isHidden = false
@@ -216,12 +250,15 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func hidePhoto() {
+        activityView.stopAnimating()
+
         rotateRight.isHidden = true
         rotateLeft.isHidden = true
         analyzePhoto.isHidden = true
         processPhoto.isHidden = true
         changePhoto.isHidden = true
         imageView.isHidden = true
+
         
         addPhotoLabel.isHidden = false
         
@@ -272,7 +309,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         performSegue(withIdentifier: "execution-segue", sender: nil)
     }
     
-    func saveCardGroup() {
+    func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
         let context = self.cardProject.persistedManagedObjectContext!
 
         context.mr_save({
@@ -285,12 +322,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             } else {
                 editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
             }
-            editingCardGroup?.image = self.imageView.image!
-            print("IMAGE SET: \(editingCardGroup?.image)")
+            editingCardGroup?.image = image
         }, completion: {
             (MRSaveCompletionHandler) in
             self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1
             context.mr_saveToPersistentStoreAndWait()
+            completion()
         })
     }
 
@@ -303,6 +340,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        imageView.removeFromSuperview()
+        tableView.removeFromSuperview()
+        
         if segue.identifier == "processing-segue" {
             let dvc = segue.destination as! ProcessingViewController
             dvc.selectedIndex = (selectedCardGroupIndex > -1 ? selectedCardGroupIndex : 0)
@@ -315,11 +355,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             dvc.cardProject = cardProject
             if selectedCardGroupIndex > -1 && cardProject.cardGroups[selectedCardGroupIndex].isProcessed {
                 dvc.selectedIndex = selectedCardGroupIndex
-                dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
             } else {
                 dvc.selectedIndex = -1
-                dvc.image = imageView.image
             }
+            dvc.image = cardProject.cardGroups[selectedCardGroupIndex].image
         }
     }
     

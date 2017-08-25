@@ -138,7 +138,11 @@ class Functions {
     }
     
     class func translate(code: String) -> String {
-        switch (code) {
+        var translatedCode = code
+        if code.characters.first == "4" {
+            translatedCode = "A".appending(code.substring(from: code.index(code.startIndex, offsetBy: 1)))
+        }
+        switch (translatedCode) {
         case "A T":
             return "A 1"
         case "All":
@@ -147,8 +151,10 @@ class Functions {
             return "A1"
         case "A41":
             return "A4"
+        case "A^{1}":
+            return "A1"
         default:
-            return code
+            return translatedCode
         }
     }
     
@@ -229,6 +235,8 @@ class Functions {
     
     class func translate(param: String) -> CGFloat {
         let translatedParam = param.replacingOccurrences(of: ">", with: "7")
+            .replacingOccurrences(of: "$", with: "9")
+            .replacingOccurrences(of: " ", with: "")
 
         return CGFloat((translatedParam as NSString).floatValue)
     }
@@ -237,7 +245,9 @@ class Functions {
         let paramNumber = Functions.translate(param: param)
 
         let methodName = Functions.info(code: Functions.translate(code: code))["method"] ?? ""
-
+        
+        print("\(code)/\(param) -> \(methodName)/\(paramNumber)")
+        
         var nextPoint = currentPoint
         
         switch methodName {

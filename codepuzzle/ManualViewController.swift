@@ -1,5 +1,5 @@
 //
-//  EditCommandViewController.swift
+//  ManualViewController.swift
 //  codepuzzle
 //
 //  Created by Jared Cosulich on 8/5/17.
@@ -9,59 +9,12 @@
 import Foundation
 import MagicalRecord
 
-struct TempCard {
-    var cardProject: CardProject!
-    var code: String
-    var param: String
-    var image: UIImage?
-    var originalCode: String
-    var originalParam: String
-    var originalImage: UIImage?
-    
-    func addToCardGroup(cardGroup: CardGroup) -> Card {
-        var newCard: Card!
-        cardProject.persistedManagedObjectContext.mr_save({
-            (localContext: NSManagedObjectContext!) in
-            newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
-            newCard?.cardGroup = cardGroup
-            newCard?.code = self.code
-            newCard?.param = self.param
-            newCard?.image = self.image
-            newCard?.originalCode = self.originalCode
-            newCard?.originalParam = self.originalParam
-            newCard?.originalImage = self.originalImage
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-        })
-        return newCard
-    }
-
-    func updateCard(card: Card, completion: @escaping () -> Void) {
-        cardProject.persistedManagedObjectContext.mr_save({
-            (localContext: NSManagedObjectContext!) in
-            card.code = self.code
-            card.param = self.param
-            card.image = self.image
-            card.originalCode = self.originalCode
-            card.originalParam = self.originalParam
-            card.originalImage = self.originalImage
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-            completion()
-        })
-    }
-}
-
-class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+class ManualViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
     @IBOutlet weak var param: UITextField!
     @IBOutlet weak var cardView: UIImageView!
-    
-    var uneditedCard: TempCard!
     
     var selectedIndex: Int!
     
@@ -80,16 +33,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         let selectedCode = selectedCard.code
         param.text = selectedCard.param
         cardView.image = selectedCard.image
-        
-        uneditedCard = TempCard(
-            cardProject: cardProject,
-            code: selectedCard.code,
-            param: selectedCard.param,
-            image: selectedCard.image!,
-            originalCode: selectedCard.originalCode!,
-            originalParam: selectedCard.originalParam!,
-            originalImage: selectedCard.originalImage!
-        )
         
         var selectedFunctionIndex = -1
         
@@ -123,14 +66,14 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return pickerData.count
     }
-
+    
     func pickerView(_
         pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int
         ) -> Int {
         return pickerData[component].count
     }
-
+    
     func pickerView(_
         pickerView: UIPickerView,
                     titleForRow row: Int,
@@ -185,7 +128,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         }
     }
-
+    
     @IBAction func showParam(_ sender: Any) {
         selectedCard.param = param.text!
         
@@ -213,7 +156,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         }
         functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
-
+        
         selectedCard.param = selectedCard.originalParam!
         selectedCard.code = selectedCard.originalCode!
         selectedCard.image = selectedCard.originalImage!
@@ -246,21 +189,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        uneditedCard.updateCard(card: selectedCard, completion: {
-            self.performSegue(withIdentifier: "cancel-edit-segue", sender: nil)
-        })
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        uneditedCard.image = nil
-        uneditedCard.originalImage = nil
-        
         functionPicker.removeFromSuperview()
         cardView.removeFromSuperview()
         param.removeFromSuperview()
         
-        if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
+        if segue.identifier == "save-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex

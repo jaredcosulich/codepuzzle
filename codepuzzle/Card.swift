@@ -15,16 +15,21 @@ import CoreData
 class Card: NSManagedObject {
     
     // Attributes
-    @NSManaged var imageFilename: String
-    var image: UIImage {
+    @NSManaged var imageFilename: String?
+    weak var image: UIImage? {
         get {
-            return ImageSaver.retrieve(filename: imageFilename)
+            return ImageSaver.retrieve(filename: imageFilename!)
         }
         
         set {
-            let filename = "\(cardGroup.cardProject.title)-\(cardGroup.cardGroupIndex())-\(cardIndex())"
-            if ImageSaver.save(image: newValue, filename: filename) {
-                imageFilename = filename
+            if imageFilename == nil {
+                imageFilename = "\(cardGroup.cardProject.title)-\(cardGroup.cardGroupIndex())-\(cardIndex())"
+            }
+            
+            if newValue == nil {
+                ImageSaver.delete(filename: imageFilename!)
+            } else {
+                _ = ImageSaver.save(image: newValue!, filename: imageFilename!)
             }
         }
     }
@@ -32,26 +37,33 @@ class Card: NSManagedObject {
     @NSManaged var code: String
     @NSManaged var param: String
     
-    @NSManaged var originalImageFilename: String
-    var originalImage: UIImage {
+    @NSManaged var originalImageFilename: String?
+    weak var originalImage: UIImage? {
         get {
-            return ImageSaver.retrieve(filename: originalImageFilename)
+            return ImageSaver.retrieve(filename: originalImageFilename!)
         }
         
         set {
-            let filename = "\(cardGroup.cardProject.title)-\(cardGroup.cardGroupIndex())-\(cardIndex())Original"
-            if ImageSaver.save(image: newValue, filename: filename) {
-                originalImageFilename = filename
+            if (originalImageFilename == nil && newValue == nil) {
+                return
+            } else if originalImageFilename == nil {
+                originalImageFilename = "\(cardGroup.cardProject.title)-\(cardGroup.cardGroupIndex())-\(cardIndex())Original"
+            }
+            
+            if newValue == nil {
+                ImageSaver.delete(filename: originalImageFilename!)
+            } else {
+                _ = ImageSaver.save(image: newValue!, filename: originalImageFilename!)
             }
         }
     }
-
     
-    @NSManaged var originalCode: String
-    @NSManaged var originalParam: String
+    @NSManaged var originalCode: String?
+    @NSManaged var originalParam: String?
     
     // Relationships
     @NSManaged var cardGroup: CardGroup
+    
     
     func cardIndex() -> Int {
         for i in 0..<cardGroup.cards.count {
@@ -60,6 +72,13 @@ class Card: NSManagedObject {
             }
         }
         return -1
+    }
+    
+    override func prepareForDeletion() {
+        image = nil
+        originalImage = nil
+        
+        super.prepareForDeletion()
     }
     
 }

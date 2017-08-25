@@ -71,7 +71,7 @@ class ExecutionViewController: UIViewController {
         
         for card in cards {
             let functionLayer = CALayer()
-            let image = card.image
+            let image = card.image!
             
             functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.25
@@ -365,21 +365,6 @@ class ExecutionViewController: UIViewController {
 
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        pause()
-        if segue.identifier == "edit-command-segue" {
-            let dvc = segue.destination as! EditCommandViewController
-            dvc.cardProject = cardProject
-            dvc.selectedIndex = selectedIndex
-        } else if segue.identifier == "close-segue" {
-            let dvc = segue.destination as! ProjectViewController
-            dvc.cardProject = cardProject
-        } else if segue.identifier == "add-photo-segue" {
-            let dvc = segue.destination as! MenuViewController
-            dvc.cardProject = cardProject
-        }
-    }
-
     func pause() {
         paused = true
         speedButtons.selectedSegmentIndex = -1
@@ -406,5 +391,30 @@ class ExecutionViewController: UIViewController {
     @IBAction func editProject(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "add-photo-segue", sender: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        pause()
+        
+        for layer in executedLayers {
+            layer.contents = nil
+        }
+        
+        imageView?.removeFromSuperview()
+        drawingView?.removeFromSuperview()
+        
+        if segue.identifier == "edit-command-segue" {
+            let dvc = segue.destination as! EditCommandViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+        } else if segue.identifier == "close-segue" {
+            let dvc = segue.destination as! ProjectViewController
+            dvc.cardProject = cardProject
+        } else if segue.identifier == "add-photo-segue" {
+            let dvc = segue.destination as! MenuViewController
+            dvc.cardProject = cardProject
+        }
+    }
+    
+
     
 }

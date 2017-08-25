@@ -17,11 +17,12 @@ class ProcessingViewController: UIViewController {
     
     let cardList = CardListWrapper()!
     let mathPix = MathPix()
-    let tesseract = G8Tesseract()
+//    let tesseract = G8Tesseract()
     
     var timer = Timer()
 
-    var cardCount = Int32(0)
+    var analyzedCardCount = Int32(0)
+    var processedCardCount = Int32(0)
     
     var cardProject: CardProject!
     
@@ -37,6 +38,7 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var noButton: UIButton!
     
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
 //    var start = NSDate()
     
@@ -45,14 +47,15 @@ class ProcessingViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         cardGroup = cardProject.cardGroups[selectedIndex]
         
-        imageView.image = cardGroup.image
+        imageView.image = ImageProcessor.scale(image: cardGroup.image!, view: imageView)
         
         initCardList()
         
-        tesseract.language = "eng+fra"
-        tesseract.engineMode = .tesseractOnly
-        tesseract.pageSegmentationMode = .auto
-        tesseract.maximumRecognitionTime = 60.0
+//        tesseract.language = "eng+fra"
+//        tesseract.engineMode = .tesseractOnly
+//        tesseract.pageSegmentationMode = .auto
+//        tesseract.maximumRecognitionTime = 60.0
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,10 +67,10 @@ class ProcessingViewController: UIViewController {
         processing = true
         output.text = "Scanning photo for cards..."
         cardList.clear()
+        activityView.startAnimating()
         
-        // start the timer
         Timer.scheduledTimer(
-            timeInterval: 0.1,
+            timeInterval: 0,
             target: self,
             selector: #selector(startCardProcessing),
             userInfo: nil,
@@ -76,31 +79,54 @@ class ProcessingViewController: UIViewController {
     }
     
     func startCardProcessing() {
-        OpenCVWrapper.process(self.imageView.image, self.cardList)
+        OpenCVWrapper.process(cardGroup.image, self.cardList)
         
-        imageView.image = ImageProcessor.borderCards(image: imageView.image!, cardList: cardList, index: -1)
+        setProcessedImage(
+            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1),
+            completion: {
+                self.imageView.image = ImageProcessor.scale(image: self.cardGroup.processedImage!, view: self.imageView)
 
-        output.text = "Identified \(cardList.count()) cards\r\rIs that correct?"
-        
-        yesButton.isHidden = false
-        noButton.isHidden = false
-        
-        startCardAnalysis()
+                self.activityView.stopAnimating()
+                
+                self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
+                
+                self.yesButton.isHidden = false
+                self.noButton.isHidden = false
+                
+                Timer.scheduledTimer(
+                    timeInterval: 0,
+                    target: self,
+                    selector: #selector(self.analyzeCards),
+                    userInfo: nil,
+                    repeats: false
+                )
+            }
+        )
     }
     
     @IBAction func confirmCard(_ sender: UIButton) {
-        if (cardCount < cardList.count()) {
+        activityView.startAnimating()
+        yesButton.isHidden = true
+        noButton.isHidden = true
+        output.text = "Processing cards. One moment..."
+
+        if (processedCardCount < cardList.count()) {
             execute = true
-            output.text = "Processing cards. One moment..."
         } else {
-            self.performSegue(withIdentifier: "execution-segue", sender: nil)
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(executeCards),
+                userInfo: nil,
+                repeats: false
+            )
         }
     }
     
     @IBAction func rejectCard(_ sender: UIButton) {
         timer.invalidate()
         Timer.scheduledTimer(
-            timeInterval: 0.2,
+            timeInterval: 0,
             target: self,
             selector: #selector(self.completeCardRejection),
             userInfo: nil,
@@ -124,110 +150,148 @@ class ProcessingViewController: UIViewController {
         })
     }
 
-    func startCardAnalysis() {
-        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 1", "A 1", "A 1", "A 1"]
-        let params: [String] = ["100", "45", "35.355", "90", "35.355", "45", "100", "90", "50", "50", "50", "50", "50", "50"]
+    func analyzeCards() {
+        let codes: [String] = ["A1", "A3", "A1", "A4", "A2", "A3", "A2", "A4", "A1", "A2", "A3", "A1", "A3", "A1", "A3", "A1", "A5", "A2", "A4", "A1", "A6", "A^{1}", "A3", "A1", "A3", "A1", "A4", "A2"]
+        let params: [String] = ["100", "45", "70.911", "90", "70.71", "45", "100", "$ 0", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "20", "90", "20", "90", "20", "90", "20"]
         
-        for i in 0..<self.cardList.count() {
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
 //                projectTimestamp: "TEST"
 //            )
 
-            let rotation = self.cardList.getRotation(Int32(i))
-            let hexRect = self.cardList.getHexRect(Int32(i))
-            let functionRect = self.cardList.getFunctionRect(Int32(i))
-            self.mathPix.processImage(
-                image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: rotation),
-                identifier: "function\(i)",
-                result: codes[Int(i)]
-            )
-            
-            let paramRect = self.cardList.getParamRect(Int32(i))
-            self.mathPix.processImage(
-                image: ImageProcessor.cropCard(image: self.cardGroup.image, rect: paramRect, hexRect: hexRect, rotation: rotation),
-                identifier: "param\(i)",
-                result: params[Int(i)]
-            )
+        if (execute) {
+            output.text = "Processing Card \(analyzedCardCount + 1)..."
         }
-
-        self.checkCardProcessing()
         
-        // start the timer
-        self.timer = Timer.scheduledTimer(
-            timeInterval: 0.1,
-            target: self,
-            selector: #selector(self.checkCardProcessing),
-            userInfo: nil,
-            repeats: true
+        let rotation = self.cardList.getRotation(Int32(analyzedCardCount))
+        let hexRect = self.cardList.getHexRect(Int32(analyzedCardCount))
+        let functionRect = self.cardList.getFunctionRect(Int32(analyzedCardCount))
+        self.mathPix.processImage(
+            image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
+            identifier: "function\(analyzedCardCount)",
+            result: codes[Int(analyzedCardCount)]
         )
+        
+        let paramRect = self.cardList.getParamRect(Int32(analyzedCardCount))
+        self.mathPix.processImage(
+            image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation),
+            identifier: "param\(analyzedCardCount)",
+            result: params[Int(analyzedCardCount)]
+        )
+
+        analyzedCardCount += 1
+
+        if (analyzedCardCount < cardList.count()) {
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(analyzeCards),
+                userInfo: nil,
+                repeats: false
+            )
+        } else {
+            self.checkCardProcessing()
+        }
     }
     
     func checkCardProcessing() {
-        if (cardCount < cardList.count()) {
-            let nextParamIdentifier = "param\(cardCount)"
-            let nextFunctionIdentifier = "function\(cardCount)"
+        if (execute) {
+            output.text = "Analyzing Card \(processedCardCount + 1)..."
+        }
+
+        if (processedCardCount < cardList.count()) {
+            let nextParamIdentifier = "param\(processedCardCount)"
+            let nextFunctionIdentifier = "function\(processedCardCount)"
         
             if (mathPix.processing(identifier: nextParamIdentifier) || mathPix.processing(identifier: nextFunctionIdentifier)) {
-                return
+
+                Timer.scheduledTimer(
+                    timeInterval: 0.25,
+                    target: self,
+                    selector: #selector(self.checkCardProcessing),
+                    userInfo: nil,
+                    repeats: false
+                )
+
+            } else {
+                processedCardCount += 1
+                checkCardProcessing()
             }
+        } else {
+            if execute {
+                executeCards()
+            }
+        }
+    }
+    
+    func setProcessedImage(image: UIImage, completion: @escaping () -> Void) {
+        let context = self.cardProject.persistedManagedObjectContext!
+        context.mr_save({
+            (localContext: NSManagedObjectContext!) in
+            self.cardGroup.processedImage = image
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            context.mr_saveToPersistentStoreAndWait()
+            completion()
+        })
+    }
+    
+    func executeCards() {
+        if (execute) {
+            output.text = "Saving Cards..."
+        }
 
-            let rotation = self.cardList.getRotation(cardCount)
-            let hexRect = cardList.getHexRect(cardCount)
-//            let functionRect = cardList.getFunctionRect(cardCount)
-//            tesseract.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
-//            tesseract.recognize()
+        let context = self.cardProject.persistedManagedObjectContext!
+        context.mr_save({
+            (localContext: NSManagedObjectContext!) in
             
-            let fullRect = cardList.getFullRect(cardCount)
-
-            let cardImage = ImageProcessor.cropCard(image: cardGroup.image, rect: fullRect, hexRect: hexRect, rotation: rotation)
-
-//            let code = Functions.processedCode(code: tesseract.recognizedText!)
-            let code = Functions.processedCode(code: mathPix.getValue(identifier: nextFunctionIdentifier))
-            let param = mathPix.getValue(identifier: "param\(cardCount)")
-            
-            if (Functions.valid(code: code)) {
-                self.cardProject.persistedManagedObjectContext.mr_save({
-                    (localContext: NSManagedObjectContext!) in
-                    let newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
+            for i in 0..<self.processedCardCount {
+                let rotation = self.cardList.getRotation(i)
+                let hexRect = self.cardList.getHexRect(i)
+                //            let functionRect = self.cardList.getFunctionRect(i)
+                //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
+                //            tesseract.recognize()
+                
+                let fullRect = self.cardList.getFullRect(i)
+                
+                let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+                
+                //            let code = Functions.processedCode(code: tesseract.recognizedText!)
+                let code = Functions.processedCode(code: self.mathPix.getValue(identifier: "function\(i)"))
+                let param = self.mathPix.getValue(identifier: "param\(i)")
+                
+                if (Functions.valid(code: code)) {
+                    let newCard = Card.mr_createEntity(in: context)
                     newCard?.cardGroup = self.cardGroup!
                     newCard?.code = code
                     newCard?.param = param
                     newCard?.image = cardImage
+                    
                     newCard?.originalCode = code
                     newCard?.originalParam = param
                     newCard?.originalImage = cardImage
-                })
+                }
             }
             
-//            if (cardCount < 3) {
-//                imageView.image = ImageProcessor.cropCard(image: cardGroup.image, rect: functionRect)
-//            }
+            self.cardGroup.isProcessed = true
             
-            cardCount += 1
-        } else {
-            timer.invalidate()
-            self.cardProject.persistedManagedObjectContext.mr_save({
-                (localContext: NSManagedObjectContext!) in
-                self.cardGroup.isProcessed = true
-                self.cardGroup.processedImage = self.imageView.image!
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-                if (self.execute) {
-                    self.performSegue(withIdentifier: "execution-segue", sender: nil)
-                }
-            })
-        }
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            context.mr_saveToPersistentStoreAndWait()
+            self.performSegue(withIdentifier: "execution-segue", sender: nil)
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        imageView?.removeFromSuperview()
+        
         if segue.identifier == "cancel-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
+ 
             dvc.cardProject = cardProject
         }
     }

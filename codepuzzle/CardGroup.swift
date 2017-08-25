@@ -15,17 +15,22 @@ import CoreData
 class CardGroup: NSManagedObject {
     
     // Attributes
-    @NSManaged var imageFilename: NSString
+    @NSManaged var imageFilename: String?
         
-    var image: UIImage {
+    weak var image: UIImage? {
         get {
-            return ImageSaver.retrieve(filename: String(imageFilename))
+            return ImageSaver.retrieve(filename: imageFilename!)
         }
         
         set {
-            let filename = "\(cardProject.title)-\(cardGroupIndex())"
-            if ImageSaver.save(image: newValue, filename: filename) {
-                self.imageFilename = NSString(string: filename)
+            if imageFilename == nil {
+                imageFilename = "\(cardProject.title)-\(cardGroupIndex())"
+            }
+            
+            if newValue == nil {
+                ImageSaver.delete(filename: imageFilename!)
+            } else {
+                _ = ImageSaver.save(image: newValue!, filename: imageFilename!)
             }
         }
     }
@@ -41,19 +46,22 @@ class CardGroup: NSManagedObject {
         }
     }
 
-    @NSManaged var processedImageFilename: NSString?
+    @NSManaged var processedImageFilename: String?
 
-    var processedImage: UIImage? {
+    weak var processedImage: UIImage? {
         get {
-            return ImageSaver.retrieve(filename: String(processedImageFilename!))
+            return ImageSaver.retrieve(filename: processedImageFilename!)
         }
         
         set {
-            let filename = "\(cardProject.title)-\(cardGroupIndex())Processed"
+            if processedImageFilename == nil {
+                processedImageFilename = "\(cardProject.title)-\(cardGroupIndex())Processed"
+            }
+            
             if newValue == nil {
-                ImageSaver.delete(filename: filename)
-            } else if ImageSaver.save(image: newValue!, filename: filename) {
-                processedImageFilename = NSString(string: filename)
+                ImageSaver.delete(filename: processedImageFilename!)
+            } else {
+                _ = ImageSaver.save(image: newValue!, filename: processedImageFilename!)
             }
         }
     }
@@ -63,11 +71,19 @@ class CardGroup: NSManagedObject {
     @NSManaged var cards: [Card]
 
     func cardGroupIndex() -> Int {
-        for i in 0..<cardProject.cardGroups.count {
+        for i in 0..<(cardProject.cardGroups.count) {
             if cardProject.cardGroups[i] == self {
                 return i
             }
         }
         return -1
-    }    
+    }
+    
+    override func prepareForDeletion() {
+        image = nil
+        processedImage = nil
+        
+        super.prepareForDeletion()
+    }
+
 }

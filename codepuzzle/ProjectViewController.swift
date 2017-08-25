@@ -57,7 +57,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
-        cell?.imageView?.image = cardProject.cardGroups.first?.image
+        
+        if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
+            let thumbnail = cardProject.cardGroups.first!.image!
+            cell!.imageView!.image = ImageProcessor.scale(image: thumbnail, view: tableView)
+        }
         
         return cell!
     }
@@ -118,11 +122,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            self.performSegue(withIdentifier: "start-project-segue", sender: nil)
         })
-        performSegue(withIdentifier: "start-project-segue", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        tableView?.removeFromSuperview()
+        projectTitleView?.removeFromSuperview()
+
         if segue.identifier == "start-project-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject

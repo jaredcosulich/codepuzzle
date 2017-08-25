@@ -3,9 +3,9 @@
     <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="code" attributeType="String" syncable="YES"/>
         <attribute name="imageFilename" attributeType="String" syncable="YES"/>
-        <attribute name="originalCode" attributeType="String" syncable="YES"/>
-        <attribute name="originalImageFilename" attributeType="String" syncable="YES"/>
-        <attribute name="originalParam" attributeType="String" syncable="YES"/>
+        <attribute name="originalCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originalImageFilename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originalParam" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="param" attributeType="String" syncable="YES"/>
         <relationship name="cardGroup" maxCount="1" deletionRule="Nullify" destinationEntity="CardGroup" inverseName="cards" inverseEntity="CardGroup" syncable="YES"/>
     </entity>

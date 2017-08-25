@@ -58,7 +58,7 @@ class MathPix {
 //                    let json = try? JSONSerialization.jsonObject(with: data as! Data, options: []) as? [String: Any]
 //                    print("\(JSON)")
                     let value = (json as! NSDictionary)["latex"] as? String
-                    print("\(identifier): \(value ?? "No Value")")
+//                    print("\(identifier): \(value ?? "No Value")")
                     self.results[identifier] = value ?? "No Value"
                 }
         }

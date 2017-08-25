@@ -263,11 +263,17 @@
                                     <action selector="homeButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="6EF-2F-h5Y"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aFa-DB-79J">
+                                <rect key="frame" x="142" y="145" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="activityView" destination="aFa-DB-79J" id="VK7-ED-Eir"/>
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
                         <outlet property="analyzePhoto" destination="STb-mJ-6cP" id="LoQ-BA-l5Y"/>
                         <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
@@ -374,6 +380,53 @@
             </objects>
             <point key="canvasLocation" x="1486.875" y="445.77464788732397"/>
         </scene>
+        <!--Manual View Controller-->
+        <scene sceneID="xkg-BJ-iKO">
+            <objects>
+                <viewController id="Gxm-B5-mO7" customClass="ManualViewController" customModule="codepuzzle" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3lj-Pk-XKg"/>
+                        <viewControllerLayoutGuide type="bottom" id="MmA-vz-dBO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XwW-Iz-Ewa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3S4-h1-kaP">
+                                <rect key="frame" x="0.0" y="279" width="320" height="289"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="The system could not read this card. Can you fix it?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztu-O6-OIu">
+                                <rect key="frame" x="16" y="10" width="288" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uWD-Kd-cLP">
+                                <rect key="frame" x="16" y="241" width="288" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-6w-5SQ">
+                                <rect key="frame" x="0.0" y="51" width="320" height="190"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="cardView" destination="3S4-h1-kaP" id="2PL-Oq-MmR"/>
+                        <outlet property="functionPicker" destination="Oka-6w-5SQ" id="Wv9-Zy-XHy"/>
+                        <outlet property="param" destination="uWD-Kd-cLP" id="oYz-Ic-BpY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2WH-fV-rLx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2229.375" y="443.66197183098592"/>
+        </scene>
         <!--Processing-->
         <scene sceneID="ysb-Q9-2Bg">
             <objects>
@@ -419,16 +472,23 @@
                                     <action selector="confirmCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="Ywq-gP-GZH"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="gS7-m4-WDL">
+                                <rect key="frame" x="142" y="443" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="activityView" destination="gS7-m4-WDL" id="cxM-WJ-3iA"/>
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
                         <outlet property="noButton" destination="NPC-WB-rbs" id="TdV-du-tjJ"/>
                         <outlet property="output" destination="OIT-q5-Y3J" id="FhS-x7-rqo"/>
                         <outlet property="yesButton" destination="fip-F0-ggz" id="vx8-Jk-saQ"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="OVi-Ig-nvb"/>
                         <segue destination="9pv-A4-QxB" kind="show" identifier="cancel-segue" id="M45-p5-jnD"/>
+                        <segue destination="Gxm-B5-mO7" kind="show" identifier="manual-segue" id="7nD-mY-DKF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A8I-m6-4t1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -572,7 +632,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="G43-Nb-vrJ"/>
                                     <barButtonItem title="Cancel" id="L3j-g0-smo">
                                         <connections>
-                                            <action selector="cancel:" destination="L7d-Q3-87b" id="Wn8-zl-ZsP"/>
+                                            <action selector="cancel:" destination="L7d-Q3-87b" id="QzB-Si-zLK"/>
                                             <segue destination="yyQ-YR-DlG" kind="show" identifier="cancel-edit-segue" id="6is-cO-B1I"/>
                                         </connections>
                                     </barButtonItem>
@@ -600,7 +660,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HKI-tA-VII" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3801" y="-320"/>
+            <point key="canvasLocation" x="2981" y="446"/>
         </scene>
     </scenes>
     <resources>
@@ -608,7 +668,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="M45-p5-jnD"/>
-        <segue reference="OVi-Ig-nvb"/>
         <segue reference="XtV-ht-CVw"/>
+        <segue reference="OVi-Ig-nvb"/>
     </inferredMetricsTieBreakers>
 </document>
