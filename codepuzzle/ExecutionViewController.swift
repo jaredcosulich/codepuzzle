@@ -215,6 +215,8 @@ class ExecutionViewController: UIViewController {
 
         executionIndex += 1
         
+        scrollToCard(index: executionIndex)
+
         if (executionIndex >= cards.count) {
             output.text = "All cards executed."
             selectedIndex = -1
@@ -223,9 +225,7 @@ class ExecutionViewController: UIViewController {
         } else {
             highlightCard(index: executionIndex)
             executeCard(index: executionIndex, redraw: false)
-        }
-        
-        scrollToCard(index: executionIndex)
+        }        
     }
     
     func findCardIndex(x: CGFloat) -> Int {
@@ -267,8 +267,6 @@ class ExecutionViewController: UIViewController {
         
         let card = cards[index]
 
-        output.text = Functions.signature(code: card.code, param: card.param)
-
         var loopIndex = index
         
         if (redraw) {
@@ -286,8 +284,16 @@ class ExecutionViewController: UIViewController {
             let loopCount = functions.execute(code: card.code, param: card.param, instant: (speed == 0))
             if loopCount > 0 {
                 startLoop(count: loopCount, start: index)
+                output.text = "Loop \(loops.last![0]) Times"
             } else if loopCount < 0 {
+                if loops.last![1] + 1 == loops.last![0] {
+                    output.text = "Loop Complete"
+                } else {
+                    output.text = "Loop \(loops.last![1] + 1) / \(loops.last![0])"
+                }
                 loopIndex = endLoop(end: index)
+            } else {
+                output.text = Functions.signature(code: card.code, param: card.param)
             }
         }
         
@@ -311,10 +317,6 @@ class ExecutionViewController: UIViewController {
             return end
         }
         return lastLoop[2]
-    }
-    
-    func loopIndex() {
-        
     }
     
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
