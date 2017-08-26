@@ -152,6 +152,8 @@ class Functions {
         switch (translatedCode) {
         case "A T":
             return "A 1"
+        case "A B":
+            return "A 6"
         case "All":
             return "A1"
         case "Al":
