@@ -45,6 +45,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     var cardProject: CardProject!
     
+    var addPhoto: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -66,6 +68,19 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
         info()
+        
+        Timer.scheduledTimer(
+            withTimeInterval: 0,
+            repeats: false,
+            block: {
+                (Timer) in
+                if self.addPhoto == "take" {
+                    self.newphotobutton(self.newPhoto)
+                } else if self.addPhoto == "library" {
+                    self.photolibraryaction(self.loadPhoto)
+                }
+            }
+        )
     }
     
     func info() {

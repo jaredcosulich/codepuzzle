@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ExecutionViewController: UIViewController {
+class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var drawingView: UIImageView!
     
@@ -46,9 +46,17 @@ class ExecutionViewController: UIViewController {
 
     var loops = [[Int]]()
     
+    var addPhoto: String!
+    
+    @IBOutlet weak var addMenuBlur: UIVisualEffectView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(closeAddMenu))
+        tap.delegate = self
+        addMenuBlur.addGestureRecognizer(tap)
         
         functions = Functions(uiImageView: drawingView)
         
@@ -385,7 +393,8 @@ class ExecutionViewController: UIViewController {
                     play()
                     initExecution()
                 } else {
-                    performSegue(withIdentifier: "add-photo-segue", sender: nil)
+                    addMenuBlur.isHidden = false
+//                    performSegue(withIdentifier: "add-photo-segue", sender: nil)
                 }
             } else {
                 if (selectedIndex == cardIndex) {
@@ -401,6 +410,10 @@ class ExecutionViewController: UIViewController {
             pause()
         }
 
+    }
+    
+    func closeAddMenu() {
+        print("CLOSE ADD")
     }
     
     func pause() {
@@ -427,7 +440,22 @@ class ExecutionViewController: UIViewController {
     }
     
     @IBAction func editProject(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "edit-project-segue", sender: nil)
+    }
+    
+    @IBAction func newPhoto(_ sender: UIButton) {
+        switch sender.titleLabel!.text! {
+        case "Take Photo":
+            addPhoto = "take"
+        default:
+            addPhoto = "library"
+        }
+    
         performSegue(withIdentifier: "add-photo-segue", sender: nil)
+    }
+    
+    @IBAction func newCard(_ sender: UIButton) {
+        print(sender.currentTitle)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -448,6 +476,10 @@ class ExecutionViewController: UIViewController {
             let dvc = segue.destination as! ProjectViewController
             dvc.cardProject = cardProject
         } else if segue.identifier == "add-photo-segue" {
+            let dvc = segue.destination as! MenuViewController
+            dvc.cardProject = cardProject
+            dvc.addPhoto = addPhoto
+        } else if segue.identifier == "edit-project-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject
         }

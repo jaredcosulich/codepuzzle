@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0A63E349B5F48FC09AC597BA /* Pods_codepuzzleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF6E823DAC9EF063685600C4 /* Pods_codepuzzleUITests.framework */; };
 		3A0408351F43B2D4000C60A2 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0408341F43B2D4000C60A2 /* DebugViewController.swift */; };
-		3A20C72B1F5068C3005888B6 /* ManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A20C72A1F5068C3005888B6 /* ManualViewController.swift */; };
 		3A21DB4F1F4B87EB003916C3 /* CardProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A21DB4E1F4B87EB003916C3 /* CardProject.swift */; };
 		3A21DB511F4B889B003916C3 /* CardGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A21DB501F4B889B003916C3 /* CardGroup.swift */; };
 		3A21DB531F4B8BA5003916C3 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A21DB521F4B8BA5003916C3 /* Card.swift */; };
@@ -64,7 +63,6 @@
 		2977F8B17F1DC116774E348A /* Pods-codepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzle/Pods-codepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
 		37DD72A76066A2536373201D /* Pods-codepuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzleTests/Pods-codepuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A0408341F43B2D4000C60A2 /* DebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
-		3A20C72A1F5068C3005888B6 /* ManualViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		3A21DB4E1F4B87EB003916C3 /* CardProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardProject.swift; sourceTree = "<group>"; };
 		3A21DB501F4B889B003916C3 /* CardGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardGroup.swift; sourceTree = "<group>"; };
 		3A21DB521F4B8BA5003916C3 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				3AA2D02F1F38FEF400B90963 /* Project.swift */,
 				3A2B65C61EE9B37900E8B7BD /* MenuViewController.swift */,
 				3A2B65CA1EE9B37900E8B7BD /* Main.storyboard */,
-				3A20C72A1F5068C3005888B6 /* ManualViewController.swift */,
 				3A0408341F43B2D4000C60A2 /* DebugViewController.swift */,
 				3AA2D0311F39F65C00B90963 /* ProjectViewController.swift */,
 				3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */,
@@ -556,7 +553,6 @@
 				3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */,
 				3ACB55471F12AAC200382476 /* Functions.swift in Sources */,
 				3A2B65C51EE9B37900E8B7BD /* AppDelegate.swift in Sources */,
-				3A20C72B1F5068C3005888B6 /* ManualViewController.swift in Sources */,
 				3AA2D02E1F38F79300B90963 /* Data.xcdatamodeld in Sources */,
 				3A21DB531F4B8BA5003916C3 /* Card.swift in Sources */,
 				3AA2D0321F39F65C00B90963 /* ProjectViewController.swift in Sources */,
