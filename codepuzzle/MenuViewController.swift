@@ -69,18 +69,20 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         info()
         
-        Timer.scheduledTimer(
-            withTimeInterval: 0,
-            repeats: false,
-            block: {
-                (Timer) in
-                if self.addPhoto == "take" {
-                    self.newphotobutton(self.newPhoto)
-                } else if self.addPhoto == "library" {
-                    self.photolibraryaction(self.loadPhoto)
+        if (addPhoto != nil) {
+            Timer.scheduledTimer(
+                withTimeInterval: 0,
+                repeats: false,
+                block: {
+                    (Timer) in
+                    if self.addPhoto == "take" {
+                        self.newphotobutton(self.newPhoto)
+                    } else if self.addPhoto == "library" {
+                        self.photolibraryaction(self.loadPhoto)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
     
     func info() {
@@ -173,7 +175,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
     
-    @IBAction func photolibraryaction(_ sender: UIButton) {
+    @IBAction func photolibraryaction(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             imagePicker = UIImagePickerController()
             imagePicker.delegate = self
