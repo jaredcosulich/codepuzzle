@@ -294,7 +294,6 @@ class ProcessingViewController: UIViewController {
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
- 
             dvc.cardProject = cardProject
         }
     }

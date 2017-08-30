@@ -645,8 +645,7 @@
                                 <items>
                                     <barButtonItem title="Save" id="9vq-8H-4vN">
                                         <connections>
-                                            <action selector="save:" destination="L7d-Q3-87b" id="9C1-Nw-Eyj"/>
-                                            <segue destination="yyQ-YR-DlG" kind="show" identifier="save-edit-segue" id="5VK-qn-r5C"/>
+                                            <action selector="save:" destination="L7d-Q3-87b" id="XMO-XJ-6u5"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eI2-q4-NWk"/>
@@ -696,6 +695,8 @@
                         <outlet property="cardView" destination="bga-uH-SdD" id="kVg-lY-3cC"/>
                         <outlet property="functionPicker" destination="QnH-gw-C4f" id="nlh-eg-2qy"/>
                         <outlet property="param" destination="q9q-7h-wTc" id="VlB-yN-BLI"/>
+                        <outlet property="titleLabel" destination="4It-rP-Ub6" id="OGi-27-9eh"/>
+                        <segue destination="yyQ-YR-DlG" kind="show" identifier="save-edit-segue" id="sp7-dt-xFh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HKI-tA-VII" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -707,9 +708,9 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OVi-Ig-nvb"/>
-        <segue reference="Pe9-k7-35c"/>
+        <segue reference="sp7-dt-xFh"/>
         <segue reference="wOF-ww-Kkf"/>
         <segue reference="LUj-ho-ZVW"/>
+        <segue reference="Pe9-k7-35c"/>
     </inferredMetricsTieBreakers>
 </document>

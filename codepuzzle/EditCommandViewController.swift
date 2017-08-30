@@ -18,7 +18,7 @@ struct TempCard {
     var originalParam: String
     var originalImage: UIImage?
     
-    func addToCardGroup(cardGroup: CardGroup) -> Card {
+    func addToCardGroup(cardGroup: CardGroup, completion: @escaping () -> Void) {
         var newCard: Card!
         cardProject.persistedManagedObjectContext.mr_save({
             (localContext: NSManagedObjectContext!) in
@@ -33,8 +33,8 @@ struct TempCard {
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            completion()
         })
-        return newCard
     }
 
     func updateCard(card: Card, completion: @escaping () -> Void) {
@@ -62,6 +62,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var cardView: UIImageView!
     
     var uneditedCard: TempCard!
+    var newCard: TempCard!
     
     var selectedIndex: Int!
     
@@ -73,38 +74,64 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     var selectedCard: Card!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        selectedCard = cardProject.allCards()[selectedIndex]
-        let selectedCode = selectedCard.code
-        param.text = selectedCard.param
-        cardView.image = selectedCard.image
+        let cards = cardProject.allCards()
         
-        uneditedCard = TempCard(
-            cardProject: cardProject,
-            code: selectedCard.code,
-            param: selectedCard.param,
-            image: selectedCard.image!,
-            originalCode: selectedCard.originalCode!,
-            originalParam: selectedCard.originalParam!,
-            originalImage: selectedCard.originalImage!
-        )
+        var selectedCode: String!
         
-        var selectedFunctionIndex = -1
+        if selectedIndex > 0 && selectedIndex < cards.count {
+            selectedCard = cards[selectedIndex]
+            selectedCode = selectedCard.code
+            param.text = selectedCard.param
+            cardView.image = selectedCard.image
+
+            uneditedCard = TempCard(
+                cardProject: cardProject,
+                code: selectedCard.code,
+                param: selectedCard.param,
+                image: selectedCard.image!,
+                originalCode: selectedCard.originalCode!,
+                originalParam: selectedCard.originalParam!,
+                originalImage: selectedCard.originalImage!
+            )
+        } else {
+            newCard = TempCard(
+                cardProject: cardProject,
+                code: "A1",
+                param: "",
+                image: nil,
+                originalCode: "A1",
+                originalParam: "",
+                originalImage: nil
+            )
+            selectedCode = "A1"
+            titleLabel.text = "Add Card To Project"
+            cardView.image = drawCard(
+                image: UIImage(named: selectedCode)!,
+                param: nil
+            )
+        }
         
         functionCodes = Array(Functions.functionInfo.keys).sorted()
+        
+        var selectedFunctionIndex = -1
         
         var functionNames = [String]()
         for i in 0..<Functions.functionInfo.count {
             let functionCode = functionCodes[i]
-            if (functionCode == selectedCode) {
+            if (selectedCode != nil && functionCode == selectedCode) {
                 selectedFunctionIndex = i
             }
             functionNames.append(
                 "\((Functions.functionInfo[functionCode]?["name"])!) (\(functionCode))"
             )
         }
+        
         pickerData = [functionNames]
         
         functionPicker.delegate = self
@@ -113,6 +140,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         param.delegate = self
         
         functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
+        
+        print("START CARDS: \(cardProject.cardGroups.last?.cards.count ?? -1) (\(selectedIndex))")
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,7 +175,15 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         inComponent component: Int)
     {
         let newCode = functionCodes[row]
-        if (newCode != selectedCard.code) {
+        if (selectedCard == nil) {
+            newCard.code = newCode
+            newCard.param = param.text!
+            newCard.image = drawCard(
+                image: UIImage(named: newCode)!,
+                param: param.text!
+            )
+            cardView.image = newCard.image
+        } else if (newCode != selectedCard.code) {
             selectedCard.code = newCode
             selectedCard.param = param.text!
             selectedCard.image = drawCard(
@@ -153,7 +191,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 param: param.text!
             )
             cardView.image = selectedCard.image
-            setNewCard()
+            updateSelectedCard()
         }
     }
     
@@ -162,7 +200,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         return true
     }
     
-    func setNewCard() {
+    func updateSelectedCard() {
+        if (selectedCard == nil) {
+            return
+        }
+        
         var indexTally = 0
         for cardGroup in cardProject.cardGroups {
             if (indexTally + cardGroup.cards.count) > selectedIndex {
@@ -187,17 +229,25 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
 
     @IBAction func showParam(_ sender: Any) {
-        selectedCard.param = param.text!
+        let code: String!
         
-        let code = selectedCard.code
+        if (selectedCard != nil) {
+            selectedCard.param = param.text!
+            code = selectedCard.code
+        } else {
+            newCard.param = param.text!
+            code = newCard.code
+        }
         
-        selectedCard.image = drawCard(image: UIImage(named: code)!, param: param.text!)
-        cardView.image = selectedCard.image
+        let newImage = drawCard(image: UIImage(named: code)!, param: param.text!)
+        selectedCard?.image = newImage
+        newCard?.image = newImage
+        cardView.image = newImage
     }
     
     @IBAction func saveParam(_ sender: Any) {
         showParam(sender: sender)
-        setNewCard()
+        updateSelectedCard()
     }
     
     
@@ -217,10 +267,21 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         selectedCard.param = selectedCard.originalParam!
         selectedCard.code = selectedCard.originalCode!
         selectedCard.image = selectedCard.originalImage!
-        setNewCard()
+        updateSelectedCard()
     }
     
-    func drawCard(image: UIImage, param: String) -> UIImage {
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        if (newCard != nil) {
+            newCard.addToCardGroup(cardGroup: cardProject.cardGroups.last!, completion: {
+                print("SAVED: \(self.cardProject.cardGroups.last?.cards.count)")
+                self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
+            })
+        } else {
+            self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
+        }
+    }
+    
+    func drawCard(image: UIImage, param: String?) -> UIImage {
         let textColor = UIColor.black
         let textFont = UIFont(name: "Helvetica Bold", size: 45)!
         
@@ -234,11 +295,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
         
-        let x = (image.size.width - CGFloat(25 * param.characters.count)) / 2
-        let textOrigin = CGPoint(x: x, y: 180)
-        let rect = CGRect(origin: textOrigin, size: image.size)
-        param.draw(in: rect, withAttributes: textFontAttributes)
-        
+        if (param != nil) {
+            let x = (image.size.width - CGFloat(25 * param!.characters.count)) / 2
+            let textOrigin = CGPoint(x: x, y: 180)
+            let rect = CGRect(origin: textOrigin, size: image.size)
+            param!.draw(in: rect, withAttributes: textFontAttributes)
+        }
+            
         let newCardImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -253,14 +316,22 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        uneditedCard.image = nil
-        uneditedCard.originalImage = nil
+        if (newCard != nil) {
+            newCard.image = nil
+            newCard.originalImage = nil
+        }
+        
+        if (uneditedCard != nil) {
+            uneditedCard.image = nil
+            uneditedCard.originalImage = nil
+        }
         
         functionPicker.removeFromSuperview()
         cardView.removeFromSuperview()
         param.removeFromSuperview()
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
+            print("END CARDS: \(cardProject.cardGroups.last?.cards.count ?? -1) (\(selectedIndex))")
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex

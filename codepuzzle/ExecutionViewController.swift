@@ -450,12 +450,20 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         default:
             addPhoto = "library"
         }
-    
+
         performSegue(withIdentifier: "add-photo-segue", sender: nil)
     }
     
     @IBAction func newCard(_ sender: UIButton) {
-        print(sender.currentTitle)
+        switch sender.titleLabel!.text! {
+        case "To Beginning":
+            selectedIndex = -1
+        default:
+            selectedIndex = cards.count
+        }
+        
+        performSegue(withIdentifier: "edit-command-segue", sender: nil)
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -471,7 +479,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
-            dvc.selectedIndex = selectedIndex
+            dvc.selectedIndex = cards.count//selectedIndex
         } else if segue.identifier == "close-segue" {
             let dvc = segue.destination as! ProjectViewController
             dvc.cardProject = cardProject
