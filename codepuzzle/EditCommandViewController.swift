@@ -283,7 +283,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     func drawCard(image: UIImage, param: String?) -> UIImage {
         let textColor = UIColor.black
-        let textFont = UIFont(name: "Helvetica Bold", size: 45)!
+        let textFont = UIFont(name: "Helvetica", size: 60)!
         
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
@@ -296,8 +296,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
         
         if (param != nil) {
-            let x = (image.size.width - CGFloat(25 * param!.characters.count)) / 2
-            let textOrigin = CGPoint(x: x, y: 180)
+            let x = (image.size.width - CGFloat(36 * param!.characters.count)) / 2
+            let textOrigin = CGPoint(x: x, y: 300)
             let rect = CGRect(origin: textOrigin, size: image.size)
             param!.draw(in: rect, withAttributes: textFontAttributes)
         }
