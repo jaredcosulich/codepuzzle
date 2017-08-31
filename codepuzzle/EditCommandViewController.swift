@@ -140,8 +140,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         param.delegate = self
         
         functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
-        
-        print("START CARDS: \(cardProject.cardGroups.last?.cards.count ?? -1) (\(selectedIndex))")
 
     }
     
@@ -176,13 +174,17 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     {
         let newCode = functionCodes[row]
         if (selectedCard == nil) {
-            newCard.code = newCode
-            newCard.param = param.text!
-            newCard.image = drawCard(
+            let drawnCard = drawCard(
                 image: UIImage(named: newCode)!,
                 param: param.text!
             )
-            cardView.image = newCard.image
+            newCard.code = newCode
+            newCard.param = param.text!
+            newCard.image = drawnCard
+            newCard.originalCode = newCode
+            newCard.originalParam = param.text!
+            newCard.originalImage = drawnCard
+            cardView.image = drawnCard
         } else if (newCode != selectedCard.code) {
             selectedCard.code = newCode
             selectedCard.param = param.text!
@@ -331,7 +333,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         param.removeFromSuperview()
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
-            print("END CARDS: \(cardProject.cardGroups.last?.cards.count ?? -1) (\(selectedIndex))")
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex

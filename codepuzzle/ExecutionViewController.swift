@@ -62,6 +62,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         
         cards = cardProject.allCards()
         
+        print("SELECTED INDEX: \(selectedIndex), EXECUTION INDEX: \(executionIndex)")
+        
         if (selectedIndex != -1) {
             pause()
         }
@@ -116,7 +118,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if (selectedIndex > -1) {
             scrollToCard(index: selectedIndex)
             highlightCard(index: selectedIndex)
-            executeCard(index: selectedIndex, redraw: true)
         }
     }
     
@@ -262,6 +263,12 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
                 l.shadowOffset = CGSize(width: 2, height: 2)
             }
         }
+        
+        if (index != executionIndex) {
+            functions.reset()
+            selectedIndex = index
+            executeCard(index: 0, redraw: true)
+        }
     }
     
     func scrollToCard(index: Int) {
@@ -277,36 +284,31 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
 
         var loopIndex = index
         
-        if (redraw) {
-            functions.reset()
-            for i in 0..<index + 1 {
-                let c = cards[i]
-                let loopCount = functions.execute(code: c.code, param: c.param, instant: true)
-                if loopCount > 0 {
-                    startLoop(count: loopCount, start: index)
-                } else if loopCount < 0 {
-                    loopIndex = endLoop(end: index)
-                }
-            }
-        } else {
-            let loopCount = functions.execute(code: card.code, param: card.param, instant: (speed == 0))
-            if loopCount > 0 {
-                startLoop(count: loopCount, start: index)
-                output.text = "Loop \(loops.last![0]) Times"
-            } else if loopCount < 0 {
-                if loops.last![1] + 1 == loops.last![0] {
-                    output.text = "Loop Complete"
-                } else {
-                    output.text = "Loop \(loops.last![1] + 1) / \(loops.last![0])"
-                }
-                loopIndex = endLoop(end: index)
+        var functionText: String!
+        
+        let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
+        if loopCount > 0 {
+            startLoop(count: loopCount, start: index)
+            functionText = "Loop \(loops.last![0]) Times"
+        } else if loopCount < 0 {
+            if loops.last![1] + 1 == loops.last![0] {
+                functionText = "Loop Complete"
             } else {
-                output.text = Functions.signature(code: card.code, param: card.param)
+                functionText = "Loop \(loops.last![1] + 1) / \(loops.last![0])"
             }
+            loopIndex = endLoop(end: index)
+        } else {
+            functionText = Functions.signature(code: card.code, param: card.param)
         }
         
         executionIndex = loopIndex
-        selectedIndex = loopIndex
+        
+        if (redraw && loopIndex < selectedIndex) {
+            executeCard(index: loopIndex + 1, redraw: true)
+        } else {
+            output.text = functionText
+            selectedIndex = loopIndex
+        }
     }
     
     func startLoop(count: Int, start: Int) {
@@ -373,8 +375,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         executionLayer.position.x = moveTo
         let cardIndex = findCardIndex(x: (moveTo * -1) + (imageView.bounds.width / 2))
         highlightCard(index: cardIndex)
-        executeCard(index: cardIndex, redraw: true)
-        
+
         CATransaction.commit()
         
         if (sender.state == UIGestureRecognizerState.ended) {
@@ -394,7 +395,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
                     initExecution()
                 } else {
                     addMenuBlur.isHidden = false
-//                    performSegue(withIdentifier: "add-photo-segue", sender: nil)
                 }
             } else {
                 if (selectedIndex == cardIndex) {
@@ -403,7 +403,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
                     selectedIndex = cardIndex
                     scrollToCard(index: selectedIndex)
                     highlightCard(index: selectedIndex)
-                    executeCard(index: selectedIndex, redraw: true)
                 }
             }
         } else {
@@ -479,7 +478,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
-            dvc.selectedIndex = cards.count//selectedIndex
+            dvc.selectedIndex = selectedIndex
         } else if segue.identifier == "close-segue" {
             let dvc = segue.destination as! ProjectViewController
             dvc.cardProject = cardProject
