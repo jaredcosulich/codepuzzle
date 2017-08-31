@@ -29,6 +29,7 @@
 		3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */; };
 		3A6A99591F329A02000B89E1 /* ProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */; };
 		3A7A0AEC1EEB44DC000109E2 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */; };
+		3A88F7971F587CB9005A8CE7 /* Loop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A88F7961F587CB9005A8CE7 /* Loop.swift */; };
 		3AA2D01E1F339BB700B90963 /* ExecutionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */; };
 		3AA2D0201F36535900B90963 /* EditCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */; };
 		3AA2D02E1F38F79300B90963 /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D02C1F38F79300B90963 /* Data.xcdatamodeld */; };
@@ -93,6 +94,7 @@
 		3A5A0FA31EFC3D430069384D /* CardListWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CardListWrapper.mm; sourceTree = "<group>"; };
 		3A6A99581F329A02000B89E1 /* ProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessingViewController.swift; sourceTree = "<group>"; };
 		3A7A0AEB1EEB44DC000109E2 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		3A88F7961F587CB9005A8CE7 /* Loop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loop.swift; sourceTree = "<group>"; };
 		3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionViewController.swift; sourceTree = "<group>"; };
 		3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCommandViewController.swift; sourceTree = "<group>"; };
 		3AA2D02D1F38F79300B90963 /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				3A21DB501F4B889B003916C3 /* CardGroup.swift */,
 				3A21DB521F4B8BA5003916C3 /* Card.swift */,
 				3A21DB541F4BC8D9003916C3 /* ImageSaver.swift */,
+				3A88F7961F587CB9005A8CE7 /* Loop.swift */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				3A2F89511F06EF600076E10A /* Constants.swift in Sources */,
 				3AA2D0301F38FEF400B90963 /* Project.swift in Sources */,
 				3A21DB4F1F4B87EB003916C3 /* CardProject.swift in Sources */,
+				3A88F7971F587CB9005A8CE7 /* Loop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

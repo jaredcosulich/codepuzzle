@@ -44,7 +44,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var selectedIndex = -1
 
-    var loops = [[Int]]()
+    var loops = [Loop]()
     
     var addPhoto: String!
     
@@ -126,14 +126,19 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         CATransaction.setAnimationDuration(0)
 
         timer.invalidate()
-        executionIndex = -1
         executedLayers.removeAll()
         executionLayer.sublayers?.removeAll()
         executionLayer.position = CGPoint.zero
         imageView.layer.sublayers?.removeAll()
-        functions.reset()
+        clearExecution()
 
         CATransaction.commit()
+    }
+    
+    func clearExecution() {
+        executionIndex = -1
+        functions.reset()
+        loops.removeAll()
     }
     
     func startTimer() {
@@ -265,7 +270,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         if (index != executionIndex) {
-            functions.reset()
+            clearExecution()
             selectedIndex = index
             executeCard(index: 0, redraw: true)
         }
@@ -285,48 +290,30 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         var loopIndex = index
         
         var functionText: String!
-        
         let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
         if loopCount > 0 {
-            startLoop(count: loopCount, start: index)
-            functionText = "Loop \(loops.last![0]) Times"
+            loops.append(Loop(startingIndex: index, count: loopCount))
+            functionText = "Loop \(loops.last!.count) Times"
         } else if loopCount < 0 {
-            if loops.last![1] + 1 == loops.last![0] {
+            loopIndex = loops.last!.increment()
+            if loopIndex == -1 {
+                _ = loops.popLast()
                 functionText = "Loop Complete"
             } else {
-                functionText = "Loop \(loops.last![1] + 1) / \(loops.last![0])"
+                functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
             }
-            loopIndex = endLoop(end: index)
         } else {
             functionText = Functions.signature(code: card.code, param: card.param)
         }
         
-        executionIndex = loopIndex
+        executionIndex = loopIndex > -1 ? loopIndex : index
         
-        if (redraw && loopIndex < selectedIndex) {
-            executeCard(index: loopIndex + 1, redraw: true)
+        if (redraw && executionIndex < selectedIndex) {
+            executeCard(index: executionIndex + 1, redraw: true)
         } else {
             output.text = functionText
-            selectedIndex = loopIndex
+            selectedIndex = executionIndex
         }
-    }
-    
-    func startLoop(count: Int, start: Int) {
-        // how many times to do the loop
-        // how many times it has been done
-        // starting card index
-        loops.append([count, 0, start])
-    }
-    
-    func endLoop(end: Int) -> Int {
-        var lastLoop = loops.last!
-        
-        lastLoop[1] += 1
-        loops[loops.count - 1] = lastLoop
-        if (lastLoop[1] == lastLoop[0]) {
-            return end
-        }
-        return lastLoop[2]
     }
     
     @IBAction func speedbutton(_ sender: UISegmentedControl) {

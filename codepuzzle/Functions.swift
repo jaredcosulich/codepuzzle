@@ -51,6 +51,10 @@ class Functions {
             "name": "Function",
             "method": "function"
         ],
+        "F2": [
+            "name": "End Function",
+            "method": "endFunction"
+        ],
         "L1": [
             "name": "Loop",
             "method": "loop"
@@ -72,6 +76,9 @@ class Functions {
     
     var penIsDown = true
     
+    var userDefinedFunctions = [CGFloat: [() -> Int]]()
+    var currentUserDefinedFunction: CGFloat?
+    
     init(uiImageView: UIImageView) {
         imageView = uiImageView;
         initDrawing()
@@ -90,6 +97,8 @@ class Functions {
     }
     
     func reset() {
+        userDefinedFunctions.removeAll()
+        currentUserDefinedFunction = nil
         initDrawing()
     }
     
@@ -253,10 +262,22 @@ class Functions {
     }
         
     func execute(code: String, param: String, instant: Bool = false) -> Int {
+        
         let paramNumber = Functions.translate(param: param)
-
+        
         let processedCode = Functions.processedCode(code: code)
         let methodName = Functions.info(code: Functions.translate(code: processedCode))["method"] ?? ""
+
+        if (currentUserDefinedFunction != nil) {
+            if (methodName == "endFunction") {
+                currentUserDefinedFunction = nil
+            } else {
+                userDefinedFunctions[currentUserDefinedFunction!]!.append({
+                    return self.execute(code: code, param: param, instant: true)
+                })
+            }
+            return 0
+        }
         
         var nextPoint = currentPoint
         
@@ -277,6 +298,30 @@ class Functions {
             return Int(paramNumber)
         case "endLoop":
             return -1
+        case "function":
+            let functionSteps = userDefinedFunctions[paramNumber]
+            if (functionSteps != nil) {
+                var loops = [Loop]()
+                var index = -1
+                while index < functionSteps!.count - 1 {
+                    index += 1
+                    let loopCount = functionSteps![index]()
+                    if loopCount > 0 {
+                        loops.append(Loop(startingIndex: index, count: loopCount))
+                    } else if loopCount < 0 {
+                        let loopIndex = loops.last!.increment()
+                        if loopIndex == -1 {
+                            _ = loops.popLast()
+                        } else {
+                            index = loopIndex
+                        }
+                    }
+                }
+            } else {
+                userDefinedFunctions[paramNumber] = [() -> Int]()
+                currentUserDefinedFunction = paramNumber
+            }
+            return 0
         default:
             print("Method Not Found")
         }
