@@ -280,6 +280,8 @@ class Functions {
         }
         
         var nextPoint = currentPoint
+        var fill = false
+        var fillColor = UIColor.black.cgColor
         
         switch methodName {
         case "moveForward":
@@ -294,6 +296,9 @@ class Functions {
             penIsDown = false
         case "penDown":
             penIsDown = true
+        case "fillColor":
+            fillColor = UIColor(displayP3Red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
+            fill = true
         case "loop":
             return Int(paramNumber)
         case "endLoop":
@@ -329,15 +334,19 @@ class Functions {
         drawPointer(at: nextPoint, angle: currentAngle)
 
         if (penIsDown) {
-            if (currentPoint != nextPoint) {
+            if (currentPoint != nextPoint || fill) {
+                let pathLayer = CAShapeLayer()
+                pathLayer.fillColor = fillColor
+                pathLayer.strokeColor = UIColor.black.cgColor
+                pathLayer.lineWidth = 1
+                
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
                 path.addLine(to: nextPoint)
-                
-                let pathLayer = CAShapeLayer()
-                pathLayer.fillColor = UIColor.black.cgColor
-                pathLayer.strokeColor = UIColor.black.cgColor
-                pathLayer.lineWidth = 1
+                if (fill) {
+                    path.usesEvenOddFillRule = true
+                    path.fill()
+                }
                 pathLayer.path = path.cgPath
 
                 imageView.layer.addSublayer(pathLayer)
