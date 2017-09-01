@@ -331,10 +331,10 @@ class Functions {
             print("Method Not Found")
         }
         
-        drawPointer(at: nextPoint, angle: currentAngle)
+//        drawPointer(at: nextPoint, angle: currentAngle)
 
         if (penIsDown) {
-            if (currentPoint != nextPoint || fill) {
+            if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
                 pathLayer.fillColor = fillColor
                 pathLayer.strokeColor = UIColor.black.cgColor
@@ -343,10 +343,6 @@ class Functions {
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
                 path.addLine(to: nextPoint)
-                if (fill) {
-                    path.usesEvenOddFillRule = true
-                    path.fill()
-                }
                 pathLayer.path = path.cgPath
 
                 imageView.layer.addSublayer(pathLayer)
@@ -357,6 +353,14 @@ class Functions {
                     animation.duration = 0.2
                     pathLayer.add(animation, forKey: "pathAnimation")
                 }
+            }
+
+            if (fill) {
+                UIGraphicsBeginImageContext(imageView.bounds.size)
+                imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+                let image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
             }
         }
         

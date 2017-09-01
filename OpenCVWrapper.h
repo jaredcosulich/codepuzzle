@@ -18,4 +18,6 @@
 
 + (void) process :(UIImage *) image :(CardListWrapper *) cards;
 
++ (UIImage *) floodFill :(UIImage *) image :(int) x :(int) y :(int) red :(int) green :(int) blue;
+
 @end

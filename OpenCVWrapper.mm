@@ -497,5 +497,18 @@ using namespace std;
 //    return MatToUIImage(returnImage);
 }
 
++ (UIImage *) floodFill :(UIImage *) image :(int) x :(int) y :(int) red :(int) green :(int) blue {
+    cv::Mat mat4Image;
+    cv::Mat matImage;
+    UIImageToMat(image, mat4Image);
+    
+    cv::cvtColor(mat4Image, matImage, CV_BGRA2RGB);
+    
+    cv::floodFill(matImage, cv::Point(x, y), CV_RGB(255,0,0));
+    
+    return MatToUIImage(matImage);
+}
+
+
 
 @end
