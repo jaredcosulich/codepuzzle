@@ -8,6 +8,7 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
+  - PaintBucket (0.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - AWSCore
   - AWSS3
   - MagicalRecord
+  - PaintBucket
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
@@ -22,7 +24,8 @@ SPEC CHECKSUMS:
   AWSCore: 490c988f6af48a10ea113ff06c53a1ef72a3534b
   AWSS3: cd25080951a7637668d4f33393fe24bcb04dfac7
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  PaintBucket: ffa4e1666ee71e0c2fe8b299e2a1b87afaf3fe78
 
-PODFILE CHECKSUM: 5bbfcb3ebe78cdd6790f4d66d10a9118fdfb6445
+PODFILE CHECKSUM: 3eed4b13fad300afa770574fada9caf3d6694d90
 
 COCOAPODS: 1.3.1

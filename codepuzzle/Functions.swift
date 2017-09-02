@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PaintBucket
 
 class Functions {
     
@@ -85,6 +86,7 @@ class Functions {
     }
     
     func initDrawing() {
+        imageView.image = nil
         imageView.layer.sublayers?.removeAll()
         
         let s = imageView.bounds.size
@@ -331,8 +333,9 @@ class Functions {
             print("Method Not Found")
         }
         
-//        drawPointer(at: nextPoint, angle: currentAngle)
+        drawPointer(at: nextPoint, angle: currentAngle)
 
+        
         if (penIsDown) {
             if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
@@ -356,12 +359,18 @@ class Functions {
             }
 
             if (fill) {
-                UIGraphicsBeginImageContext(imageView.bounds.size)
+                layer.isHidden = true
+                UIGraphicsBeginImageContextWithOptions(imageView.layer.frame.size, imageView.layer.isOpaque, 0)
                 imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
                 let image = UIGraphicsGetImageFromCurrentImageContext()
+                print("SIZE: \(image!.size) - \(currentPoint)")
                 UIGraphicsEndImageContext()
-                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
+                imageView.image = image?.pbk_imageByReplacingColorAt(Int(currentPoint.x * 2), Int(currentPoint.y * 2), withColor: UIColor.blue, tolerance: 5, antialias: true)
+                layer.isHidden = false
+                
+//                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
             }
+            
         }
         
         currentPoint = nextPoint
