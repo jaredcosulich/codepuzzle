@@ -369,8 +369,8 @@ class Functions {
                 let zoom = scrollView.zoomScale
                 layer.isHidden = true
 
-                scrollView.zoomScale = 1
-                UIGraphicsBeginImageContextWithOptions(imageView.layer.frame.size, imageView.layer.isOpaque, 0)
+                scrollView.zoomScale = 1.0
+                UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, imageView.layer.isOpaque, 0)
                 imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
                 let image = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()

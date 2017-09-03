@@ -61,8 +61,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         let s = drawingView.bounds.size
         drawingScrollView.zoom(
             to: CGRect(
-                x: s.width/Functions.STARTING_ZOOM,
-                y: s.height/Functions.STARTING_ZOOM,
+                x: s.width/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
+                y: s.height/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
                 width: s.width/Functions.STARTING_ZOOM,
                 height: s.height/Functions.STARTING_ZOOM
             ),
