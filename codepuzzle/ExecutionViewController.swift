@@ -57,8 +57,17 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         // Do any additional setup after loading the view, typically from a nib.
         drawingScrollView.minimumZoomScale = 0.5
         drawingScrollView.maximumZoomScale = 6.0
+        
         let s = drawingView.bounds.size
-        drawingScrollView.zoom(to: CGRect(x: s.width/3, y: s.height/3, width: s.width/3, height: s.height/3), animated: false)
+        drawingScrollView.zoom(
+            to: CGRect(
+                x: s.width/Functions.STARTING_ZOOM,
+                y: s.height/Functions.STARTING_ZOOM,
+                width: s.width/Functions.STARTING_ZOOM,
+                height: s.height/Functions.STARTING_ZOOM
+            ),
+            animated: false
+        )
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeAddMenu))
         tap.delegate = self

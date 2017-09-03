@@ -11,6 +11,8 @@ import PaintBucket
 
 class Functions {
     
+    static let STARTING_ZOOM = CGFloat(3)
+    
     static let functionInfo = [
         "A1": [
             "name": "Move Forward",
@@ -86,7 +88,8 @@ class Functions {
     init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
         imageView = uiImageView
         scrollView = uiScrollView
-        drawingRect = CGRect(origin: scrollView.contentOffset, size: scrollView.contentSize)
+        drawingRect = scrollView.convert(scrollView.bounds, to: imageView)
+        //drawingRect = CGRect(origin: scrollView.contentOffset, size: scrollView.contentInset)
         initDrawing()
     }
     
@@ -243,8 +246,8 @@ class Functions {
     }
     
     func calculatePoint(from: CGPoint, distance: CGFloat, angle: CGFloat) -> CGPoint {
-        let xDistance = calculateXDistance(distance: distance, angle: angle)
-        let yDistance = calculateYDistance(distance: distance, angle: angle)
+        let xDistance = calculateXDistance(distance: distance, angle: angle) / Functions.STARTING_ZOOM
+        let yDistance = calculateYDistance(distance: distance, angle: angle) / Functions.STARTING_ZOOM
         return CGPoint(x: from.x + xDistance, y: from.y + yDistance)
     }
 
@@ -269,7 +272,8 @@ class Functions {
     }
         
     func execute(code: String, param: String, instant: Bool = false) -> Int {
-        
+        expandBounds(point: currentPoint)
+
         let paramNumber = Functions.translate(param: param)
         
         let processedCode = Functions.processedCode(code: code)
@@ -396,29 +400,25 @@ class Functions {
         if (scrollView.zoomScale <= 0.5) {
             return
         }
-
-        let pX = point.x * scrollView.zoomScale
-        let pY = point.y * scrollView.zoomScale
-        
-        
+       
         if drawingRect.contains(point) {
             return
         }
         
-        if (pX < drawingRect.minX) {
-            drawingRect = drawingRect.insetBy(dx: (drawingRect.minX - point.x) * 1.2, dy: (drawingRect.minX - pX) * 1.2)
+        if (point.x < drawingRect.minX) {
+            drawingRect = drawingRect.insetBy(dx: (point.x - drawingRect.minX) - 20, dy: 0)
         }
         
-        if (pX > drawingRect.maxX) {
-            drawingRect = drawingRect.insetBy(dx: (pX - drawingRect.maxX) * 1.2, dy: (pX - drawingRect.maxX) * 1.2)
+        if (point.x > drawingRect.maxX) {
+            drawingRect = drawingRect.insetBy(dx: (drawingRect.maxX - point.x) - 20, dy: 0)
         }
         
-        if (pX < drawingRect.minX) {
-            drawingRect = drawingRect.insetBy(dx: (drawingRect.minY - pY) * 1.2, dy: (drawingRect.minY - pY) * 1.2)
+        if (point.x < drawingRect.minY) {
+            drawingRect = drawingRect.insetBy(dx: 0, dy: (point.y - drawingRect.minY) - 20)
         }
         
-        if (pY > drawingRect.maxY) {
-            drawingRect = drawingRect.insetBy(dx: (pY - drawingRect.maxY) * 1.2, dy: (pY - drawingRect.maxY) * 1.2)
+        if (point.y > drawingRect.maxY) {
+            drawingRect = drawingRect.insetBy(dx: 0, dy: (drawingRect.maxY - point.y) - 20)
         }
         
         scrollView.zoom(to: drawingRect, animated: true)
