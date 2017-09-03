@@ -11,7 +11,7 @@ import PaintBucket
 
 class Functions {
     
-    static let STARTING_ZOOM = CGFloat(3)
+    static let STARTING_ZOOM = CGFloat(5)
     
     static let functionInfo = [
         "A1": [
@@ -89,16 +89,14 @@ class Functions {
         imageView = uiImageView
         scrollView = uiScrollView
         drawingRect = scrollView.convert(scrollView.bounds, to: imageView)
-        //drawingRect = CGRect(origin: scrollView.contentOffset, size: scrollView.contentInset)
         initDrawing()
     }
     
     func initDrawing() {
         imageView.image = nil
         imageView.layer.sublayers?.removeAll()
-        
-        let s = imageView.bounds.size
-        currentPoint = CGPoint(x: s.width / 2, y: s.height / 2)
+        let s = drawingRect.size
+        currentPoint = CGPoint(x: drawingRect.minX + (s.width / 2), y: drawingRect.minY + (s.height / 2))
         currentAngle = CGFloat(90)
         
         initArrow()
@@ -147,7 +145,7 @@ class Functions {
         layer.lineDashPattern = nil
         layer.lineDashPhase = 0.0
         layer.lineJoin = kCALineJoinMiter
-        layer.lineWidth = 1.0
+        layer.lineWidth = 2.0 / Functions.STARTING_ZOOM
         layer.miterLimit = 10.0
         layer.strokeColor = UIColor.red.cgColor
         
@@ -350,7 +348,7 @@ class Functions {
                 let pathLayer = CAShapeLayer()
                 pathLayer.fillColor = fillColor
                 pathLayer.strokeColor = UIColor.black.cgColor
-                pathLayer.lineWidth = 0.5
+                pathLayer.lineWidth = (1.0 / Functions.STARTING_ZOOM)
                 
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
@@ -405,20 +403,22 @@ class Functions {
             return
         }
         
+        let buffer = 50 / scrollView.zoomScale
+        
         if (point.x < drawingRect.minX) {
-            drawingRect = drawingRect.insetBy(dx: (point.x - drawingRect.minX) - 20, dy: 0)
+            drawingRect = drawingRect.insetBy(dx: (point.x - drawingRect.minX) - buffer, dy: 0)
         }
         
         if (point.x > drawingRect.maxX) {
-            drawingRect = drawingRect.insetBy(dx: (drawingRect.maxX - point.x) - 20, dy: 0)
+            drawingRect = drawingRect.insetBy(dx: (drawingRect.maxX - point.x) - buffer, dy: 0)
         }
         
         if (point.x < drawingRect.minY) {
-            drawingRect = drawingRect.insetBy(dx: 0, dy: (point.y - drawingRect.minY) - 20)
+            drawingRect = drawingRect.insetBy(dx: 0, dy: (point.y - drawingRect.minY) - buffer)
         }
         
         if (point.y > drawingRect.maxY) {
-            drawingRect = drawingRect.insetBy(dx: 0, dy: (drawingRect.maxY - point.y) - 20)
+            drawingRect = drawingRect.insetBy(dx: 0, dy: (drawingRect.maxY - point.y) - buffer)
         }
         
         scrollView.zoom(to: drawingRect, animated: true)

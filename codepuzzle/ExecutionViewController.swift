@@ -55,8 +55,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        drawingScrollView.minimumZoomScale = 0.5
-        drawingScrollView.maximumZoomScale = 6.0
+        drawingScrollView.minimumZoomScale = 1.0
+        drawingScrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
         
         let s = drawingView.bounds.size
         drawingScrollView.zoom(
