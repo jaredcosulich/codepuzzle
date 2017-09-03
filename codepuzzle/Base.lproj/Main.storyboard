@@ -460,11 +460,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgm-Ga-ZhA">
                                 <rect key="frame" x="16" y="349" width="288" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -517,7 +512,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eCm-iO-agc">
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCm-iO-agc">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="K19-gR-HU9">
@@ -588,11 +583,31 @@
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-dI-9Ry">
+                                <rect key="frame" x="1" y="0.0" width="320" height="332"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="332"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="delegate" destination="yyQ-YR-DlG" id="SNr-bq-WF6"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="eCm-iO-agc"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="addMenuBlur" destination="eCm-iO-agc" id="DtC-M6-fZC"/>
+                        <outlet property="drawingScrollView" destination="SpO-dI-9Ry" id="4e9-LR-0pC"/>
                         <outlet property="drawingView" destination="6rf-pU-4to" id="Akv-cf-b3C"/>
                         <outlet property="editProjectView" destination="N1s-qE-7Rk" id="6KL-vX-efR"/>
                         <outlet property="imageView" destination="55S-Gc-Zaf" id="yJO-Ay-yWh"/>
@@ -708,9 +723,9 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="LUj-ho-ZVW"/>
         <segue reference="sp7-dt-xFh"/>
         <segue reference="wOF-ww-Kkf"/>
-        <segue reference="LUj-ho-ZVW"/>
-        <segue reference="Pe9-k7-35c"/>
+        <segue reference="lGc-h7-Of0"/>
     </inferredMetricsTieBreakers>
 </document>

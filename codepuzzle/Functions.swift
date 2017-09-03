@@ -68,7 +68,10 @@ class Functions {
 
     let tempImageView = UIImageView()
     
-    var imageView: UIImageView
+    var scrollView: UIScrollView!
+    var drawingRect: CGRect!
+    
+    var imageView: UIImageView!
 
     let layer = CAShapeLayer()
     
@@ -80,8 +83,10 @@ class Functions {
     var userDefinedFunctions = [CGFloat: [() -> Int]]()
     var currentUserDefinedFunction: CGFloat?
     
-    init(uiImageView: UIImageView) {
-        imageView = uiImageView;
+    init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
+        imageView = uiImageView
+        scrollView = uiScrollView
+        drawingRect = CGRect(origin: scrollView.contentOffset, size: scrollView.contentSize)
         initDrawing()
     }
     
@@ -90,7 +95,7 @@ class Functions {
         imageView.layer.sublayers?.removeAll()
         
         let s = imageView.bounds.size
-        currentPoint = CGPoint(x: s.width / 2.5, y: s.height / 1.75)
+        currentPoint = CGPoint(x: s.width / 2, y: s.height / 2)
         currentAngle = CGFloat(90)
         
         initArrow()
@@ -341,7 +346,7 @@ class Functions {
                 let pathLayer = CAShapeLayer()
                 pathLayer.fillColor = fillColor
                 pathLayer.strokeColor = UIColor.black.cgColor
-                pathLayer.lineWidth = 1
+                pathLayer.lineWidth = 0.5
                 
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
@@ -359,13 +364,22 @@ class Functions {
             }
 
             if (fill) {
+                let zoom = scrollView.zoomScale
                 layer.isHidden = true
+
+                scrollView.zoomScale = 1
                 UIGraphicsBeginImageContextWithOptions(imageView.layer.frame.size, imageView.layer.isOpaque, 0)
                 imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
                 let image = UIGraphicsGetImageFromCurrentImageContext()
-                print("SIZE: \(image!.size) - \(currentPoint)")
                 UIGraphicsEndImageContext()
-                imageView.image = image?.pbk_imageByReplacingColorAt(Int(currentPoint.x * 2), Int(currentPoint.y * 2), withColor: UIColor.blue, tolerance: 5, antialias: true)
+                
+                let pX = Int(currentPoint.x * 2)
+                let pY = Int(currentPoint.y * 2)
+                
+                imageView.image = image?.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
+                
+                scrollView.zoomScale = zoom
+                
                 layer.isHidden = false
                 
 //                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
@@ -374,9 +388,40 @@ class Functions {
         }
         
         currentPoint = nextPoint
+        expandBounds(point: currentPoint)
         return 0
     }
+    
+    func expandBounds(point: CGPoint) {
+        if (scrollView.zoomScale <= 0.5) {
+            return
+        }
 
-
+        let pX = point.x * scrollView.zoomScale
+        let pY = point.y * scrollView.zoomScale
+        
+        
+        if drawingRect.contains(point) {
+            return
+        }
+        
+        if (pX < drawingRect.minX) {
+            drawingRect = drawingRect.insetBy(dx: (drawingRect.minX - point.x) * 1.2, dy: (drawingRect.minX - pX) * 1.2)
+        }
+        
+        if (pX > drawingRect.maxX) {
+            drawingRect = drawingRect.insetBy(dx: (pX - drawingRect.maxX) * 1.2, dy: (pX - drawingRect.maxX) * 1.2)
+        }
+        
+        if (pX < drawingRect.minX) {
+            drawingRect = drawingRect.insetBy(dx: (drawingRect.minY - pY) * 1.2, dy: (drawingRect.minY - pY) * 1.2)
+        }
+        
+        if (pY > drawingRect.maxY) {
+            drawingRect = drawingRect.insetBy(dx: (pY - drawingRect.maxY) * 1.2, dy: (pY - drawingRect.maxY) * 1.2)
+        }
+        
+        scrollView.zoom(to: drawingRect, animated: true)
+    }
 }
 
