@@ -366,7 +366,6 @@ class Functions {
             }
 
             if (fill) {
-                let zoom = scrollView.zoomScale
                 layer.isHidden = true
 
                 scrollView.zoomScale = 1.0
@@ -380,7 +379,7 @@ class Functions {
                 
                 imageView.image = image?.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
                 
-                scrollView.zoomScale = zoom
+                scrollView.zoom(to: drawingRect, animated: false)
                 
                 layer.isHidden = false
                 
