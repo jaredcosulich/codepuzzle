@@ -271,7 +271,7 @@ class ProcessingViewController: UIViewController {
         if (execute) {
             output.text = "Saving Cards..."
         }
-
+        
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
