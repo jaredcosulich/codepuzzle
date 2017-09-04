@@ -11,7 +11,7 @@ import PaintBucket
 
 class Functions {
     
-    static let STARTING_ZOOM = CGFloat(10)
+    static let STARTING_ZOOM = CGFloat(5)
     
     static let functionInfo = [
         "A1": [
@@ -345,7 +345,6 @@ class Functions {
         
         drawPointer(at: nextPoint, angle: currentAngle)
 
-        
         if (penIsDown) {
             if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
@@ -370,43 +369,43 @@ class Functions {
                     pathLayer.add(animation, forKey: "pathAnimation")
                 }
             }
+        }
 
-            if (fill) {
-                layer.isHidden = true
+        if (fill) {
+            layer.isHidden = true
 
-                scrollView.zoomScale = 1.0
-                let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
-                let size = imageView.bounds.size.applying(scaleTransform)
-                UIGraphicsBeginImageContextWithOptions(size, imageView.layer.isOpaque, 0)
-                let context = UIGraphicsGetCurrentContext()!
-                
-                if (scaledImage != nil) {
-                    scaledImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-                }
-                
-                permanentPath.apply(scaleTransform)
-                context.addPath(permanentPath.cgPath)
-                permanentPath.stroke()
-                let image = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                
-                let pX = Int(currentPoint.x * 2 * Functions.STARTING_ZOOM)
-                let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
-                
-                let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
-                
-                scaledImage = coloredImage
-                permanentPath = UIBezierPath()
-                
-                imageView.layer.sublayers?.removeAll()
-                imageView.image = coloredImage
-                
-                scrollView.zoom(to: drawingRect, animated: false)
-                layer.isHidden = false
-                
-//                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
+            scrollView.zoomScale = 1.0
+            let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
+            let size = imageView.bounds.size.applying(scaleTransform)
+            UIGraphicsBeginImageContextWithOptions(size, imageView.layer.isOpaque, 0)
+            let context = UIGraphicsGetCurrentContext()!
+            
+            if (scaledImage != nil) {
+                scaledImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
             }
             
+            permanentPath.apply(scaleTransform)
+            context.addPath(permanentPath.cgPath)
+            permanentPath.stroke()
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            let pX = Int(currentPoint.x * 2 * Functions.STARTING_ZOOM)
+            let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
+            
+            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
+            
+            scaledImage = coloredImage
+            permanentPath = UIBezierPath()
+            
+            imageView.layer.sublayers?.removeAll()
+            imageView.image = coloredImage
+            
+            scrollView.zoom(to: drawingRect, animated: false)
+            layer.isHidden = false
+            imageView.layer.addSublayer(layer)
+            
+//                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
         }
         
         currentPoint = nextPoint
