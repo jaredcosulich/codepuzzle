@@ -40,6 +40,9 @@ class Card: NSManagedObject {
     @NSManaged var originalImageFilename: String?
     weak var originalImage: UIImage? {
         get {
+            if (originalImageFilename == nil) {
+                originalImageFilename = imageFilename
+            }
             return ImageSaver.retrieve(filename: originalImageFilename!)
         }
         
