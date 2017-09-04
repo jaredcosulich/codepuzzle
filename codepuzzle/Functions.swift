@@ -86,6 +86,7 @@ class Functions {
     var currentUserDefinedFunction: CGFloat?
     
     var permanentPath = UIBezierPath()
+    var scaledImage: UIImage!
     
     init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
         imageView = uiImageView
@@ -375,12 +376,17 @@ class Functions {
 
                 scrollView.zoomScale = 1.0
                 let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
-                UIGraphicsBeginImageContextWithOptions(imageView.bounds.size.applying(scaleTransform), imageView.layer.isOpaque, 0)
+                let size = imageView.bounds.size.applying(scaleTransform)
+                UIGraphicsBeginImageContextWithOptions(size, imageView.layer.isOpaque, 0)
                 let context = UIGraphicsGetCurrentContext()!
+                
+                if (scaledImage != nil) {
+                    scaledImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+                }
+                
                 permanentPath.apply(scaleTransform)
                 context.addPath(permanentPath.cgPath)
                 permanentPath.stroke()
-//                imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
                 let image = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
                 
@@ -388,6 +394,9 @@ class Functions {
                 let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
                 
                 let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
+                
+                scaledImage = coloredImage
+                permanentPath = UIBezierPath()
                 
                 imageView.layer.sublayers?.removeAll()
                 imageView.image = coloredImage
