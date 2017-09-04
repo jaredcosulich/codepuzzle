@@ -11,7 +11,7 @@ import PaintBucket
 
 class Functions {
     
-    static let STARTING_ZOOM = CGFloat(5)
+    static let STARTING_ZOOM = CGFloat(10)
     
     static let functionInfo = [
         "A1": [
@@ -84,6 +84,8 @@ class Functions {
     
     var userDefinedFunctions = [CGFloat: [() -> Int]]()
     var currentUserDefinedFunction: CGFloat?
+    
+    var permanentPath = UIBezierPath()
     
     init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
         imageView = uiImageView
@@ -354,6 +356,9 @@ class Functions {
                 path.move(to: currentPoint)
                 path.addLine(to: nextPoint)
                 pathLayer.path = path.cgPath
+                
+                permanentPath.move(to: currentPoint)
+                permanentPath.addLine(to: nextPoint)
 
                 imageView.layer.addSublayer(pathLayer)
                 
@@ -369,15 +374,24 @@ class Functions {
                 layer.isHidden = true
 
                 scrollView.zoomScale = 1.0
-                UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, imageView.layer.isOpaque, 0)
-                imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+                let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
+                UIGraphicsBeginImageContextWithOptions(imageView.bounds.size.applying(scaleTransform), imageView.layer.isOpaque, 0)
+                let context = UIGraphicsGetCurrentContext()!
+                permanentPath.apply(scaleTransform)
+                context.addPath(permanentPath.cgPath)
+                permanentPath.stroke()
+//                imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
                 let image = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
                 
-                let pX = Int(currentPoint.x * 2)
-                let pY = Int(currentPoint.y * 2)
+                let pX = Int(currentPoint.x * 2 * Functions.STARTING_ZOOM)
+                let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
                 
-                imageView.image = image?.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
+                let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
+                
+                imageView.layer.sublayers?.removeAll()
+//                imageView.image = coloredImage
+                imageView.image = ImageProcessor.scale(image: coloredImage, scale: (1.0 / Functions.STARTING_ZOOM))
                 
                 scrollView.zoom(to: drawingRect, animated: false)
                 

@@ -35,7 +35,7 @@ class ImageProcessor {
     class func scale(image: UIImage, scale: CGFloat) -> UIImage {
         let size = image.size.applying(CGAffineTransform(scaleX: scale, y: scale))
         
-        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         image.draw(in: CGRect(origin: CGPoint.zero, size: size))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
