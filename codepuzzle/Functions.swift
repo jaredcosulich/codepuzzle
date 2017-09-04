@@ -390,11 +390,9 @@ class Functions {
                 let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
                 
                 imageView.layer.sublayers?.removeAll()
-//                imageView.image = coloredImage
-                imageView.image = ImageProcessor.scale(image: coloredImage, scale: (1.0 / Functions.STARTING_ZOOM))
+                imageView.image = coloredImage
                 
                 scrollView.zoom(to: drawingRect, animated: false)
-                
                 layer.isHidden = false
                 
 //                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
