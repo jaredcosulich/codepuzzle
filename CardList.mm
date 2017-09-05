@@ -18,7 +18,7 @@ struct Card {
 };
 
 bool roughlySame (int a, int b) {
-    if (abs(a-b) < 3) return true;
+    if (abs(a-b) < 10) return true;
     return false;
 }
 
