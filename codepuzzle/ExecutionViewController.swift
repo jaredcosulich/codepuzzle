@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
+class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate {
+    
+    @IBOutlet weak var drawingScrollView: UIScrollView!
     
     @IBOutlet weak var drawingView: UIImageView!
     
@@ -53,12 +55,25 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        drawingScrollView.minimumZoomScale = 1.0
+        drawingScrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
         
+        let s = drawingView.bounds.size
+        drawingScrollView.zoom(
+            to: CGRect(
+                x: s.width/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
+                y: s.height/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
+                width: s.width/Functions.STARTING_ZOOM,
+                height: s.height/Functions.STARTING_ZOOM
+            ),
+            animated: false
+        )
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeAddMenu))
         tap.delegate = self
         addMenuBlur.addGestureRecognizer(tap)
         
-        functions = Functions(uiImageView: drawingView)
+        functions = Functions(uiImageView: drawingView, uiScrollView: drawingScrollView)
         
         cards = cardProject.allCards()
         
@@ -74,6 +89,10 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return drawingView
     }
     
     func initExecution() {
@@ -101,6 +120,10 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
             
             functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
             cardOffset += scrollLayerWidth
+            
+            if (card.disabled) {
+                functionLayer.opacity = 0.2
+            }
             
             executedLayers.append(functionLayer)
             executionLayer.addSublayer(functionLayer)
@@ -260,7 +283,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
     
         for i in 0..<cards.count {
             let l = executedLayers[i]
-            if (i == index) {
+            if (i == index && !cards[i].disabled) {
                 l.opacity = 1.0
                 l.shadowOffset = CGSize(width: 5, height: 5)
             } else {
@@ -288,22 +311,27 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
         let card = cards[index]
 
         var loopIndex = index
-        
+
         var functionText: String!
-        let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
-        if loopCount > 0 {
-            loops.append(Loop(startingIndex: index, count: loopCount))
-            functionText = "Loop \(loops.last!.count) Times"
-        } else if loopCount < 0 {
-            loopIndex = loops.last!.increment()
-            if loopIndex == -1 {
-                _ = loops.popLast()
-                functionText = "Loop Complete"
-            } else {
-                functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
-            }
+
+        if (card.disabled) {
+            functionText = "Deleted Card"
         } else {
-            functionText = Functions.signature(code: card.code, param: card.param)
+            let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
+            if loopCount > 0 {
+                loops.append(Loop(startingIndex: index, count: loopCount))
+                functionText = "Loop \(loops.last!.count) Times"
+            } else if loopCount < 0 {
+                loopIndex = loops.last!.increment()
+                if loopIndex == -1 {
+                    _ = loops.popLast()
+                    functionText = "Loop Complete"
+                } else {
+                    functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
+                }
+            } else {
+                functionText = Functions.signature(code: card.code, param: card.param)
+            }
         }
         
         executionIndex = loopIndex > -1 ? loopIndex : index
@@ -398,8 +426,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate {
 
     }
     
-    func closeAddMenu() {
-        print("CLOSE ADD")
+    @IBAction func closeAddMenu(_ sender: UIButton) {
+        addMenuBlur.isHidden = true
     }
     
     func pause() {

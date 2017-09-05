@@ -60,7 +60,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         
         if (selectedIndex > -1) {
             let cardGroup = cardProject.cardGroups[selectedIndex]
-            for option in ["Card", "Parameter", "Function"] {
+            for option in ["Card", "Parameter", "Function", "Color"] {
                 pickerData["View Individual \(option)"] = [String]()
                 for i in 0..<cardGroup.cards.count {
                     pickerData["View Individual \(option)"]?.append("\(option) \(i + 1)")
@@ -171,13 +171,15 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 processType = "param"
             }
             startIndividualCards()
-        case "View Individual Card", "View Individual Parameter", "View Individual Function":
+        case "View Individual Card", "View Individual Parameter", "View Individual Color", "View Individual Function":
             process()
             switch component0Row {
             case "View Individual Card":
                 processType = "full"
             case "View Individual Function":
                 processType = "function"
+            case "View Individual Color":
+                processType = "color"
             default:
                 processType = "param"
             }
@@ -193,6 +195,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     }
     
     func process() {
+        cardList.clear()
         OpenCVWrapper.process(image, cardList)
         output.text = "Found: \(cardList.count())"
     }
@@ -212,14 +215,26 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     }
     
     func showNextCard() {
+        cardGroupImageView.contentMode = .scaleAspectFit
+
         let rotation = cardList.getRotation(Int32(cardIndex))
         var rect: CGRect!
+        var paramRect: CGRect!
         
         switch processType {
         case "full":
             rect = cardList.getFullRect(Int32(cardIndex))
         case "function":
             rect = cardList.getFunctionRect(Int32(cardIndex))
+        case "color":
+            paramRect = cardList.getParamRect(Int32(cardIndex))
+            rect = CGRect(
+                x: paramRect.midX - 5,
+                y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
+                width: 10,
+                height: 10
+            )
+            cardGroupImageView.contentMode = .topLeft
         default:
             rect = cardList.getParamRect(Int32(cardIndex))
             
@@ -228,6 +243,26 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
 //        tesseract.image = ImageProcessor.cropCard(image: image, rect: functionRect, hexRect: hexRect, rotation: rotation).g8_blackAndWhite()
 //        tesseract.recognize()
         cardGroupImageView.image = ImageProcessor.cropCard(image: image, rect: rect, hexRect: hexRect, rotation: rotation)
+        
+        if (processType == "color") {
+            let colorSample = cardGroupImageView.image!.averageColor()
+            let pathLayer = CAShapeLayer()
+            pathLayer.fillColor = colorSample.cgColor
+            pathLayer.strokeColor = UIColor.white.cgColor
+            pathLayer.lineWidth = 10
+            
+            let path = UIBezierPath()
+            path.move(to: CGPoint(x: 50, y:50))
+            path.addLine(to: CGPoint(x: 100, y:50))
+            path.addLine(to: CGPoint(x: 100, y:100))
+            path.addLine(to: CGPoint(x: 50, y:100))
+            path.close()
+            path.stroke()
+            path.fill()
+            pathLayer.path = path.cgPath
+ 
+            cardGroupImageView.layer.addSublayer(pathLayer)
+        }
 //        output.text = "Code: \(tesseract.recognizedText!)"
         cardIndex += 1
         if (Int32(cardIndex) >= cardList.count()) {

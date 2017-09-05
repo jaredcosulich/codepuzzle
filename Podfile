@@ -10,6 +10,7 @@ target 'codepuzzle' do
   pod 'AWSCognito'
   pod 'AWSS3' 
   pod "MagicalRecord"
+  pod 'PaintBucket'
 
   target 'codepuzzleTests' do
     inherit! :search_paths

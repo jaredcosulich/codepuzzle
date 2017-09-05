@@ -460,11 +460,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgm-Ga-ZhA">
                                 <rect key="frame" x="16" y="349" width="288" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -517,6 +512,20 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-dI-9Ry">
+                                <rect key="frame" x="1" y="0.0" width="320" height="332"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6rf-pU-4to">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="332"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="delegate" destination="yyQ-YR-DlG" id="SNr-bq-WF6"/>
+                                </connections>
+                            </scrollView>
                             <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eCm-iO-agc">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -525,7 +534,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nff-py-nGR">
-                                            <rect key="frame" x="40" y="179" width="240" height="211"/>
+                                            <rect key="frame" x="40" y="179" width="240" height="251"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GgE-s1-JjQ">
@@ -581,6 +590,14 @@
                                                         <action selector="newPhoto:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="f1X-ES-UI8"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EI-Fh-zPY">
+                                                    <rect key="frame" x="95" y="221" width="48" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Cancel"/>
+                                                    <connections>
+                                                        <action selector="closeAddMenu:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="DGj-bu-gkv"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
@@ -593,6 +610,7 @@
                     </view>
                     <connections>
                         <outlet property="addMenuBlur" destination="eCm-iO-agc" id="DtC-M6-fZC"/>
+                        <outlet property="drawingScrollView" destination="SpO-dI-9Ry" id="4e9-LR-0pC"/>
                         <outlet property="drawingView" destination="6rf-pU-4to" id="Akv-cf-b3C"/>
                         <outlet property="editProjectView" destination="N1s-qE-7Rk" id="6KL-vX-efR"/>
                         <outlet property="imageView" destination="55S-Gc-Zaf" id="yJO-Ay-yWh"/>
@@ -649,9 +667,15 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eI2-q4-NWk"/>
-                                    <barButtonItem title="Revert To Original" id="3NR-UE-Vpx">
+                                    <barButtonItem title="Revert" id="3NR-UE-Vpx">
                                         <connections>
                                             <action selector="revert:" destination="L7d-Q3-87b" id="dyp-ZZ-ixs"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="sKt-Au-pKk"/>
+                                    <barButtonItem title="Delete" id="FjN-xL-oKQ">
+                                        <connections>
+                                            <action selector="deleteCard:" destination="L7d-Q3-87b" id="Cd1-wI-vwG"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="G43-Nb-vrJ"/>
@@ -708,9 +732,9 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lGc-h7-Of0"/>
         <segue reference="sp7-dt-xFh"/>
         <segue reference="wOF-ww-Kkf"/>
         <segue reference="LUj-ho-ZVW"/>
-        <segue reference="Pe9-k7-35c"/>
     </inferredMetricsTieBreakers>
 </document>

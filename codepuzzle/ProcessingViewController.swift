@@ -22,7 +22,8 @@ class ProcessingViewController: UIViewController {
     var timer = Timer()
 
     var analyzedCardCount = Int32(0)
-    var processedCardCount = Int32(0)
+    var processedCardCodeCount = Int32(0)
+    var processedCardParamCount = Int32(0)
     
     var cardProject: CardProject!
     
@@ -40,6 +41,10 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
+    let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 2", "A 3", "A 1", "A 3", "A 1", "A 3", "91", "A 5", "A 2", "A 4", "A 1", "A B", "11", "A 1", "A 3", "12"]
+
+    let params: [String] = ["100", "45", "70.711", "90", "70.71", "45", "100", "90", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "4", "20", "90", ""]
+
 //    var start = NSDate()
     
     override func viewDidLoad() {
@@ -110,7 +115,7 @@ class ProcessingViewController: UIViewController {
         noButton.isHidden = true
         output.text = "Processing cards. One moment..."
 
-        if (processedCardCount < cardList.count()) {
+        if (processedCardParamCount < cardList.count()) {
             execute = true
         } else {
             Timer.scheduledTimer(
@@ -151,9 +156,6 @@ class ProcessingViewController: UIViewController {
     }
 
     func analyzeCards() {
-        let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 2", "A 3", "A 1", "A 3", "A 1", "A 3", "91", "A 5", "A 2", "A 4", "A 1", "A B", "11", "A 1", "A 3", "12"]
-        let params: [String] = ["100", "45", "70.711", "90", "70.71", "45", "100", "90", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "4", "20", "90", ""]
-        
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
@@ -170,16 +172,9 @@ class ProcessingViewController: UIViewController {
         self.mathPix.processImage(
             image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
             identifier: "function\(analyzedCardCount)",
-            result: codes[Int(analyzedCardCount)]
+            result: nil//codes[Int(analyzedCardCount)]
         )
         
-        let paramRect = self.cardList.getParamRect(Int32(analyzedCardCount))
-        self.mathPix.processImage(
-            image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation),
-            identifier: "param\(analyzedCardCount)",
-            result: params[Int(analyzedCardCount)]
-        )
-
         analyzedCardCount += 1
 
         if (analyzedCardCount < cardList.count()) {
@@ -191,32 +186,86 @@ class ProcessingViewController: UIViewController {
                 repeats: false
             )
         } else {
-            self.checkCardProcessing()
+            self.checkCardCodeProcessing()
         }
     }
     
-    func checkCardProcessing() {
-        if (execute) {
-            output.text = "Analyzing Card \(processedCardCount + 1)..."
-        }
+    func checkCardCodeProcessing() {
+        if (processedCardCodeCount < cardList.count()) {
+            if (execute) {
+                output.text = "Analyzing Card Codes \(processedCardCodeCount + 1)..."
+            }
 
-        if (processedCardCount < cardList.count()) {
-            let nextParamIdentifier = "param\(processedCardCount)"
-            let nextFunctionIdentifier = "function\(processedCardCount)"
+            let nextFunctionIdentifier = "function\(processedCardCodeCount)"
         
-            if (mathPix.processing(identifier: nextParamIdentifier) || mathPix.processing(identifier: nextFunctionIdentifier)) {
+            if (mathPix.processing(identifier: nextFunctionIdentifier)) {
 
                 Timer.scheduledTimer(
                     timeInterval: 0.25,
                     target: self,
-                    selector: #selector(self.checkCardProcessing),
+                    selector: #selector(self.checkCardCodeProcessing),
                     userInfo: nil,
                     repeats: false
                 )
 
             } else {
-                processedCardCount += 1
-                checkCardProcessing()
+                let rotation = self.cardList.getRotation(Int32(processedCardCodeCount))
+                let hexRect = self.cardList.getHexRect(Int32(processedCardCodeCount))
+                let paramRect = self.cardList.getParamRect(Int32(processedCardCodeCount))
+                var paramImage: UIImage!
+                
+                let functionValue = mathPix.getValue(identifier: nextFunctionIdentifier)
+                var result: String!
+                if Functions.info(code: functionValue)["method"] == "fillColor" {
+                    let colorRect = CGRect(
+                        x: paramRect.midX - 5,
+                        y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
+                        width: 10,
+                        height: 10
+                    )
+
+                    paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: colorRect, hexRect: hexRect, rotation: rotation)
+                    
+                    result = "\(paramImage.averageColor())"
+                } else {
+                    paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation)
+                }
+                
+                self.mathPix.processImage(
+                    image: paramImage,
+                    identifier: "param\(processedCardCodeCount)",
+                    result: result//nil//params[Int(processedCardCodeCount)]
+                )
+
+                processedCardCodeCount += 1
+                checkCardCodeProcessing()
+            }
+        } else {
+            checkCardParamProcessing()
+        }
+    }
+
+    func checkCardParamProcessing() {
+        if (processedCardParamCount < cardList.count()) {
+            if (execute) {
+                output.text = "Analyzing Card Parameters \(processedCardParamCount + 1)..."
+            }
+
+            let nextParamIdentifier = "param\(processedCardParamCount)"
+            
+            if (mathPix.processing(identifier: nextParamIdentifier)) {
+                
+                Timer.scheduledTimer(
+                    timeInterval: 0.25,
+                    target: self,
+                    selector: #selector(self.checkCardParamProcessing),
+                    userInfo: nil,
+                    repeats: false
+                )
+                
+            } else {
+                processedCardParamCount += 1
+                checkCardParamProcessing()
             }
         } else {
             if execute {
@@ -224,7 +273,7 @@ class ProcessingViewController: UIViewController {
             }
         }
     }
-    
+
     func setProcessedImage(image: UIImage, completion: @escaping () -> Void) {
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
@@ -241,12 +290,12 @@ class ProcessingViewController: UIViewController {
         if (execute) {
             output.text = "Saving Cards..."
         }
-
+        
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
             
-            for i in 0..<self.processedCardCount {
+            for i in 0..<self.processedCardParamCount {
                 let rotation = self.cardList.getRotation(i)
                 let hexRect = self.cardList.getHexRect(i)
                 //            let functionRect = self.cardList.getFunctionRect(i)

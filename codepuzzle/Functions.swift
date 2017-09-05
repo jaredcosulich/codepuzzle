@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import PaintBucket
 
 class Functions {
+    
+    static let STARTING_ZOOM = CGFloat(5)
     
     static let functionInfo = [
         "A1": [
@@ -67,7 +70,10 @@ class Functions {
 
     let tempImageView = UIImageView()
     
-    var imageView: UIImageView
+    var scrollView: UIScrollView!
+    var drawingRect: CGRect!
+    
+    var imageView: UIImageView!
 
     let layer = CAShapeLayer()
     
@@ -79,16 +85,25 @@ class Functions {
     var userDefinedFunctions = [CGFloat: [() -> Int]]()
     var currentUserDefinedFunction: CGFloat?
     
-    init(uiImageView: UIImageView) {
-        imageView = uiImageView;
+    var permanentPath = UIBezierPath()
+    var scaledImage: UIImage!
+    
+    init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
+        imageView = uiImageView
+        scrollView = uiScrollView
+        drawingRect = scrollView.convert(scrollView.bounds, to: imageView)
         initDrawing()
     }
     
     func initDrawing() {
+        imageView.image = nil
         imageView.layer.sublayers?.removeAll()
         
-        let s = imageView.bounds.size
-        currentPoint = CGPoint(x: s.width / 2.5, y: s.height / 1.75)
+        scaledImage = nil
+        permanentPath = UIBezierPath()
+        
+        let s = drawingRect.size
+        currentPoint = CGPoint(x: drawingRect.minX + (s.width / 2), y: drawingRect.minY + (s.height / 2))
         currentAngle = CGFloat(90)
         
         initArrow()
@@ -137,7 +152,7 @@ class Functions {
         layer.lineDashPattern = nil
         layer.lineDashPhase = 0.0
         layer.lineJoin = kCALineJoinMiter
-        layer.lineWidth = 1.0
+        layer.lineWidth = 2.0 / Functions.STARTING_ZOOM
         layer.miterLimit = 10.0
         layer.strokeColor = UIColor.red.cgColor
         
@@ -195,7 +210,9 @@ class Functions {
     }
     
     class func info(code: String) -> [String: String] {
-        let function = Functions.functionInfo[Functions.processedCode(code: code)]
+        let function = Functions.functionInfo[
+            Functions.translate(code: Functions.processedCode(code: code))
+        ]
         if (function == nil) {
             print("NO FUNCTION: \(code)")
             return [
@@ -236,15 +253,13 @@ class Functions {
     }
     
     func calculatePoint(from: CGPoint, distance: CGFloat, angle: CGFloat) -> CGPoint {
-        let xDistance = calculateXDistance(distance: distance, angle: angle)
-        let yDistance = calculateYDistance(distance: distance, angle: angle)
+        let xDistance = calculateXDistance(distance: distance, angle: angle) / Functions.STARTING_ZOOM
+        let yDistance = calculateYDistance(distance: distance, angle: angle) / Functions.STARTING_ZOOM
         return CGPoint(x: from.x + xDistance, y: from.y + yDistance)
     }
 
     class func signature(code: String, param: String) -> String {
-        let processedCode = Functions.processedCode(code: code)
-        let translatedCode = Functions.translate(code: processedCode)
-        return "\(Functions.info(code: translatedCode)["name"] ?? "Bad Function") \(Functions.translate(param: param))"
+        return "\(Functions.info(code: code)["name"] ?? "Bad Function") \(Functions.translate(param: param))"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -262,11 +277,12 @@ class Functions {
     }
         
     func execute(code: String, param: String, instant: Bool = false) -> Int {
-        
-        let paramNumber = Functions.translate(param: param)
-        
+        expandBounds(point: currentPoint)
+
         let processedCode = Functions.processedCode(code: code)
         let methodName = Functions.info(code: Functions.translate(code: processedCode))["method"] ?? ""
+
+        let paramNumber = Functions.translate(param: param)
 
         if (currentUserDefinedFunction != nil) {
             if (methodName == "endFunction") {
@@ -281,7 +297,7 @@ class Functions {
         
         var nextPoint = currentPoint
         var fill = false
-        var fillColor = UIColor.black.cgColor
+        var fillColor = UIColor.red
         
         switch methodName {
         case "moveForward":
@@ -297,7 +313,14 @@ class Functions {
         case "penDown":
             penIsDown = true
         case "fillColor":
-            fillColor = UIColor(displayP3Red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
+            let components = param.components(separatedBy: " ")
+            fillColor = UIColor(
+                red: NumberFormatter().number(from: components[1]) as! CGFloat,
+                green: NumberFormatter().number(from: components[2]) as! CGFloat,
+                blue: NumberFormatter().number(from: components[3]) as! CGFloat,
+                alpha: NumberFormatter().number(from: components[4]) as! CGFloat
+            )
+            
             fill = true
         case "loop":
             return Int(paramNumber)
@@ -334,20 +357,19 @@ class Functions {
         drawPointer(at: nextPoint, angle: currentAngle)
 
         if (penIsDown) {
-            if (currentPoint != nextPoint || fill) {
+            if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
-                pathLayer.fillColor = fillColor
+                pathLayer.fillColor = UIColor.black.cgColor
                 pathLayer.strokeColor = UIColor.black.cgColor
-                pathLayer.lineWidth = 1
+                pathLayer.lineWidth = (1.0 / Functions.STARTING_ZOOM)
                 
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
                 path.addLine(to: nextPoint)
-                if (fill) {
-                    path.usesEvenOddFillRule = true
-                    path.fill()
-                }
                 pathLayer.path = path.cgPath
+                
+                permanentPath.move(to: currentPoint)
+                permanentPath.addLine(to: nextPoint)
 
                 imageView.layer.addSublayer(pathLayer)
                 
@@ -359,11 +381,77 @@ class Functions {
                 }
             }
         }
+
+        if (fill) {
+            layer.isHidden = true
+
+            scrollView.zoomScale = 1.0
+            let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
+            let size = imageView.bounds.size.applying(scaleTransform)
+            UIGraphicsBeginImageContextWithOptions(size, imageView.layer.isOpaque, 0)
+            let context = UIGraphicsGetCurrentContext()!
+            
+            if (scaledImage != nil) {
+                scaledImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            }
+            
+            permanentPath.apply(scaleTransform)
+            context.addPath(permanentPath.cgPath)
+            permanentPath.stroke()
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            let pX = Int(currentPoint.x * 2 * Functions.STARTING_ZOOM)
+            let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
+            
+            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+            
+            scaledImage = coloredImage
+            permanentPath = UIBezierPath()
+            
+            imageView.layer.sublayers?.removeAll()
+            imageView.image = coloredImage
+            
+            scrollView.zoom(to: drawingRect, animated: false)
+            layer.isHidden = false
+            imageView.layer.addSublayer(layer)
+            
+//                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
+        }
         
         currentPoint = nextPoint
+        expandBounds(point: currentPoint)
         return 0
     }
-
-
+    
+    func expandBounds(point: CGPoint) {
+        if (scrollView.zoomScale <= 0.5) {
+            return
+        }
+       
+        if drawingRect.contains(point) {
+            return
+        }
+        
+        let buffer = 50 / scrollView.zoomScale
+        
+        if (point.x < drawingRect.minX) {
+            drawingRect = drawingRect.insetBy(dx: (point.x - drawingRect.minX) - buffer, dy: 0)
+        }
+        
+        if (point.x > drawingRect.maxX) {
+            drawingRect = drawingRect.insetBy(dx: (drawingRect.maxX - point.x) - buffer, dy: 0)
+        }
+        
+        if (point.x < drawingRect.minY) {
+            drawingRect = drawingRect.insetBy(dx: 0, dy: (point.y - drawingRect.minY) - buffer)
+        }
+        
+        if (point.y > drawingRect.maxY) {
+            drawingRect = drawingRect.insetBy(dx: 0, dy: (drawingRect.maxY - point.y) - buffer)
+        }
+        
+        scrollView.zoom(to: drawingRect, animated: true)
+    }
 }
 

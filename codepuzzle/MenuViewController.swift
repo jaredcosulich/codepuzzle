@@ -94,8 +94,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 params.append("\"\(card.param)\"")
             }
         }
-        print(codes.joined(separator: ", "))
-        print(params.joined(separator: ", "))
     }
 
     override func didReceiveMemoryWarning() {
