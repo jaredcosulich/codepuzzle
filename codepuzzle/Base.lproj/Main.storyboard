@@ -534,7 +534,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nff-py-nGR">
-                                            <rect key="frame" x="40" y="179" width="240" height="211"/>
+                                            <rect key="frame" x="40" y="179" width="240" height="251"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GgE-s1-JjQ">
@@ -588,6 +588,14 @@
                                                     <state key="normal" title="Take Photo"/>
                                                     <connections>
                                                         <action selector="newPhoto:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="f1X-ES-UI8"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EI-Fh-zPY">
+                                                    <rect key="frame" x="95" y="221" width="48" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Cancel"/>
+                                                    <connections>
+                                                        <action selector="closeAddMenu:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="DGj-bu-gkv"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -724,7 +732,7 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Wia-qE-qhr"/>
+        <segue reference="lGc-h7-Of0"/>
         <segue reference="sp7-dt-xFh"/>
         <segue reference="wOF-ww-Kkf"/>
         <segue reference="LUj-ho-ZVW"/>

@@ -426,8 +426,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
 
     }
     
-    func closeAddMenu() {
-        print("CLOSE ADD")
+    @IBAction func closeAddMenu(_ sender: UIButton) {
+        addMenuBlur.isHidden = true
     }
     
     func pause() {
