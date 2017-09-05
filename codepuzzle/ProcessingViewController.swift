@@ -212,12 +212,21 @@ class ProcessingViewController: UIViewController {
                 let rotation = self.cardList.getRotation(Int32(processedCardCodeCount))
                 let hexRect = self.cardList.getHexRect(Int32(processedCardCodeCount))
                 let paramRect = self.cardList.getParamRect(Int32(processedCardCodeCount))
-                self.mathPix.processImage(
-                    image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation),
-                    identifier: "param\(processedCardCodeCount)",
-                    result: nil//params[Int(processedCardCodeCount)]
-                )
+                let paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation)
                 
+                let functionValue = mathPix.getValue(identifier: nextFunctionIdentifier)
+                var result: String!
+                print("FUNCTION: \(Functions.info(code: functionValue)["method"])")
+                if Functions.info(code: functionValue)["method"] == "fillColor" {
+                    result = "\(ImageProcessor.processColor(image: paramImage))"
+                }
+                
+                self.mathPix.processImage(
+                    image: paramImage,
+                    identifier: "param\(processedCardCodeCount)",
+                    result: result//nil//params[Int(processedCardCodeCount)]
+                )
+
                 processedCardCodeCount += 1
                 checkCardCodeProcessing()
             }

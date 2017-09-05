@@ -12,6 +12,35 @@ import UIKit
 
 class ImageProcessor {
     
+    class func processColor(image: UIImage) -> UIColor {
+        let pixelData = image.cgImage!.dataProvider!.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let startX = Int(image.size.width / 2)
+        let startY = Int(image.size.height * 2 / 3)
+        let dim = 10
+        var r = CGFloat(0)
+        var g = CGFloat(0)
+        var b = CGFloat(0)
+        var a = CGFloat(0)
+        
+        for i in 0..<dim {
+            let x = startX - dim/2 + i
+            for j in 0..<dim {
+                let y = startY - (dim/2) + j
+                let pixelInfo: Int = ((Int(image.size.width) * Int(x)) + Int(y)) * 4
+                
+                r += CGFloat(data[pixelInfo]) / CGFloat(255.0)
+                g += CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+                b += CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+                a += CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+            }
+            
+        }
+        
+        return UIColor(red: (r/100), green: (g/100), blue: (b/100), alpha: (a/100))
+    }
+        
     class func normalize(image: UIImage) -> UIImage {
         if (image.imageOrientation == UIImageOrientation.up) {
             return image

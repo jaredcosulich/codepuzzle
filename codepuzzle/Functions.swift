@@ -206,7 +206,9 @@ class Functions {
     }
     
     class func info(code: String) -> [String: String] {
-        let function = Functions.functionInfo[Functions.processedCode(code: code)]
+        let function = Functions.functionInfo[
+            Functions.translate(code: Functions.processedCode(code: code))
+        ]
         if (function == nil) {
             print("NO FUNCTION: \(code)")
             return [
@@ -253,9 +255,7 @@ class Functions {
     }
 
     class func signature(code: String, param: String) -> String {
-        let processedCode = Functions.processedCode(code: code)
-        let translatedCode = Functions.translate(code: processedCode)
-        return "\(Functions.info(code: translatedCode)["name"] ?? "Bad Function") \(Functions.translate(param: param))"
+        return "\(Functions.info(code: code)["name"] ?? "Bad Function") \(Functions.translate(param: param))"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -275,10 +275,10 @@ class Functions {
     func execute(code: String, param: String, instant: Bool = false) -> Int {
         expandBounds(point: currentPoint)
 
-        let paramNumber = Functions.translate(param: param)
-        
         let processedCode = Functions.processedCode(code: code)
         let methodName = Functions.info(code: Functions.translate(code: processedCode))["method"] ?? ""
+
+        let paramNumber = Functions.translate(param: param)
 
         if (currentUserDefinedFunction != nil) {
             if (methodName == "endFunction") {
@@ -293,7 +293,7 @@ class Functions {
         
         var nextPoint = currentPoint
         var fill = false
-        var fillColor = UIColor.black.cgColor
+        var fillColor = UIColor.red
         
         switch methodName {
         case "moveForward":
@@ -309,7 +309,14 @@ class Functions {
         case "penDown":
             penIsDown = true
         case "fillColor":
-            fillColor = UIColor(displayP3Red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
+            let components = param.components(separatedBy: " ")
+            fillColor = UIColor(
+                displayP3Red: NumberFormatter().number(from: components[1]) as! CGFloat,
+                green: NumberFormatter().number(from: components[2]) as! CGFloat,
+                blue: NumberFormatter().number(from: components[3]) as! CGFloat,
+                alpha: NumberFormatter().number(from: components[4]) as! CGFloat
+            )
+            
             fill = true
         case "loop":
             return Int(paramNumber)
@@ -348,7 +355,7 @@ class Functions {
         if (penIsDown) {
             if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
-                pathLayer.fillColor = fillColor
+                pathLayer.fillColor = UIColor.black.cgColor
                 pathLayer.strokeColor = UIColor.black.cgColor
                 pathLayer.lineWidth = (1.0 / Functions.STARTING_ZOOM)
                 
@@ -393,7 +400,7 @@ class Functions {
             let pX = Int(currentPoint.x * 2 * Functions.STARTING_ZOOM)
             let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
             
-            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: UIColor.red, tolerance: 5, antialias: true)
+            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
             
             scaledImage = coloredImage
             permanentPath = UIBezierPath()
