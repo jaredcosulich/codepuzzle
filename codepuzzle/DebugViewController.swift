@@ -215,8 +215,11 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     }
     
     func showNextCard() {
+        cardGroupImageView.contentMode = .scaleAspectFit
+
         let rotation = cardList.getRotation(Int32(cardIndex))
         var rect: CGRect!
+        var paramRect: CGRect!
         
         switch processType {
         case "full":
@@ -224,13 +227,14 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         case "function":
             rect = cardList.getFunctionRect(Int32(cardIndex))
         case "color":
-            let paramRect = cardList.getParamRect(Int32(cardIndex))
+            paramRect = cardList.getParamRect(Int32(cardIndex))
             rect = CGRect(
                 x: paramRect.midX - 5,
                 y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
                 width: 10,
                 height: 10
             )
+            cardGroupImageView.contentMode = .topLeft
         default:
             rect = cardList.getParamRect(Int32(cardIndex))
             
@@ -239,6 +243,26 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
 //        tesseract.image = ImageProcessor.cropCard(image: image, rect: functionRect, hexRect: hexRect, rotation: rotation).g8_blackAndWhite()
 //        tesseract.recognize()
         cardGroupImageView.image = ImageProcessor.cropCard(image: image, rect: rect, hexRect: hexRect, rotation: rotation)
+        
+        if (processType == "color") {
+            let colorSample = cardGroupImageView.image!.averageColor()
+            let pathLayer = CAShapeLayer()
+            pathLayer.fillColor = colorSample.cgColor
+            pathLayer.strokeColor = UIColor.white.cgColor
+            pathLayer.lineWidth = 10
+            
+            let path = UIBezierPath()
+            path.move(to: CGPoint(x: 50, y:50))
+            path.addLine(to: CGPoint(x: 100, y:50))
+            path.addLine(to: CGPoint(x: 100, y:100))
+            path.addLine(to: CGPoint(x: 50, y:100))
+            path.close()
+            path.stroke()
+            path.fill()
+            pathLayer.path = path.cgPath
+ 
+            cardGroupImageView.layer.addSublayer(pathLayer)
+        }
 //        output.text = "Code: \(tesseract.recognizedText!)"
         cardIndex += 1
         if (Int32(cardIndex) >= cardList.count()) {

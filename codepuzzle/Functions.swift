@@ -311,7 +311,7 @@ class Functions {
         case "fillColor":
             let components = param.components(separatedBy: " ")
             fillColor = UIColor(
-                displayP3Red: NumberFormatter().number(from: components[1]) as! CGFloat,
+                red: NumberFormatter().number(from: components[1]) as! CGFloat,
                 green: NumberFormatter().number(from: components[2]) as! CGFloat,
                 blue: NumberFormatter().number(from: components[3]) as! CGFloat,
                 alpha: NumberFormatter().number(from: components[4]) as! CGFloat

@@ -212,13 +212,23 @@ class ProcessingViewController: UIViewController {
                 let rotation = self.cardList.getRotation(Int32(processedCardCodeCount))
                 let hexRect = self.cardList.getHexRect(Int32(processedCardCodeCount))
                 let paramRect = self.cardList.getParamRect(Int32(processedCardCodeCount))
-                let paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation)
+                var paramImage: UIImage!
                 
                 let functionValue = mathPix.getValue(identifier: nextFunctionIdentifier)
                 var result: String!
-                print("FUNCTION: \(Functions.info(code: functionValue)["method"])")
                 if Functions.info(code: functionValue)["method"] == "fillColor" {
-                    result = "\(ImageProcessor.processColor(image: paramImage))"
+                    let colorRect = CGRect(
+                        x: paramRect.midX - 5,
+                        y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
+                        width: 10,
+                        height: 10
+                    )
+
+                    paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: colorRect, hexRect: hexRect, rotation: rotation)
+                    
+                    result = "\(paramImage.averageColor())"
+                } else {
+                    paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation)
                 }
                 
                 self.mathPix.processImage(
