@@ -89,6 +89,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             selectedCode = selectedCard.code
             param.text = selectedCard.param
             cardView.image = selectedCard.image
+            if selectedCard.disabled {
+                
+            }
 
             uneditedCard = TempCard(
                 cardProject: cardProject,
@@ -269,6 +272,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         selectedCard.param = selectedCard.originalParam!
         selectedCard.code = selectedCard.originalCode!
         selectedCard.image = selectedCard.originalImage!
+        selectedCard.disabled = false
         updateSelectedCard()
     }
     
@@ -312,9 +316,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     
     @IBAction func deleteCard(_ sender: UIBarButtonItem) {
-        let refreshAlert = UIAlertController(title: "Refresh", message: "All data will be lost.", preferredStyle: UIAlertControllerStyle.alert)
+        let deleteAlert = UIAlertController(title: "Delete Card", message: "Do you want to delete this card?", preferredStyle: UIAlertControllerStyle.alert)
         
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+        deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        deleteAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             let context = self.cardProject.persistedManagedObjectContext!
             context.mr_save({
                 (localContext: NSManagedObjectContext!) in
@@ -330,10 +336,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             })
         }))
         
-//        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-//        }))
-        
-        present(refreshAlert, animated: true, completion: nil)
+        present(deleteAlert, animated: true, completion: nil)
     }
     
     

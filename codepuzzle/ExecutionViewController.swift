@@ -315,7 +315,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         var functionText: String!
 
         if (card.disabled) {
-            functionText = "Disabled Card"
+            functionText = "Deleted Card"
         } else {
             let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
             if loopCount > 0 {

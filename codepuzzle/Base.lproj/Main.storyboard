@@ -667,7 +667,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="sKt-Au-pKk"/>
                                     <barButtonItem title="Delete" id="FjN-xL-oKQ">
                                         <connections>
-                                            <action selector="delete:" destination="L7d-Q3-87b" id="LZy-jC-gWz"/>
+                                            <action selector="deleteCard:" destination="L7d-Q3-87b" id="Cd1-wI-vwG"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="G43-Nb-vrJ"/>
