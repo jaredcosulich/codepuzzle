@@ -17,7 +17,7 @@ class ImageProcessor {
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
         
         let startX = Int(image.size.width / 2)
-        let startY = Int(image.size.height * 2 / 3)
+        let startY = Int(image.size.height * 3 / 4)
         let dim = 10
         var r = CGFloat(0)
         var g = CGFloat(0)

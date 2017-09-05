@@ -60,7 +60,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         
         if (selectedIndex > -1) {
             let cardGroup = cardProject.cardGroups[selectedIndex]
-            for option in ["Card", "Parameter", "Function"] {
+            for option in ["Card", "Parameter", "Function", "Color"] {
                 pickerData["View Individual \(option)"] = [String]()
                 for i in 0..<cardGroup.cards.count {
                     pickerData["View Individual \(option)"]?.append("\(option) \(i + 1)")
@@ -171,13 +171,15 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 processType = "param"
             }
             startIndividualCards()
-        case "View Individual Card", "View Individual Parameter", "View Individual Function":
+        case "View Individual Card", "View Individual Parameter", "View Individual Color", "View Individual Function":
             process()
             switch component0Row {
             case "View Individual Card":
                 processType = "full"
             case "View Individual Function":
                 processType = "function"
+            case "View Individual Color":
+                processType = "color"
             default:
                 processType = "param"
             }
@@ -193,6 +195,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     }
     
     func process() {
+        cardList.clear()
         OpenCVWrapper.process(image, cardList)
         output.text = "Found: \(cardList.count())"
     }
@@ -220,6 +223,14 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
             rect = cardList.getFullRect(Int32(cardIndex))
         case "function":
             rect = cardList.getFunctionRect(Int32(cardIndex))
+        case "color":
+            let paramRect = cardList.getParamRect(Int32(cardIndex))
+            rect = CGRect(
+                x: paramRect.midX - 5,
+                y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
+                width: 10,
+                height: 10
+            )
         default:
             rect = cardList.getParamRect(Int32(cardIndex))
             
