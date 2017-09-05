@@ -311,6 +311,32 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     
+    @IBAction func deleteCard(_ sender: UIBarButtonItem) {
+        let refreshAlert = UIAlertController(title: "Refresh", message: "All data will be lost.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            let context = self.cardProject.persistedManagedObjectContext!
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                if self.selectedCard.originalImage == nil {
+                    self.selectedCard.mr_deleteEntity(in: context)
+                } else {
+                    self.selectedCard.disabled = true
+                }
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+                self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
+            })
+        }))
+        
+//        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+//        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         uneditedCard.updateCard(card: selectedCard, completion: {
             self.performSegue(withIdentifier: "cancel-edit-segue", sender: nil)

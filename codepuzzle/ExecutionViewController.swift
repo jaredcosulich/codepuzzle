@@ -121,6 +121,10 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
             cardOffset += scrollLayerWidth
             
+            if (card.disabled) {
+                functionLayer.opacity = 0.2
+            }
+            
             executedLayers.append(functionLayer)
             executionLayer.addSublayer(functionLayer)
         }
@@ -279,7 +283,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     
         for i in 0..<cards.count {
             let l = executedLayers[i]
-            if (i == index) {
+            if (i == index && !cards[i].disabled) {
                 l.opacity = 1.0
                 l.shadowOffset = CGSize(width: 5, height: 5)
             } else {
@@ -307,22 +311,27 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         let card = cards[index]
 
         var loopIndex = index
-        
+
         var functionText: String!
-        let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
-        if loopCount > 0 {
-            loops.append(Loop(startingIndex: index, count: loopCount))
-            functionText = "Loop \(loops.last!.count) Times"
-        } else if loopCount < 0 {
-            loopIndex = loops.last!.increment()
-            if loopIndex == -1 {
-                _ = loops.popLast()
-                functionText = "Loop Complete"
-            } else {
-                functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
-            }
+
+        if (card.disabled) {
+            functionText = "Disabled Card"
         } else {
-            functionText = Functions.signature(code: card.code, param: card.param)
+            let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
+            if loopCount > 0 {
+                loops.append(Loop(startingIndex: index, count: loopCount))
+                functionText = "Loop \(loops.last!.count) Times"
+            } else if loopCount < 0 {
+                loopIndex = loops.last!.increment()
+                if loopIndex == -1 {
+                    _ = loops.popLast()
+                    functionText = "Loop Complete"
+                } else {
+                    functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
+                }
+            } else {
+                functionText = Functions.signature(code: card.code, param: card.param)
+            }
         }
         
         executionIndex = loopIndex > -1 ? loopIndex : index

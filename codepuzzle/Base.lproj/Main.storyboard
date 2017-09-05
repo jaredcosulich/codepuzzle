@@ -659,9 +659,15 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eI2-q4-NWk"/>
-                                    <barButtonItem title="Revert To Original" id="3NR-UE-Vpx">
+                                    <barButtonItem title="Revert" id="3NR-UE-Vpx">
                                         <connections>
                                             <action selector="revert:" destination="L7d-Q3-87b" id="dyp-ZZ-ixs"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="sKt-Au-pKk"/>
+                                    <barButtonItem title="Delete" id="FjN-xL-oKQ">
+                                        <connections>
+                                            <action selector="delete:" destination="L7d-Q3-87b" id="LZy-jC-gWz"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="G43-Nb-vrJ"/>
