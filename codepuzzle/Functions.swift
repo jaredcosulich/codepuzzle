@@ -100,7 +100,7 @@ class Functions {
         imageView.layer.sublayers?.removeAll()
         
         scaledImage = nil
-        permanentPath == UIBezierPath()
+        permanentPath = UIBezierPath()
         
         let s = drawingRect.size
         currentPoint = CGPoint(x: drawingRect.minX + (s.width / 2), y: drawingRect.minY + (s.height / 2))
