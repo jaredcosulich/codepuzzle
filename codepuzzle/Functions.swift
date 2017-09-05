@@ -298,6 +298,8 @@ class Functions {
         var nextPoint = currentPoint
         var fill = false
         var fillColor = UIColor.red
+        var lineWidth = CGFloat(1)
+        var strokeColor = UIColor.black
         
         switch methodName {
         case "moveForward":
@@ -312,6 +314,16 @@ class Functions {
             penIsDown = false
         case "penDown":
             penIsDown = true
+        case "penSize":
+            lineWidth = paramNumber
+        case "penColor":
+            let components = param.components(separatedBy: " ")
+            strokeColor = UIColor(
+                red: NumberFormatter().number(from: components[1]) as! CGFloat,
+                green: NumberFormatter().number(from: components[2]) as! CGFloat,
+                blue: NumberFormatter().number(from: components[3]) as! CGFloat,
+                alpha: NumberFormatter().number(from: components[4]) as! CGFloat
+            )
         case "fillColor":
             let components = param.components(separatedBy: " ")
             fillColor = UIColor(
@@ -359,9 +371,8 @@ class Functions {
         if (penIsDown) {
             if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
-                pathLayer.fillColor = UIColor.black.cgColor
-                pathLayer.strokeColor = UIColor.black.cgColor
-                pathLayer.lineWidth = (1.0 / Functions.STARTING_ZOOM)
+                pathLayer.strokeColor = strokeColor.cgColor
+                pathLayer.lineWidth = (lineWidth / Functions.STARTING_ZOOM)
                 
                 let path = UIBezierPath()
                 path.move(to: currentPoint)
