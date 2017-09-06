@@ -105,7 +105,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             let image = card.image!
             
             functionLayer.contents = image.cgImage
-            functionLayer.opacity = 0.25
+            functionLayer.opacity = 0.50
         
             let ratio = (imageView.bounds.height - 5) / image.size.height
             let layerWidth = image.size.width * ratio
@@ -122,7 +122,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             cardOffset += scrollLayerWidth
             
             if (card.disabled) {
-                functionLayer.opacity = 0.2
+                functionLayer.opacity = 0.25
+                functionLayer.shadowOffset = CGSize(width: 0, height: 0)
             }
             
             executedLayers.append(functionLayer)
@@ -293,9 +294,12 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             if (i == index && !cards[i].disabled) {
                 l.opacity = 1.0
                 l.shadowOffset = CGSize(width: 5, height: 5)
+            } else if !cards[i].disabled {
+                l.opacity = 0.50
+                l.shadowOffset = CGSize(width: 2, height: 2)
             } else {
                 l.opacity = 0.25
-                l.shadowOffset = CGSize(width: 2, height: 2)
+                l.shadowOffset = CGSize(width: 0, height: 0)
             }
         }
         

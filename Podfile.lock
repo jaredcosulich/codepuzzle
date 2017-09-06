@@ -5,6 +5,7 @@ PODS:
   - AWSCore (2.5.10)
   - AWSS3 (2.5.10):
     - AWSCore (= 2.5.10)
+  - ChromaColorPicker (1.5.1)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - AWSCognito
   - AWSCore
   - AWSS3
+  - ChromaColorPicker
   - MagicalRecord
   - PaintBucket
 
@@ -23,9 +25,10 @@ SPEC CHECKSUMS:
   AWSCognito: 75de3956984129b9a270f99261c431fa1eb87c26
   AWSCore: 490c988f6af48a10ea113ff06c53a1ef72a3534b
   AWSS3: cd25080951a7637668d4f33393fe24bcb04dfac7
+  ChromaColorPicker: cc7fc1d92569a8a9198fe89d9a420147e508462c
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   PaintBucket: ffa4e1666ee71e0c2fe8b299e2a1b87afaf3fe78
 
-PODFILE CHECKSUM: 3eed4b13fad300afa770574fada9caf3d6694d90
+PODFILE CHECKSUM: 590dd135363fceb1d5faac53c550134a3f74746d
 
 COCOAPODS: 1.3.1

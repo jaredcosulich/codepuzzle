@@ -11,6 +11,7 @@ target 'codepuzzle' do
   pod 'AWSS3' 
   pod "MagicalRecord"
   pod 'PaintBucket'
+  pod 'ChromaColorPicker'
 
   target 'codepuzzleTests' do
     inherit! :search_paths

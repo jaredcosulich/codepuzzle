@@ -45,38 +45,18 @@ extension UIImage {
 
 class ImageProcessor {
     
-//    class func averageColor(image: UIImage) -> UIColor {
-//        let pixelData = image.cgImage!.dataProvider!.data
-//        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
-//        
-//        let startX = Int(image.size.width / 2)
-//        let startY = Int(image.size.height * 3 / 4)
-//        let dim = 1
-//        var r = CGFloat(0)
-//        var g = CGFloat(0)
-//        var b = CGFloat(0)
-//        var a = CGFloat(0)
-//        
-//        var l = 0
-//        for i in 0..<dim {
-//            let x = startX - dim/2 + i
-//            for j in 0..<dim {
-//                let y = startY - (dim/2) + j
-//                let pixelInfo: Int = ((Int(image.size.width) * Int(x)) + Int(y)) * 4
-//                
-//                r += CGFloat(data[pixelInfo]) / CGFloat(255.0)
-//                g += CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-//                b += CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-//                a += CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
-//                l += 1
-//                print("\(i)x\(j)=\(l): \(pixelInfo) -> red: \(CGFloat(data[pixelInfo]) / CGFloat(255.0)), green: \(CGFloat(data[pixelInfo+1]) / CGFloat(255.0)), blue: \(CGFloat(data[pixelInfo+2]) / CGFloat(255.0)), alpha: \(CGFloat(data[pixelInfo+3]) / CGFloat(255.0))")
-//            }
-//            
-//        }
-//        print("SET: red: \(r/CGFloat(dim*dim)), green: \(g/CGFloat(dim*dim)), blue: \(b/CGFloat(dim*dim)), alpha: \(a/CGFloat(dim*dim))")
-//        return UIColor(red: (r/CGFloat(dim*dim)), green: (g/CGFloat(dim*dim)), blue: (b/CGFloat(dim*dim)), alpha: (a/CGFloat(dim*dim)))
-//    }
-        
+    class func colorFrom(text: String) -> UIColor {
+        let components = text.components(separatedBy: " ")
+
+        return UIColor(
+            red: NumberFormatter().number(from: components[1]) as! CGFloat,
+            green: NumberFormatter().number(from: components[2]) as! CGFloat,
+            blue: NumberFormatter().number(from: components[3]) as! CGFloat,
+            alpha: NumberFormatter().number(from: components[4]) as! CGFloat
+        )
+
+    }
+    
     class func normalize(image: UIImage) -> UIImage {
         if (image.imageOrientation == UIImageOrientation.up) {
             return image

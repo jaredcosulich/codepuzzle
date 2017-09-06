@@ -279,8 +279,7 @@ class Functions {
     func execute(code: String, param: String, instant: Bool = false) -> Int {
         expandBounds(point: currentPoint)
 
-        let processedCode = Functions.processedCode(code: code)
-        let methodName = Functions.info(code: Functions.translate(code: processedCode))["method"] ?? ""
+        let methodName = Functions.info(code: code)["method"] ?? ""
 
         let paramNumber = Functions.translate(param: param)
 
@@ -317,22 +316,9 @@ class Functions {
         case "penSize":
             lineWidth = paramNumber
         case "penColor":
-            let components = param.components(separatedBy: " ")
-            strokeColor = UIColor(
-                red: NumberFormatter().number(from: components[1]) as! CGFloat,
-                green: NumberFormatter().number(from: components[2]) as! CGFloat,
-                blue: NumberFormatter().number(from: components[3]) as! CGFloat,
-                alpha: NumberFormatter().number(from: components[4]) as! CGFloat
-            )
+            strokeColor = ImageProcessor.colorFrom(text: param)
         case "fillColor":
-            let components = param.components(separatedBy: " ")
-            fillColor = UIColor(
-                red: NumberFormatter().number(from: components[1]) as! CGFloat,
-                green: NumberFormatter().number(from: components[2]) as! CGFloat,
-                blue: NumberFormatter().number(from: components[3]) as! CGFloat,
-                alpha: NumberFormatter().number(from: components[4]) as! CGFloat
-            )
-            
+            fillColor = ImageProcessor.colorFrom(text: param)
             fill = true
         case "loop":
             return Int(paramNumber)

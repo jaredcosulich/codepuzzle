@@ -215,8 +215,9 @@ class ProcessingViewController: UIViewController {
                 var paramImage: UIImage!
                 
                 let functionValue = mathPix.getValue(identifier: nextFunctionIdentifier)
+                let methodName = Functions.info(code: functionValue)["method"]
                 var result: String!
-                if Functions.info(code: functionValue)["method"] == "fillColor" {
+                if methodName == "fillColor" || methodName == "penColor" {
                     let colorRect = CGRect(
                         x: paramRect.midX - 5,
                         y: paramRect.minY + (paramRect.height * 3 / 4) - 5,

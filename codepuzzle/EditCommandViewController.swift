@@ -8,6 +8,7 @@
 
 import Foundation
 import MagicalRecord
+import ChromaColorPicker
 
 struct TempCard {
     var cardProject: CardProject!
@@ -54,7 +55,7 @@ struct TempCard {
     }
 }
 
-class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ChromaColorPickerDelegate {
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
@@ -76,6 +77,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var colorPickerView: UIView!
+    
+    let colorPicker = ChromaColorPicker(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
+
+    @IBOutlet weak var colorParam: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +92,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         if selectedIndex > 0 && selectedIndex < cards.count {
             selectedCard = cards[selectedIndex]
-            selectedCode = selectedCard.code
+            selectedCode = Functions.processedCode(code: selectedCard.code)
             param.text = selectedCard.param
             cardView.image = selectedCard.image
             if selectedCard.disabled {
@@ -122,17 +128,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         functionCodes = Array(Functions.functionInfo.keys).sorted()
         
-        var selectedFunctionIndex = -1
-        
         var functionNames = [String]()
         for i in 0..<Functions.functionInfo.count {
             let functionCode = functionCodes[i]
-            if (selectedCode != nil && functionCode == selectedCode) {
-                selectedFunctionIndex = i
-            }
-            functionNames.append(
-                "\((Functions.functionInfo[functionCode]?["name"])!) (\(functionCode))"
-            )
+            let functionName = Functions.functionInfo[functionCode]!["name"]!
+            functionNames.append("\(functionName) (\(functionCode))")
         }
         
         pickerData = [functionNames]
@@ -142,13 +142,35 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         param.delegate = self
         
-        functionPicker.selectRow(selectedFunctionIndex, inComponent: 0, animated: true)
-
+        colorParam.layer.cornerRadius = colorParam.frame.size.height/2;
+        colorParam.layer.masksToBounds = true;
+        colorParam.layer.borderColor = UIColor.black.cgColor;
+        colorParam.layer.borderWidth = 1;
+        
+        colorPickerView.layer.cornerRadius = colorPickerView.frame.size.height/2;
+        colorPickerView.layer.masksToBounds = true;
+        colorPickerView.layer.borderColor = UIColor.black.cgColor;
+        colorPickerView.layer.borderWidth = 2;
+        
+        colorPicker.delegate = self //ChromaColorPickerDelegate
+        colorPicker.padding = 5
+        colorPicker.stroke = 3
+        colorPicker.hexLabel.textColor = UIColor.white
+        
+        colorPickerView.addSubview(colorPicker)
+        
+        prepareCard()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func colorPickerDidChooseColor(_ colorPicker: ChromaColorPicker, color: UIColor) {
+        selectedCard.param = "\(color)"
+        prepareCard()
+        colorPickerView.isHidden = true
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -198,12 +220,38 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             cardView.image = selectedCard.image
             updateSelectedCard()
         }
+        
+        prepareCard()
     }
     
     func textFieldShouldReturn(_ sender: UITextField) -> Bool {
         param.resignFirstResponder()
         return true
     }
+    
+    func prepareCard() {
+        let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
+        let cardParam = selectedCard == nil ? newCard.param : selectedCard.param
+        let method = Functions.info(code:  cardCode)["method"]
+        
+        if (method == "penColor" || method == "fillColor") {
+            param.isHidden = true
+            colorParam.isHidden = false
+            colorParam.backgroundColor = ImageProcessor.colorFrom(text: cardParam)
+            colorPicker.adjustToColor(colorParam.backgroundColor!)
+        }
+        
+        for i in 0..<Functions.functionInfo.count {
+            if (functionCodes[i] == Functions.processedCode(code: cardCode)) {
+                functionPicker.selectRow(i, inComponent: 0, animated: true)
+            }
+        }
+    }
+    
+    @IBAction func selectColor(_ sender: UIButton) {
+        colorPickerView.isHidden = false
+    }
+    
     
     func updateSelectedCard() {
         if (selectedCard == nil) {
@@ -273,13 +321,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         selectedCard.code = selectedCard.originalCode!
         selectedCard.image = selectedCard.originalImage!
         selectedCard.disabled = false
+        prepareCard()
         updateSelectedCard()
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         if (newCard != nil) {
             newCard.addToCardGroup(cardGroup: cardProject.cardGroups.last!, completion: {
-                print("SAVED: \(self.cardProject.cardGroups.last?.cards.count)")
                 self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
             })
         } else {
@@ -360,6 +408,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         functionPicker.removeFromSuperview()
         cardView.removeFromSuperview()
         param.removeFromSuperview()
+        colorPickerView.removeFromSuperview()
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController

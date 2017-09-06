@@ -712,11 +712,32 @@
                                     <action selector="showParam:" destination="L7d-Q3-87b" eventType="editingChanged" id="JmU-ZY-2PF"/>
                                 </connections>
                             </textField>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9LS-gT-zA2">
+                                <rect key="frame" x="145" y="231" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sy1-T4-ThT">
+                                        <rect key="frame" x="-8" y="0.0" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="selectColor:" destination="L7d-Q3-87b" eventType="touchUpInside" id="bvq-xJ-7wU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
+                                <rect key="frame" x="10" y="96" width="300" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="cardView" destination="bga-uH-SdD" id="kVg-lY-3cC"/>
+                        <outlet property="colorParam" destination="9LS-gT-zA2" id="T1B-Bj-x3w"/>
+                        <outlet property="colorPickerView" destination="PHJ-Fx-pdX" id="5nn-32-yA2"/>
                         <outlet property="functionPicker" destination="QnH-gw-C4f" id="nlh-eg-2qy"/>
                         <outlet property="param" destination="q9q-7h-wTc" id="VlB-yN-BLI"/>
                         <outlet property="titleLabel" destination="4It-rP-Ub6" id="OGi-27-9eh"/>
