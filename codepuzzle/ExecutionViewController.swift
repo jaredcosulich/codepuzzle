@@ -77,7 +77,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         cards = cardProject.allCards()
         
-        print("SELECTED INDEX: \(selectedIndex), EXECUTION INDEX: \(executionIndex)")
+        print("CARDS: \(cards.count), SELECTED INDEX: \(selectedIndex), EXECUTION INDEX: \(executionIndex)")
         
         if (selectedIndex != -1) {
             pause()
@@ -139,8 +139,15 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             executeNextCard()
             startTimer()
         } else if (selectedIndex > -1) {
-            scrollToCard(index: selectedIndex)
-            highlightCard(index: selectedIndex)
+            if (selectedIndex >= cards.count) {
+                scrollToCard(index: selectedIndex - 1)
+                highlightCard(index: selectedIndex - 1)
+                paused = false
+                executeNextCard()
+            } else {
+                scrollToCard(index: selectedIndex)
+                highlightCard(index: selectedIndex)
+            }
         }
     }
     
