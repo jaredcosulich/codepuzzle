@@ -131,7 +131,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         var functionNames = [String]()
         for i in 0..<Functions.functionInfo.count {
             let functionCode = functionCodes[i]
-            let functionName = Functions.functionInfo[functionCode]!["name"]!
+            let functionName = Functions.functionInfo[functionCode]!.name
             functionNames.append("\(functionName) (\(functionCode))")
         }
         
@@ -232,7 +232,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     func prepareCard() {
         let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
         let cardParam = selectedCard == nil ? newCard.param : selectedCard.param
-        let method = Functions.info(code:  cardCode)["method"]
+        let method = Functions.info(code:  cardCode).method
         
         if (method == "penColor" || method == "fillColor") {
             param.isHidden = true

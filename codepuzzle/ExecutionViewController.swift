@@ -18,6 +18,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     
     @IBOutlet weak var output: UILabel!
     
+    @IBOutlet weak var colorSwatch: UIView!
+    
     @IBOutlet weak var speedButtons: UISegmentedControl!
     
     @IBOutlet weak var toolbar: UIToolbar!
@@ -264,6 +266,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
 
         if (executionIndex >= cards.count) {
             output.text = "All cards executed."
+            colorSwatch.isHidden = true
             selectedIndex = -1
             timer.invalidate()
             pause()
@@ -351,6 +354,12 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             executeCard(index: executionIndex + 1, redraw: true)
         } else {
             output.text = functionText
+            if functionText == "Fill Color" || functionText == "Pen Color" {
+                colorSwatch.backgroundColor = ImageProcessor.colorFrom(text: card.param)
+                colorSwatch.isHidden = false
+            } else {
+                colorSwatch.isHidden = true
+            }
             selectedIndex = executionIndex
         }
     }

@@ -9,63 +9,96 @@
 import Foundation
 import PaintBucket
 
+struct FunctionInfo {
+    let name: String
+    let method: String
+    let paramCount: Int
+    let color: Bool
+}
+
 class Functions {
     
     static let STARTING_ZOOM = CGFloat(5)
     
     static let functionInfo = [
-        "A1": [
-            "name": "Move Forward",
-            "method": "moveForward"
-        ],
-        "A2": [
-            "name": "Move Backward",
-            "method": "moveBackward"
-        ],
-        "A3": [
-            "name": "Rotate Right",
-            "method": "rotateRight"
-        ],
-        "A4": [
-            "name": "Rotate Left",
-            "method": "rotateLeft"
-        ],
-        "A5": [
-            "name": "Pen Up",
-            "method": "penUp"
-        ],
-        "A6": [
-            "name": "Pen Down",
-            "method": "penDown"
-        ],
-        "A7": [
-            "name": "Pen Size",
-            "method": "penSize"
-        ],
-        "A8": [
-            "name": "Pen Color",
-            "method": "penColor"
-        ],
-        "A9": [
-            "name": "Fill Color",
-            "method": "fillColor"
-        ],
-        "F1": [
-            "name": "Function",
-            "method": "function"
-        ],
-        "F2": [
-            "name": "End Function",
-            "method": "endFunction"
-        ],
-        "L1": [
-            "name": "Loop",
-            "method": "loop"
-        ],
-        "L2": [
-            "name": "End Loop",
-            "method": "endLoop"
-        ]
+        "A1": FunctionInfo(
+            name: "Move Forward",
+            method: "moveForward",
+            paramCount: 1,
+            color: false
+        ),
+        "A2": FunctionInfo(
+            name: "Move Backward",
+            method: "moveBackward",
+            paramCount: 1,
+            color: false
+        ),
+        "A3": FunctionInfo(
+            name: "Rotate Right",
+            method: "rotateRight",
+            paramCount: 1,
+            color: false
+        ),
+        "A4": FunctionInfo(
+            name: "Rotate Left",
+            method: "rotateLeft",
+            paramCount: 1,
+            color: false
+        ),
+        "A5": FunctionInfo(
+            name: "Pen Up",
+            method: "penUp",
+            paramCount: 0,
+            color: false
+        ),
+        "A6": FunctionInfo(
+            name: "Pen Down",
+            method: "penDown",
+            paramCount: 0,
+            color: false
+        ),
+        "A7": FunctionInfo(
+            name: "Pen Size",
+            method: "penSize",
+            paramCount: 1,
+            color: false
+        ),
+        "A8": FunctionInfo(
+            name: "Pen Color",
+            method: "penColor",
+            paramCount: 0,
+            color: true
+        ),
+        "A9": FunctionInfo(
+            name: "Fill Color",
+            method: "fillColor",
+            paramCount: 0,
+            color: true
+        ),
+        "F1": FunctionInfo(
+            name: "Function",
+            method: "function",
+            paramCount: 1,
+            color: false
+        ),
+        "F2": FunctionInfo(
+            name: "End Function",
+            method: "endFunction",
+            paramCount:0,
+            color: false
+        ),
+        "L1": FunctionInfo(
+            name: "Loop",
+            method: "loop",
+            paramCount:1,
+            color: false
+        ),
+        "L2": FunctionInfo(
+            name: "End Loop",
+            method: "endLoop",
+            paramCount:0,
+            color: false
+        )
     ]
 
     let tempImageView = UIImageView()
@@ -209,16 +242,18 @@ class Functions {
         return true
     }
     
-    class func info(code: String) -> [String: String] {
+    class func info(code: String) -> FunctionInfo {
         let function = Functions.functionInfo[
             Functions.translate(code: Functions.processedCode(code: code))
         ]
         if (function == nil) {
             print("NO FUNCTION: \(code)")
-            return [
-                "name": "N/A",
-                "method": "n/a"
-            ]
+            return FunctionInfo(
+                name: "N/A",
+                method: "N/A",
+                paramCount: 0,
+                color: false
+            )
         } else {
             return function!
         }
@@ -259,7 +294,13 @@ class Functions {
     }
 
     class func signature(code: String, param: String) -> String {
-        return "\(Functions.info(code: code)["name"] ?? "Bad Function") \(Functions.translate(param: param))"
+        let info = Functions.info(code: code)
+        let name = info.name 
+        
+        if (info.paramCount == 0) {
+            return name
+        }
+        return "\(name) \(Functions.translate(param: param))"
     }
     
     func drawPointer(at: CGPoint, angle: CGFloat) {
@@ -279,7 +320,7 @@ class Functions {
     func execute(code: String, param: String, instant: Bool = false) -> Int {
         expandBounds(point: currentPoint)
 
-        let methodName = Functions.info(code: code)["method"] ?? ""
+        let methodName = Functions.info(code: code).method
 
         let paramNumber = Functions.translate(param: param)
 
