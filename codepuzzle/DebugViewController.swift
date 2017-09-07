@@ -49,18 +49,20 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         pickerData["View All"] = [
             "Cards",
             "Functions",
-            "Parameters"
+            "Parameters",
+            "Hex"
         ]
         
         pickerData["View Each"] = [
             "Card",
             "Function",
-            "Parameter"
+            "Parameter",
+            "Hex"
         ]
         
         if (selectedIndex > -1) {
             let cardGroup = cardProject.cardGroups[selectedIndex]
-            for option in ["Card", "Parameter", "Function", "Color"] {
+            for option in ["Card", "Parameter", "Function", "Hex", "Color"] {
                 pickerData["View Individual \(option)"] = [String]()
                 for i in 0..<cardGroup.cards.count {
                     pickerData["View Individual \(option)"]?.append("\(option) \(i + 1)")
@@ -158,8 +160,10 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "full")
             case 1:
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "function")
-            default:
+            case 1:
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "param")
+            default:
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex")
             }
         case "View Each":
             switch component1Row {
@@ -167,21 +171,25 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 processType = "full"
             case 1:
                 processType = "function"
-            default:
+            case 2:
                 processType = "param"
+            default:
+                processType = "hex"
             }
             startIndividualCards()
-        case "View Individual Card", "View Individual Parameter", "View Individual Color", "View Individual Function":
+        case "View Individual Card", "View Individual Parameter", "View Individual Function", "View Individual Hex", "View Individual Color":
             process()
             switch component0Row {
             case "View Individual Card":
                 processType = "full"
             case "View Individual Function":
                 processType = "function"
+            case "View Individual Param":
+                processType = "param"
             case "View Individual Color":
                 processType = "color"
             default:
-                processType = "param"
+                processType = "hex"
             }
             cardIndex = component1Row
             showNextCard()
@@ -226,6 +234,8 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
             rect = cardList.getFullRect(Int32(cardIndex))
         case "function":
             rect = cardList.getFunctionRect(Int32(cardIndex))
+        case "param":
+            rect = cardList.getParamRect(Int32(cardIndex))
         case "color":
             paramRect = cardList.getParamRect(Int32(cardIndex))
             rect = CGRect(
@@ -236,9 +246,9 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
             )
             cardGroupImageView.contentMode = .topLeft
         default:
-            rect = cardList.getParamRect(Int32(cardIndex))
-            
+            rect = cardList.getHexRect(Int32(cardIndex))
         }
+        
         let hexRect = cardList.getFunctionRect(Int32(cardIndex))
 //        tesseract.image = ImageProcessor.cropCard(image: image, rect: functionRect, hexRect: hexRect, rotation: rotation).g8_blackAndWhite()
 //        tesseract.recognize()

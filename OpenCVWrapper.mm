@@ -63,6 +63,10 @@ using namespace std;
             result = [[self class] threshold:src];
             break;
 
+        case 4:
+            result = [[self class] sharpen:src];
+            break;
+            
         default:
             result = src;
             break;
@@ -102,6 +106,27 @@ using namespace std;
     return result;
 }
 
++ (cv::Mat) sharpen :(cv::Mat) src {
+    cv::Mat result;
+    
+    cv::GaussianBlur(src, result, cv::Size(0, 0), 3);
+//    cv::addWeighted(src, 1.5, result, -0.5, 0, result);
+    return result;
+}
+
++ (float) calculateYRotation :(cv::Point) p1 :(cv::Point) p2 {
+    float distance = (float)(p2.x - p1.x);
+    float slope = ((float)(p2.y - p1.y)/distance);
+    float angle = atan(slope);
+    return (angle * 180 / CV_PI);
+}
+
++ (float) calculateXRotation :(cv::Point) p1 :(cv::Point) p2 {
+    float distance = (float)(p2.y - p1.y);
+    float slope = ((float)(p2.x - p1.x)/distance);
+    float angle = atan(slope);
+    return (angle * -180 / CV_PI);
+}
 
 + (UIImage *) debug :(UIImage *) image {
     cv::Mat src;
@@ -109,6 +134,8 @@ using namespace std;
     cv::Mat canny;
     cv::Mat threshold;
     cv::Mat dilated;
+    cv::Mat sharpened;
+    cv::Mat processed;
     
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
@@ -121,10 +148,14 @@ using namespace std;
     
     gray = [[self class] color:src];
 //    threshold = [[self class] threshold:gray];
+//    sharpened = [[self class] sharpen:gray];
     canny = [[self class] canny:gray];
-    dilated = [[self class] dilate:canny];
+//    dilated = [[self class] dilate:canny];
     
-    cv::findContours(dilated, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    processed = canny;
+    cv::findContours(processed, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    
+    int drawn = 0;
     
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
@@ -152,38 +183,58 @@ using namespace std;
             for (int j=0; j<innerHexagons.size(); ++j) {
                 cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
                 
-                if (std::abs(innerBound.width - bound.width) > 3 && std::abs(innerBound.height - bound.height)) {
+                std::vector<float> rotations;
+                if (std::abs(innerBound.width - bound.width) > (bound.width / 15.0) && std::abs(innerBound.height - bound.height)) {
                     validInnerHex = innerBound;
                     
-                    cv::Point p1(-1, 9999);
-                    cv::Point p2(-1, 9999);
+                    int left = -1;
+                    int right = -1;
+                    cv::Point leftPoint(9999, 0);
+                    cv::Point rightPoint(-1, 0);
                     for (int c = 0; c<innerHexagons[j].size(); ++c) {
                         cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
                         
-                        if (corner.y < p1.y || corner.y < p2.y) {
-                            if (p2.y < p1.y) {
-                                p1 = p2;
-                            }
-                            p2 = corner;
+                        if (corner.x < leftPoint.x) {
+                            leftPoint = corner;
+                            left = c;
                         }
                         
+                        if (corner.x > rightPoint.x) {
+                            rightPoint = corner;
+                            right = c;
+                        }
                     }
-                    if (p2.x < p1.x) {
-                        cv::Point p3 = p1;
-                        p1 = p2;
-                        p2 = p3;
+                    
+                    std::vector<cv::Point> ordered;
+                    for (int c = 0; c<innerHexagons[j].size(); ++c) {
+                        int index = c + left;
+                        if (index >= innerHexagons[j].size()) {
+                            index = index - int(innerHexagons[j].size());
+                        }
+                        ordered.push_back(innerHexagons[j][index]);
                     }
-
-                    float distance = (float)(p2.x - p1.x);
-                    float slope = ((float)(p2.y - p1.y)/distance);
-                    angle = atan(slope);
-                    rotation = (angle * 180 / CV_PI);
+                    
+                    drawn += 1;
+                    
+                    rotations.push_back([[self class] calculateYRotation :ordered[0] :ordered[3]]);
+                    rotations.push_back([[self class] calculateYRotation :ordered[1] :ordered[2]]);
+                    rotations.push_back([[self class] calculateYRotation :ordered[5] :ordered[4]]);
+                    rotations.push_back([[self class] calculateXRotation :ordered[5] :ordered[1]]);
+                    rotations.push_back([[self class] calculateXRotation :ordered[4] :ordered[2]]);
+                
+                    std::sort (rotations.begin(), rotations.end());
+                    rotation = (rotations[1] + rotations[2] + rotations[3]) / 3;
+                    angle = (rotation * CV_PI) / 180;
+                    
+//                    cv::Scalar color = cv::Scalar(255,255,255);
+//                    cv::circle(processed, p1, 1, color, 6, 8, 0);
+//                    cv::circle(processed, p2, 1, color, 6, 8, 0);
                     
 //                    printf("DRAWING ROTATION: %lu\n", innerHexagons[j].size());
                     for (int c = 0; c<innerHexagons[j].size(); ++c) {
                         cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
-                        cv::Scalar color = cv::Scalar(0,0,0);
-                        cv::circle(dilated, corner, 1, color, 6, 8, 0);
+//                        cv::Scalar color = cv::Scalar(255,255,255);
+//                        cv::circle(processed, corner, 1, color, 6, 8, 0);
 
                         int xOrigin = bound.x + (bound.size().width / 2);
                         int yOrigin = bound.y + (bound.size().height / 2);
@@ -209,10 +260,11 @@ using namespace std;
 //                        int xRotated = ((x - xOrigin) * cos(rotation)) - ((yOrigin - y) * sin(rotation)) + xOrigin;
 //                        int yRotated = ((yOrigin - y) * cos(rotation)) - ((x - xOrigin) * sin(rotation)) + yOrigin;
 //                        printf("rotation: %f, %d -> %f\n", rotation, corner.y, yRotated);
-                        corner.x = xRotated;
-                        corner.y = yRotated;
-                        cv::Scalar color2 = cv::Scalar(200,0,200);
-                        cv::circle(dilated, corner, 1, color2, 6, 8, 0);
+
+//                        corner.x = xRotated;
+//                        corner.y = yRotated;
+//                        cv::Scalar color2 = cv::Scalar(255,255,255);
+//                        cv::circle(processed, corner, 1, color2, 6, 8, 0);
                     }
 
 
@@ -225,7 +277,7 @@ using namespace std;
         }
     }
     
-    return MatToUIImage(dilated);
+    return MatToUIImage(processed);
 }
 
 + (std::vector<std::vector<cv::Point>>) findHexagons :(cv::Mat) src {
@@ -233,6 +285,8 @@ using namespace std;
     cv::Mat threshold;
     cv::Mat canny;
     cv::Mat dilated;
+    cv::Mat sharpened;
+    cv::Mat processed;
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     std::vector<cv::Point> approx;
@@ -241,11 +295,14 @@ using namespace std;
 
     
     gray = [[self class] color:src];
-    //    threshold = [[self class] threshold:gray];
+//    threshold = [[self class] threshold:gray];
+//    sharpened = [[self class] sharpen:gray];
     canny = [[self class] canny:gray];
-    dilated = [[self class] dilate:canny];
+//    dilated = [[self class] dilate:canny];
     
-    cv::findContours(dilated, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    processed = canny;
+    
+    cv::findContours(processed, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
@@ -291,35 +348,49 @@ using namespace std;
         innerHexagons = [[self class] findHexagons:hex];
 
         for (int j=0; j<innerHexagons.size(); ++j) {
+            std::vector<float> rotations;
+
             cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
             
-            if (std::abs(innerBound.width - bound.width) > 3 && std::abs(innerBound.height - bound.height)) {
+            if (std::abs(innerBound.width - bound.width) > (bound.width / 15.0) && std::abs(innerBound.height - bound.height)) {
                 validInnerHex = innerBound;
 
-                cv::Point p1(-1, 9999);
-                cv::Point p2(-1, 9999);
+                int left = -1;
+                int right = -1;
+                cv::Point leftPoint(9999, 0);
+                cv::Point rightPoint(-1, 0);
                 for (int c = 0; c<innerHexagons[j].size(); ++c) {
                     cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
 
-                    if (corner.y < p1.y || corner.y < p2.y) {
-                        if (p2.y < p1.y) {
-                            p1 = p2;
-                        }
-                        p2 = corner;
+                    if (corner.x < leftPoint.x) {
+                        leftPoint = corner;
+                        left = c;
+                    }
+                    
+                    if (corner.x > rightPoint.x) {
+                        rightPoint = corner;
+                        right = c;
                     }
                 }
-                if (p2.x < p1.x) {
-                    cv::Point p3 = p1;
-                    p1 = p2;
-                    p2 = p3;
+                
+                std::vector<cv::Point> ordered;
+                for (int c = 0; c<innerHexagons[j].size(); ++c) {
+                    int index = c + left;
+                    if (index >= innerHexagons[j].size()) {
+                        index = index - int(innerHexagons[j].size());
+                    }
+                    ordered.push_back(innerHexagons[j][index]);
                 }
                 
-                float distance = (float)(p2.x - p1.x);
+                rotations.push_back([[self class] calculateYRotation :ordered[0] :ordered[3]]);
+                rotations.push_back([[self class] calculateYRotation :ordered[1] :ordered[2]]);
+                rotations.push_back([[self class] calculateYRotation :ordered[5] :ordered[4]]);
+                rotations.push_back([[self class] calculateXRotation :ordered[5] :ordered[1]]);
+                rotations.push_back([[self class] calculateXRotation :ordered[4] :ordered[2]]);
                 
-                float slope = ((float)(p2.y - p1.y)/distance);
-                angle = atan(slope);
-                rotation = (angle * 180 / CV_PI);
-//                printf("Rotation: %f, Bound: %dx%d \n ", rotation, bound.width, bound.height);
+                std::sort (rotations.begin(), rotations.end());
+                rotation = (rotations[1] + rotations[2] + rotations[3]) / 3;
+                angle = (rotation * CV_PI) / 180;
 
                 int xOrigin = bound.x + (bound.size().width / 2);
                 int yOrigin = bound.y + (bound.size().height / 2);
