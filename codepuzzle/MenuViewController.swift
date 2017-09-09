@@ -60,9 +60,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
-                showPhoto(activity: true)
-                selectedCardGroupIndex = i
-                showPhoto(activity: false)
+                if (cardGroup.image != nil) {
+                    showPhoto(activity: true)
+                    selectedCardGroupIndex = i
+                    showPhoto(activity: false)
+                } else {
+                    selectedCardGroupIndex = i
+                }
                 break
             }
         }

@@ -47,14 +47,20 @@ class ImageProcessor {
     
     class func colorFrom(text: String) -> UIColor {
         let components = text.components(separatedBy: " ")
+        
+        if (components.count < 5) {
+            return UIColor.red
+        }
 
-        return UIColor(
+        var color: UIColor!
+        color = UIColor(
             red: NumberFormatter().number(from: components[1]) as! CGFloat,
             green: NumberFormatter().number(from: components[2]) as! CGFloat,
             blue: NumberFormatter().number(from: components[3]) as! CGFloat,
             alpha: NumberFormatter().number(from: components[4]) as! CGFloat
         )
-
+        
+        return color
     }
     
     class func normalize(image: UIImage) -> UIImage {

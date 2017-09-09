@@ -185,7 +185,7 @@ class Functions {
         layer.lineDashPattern = nil
         layer.lineDashPhase = 0.0
         layer.lineJoin = kCALineJoinMiter
-        layer.lineWidth = 2.0 / Functions.STARTING_ZOOM
+        layer.lineWidth = 1.0 / Functions.STARTING_ZOOM
         layer.miterLimit = 10.0
         layer.strokeColor = UIColor.red.cgColor
         

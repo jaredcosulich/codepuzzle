@@ -59,6 +59,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
+    @IBOutlet weak var colorLabel: UILabel!
+    @IBOutlet weak var paramLabel: UILabel!
     @IBOutlet weak var param: UITextField!
     @IBOutlet weak var cardView: UIImageView!
     
@@ -168,7 +170,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func colorPickerDidChooseColor(_ colorPicker: ChromaColorPicker, color: UIColor) {
-        selectedCard.param = "\(color)"
+        let param = "\(color)"
+        if selectedCard == nil {
+            newCard.param = param
+        } else {
+            selectedCard.param = param
+        }
         prepareCard()
         colorPickerView.isHidden = true
     }
@@ -232,13 +239,25 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     func prepareCard() {
         let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
         let cardParam = selectedCard == nil ? newCard.param : selectedCard.param
-        let method = Functions.info(code:  cardCode).method
+        let info = Functions.info(code:  cardCode)
         
-        if (method == "penColor" || method == "fillColor") {
+        if (info.paramCount == 0) {
+            param.text = ""
             param.isHidden = true
+            paramLabel.isHidden = true
+        } else {
+            param.isHidden = false
+            paramLabel.isHidden = false
+        }
+        
+        if (info.color) {
+            colorLabel.isHidden = false
             colorParam.isHidden = false
             colorParam.backgroundColor = ImageProcessor.colorFrom(text: cardParam)
             colorPicker.adjustToColor(colorParam.backgroundColor!)
+        } else {
+            colorLabel.isHidden = true
+            colorParam.isHidden = true
         }
         
         for i in 0..<Functions.functionInfo.count {
@@ -326,6 +345,15 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        if (!colorPickerView.isHidden) {
+            let param = "\(colorPicker.currentColor)"
+            if (selectedCard == nil) {
+                newCard.param = param
+            } else {
+                selectedCard.param = param
+            }
+        }
+        
         if (newCard != nil) {
             newCard.addToCardGroup(cardGroup: cardProject.cardGroups.last!, completion: {
                 self.performSegue(withIdentifier: "save-edit-segue", sender: nil)

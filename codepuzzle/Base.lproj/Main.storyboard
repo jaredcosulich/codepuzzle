@@ -425,6 +425,14 @@
                                     <action selector="confirmCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="Ywq-gP-GZH"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIc-U1-5Nm">
+                                <rect key="frame" x="67" y="485" width="184" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Select / Take New Photo"/>
+                                <connections>
+                                    <segue destination="9pv-A4-QxB" kind="show" identifier="select-photo-segue" id="6ZS-rt-vqw"/>
+                                </connections>
+                            </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="gS7-m4-WDL">
                                 <rect key="frame" x="142" y="443" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -438,6 +446,7 @@
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
                         <outlet property="noButton" destination="NPC-WB-rbs" id="TdV-du-tjJ"/>
                         <outlet property="output" destination="OIT-q5-Y3J" id="FhS-x7-rqo"/>
+                        <outlet property="selectPhoto" destination="pIc-U1-5Nm" id="mpr-SO-T90"/>
                         <outlet property="yesButton" destination="fip-F0-ggz" id="vx8-Jk-saQ"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="OVi-Ig-nvb"/>
                         <segue destination="9pv-A4-QxB" kind="show" identifier="cancel-segue" id="M45-p5-jnD"/>
@@ -732,20 +741,34 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap Color To Edit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHM-gi-xuQ">
+                                <rect key="frame" x="16" y="209" width="288" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
                                 <rect key="frame" x="10" y="96" width="300" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="PHJ-Fx-pdX"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="cardView" destination="bga-uH-SdD" id="kVg-lY-3cC"/>
+                        <outlet property="colorLabel" destination="pHM-gi-xuQ" id="JHe-bO-7S4"/>
                         <outlet property="colorParam" destination="9LS-gT-zA2" id="T1B-Bj-x3w"/>
                         <outlet property="colorPickerView" destination="PHJ-Fx-pdX" id="5nn-32-yA2"/>
                         <outlet property="functionPicker" destination="QnH-gw-C4f" id="nlh-eg-2qy"/>
                         <outlet property="param" destination="q9q-7h-wTc" id="VlB-yN-BLI"/>
+                        <outlet property="paramLabel" destination="dL3-Se-T5X" id="rH4-IA-zgf"/>
                         <outlet property="titleLabel" destination="4It-rP-Ub6" id="OGi-27-9eh"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="save-edit-segue" id="sp7-dt-xFh"/>
                     </connections>
@@ -759,9 +782,9 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lGc-h7-Of0"/>
-        <segue reference="sp7-dt-xFh"/>
-        <segue reference="wOF-ww-Kkf"/>
+        <segue reference="OVi-Ig-nvb"/>
+        <segue reference="6ZS-rt-vqw"/>
+        <segue reference="vm4-N1-lIh"/>
         <segue reference="LUj-ho-ZVW"/>
     </inferredMetricsTieBreakers>
 </document>

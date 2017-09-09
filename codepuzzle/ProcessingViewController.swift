@@ -39,6 +39,8 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var noButton: UIButton!
     
+    @IBOutlet weak var selectPhoto: UIButton!
+    
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 2", "A 3", "A 1", "A 3", "A 1", "A 3", "91", "A 5", "A 2", "A 4", "A 1", "A B", "11", "A 1", "A 3", "12"]
@@ -93,18 +95,23 @@ class ProcessingViewController: UIViewController {
 
                 self.activityView.stopAnimating()
                 
-                self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
-                
-                self.yesButton.isHidden = false
-                self.noButton.isHidden = false
-                
-                Timer.scheduledTimer(
-                    timeInterval: 0,
-                    target: self,
-                    selector: #selector(self.analyzeCards),
-                    userInfo: nil,
-                    repeats: false
-                )
+                if (self.cardList.count() == 0) {
+                    self.output.text = "Unable to find any cards.\r\rPlease try a new photo."
+                    self.selectPhoto.isHidden = false
+                } else {
+                    self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
+                    
+                    self.yesButton.isHidden = false
+                    self.noButton.isHidden = false
+                    
+                    Timer.scheduledTimer(
+                        timeInterval: 0,
+                        target: self,
+                        selector: #selector(self.analyzeCards),
+                        userInfo: nil,
+                        repeats: false
+                    )
+                }
             }
         )
     }
@@ -339,8 +346,9 @@ class ProcessingViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         imageView?.removeFromSuperview()
         
-        if segue.identifier == "cancel-segue" {
+        if segue.identifier == "cancel-segue" || segue.identifier == "select-photo-segue" {
             let dvc = segue.destination as! MenuViewController
+            self.cardGroup.mr_deleteEntity()
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
