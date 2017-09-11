@@ -160,7 +160,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "full")
             case 1:
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "function")
-            case 1:
+            case 2:
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "param")
             default:
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex")
@@ -184,7 +184,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 processType = "full"
             case "View Individual Function":
                 processType = "function"
-            case "View Individual Param":
+            case "View Individual Parameter":
                 processType = "param"
             case "View Individual Color":
                 processType = "color"
@@ -223,18 +223,32 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     }
     
     func showNextCard() {
+        let cardGroup = cardProject.cardGroups[selectedIndex]
+
+        var card: Card?
+        if (cardGroup.cards.count > cardIndex) {
+            card = cardGroup.cards[cardIndex]
+        }
         cardGroupImageView.contentMode = .scaleAspectFit
 
         let rotation = cardList.getRotation(Int32(cardIndex))
         var rect: CGRect!
         var paramRect: CGRect!
         
+        print("PROCESS: \(processType)")
+        
         switch processType {
         case "full":
             rect = cardList.getFullRect(Int32(cardIndex))
         case "function":
+            if (card != nil) {
+                output.text = card?.originalCode
+            }
             rect = cardList.getFunctionRect(Int32(cardIndex))
         case "param":
+            if (card != nil) {
+                output.text = card?.originalParam
+            }
             rect = cardList.getParamRect(Int32(cardIndex))
         case "color":
             paramRect = cardList.getParamRect(Int32(cardIndex))

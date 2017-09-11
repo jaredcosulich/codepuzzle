@@ -87,12 +87,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
         
         var selectedCode: String!
         
-        if selectedIndex > 0 && selectedIndex < cards.count {
+        if selectedIndex >= 0 && selectedIndex < cards.count {
             selectedCard = cards[selectedIndex]
             selectedCode = Functions.processedCode(code: selectedCard.code)
             param.text = selectedCard.param
@@ -311,7 +312,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             code = newCard.code
         }
         
-        let newImage = drawCard(image: UIImage(named: code)!, param: param.text!)
+        let newImage = drawCard(
+            image: UIImage(named: Functions.processedCode(code: code))!,
+            param: param.text
+        )
         selectedCard?.image = newImage
         newCard?.image = newImage
         cardView.image = newImage

@@ -114,6 +114,8 @@ class Functions {
     var currentAngle = CGFloat(90)
     
     var penIsDown = true
+    var penSize = CGFloat(1)
+    var penColor = UIColor.black
     
     var userDefinedFunctions = [CGFloat: [() -> Int]]()
     var currentUserDefinedFunction: CGFloat?
@@ -232,6 +234,7 @@ class Functions {
             .replacingOccurrences(of: "‘", with: "")
             .replacingOccurrences(of: "_", with: "")
             .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "?", with: "3")
     }
     
     class func valid(code: String) -> Bool {
@@ -338,8 +341,6 @@ class Functions {
         var nextPoint = currentPoint
         var fill = false
         var fillColor = UIColor.red
-        var lineWidth = CGFloat(1)
-        var strokeColor = UIColor.black
         
         switch methodName {
         case "moveForward":
@@ -355,9 +356,9 @@ class Functions {
         case "penDown":
             penIsDown = true
         case "penSize":
-            lineWidth = paramNumber
+            penSize = paramNumber
         case "penColor":
-            strokeColor = ImageProcessor.colorFrom(text: param)
+            penColor = ImageProcessor.colorFrom(text: param)
         case "fillColor":
             fillColor = ImageProcessor.colorFrom(text: param)
             fill = true
@@ -398,8 +399,8 @@ class Functions {
         if (penIsDown) {
             if (currentPoint != nextPoint) {
                 let pathLayer = CAShapeLayer()
-                pathLayer.strokeColor = strokeColor.cgColor
-                pathLayer.lineWidth = (lineWidth / Functions.STARTING_ZOOM)
+                pathLayer.strokeColor = penColor.cgColor
+                pathLayer.lineWidth = (penSize / Functions.STARTING_ZOOM)
                 
                 let path = UIBezierPath()
                 path.move(to: currentPoint)

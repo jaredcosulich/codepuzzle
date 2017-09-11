@@ -536,7 +536,7 @@
                                 </connections>
                             </scrollView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjJ-xy-2ov">
-                                <rect key="frame" x="196" y="359" width="20" height="20"/>
+                                <rect key="frame" x="200" y="359" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -748,18 +748,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
                                 <rect key="frame" x="10" y="96" width="300" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="PHJ-Fx-pdX"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="cardView" destination="bga-uH-SdD" id="kVg-lY-3cC"/>
@@ -782,9 +777,9 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OVi-Ig-nvb"/>
-        <segue reference="6ZS-rt-vqw"/>
         <segue reference="vm4-N1-lIh"/>
+        <segue reference="6ZS-rt-vqw"/>
+        <segue reference="sp7-dt-xFh"/>
         <segue reference="LUj-ho-ZVW"/>
     </inferredMetricsTieBreakers>
 </document>
