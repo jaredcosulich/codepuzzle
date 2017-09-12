@@ -486,12 +486,12 @@
                                 </connections>
                             </imageView>
                             <segmentedControl hidden="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="ito-3F-4r1">
-                                <rect key="frame" x="17" y="492" width="288.00000000000011" height="29"/>
+                                <rect key="frame" x="21" y="492" width="288.00000000000011" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <segments>
-                                    <segment title="Slow"/>
-                                    <segment title="Fast"/>
+                                    <segment title="Normal"/>
+                                    <segment title="Very Fast"/>
                                     <segment title="Instant"/>
                                 </segments>
                                 <connections>

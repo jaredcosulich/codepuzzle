@@ -367,9 +367,9 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     @IBAction func speedbutton(_ sender: UISegmentedControl) {
         switch (sender.selectedSegmentIndex) {
         case 0:
-            speed = 1500.0
-        case 1:
             speed = 500.0
+        case 1:
+            speed = 100.0
         default:
             speed = 0.0
         }

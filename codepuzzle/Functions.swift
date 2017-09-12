@@ -16,6 +16,12 @@ struct FunctionInfo {
     let color: Bool
 }
 
+struct PermanentPathComponent {
+    let size: CGFloat
+    let color: UIColor
+    let path: UIBezierPath
+}
+
 class Functions {
     
     static let STARTING_ZOOM = CGFloat(5)
@@ -120,7 +126,7 @@ class Functions {
     var userDefinedFunctions = [CGFloat: [() -> Int]]()
     var currentUserDefinedFunction: CGFloat?
     
-    var permanentPath = UIBezierPath()
+    var permanentPathComponents = [PermanentPathComponent]()
     var scaledImage: UIImage!
     
     init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
@@ -135,7 +141,9 @@ class Functions {
         imageView.layer.sublayers?.removeAll()
         
         scaledImage = nil
-        permanentPath = UIBezierPath()
+        permanentPathComponents.append(
+            PermanentPathComponent(size: 1, color: UIColor.black, path: UIBezierPath())
+        )
         
         let s = drawingRect.size
         currentPoint = CGPoint(x: drawingRect.minX + (s.width / 2), y: drawingRect.minY + (s.height / 2))
@@ -357,8 +365,18 @@ class Functions {
             penIsDown = true
         case "penSize":
             penSize = paramNumber
+            permanentPathComponents.append(PermanentPathComponent(
+                size: penSize,
+                color: penColor,
+                path: UIBezierPath()
+            ))
         case "penColor":
             penColor = ImageProcessor.colorFrom(text: param)
+            permanentPathComponents.append(PermanentPathComponent(
+                size: penSize,
+                color: penColor,
+                path: UIBezierPath()
+            ))
         case "fillColor":
             fillColor = ImageProcessor.colorFrom(text: param)
             fill = true
@@ -407,6 +425,8 @@ class Functions {
                 path.addLine(to: nextPoint)
                 pathLayer.path = path.cgPath
                 
+                let permanentPath = permanentPathComponents.last!.path
+                permanentPath.lineWidth = (penSize / Functions.STARTING_ZOOM)
                 permanentPath.move(to: currentPoint)
                 permanentPath.addLine(to: nextPoint)
 
@@ -434,9 +454,16 @@ class Functions {
                 scaledImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
             }
             
-            permanentPath.apply(scaleTransform)
-            context.addPath(permanentPath.cgPath)
-            permanentPath.stroke()
+            for permanentPathComponent in permanentPathComponents {
+                context.setStrokeColor(permanentPathComponent.color.cgColor)
+                
+                let permanentPath = permanentPathComponent.path
+                permanentPath.apply(scaleTransform)
+                permanentPath.lineWidth = permanentPathComponent.size
+                context.addPath(permanentPath.cgPath)
+                permanentPath.stroke()
+            }
+            
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
@@ -446,8 +473,13 @@ class Functions {
             let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
             
             scaledImage = coloredImage
-            permanentPath = UIBezierPath()
-            
+            permanentPathComponents.removeAll()
+            permanentPathComponents.append(PermanentPathComponent(
+                size:  penSize,
+                color: penColor,
+                path: UIBezierPath()
+            ))
+
             imageView.layer.sublayers?.removeAll()
             imageView.image = coloredImage
             
