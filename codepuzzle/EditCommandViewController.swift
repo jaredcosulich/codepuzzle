@@ -31,6 +31,7 @@ struct TempCard {
             newCard?.originalCode = self.originalCode
             newCard?.originalParam = self.originalParam
             newCard?.originalImage = self.originalImage
+            newCard?.error = !Functions.valid(code: self.code, param: self.param)
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
@@ -47,6 +48,7 @@ struct TempCard {
             card.originalCode = self.originalCode
             card.originalParam = self.originalParam
             card.originalImage = self.originalImage
+            card.error = !Functions.valid(code: self.code, param: self.param)
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
@@ -63,6 +65,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var paramLabel: UILabel!
     @IBOutlet weak var param: UITextField!
     @IBOutlet weak var cardView: UIImageView!
+    
+    var errorCard: Bool = false
     
     var uneditedCard: TempCard!
     var newCard: TempCard!
@@ -85,6 +89,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     @IBOutlet weak var colorParam: UIView!
     
+    @IBOutlet weak var toolbar: UIToolbar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,6 +102,17 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         if selectedIndex >= 0 && selectedIndex < cards.count {
             selectedCard = cards[selectedIndex]
             selectedCode = Functions.processedCode(code: selectedCard.code)
+            
+            if (errorCard) {
+                titleLabel.text = "We were unable to read this card.\rCan you fix it below?"
+                toolbar.items?.removeAll()
+                toolbar.items?.append(UIBarButtonItem(title: "Save", style: .plain, target: nil, action: #selector(save)))
+                
+                if (selectedCode.characters.count == 0) {
+                    selectedCard.code = "A1"
+                }
+            }
+
             param.text = selectedCard.param
             cardView.image = selectedCard.image
             if selectedCard.disabled {
@@ -221,11 +238,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         } else if (newCode != selectedCard.code) {
             selectedCard.code = newCode
             selectedCard.param = param.text!
-            selectedCard.image = drawCard(
-                image: UIImage(named: newCode)!,
-                param: param.text!
-            )
-            cardView.image = selectedCard.image
+            if (!errorCard) {
+                selectedCard.image = drawCard(
+                    image: UIImage(named: newCode)!,
+                    param: param.text!
+                )
+                cardView.image = selectedCard.image
+            }
             updateSelectedCard()
         }
         
@@ -243,7 +262,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         let info = Functions.info(code:  cardCode)
         
         if (info.paramCount == 0) {
-            param.text = ""
             param.isHidden = true
             paramLabel.isHidden = true
         } else {
@@ -290,6 +308,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                     card.originalCode = self.selectedCard.originalCode
                     card.originalParam = self.selectedCard.originalParam
                     card.originalImage = self.selectedCard.originalImage
+                    card.error = !Functions.valid(code: self.selectedCard.code, param: self.selectedCard.param)
                 }, completion: {
                     (MRSaveCompletionHandler) in
                     self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
@@ -312,13 +331,15 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             code = newCard.code
         }
         
-        let newImage = drawCard(
-            image: UIImage(named: Functions.processedCode(code: code))!,
-            param: param.text
-        )
-        selectedCard?.image = newImage
-        newCard?.image = newImage
-        cardView.image = newImage
+        if (!errorCard) {
+            let newImage = drawCard(
+                image: UIImage(named: Functions.processedCode(code: code))!,
+                param: param.text
+            )
+            selectedCard?.image = newImage
+            newCard?.image = newImage
+            cardView.image = newImage
+        }
     }
     
     @IBAction func saveParam(_ sender: Any) {
@@ -363,6 +384,23 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
             })
         } else {
+            if (errorCard) {
+                let errorIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })
+                
+                if (errorIndex != nil) {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let dvc = storyboard.instantiateViewController(withIdentifier: "editCommandViewController") as! EditCommandViewController
+                    dvc.cardProject = cardProject
+                    dvc.selectedIndex = errorIndex
+                    dvc.errorCard = true
+                    
+                    present(dvc, animated: true, completion: nil)
+                    return
+                }
+            
+                selectedIndex = -1
+            }
+
             self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
         }
     }
@@ -446,7 +484,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
-            dvc.paused = true
+        } else if segue.identifier == "manual-segue" {
+            let dvc = segue.destination as! EditCommandViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+            dvc.errorCard = true
         }
     }
 }

@@ -15,6 +15,9 @@ import CoreData
 class Card: NSManagedObject {
     
     // Attributes
+    
+    @NSManaged var error: Bool
+
     @NSManaged var imageFilename: String?
     weak var image: UIImage? {
         get {

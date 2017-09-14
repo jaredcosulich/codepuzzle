@@ -438,11 +438,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DdK-kf-zRc">
+                                <rect key="frame" x="68" y="431" width="184" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Fix Them"/>
+                                <connections>
+                                    <action selector="fix:" destination="um8-fG-7IM" eventType="touchUpInside" id="gAx-cn-xfn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="activityView" destination="gS7-m4-WDL" id="cxM-WJ-3iA"/>
+                        <outlet property="fixButton" destination="DdK-kf-zRc" id="Iq9-oB-faV"/>
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
                         <outlet property="noButton" destination="NPC-WB-rbs" id="TdV-du-tjJ"/>
                         <outlet property="output" destination="OIT-q5-Y3J" id="FhS-x7-rqo"/>
@@ -655,7 +664,7 @@
         <!--Edit Command-->
         <scene sceneID="bYh-VE-9LX">
             <objects>
-                <viewController title="Edit Command" modalTransitionStyle="flipHorizontal" id="L7d-Q3-87b" customClass="EditCommandViewController" customModule="codepuzzle" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="editCommandViewController" title="Edit Command" modalTransitionStyle="flipHorizontal" id="L7d-Q3-87b" customClass="EditCommandViewController" customModule="codepuzzle" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gab-qP-eog"/>
                         <viewControllerLayoutGuide type="bottom" id="26i-qk-IpA"/>
@@ -702,8 +711,8 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit This Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4It-rP-Ub6">
-                                <rect key="frame" x="0.0" y="20" width="320" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit This Card" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4It-rP-Ub6">
+                                <rect key="frame" x="0.0" y="20" width="320" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
@@ -765,6 +774,7 @@
                         <outlet property="param" destination="q9q-7h-wTc" id="VlB-yN-BLI"/>
                         <outlet property="paramLabel" destination="dL3-Se-T5X" id="rH4-IA-zgf"/>
                         <outlet property="titleLabel" destination="4It-rP-Ub6" id="OGi-27-9eh"/>
+                        <outlet property="toolbar" destination="YP1-8k-suQ" id="ddd-P4-t3h"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="save-edit-segue" id="sp7-dt-xFh"/>
                     </connections>
                 </viewController>
@@ -777,8 +787,8 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vm4-N1-lIh"/>
         <segue reference="6ZS-rt-vqw"/>
+        <segue reference="vm4-N1-lIh"/>
         <segue reference="sp7-dt-xFh"/>
         <segue reference="LUj-ho-ZVW"/>
     </inferredMetricsTieBreakers>

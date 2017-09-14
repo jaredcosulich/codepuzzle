@@ -207,7 +207,7 @@ class Functions {
     }
     
     class func translate(code: String) -> String {
-        var translatedCode = code
+        var translatedCode = Functions.compactCode(code: code)
         if code.characters.first == "4" {
             translatedCode = "A".appending(code.substring(from: code.index(code.startIndex, offsetBy: 1)))
         } else if code.characters.first == "9" {
@@ -217,10 +217,12 @@ class Functions {
         }
 
         switch (translatedCode) {
-        case "A T":
-            return "A 1"
-        case "A B":
-            return "A 6"
+        case "AT":
+            return "A1"
+        case "AB":
+            return "A6"
+        case "AC":
+            return "A6"
         case "All":
             return "A1"
         case "Al":
@@ -229,6 +231,8 @@ class Functions {
             return "A4"
         case "A^{1}":
             return "A1"
+        case "L7":
+            return "L1"
         default:
             return translatedCode
         }
@@ -245,11 +249,15 @@ class Functions {
             .replacingOccurrences(of: "?", with: "3")
     }
     
-    class func valid(code: String) -> Bool {
-        if (code.characters.count == 0) {
+    class func valid(code: String, param: String?) -> Bool {
+        let info = Functions.info(code: code)
+        if (info.name == "N/A") {
             return false
         }
         
+        if (info.paramCount == 1 && (param == nil || param?.characters.count == 0)) {
+            return false
+        }
         return true
     }
     

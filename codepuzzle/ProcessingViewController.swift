@@ -39,13 +39,15 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var noButton: UIButton!
     
+    @IBOutlet weak var fixButton: UIButton!
+    
     @IBOutlet weak var selectPhoto: UIButton!
     
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
-    let codes: [String] = ["A 1", "A 3", "A 1", "A 4", "A 2", "A 3", "A 2", "A 4", "A 1", "A 2", "A 3", "A 1", "A 3", "A 1", "A 3", "91", "A 5", "A 2", "A 4", "A 1", "A B", "11", "A 1", "A 3", "12"]
+    let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
 
-    let params: [String] = ["100", "45", "70.711", "90", "70.71", "45", "100", "90", "100", "30", "90", "40", "90", "20", "90", "40", "", "75", "90", "20", "", "4", "20", "90", ""]
+    let params: [String] = ["6", "UIExtendedSRGBColorSpace 0.27451 0.588235 0.513725 1", "10", "30", "20", "30", "20", "30", "1", "UIExtendedSRGBColorSpace 0.243137 0.219608 0.192157 1", "", "40", "69", "3", "0.5", "", "40", "", "12", "1", "13", "", "30", "UIExtendedSRGBColorSpace 0.819608 0.721569 0.305882 1", "30", "196", "", ""]
 
 //    var start = NSDate()
     
@@ -179,7 +181,7 @@ class ProcessingViewController: UIViewController {
         self.mathPix.processImage(
             image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
             identifier: "function\(analyzedCardCount)",
-            result: nil//codes[Int(analyzedCardCount)]
+            result: codes[Int(analyzedCardCount)]//nil//codes[Int(analyzedCardCount)]
         )
         
         analyzedCardCount += 1
@@ -242,7 +244,7 @@ class ProcessingViewController: UIViewController {
                 self.mathPix.processImage(
                     image: paramImage,
                     identifier: "param\(processedCardCodeCount)",
-                    result: result//nil//params[Int(processedCardCodeCount)]
+                    result: params[Int(processedCardCodeCount)]//result//nil//
                 )
 
                 processedCardCodeCount += 1
@@ -321,17 +323,16 @@ class ProcessingViewController: UIViewController {
 
                 print("\(self.mathPix.getValue(identifier: "function\(i)")), \(self.mathPix.getValue(identifier: "param\(i)")) -> \(Functions.signature(code: code, param: param))")
 
-                if (Functions.valid(code: code)) {
-                    let newCard = Card.mr_createEntity(in: context)
-                    newCard?.cardGroup = self.cardGroup!
-                    newCard?.code = code
-                    newCard?.param = param
-                    newCard?.image = cardImage
-                    
-                    newCard?.originalCode = code
-                    newCard?.originalParam = param
-                    newCard?.originalImage = cardImage
-                }
+                let newCard = Card.mr_createEntity(in: context)
+                newCard?.cardGroup = self.cardGroup!
+                newCard?.code = code
+                newCard?.param = param
+                newCard?.image = cardImage
+                
+                newCard?.originalCode = code
+                newCard?.originalParam = param
+                newCard?.originalImage = cardImage
+                newCard?.error = !Functions.valid(code: code, param: param)
             }
             
             self.cardGroup.isProcessed = true
@@ -339,11 +340,33 @@ class ProcessingViewController: UIViewController {
         }, completion: {
             (MRSaveCompletionHandler) in
             context.mr_saveToPersistentStoreAndWait()
+            let cardsWithError = self.cardGroup.cards.filter({ (c) -> Bool in c.error}).count
+            if cardsWithError > 0 {
+                self.output.text = "We were unable to process \(cardsWithError) \(cardsWithError > 1 ? "cards" : "card")."
+
+                self.activityView.stopAnimating()
+                
+                self.fixButton.isHidden = false
+
+                return
+            }
+            
             self.performSegue(withIdentifier: "execution-segue", sender: nil)
         })
     }
     
+    
+    @IBAction func fix(_ sender: UIButton) {
+        selectedIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })!
+        performSegue(withIdentifier: "manual-segue", sender: nil)
+    }
+    
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
+//        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+        
         imageView?.removeFromSuperview()
         
         if segue.identifier == "cancel-segue" || segue.identifier == "select-photo-segue" {
@@ -353,6 +376,11 @@ class ProcessingViewController: UIViewController {
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject
+        } else if segue.identifier == "manual-segue" {
+            let dvc = segue.destination as! EditCommandViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+            dvc.errorCard = true
         }
     }
     
