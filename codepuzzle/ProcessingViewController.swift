@@ -124,7 +124,7 @@ class ProcessingViewController: UIViewController {
         activityView.startAnimating()
         yesButton.isHidden = true
         noButton.isHidden = true
-        output.text = "Processing cards. One moment..."
+        output.text = "Analyzing cards. One moment..."
 
         if (processedCardParamCount < cardList.count()) {
             execute = true
@@ -175,7 +175,7 @@ class ProcessingViewController: UIViewController {
 //            )
 
         if (execute) {
-            output.text = "Processing Card \(analyzedCardCount + 1)..."
+            output.text = "Analyzing Card \(analyzedCardCount + 1)..."
         }
         
         let rotation = self.cardList.getRotation(Int32(analyzedCardCount))
@@ -301,64 +301,79 @@ class ProcessingViewController: UIViewController {
     
     func executeCards() {
         if (execute) {
-            output.text = "Saving Cards..."
+            output.text = "Processing Cards..."
         }
         
-        let context = self.cardProject.persistedManagedObjectContext!
+        processCards(i: 0)
+    }
+    
+    func processCards(i: Int32) {
+        output.text = "Processing Card \(i + 1)"
+        
+        let context = cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
             
-            for i in 0..<self.processedCardParamCount {
-                let rotation = self.cardList.getRotation(i)
-                let hexRect = self.cardList.getHexRect(i)
-                //            let functionRect = self.cardList.getFunctionRect(i)
-                //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
-                //            tesseract.recognize()
-                
-                let fullRect = self.cardList.getFullRect(i)
-                
-                let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
-                
-                //            let code = Functions.processedCode(code: tesseract.recognizedText!)
-                
-                let code = self.mathPix.getValue(identifier: "function\(i)")
-                let param = self.mathPix.getValue(identifier: "param\(i)")
-
-                print("\(self.mathPix.getValue(identifier: "function\(i)")), \(self.mathPix.getValue(identifier: "param\(i)")) -> \(Functions.signature(code: code, param: param))")
-
-                let newCard = Card.mr_createEntity(in: context)
-                newCard?.cardGroup = self.cardGroup!
-                newCard?.code = code
-                newCard?.param = param
-                newCard?.image = cardImage
-                
-                newCard?.originalCode = code
-                newCard?.originalParam = param
-                newCard?.originalImage = cardImage
-                newCard?.error = !Functions.valid(code: code, param: param)
-            }
+            let rotation = self.cardList.getRotation(i)
+            let hexRect = self.cardList.getHexRect(i)
+            //            let functionRect = self.cardList.getFunctionRect(i)
+            //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
+            //            tesseract.recognize()
             
-            self.cardGroup.isProcessed = true
+            let fullRect = self.cardList.getFullRect(i)
             
+            let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+            
+            //            let code = Functions.processedCode(code: tesseract.recognizedText!)
+            
+            let code = self.mathPix.getValue(identifier: "function\(i)")
+            let param = self.mathPix.getValue(identifier: "param\(i)")
+            
+            //                print("\(self.mathPix.getValue(identifier: "function\(i)")), \(self.mathPix.getValue(identifier: "param\(i)")) -> \(Functions.signature(code: code, param: param))")
+            
+            let newCard = Card.mr_createEntity(in: context)
+            newCard?.cardGroup = self.cardGroup!
+            newCard?.code = code
+            newCard?.param = param
+            newCard?.image = cardImage
+            
+            newCard?.originalCode = code
+            newCard?.originalParam = param
+            newCard?.originalImage = cardImage
+            newCard?.error = !Functions.valid(code: code, param: param)
         }, completion: {
             (MRSaveCompletionHandler) in
-            context.mr_saveToPersistentStoreAndWait()
-            let cardsWithError = self.cardGroup.cards.filter({ (c) -> Bool in c.error}).count
-            if cardsWithError > 0 {
-                self.output.text = "We were unable to process \(cardsWithError) \(cardsWithError > 1 ? "cards" : "card")."
-
-                self.activityView.stopAnimating()
-                
-                self.fixButton.isHidden = false
-                self.changePhotoButton.isHidden = false
-
-                return
-            }
-            
-            self.performSegue(withIdentifier: "execution-segue", sender: nil)
+            Timer.scheduledTimer(
+                withTimeInterval: 0,
+                repeats: false,
+                block: {(t) in
+                    if (i == self.processedCardParamCount - 1) {
+                        self.cardGroup.isProcessed = true
+                        self.completeCardProcessing(context: context)
+                    } else {
+                        self.processCards(i: i + 1)
+                    }
+                }
+            )
         })
     }
-    
+
+    func completeCardProcessing(context: NSManagedObjectContext) {
+        context.mr_saveToPersistentStoreAndWait()
+        let cardsWithError = self.cardGroup.cards.filter({ (c) -> Bool in c.error}).count
+        if cardsWithError > 0 {
+            self.output.text = "We were unable to process \(cardsWithError) \(cardsWithError > 1 ? "cards" : "card")."
+            
+            self.activityView.stopAnimating()
+            
+            self.fixButton.isHidden = false
+            self.changePhotoButton.isHidden = false
+            
+            return
+        }
+        
+        self.performSegue(withIdentifier: "execution-segue", sender: nil)
+    }
     
     @IBAction func fix(_ sender: UIButton) {
         selectedIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })!

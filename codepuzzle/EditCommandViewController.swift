@@ -104,7 +104,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             selectedCode = Functions.processedCode(code: selectedCard.code)
             
             if (errorCard) {
-                titleLabel.text = "We were unable to read this card.\rCan you fix it below?"
+                if selectedCode.characters.count == 0 {
+                    titleLabel.text = "We were unable to read the function on this card."
+                } else {
+                    titleLabel.text = "We were unable to read the parameter on this card."
+                }
                 toolbar.items?.removeAll()
                 toolbar.items?.append(UIBarButtonItem(title: "Save", style: .plain, target: nil, action: #selector(save)))
                 
