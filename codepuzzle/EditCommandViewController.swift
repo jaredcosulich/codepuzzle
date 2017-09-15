@@ -110,7 +110,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                     titleLabel.text = "We were unable to read the parameter on this card."
                 }
                 toolbar.items?.removeAll()
+                toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
                 toolbar.items?.append(UIBarButtonItem(title: "Save", style: .plain, target: nil, action: #selector(save)))
+                toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
                 
                 if (selectedCode.characters.count == 0) {
                     selectedCard.code = "A1"
@@ -133,6 +135,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 originalImage: selectedCard.originalImage!
             )
         } else {
+            toolbar.items?.removeAll()
+            toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            toolbar.items?.append(UIBarButtonItem(title: "Save", style: .plain, target: nil, action: #selector(save)))
+            toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+            toolbar.items?.append(UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: #selector(cancel)))
+            toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+
             newCard = TempCard(
                 cardProject: cardProject,
                 code: "A1",
@@ -463,9 +472,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        uneditedCard.updateCard(card: selectedCard, completion: {
+        if (uneditedCard == nil) {
             self.performSegue(withIdentifier: "cancel-edit-segue", sender: nil)
-        })
+        } else {
+            uneditedCard.updateCard(card: selectedCard, completion: {
+                self.performSegue(withIdentifier: "cancel-edit-segue", sender: nil)
+            })
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
