@@ -23,6 +23,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var splash: UIImageView!
     
+    @IBOutlet weak var startProjectButton: UIButton!
+    
+    @IBOutlet weak var startButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -31,6 +35,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
 
         tableView.delegate = self
         tableView.dataSource = self
+        
+        startProjectButton.layer.cornerRadius = 6
+        startButton.layer.cornerRadius = 6
+        projectTitleView.layer.cornerRadius = 10
         
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 1,
@@ -118,12 +126,22 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         return cardProjects.count
     }
     
-    @IBAction func newProjectButton(_ sender: UIButton) {
+    @IBAction func startProject(_ sender: UIButton) {
+        projectTitleView.alpha = 0.0
         projectTitleView.isHidden = false
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 1,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.projectTitleView.alpha = 1.0
+            }
+        )
+
         projectTitle.becomeFirstResponder()
     }
     
-    @IBAction func startProjectButton(_ sender: UIButton) {
+    @IBAction func createProject(_ sender: UIButton) {
         var title = projectTitle.text
         if (title?.characters.count == 0) {
             title = "Project \(cardProjects.count)"
@@ -142,7 +160,16 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBAction func cancelStartProject(_ sender: UIButton) {
         projectTitle.resignFirstResponder()
-        projectTitleView.isHidden = true
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 1,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.projectTitleView.alpha = 0.0
+            }, completion: { (position) in
+                self.projectTitleView.isHidden = true
+            }
+        )
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
