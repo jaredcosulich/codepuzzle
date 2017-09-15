@@ -21,6 +21,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var cardProject: CardProject!
     
+    @IBOutlet weak var splash: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -29,6 +31,18 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
 
         tableView.delegate = self
         tableView.dataSource = self
+        
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 1,
+            delay: 1,
+            options: .curveEaseOut,
+            animations: {
+                self.splash.alpha = 0.0
+            }, completion: { (position) in
+                self.splash.removeFromSuperview()
+            }
+        )
+        
     }
     
     override func didReceiveMemoryWarning() {
