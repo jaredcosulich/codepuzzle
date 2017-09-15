@@ -126,6 +126,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
     
+    @IBAction func cancelStartProject(_ sender: UIButton) {
+        projectTitle.resignFirstResponder()
+        projectTitleView.isHidden = true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         tableView?.removeFromSuperview()
         projectTitleView?.removeFromSuperview()
