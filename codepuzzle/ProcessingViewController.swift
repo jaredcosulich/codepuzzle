@@ -41,6 +41,8 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var fixButton: UIButton!
     
+    @IBOutlet weak var changePhotoButton: UIButton!
+    
     @IBOutlet weak var selectPhoto: UIButton!
     
     @IBOutlet weak var activityView: UIActivityIndicatorView!
@@ -157,6 +159,7 @@ class ProcessingViewController: UIViewController {
             for card in self.cardGroup.cards {
                 card.mr_deleteEntity(in: context)
             }
+            self.cardGroup.mr_deleteEntity(in: context)
         }, completion: {
             (MRSaveCompletionHandler) in
             context.mr_saveToPersistentStoreAndWait()
@@ -347,6 +350,7 @@ class ProcessingViewController: UIViewController {
                 self.activityView.stopAnimating()
                 
                 self.fixButton.isHidden = false
+                self.changePhotoButton.isHidden = false
 
                 return
             }

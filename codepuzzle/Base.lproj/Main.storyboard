@@ -439,11 +439,19 @@
                                 <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DdK-kf-zRc">
-                                <rect key="frame" x="68" y="431" width="184" height="30"/>
+                                <rect key="frame" x="-2" y="431" width="184" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Fix Them"/>
                                 <connections>
                                     <action selector="fix:" destination="um8-fG-7IM" eventType="touchUpInside" id="gAx-cn-xfn"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VnU-i3-Xkq">
+                                <rect key="frame" x="162" y="431" width="127" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Change Photo"/>
+                                <connections>
+                                    <action selector="rejectCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="dV4-NV-Pz3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -451,6 +459,7 @@
                     </view>
                     <connections>
                         <outlet property="activityView" destination="gS7-m4-WDL" id="cxM-WJ-3iA"/>
+                        <outlet property="changePhotoButton" destination="VnU-i3-Xkq" id="XNE-z1-iTj"/>
                         <outlet property="fixButton" destination="DdK-kf-zRc" id="Iq9-oB-faV"/>
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
                         <outlet property="noButton" destination="NPC-WB-rbs" id="TdV-du-tjJ"/>
@@ -789,7 +798,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="6ZS-rt-vqw"/>
         <segue reference="vm4-N1-lIh"/>
-        <segue reference="sp7-dt-xFh"/>
+        <segue reference="OVi-Ig-nvb"/>
         <segue reference="LUj-ho-ZVW"/>
     </inferredMetricsTieBreakers>
 </document>
