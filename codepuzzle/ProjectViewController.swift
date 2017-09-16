@@ -130,7 +130,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         projectTitleView.alpha = 0.0
         projectTitleView.isHidden = false
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 1,
+            withDuration: 0.5,
             delay: 0,
             options: .curveEaseOut,
             animations: {
@@ -161,7 +161,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func cancelStartProject(_ sender: UIButton) {
         projectTitle.resignFirstResponder()
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 1,
+            withDuration: 0.5,
             delay: 0,
             options: .curveEaseOut,
             animations: {
