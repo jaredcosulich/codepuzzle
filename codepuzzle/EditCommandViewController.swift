@@ -66,6 +66,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var param: UITextField!
     @IBOutlet weak var cardView: UIImageView!
     
+    @IBOutlet weak var functionDisplay: UILabel!
+    @IBOutlet weak var paramDisplay: UILabel!
+    
+    @IBOutlet weak var editFunction: UIButton!
+    
+    @IBOutlet weak var editParam: UIButton!
+    
     var errorCard: Bool = false
     
     var uneditedCard: TempCard!
@@ -93,6 +100,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        editFunction.layer.cornerRadius = 10
+        editParam.layer.cornerRadius = 10
         
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
@@ -191,6 +201,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         colorPicker.hexLabel.textColor = UIColor.white
         
         colorPickerView.addSubview(colorPicker)
+
+        functionDisplay.text = Functions.info(code: selectedCard.code).name
+        paramDisplay.text = selectedCard.param
         
         prepareCard()
     }
