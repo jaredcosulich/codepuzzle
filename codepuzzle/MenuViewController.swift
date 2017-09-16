@@ -17,12 +17,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
-    @IBOutlet weak var projectTitle: UILabel!
-    
+    @IBOutlet weak var projectTitle: UIButton!
+
     var imagePicker: UIImagePickerController!
     
+    @IBOutlet weak var rotateLabel: UILabel!
     @IBOutlet weak var rotateLeft: UIButton!
-    
     @IBOutlet weak var rotateRight: UIButton!
     
     @IBOutlet weak var newPhoto: UIButton!
@@ -32,9 +32,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var analyzePhoto: UIButton!
     @IBOutlet weak var addPhotoLabel: UILabel!
     
-    @IBOutlet weak var editTitle: UIButton!
-    @IBOutlet weak var playProject: UIButton!
-    @IBOutlet weak var deleteProject: UIButton!
+    @IBOutlet weak var playProject: UIBarButtonItem!
+    
+    @IBOutlet weak var deleteProject: UIBarButtonItem!
     
     @IBOutlet weak var editProjectView: UIView!    
     @IBOutlet weak var editProjectTitle: UITextField!
@@ -54,9 +54,17 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         tableView.delegate = self
         tableView.dataSource = self
         
-        projectTitle.text = cardProject.title
+        projectTitle.titleLabel?.text = cardProject.title
         editProjectTitle.text = cardProject.title
         
+        rotateLeft.layer.cornerRadius = 6
+        rotateRight.layer.cornerRadius = 6
+        newPhoto.layer.cornerRadius = 6
+        loadPhoto.layer.cornerRadius = 6
+        changePhoto.layer.cornerRadius = 6
+        processPhoto.layer.cornerRadius = 6
+        analyzePhoto.layer.cornerRadius = 6
+       
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
@@ -255,15 +263,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             imageView.isHidden = false
         }
         
+        rotateLabel.isHidden = false
         rotateRight.isHidden = false
         rotateLeft.isHidden = false
         analyzePhoto.isHidden = false
         processPhoto.isHidden = false
         changePhoto.isHidden = false
         addPhotoLabel.isHidden = true
-        editTitle.isHidden = true
-        playProject.isHidden = true
-        deleteProject.isHidden = true
         newPhoto.isHidden = true
         loadPhoto.isHidden = true
     }
@@ -271,6 +277,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func hidePhoto() {
         activityView.stopAnimating()
 
+        rotateLabel.isHidden = true
         rotateRight.isHidden = true
         rotateLeft.isHidden = true
         analyzePhoto.isHidden = true
@@ -281,15 +288,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         addPhotoLabel.isHidden = false
         
-        editTitle.isHidden = false
-        playProject.isHidden = false
-        deleteProject.isHidden = false
-        
         newPhoto.isHidden = false
         loadPhoto.isHidden = false
     }
     
-    @IBAction func deleteProjectButton(_ sender: UIButton) {
+    @IBAction func deleteProjectButton(_ sender: UIBarButtonItem) {
 //        cardProject.delete()
         performSegue(withIdentifier: "delete-project-segue", sender: nil)
     }
@@ -315,7 +318,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
         })
-        projectTitle.text = editProjectTitle.text!
+        projectTitle.titleLabel?.text = editProjectTitle.text!
         editProjectView.isHidden = true
     }
     
@@ -324,7 +327,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         editProjectView.isHidden = true
     }
 
-    @IBAction func playButton(_ sender: UIButton) {
+    @IBAction func playButton(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "execution-segue", sender: nil)
     }
     
