@@ -62,6 +62,11 @@ class ProcessingViewController: UIViewController {
         
         initCardList()
         
+        yesButton.layer.cornerRadius = 6
+        fixButton.layer.cornerRadius = 6
+        changePhotoButton.layer.cornerRadius = 6
+        selectPhoto.layer.cornerRadius = 6
+        
 //        tesseract.language = "eng+fra"
 //        tesseract.engineMode = .tesseractOnly
 //        tesseract.pageSegmentationMode = .auto
