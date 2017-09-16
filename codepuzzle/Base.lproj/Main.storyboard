@@ -138,7 +138,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNS-lj-JFC">
-                                <rect key="frame" x="16" y="20" width="288" height="44"/>
+                                <rect key="frame" x="16" y="44" width="288" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
@@ -183,10 +183,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
-                                <rect key="frame" x="16" y="66" width="288" height="194"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyo-uf-VfJ">
                                 <rect key="frame" x="95" y="325" width="131" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -219,11 +215,11 @@
                                         <rect key="frame" x="8" y="8" width="272" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Project Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nE-r0-zzo">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Project Title:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nE-r0-zzo">
                                                 <rect key="frame" x="8" y="8" width="256" height="26"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ddf-J6-nlI">
@@ -237,7 +233,7 @@
                                                 <rect key="frame" x="166" y="87" width="48" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="Cancel">
-                                                    <color key="titleColor" red="1" green="0.31507280100000001" blue="0.2749896832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="cancelEditProject:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="6OG-VO-rEL"/>
@@ -247,14 +243,17 @@
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJ9-FC-tAu">
                                                 <rect key="frame" x="50" y="87" width="46" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Save"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="Save">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="saveProjectTitle:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7E2-aH-J7u"/>
                                                     <action selector="saveProjectTitle:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="AtS-4i-f8t"/>
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.044991018680000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -293,14 +292,6 @@
                                     <action selector="debugImage:" destination="9pv-A4-QxB" eventType="touchUpInside" id="FiR-g7-8tO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znf-Yq-NS3">
-                                <rect key="frame" x="269" y="43" width="41" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Home"/>
-                                <connections>
-                                    <action selector="homeButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="6EF-2F-h5Y"/>
-                                </connections>
-                            </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aFa-DB-79J">
                                 <rect key="frame" x="142" y="145" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -317,6 +308,18 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="kpc-Nh-ea6">
                                 <rect key="frame" x="16" y="19" width="56" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIl-rN-Cyx">
+                                <rect key="frame" x="279" y="21" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="home"/>
+                                <connections>
+                                    <segue destination="ueC-M8-gXi" kind="show" identifier="home-segue" id="MeG-Wg-0Xp"/>
+                                </connections>
+                            </button>
+                            <imageView hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
+                                <rect key="frame" x="16" y="93" width="288" height="194"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -342,7 +345,6 @@
                         <outlet property="tableView" destination="GDl-Vx-efq" id="AI2-Sg-CD0"/>
                         <segue destination="ueC-M8-gXi" kind="show" identifier="delete-project-segue" id="Kvr-WZ-WZn"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="zhG-AU-rJY"/>
-                        <segue destination="ueC-M8-gXi" kind="show" identifier="home-segue" id="XtV-ht-CVw"/>
                         <segue destination="bVL-Zx-Wui" kind="show" identifier="debug-segue" id="Z1L-qb-ND3"/>
                     </connections>
                 </viewController>
@@ -844,12 +846,13 @@
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
+        <image name="home" width="1024" height="1024"/>
         <image name="logo" width="296" height="160"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="vm4-N1-lIh"/>
         <segue reference="J9V-CR-a6i"/>
-        <segue reference="XtV-ht-CVw"/>
-        <segue reference="fpC-UC-s0J"/>
+        <segue reference="MeG-Wg-0Xp"/>
+        <segue reference="zhG-AU-rJY"/>
     </inferredMetricsTieBreakers>
 </document>
