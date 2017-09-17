@@ -404,7 +404,6 @@ class ProcessingViewController: UIViewController {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
-            dvc.errorCard = true
         }
     }
     

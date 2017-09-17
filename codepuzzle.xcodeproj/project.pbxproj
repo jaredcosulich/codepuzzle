@@ -33,7 +33,6 @@
 		3AA2D01E1F339BB700B90963 /* ExecutionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */; };
 		3AA2D0201F36535900B90963 /* EditCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */; };
 		3AA2D02E1F38F79300B90963 /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D02C1F38F79300B90963 /* Data.xcdatamodeld */; };
-		3AA2D0301F38FEF400B90963 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D02F1F38FEF400B90963 /* Project.swift */; };
 		3AA2D0321F39F65C00B90963 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA2D0311F39F65C00B90963 /* ProjectViewController.swift */; };
 		3ACB55451F1171D600382476 /* S3Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55441F1171D600382476 /* S3Util.swift */; };
 		3ACB55471F12AAC200382476 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB55461F12AAC200382476 /* Functions.swift */; };
@@ -98,7 +97,6 @@
 		3AA2D01D1F339BB700B90963 /* ExecutionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionViewController.swift; sourceTree = "<group>"; };
 		3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCommandViewController.swift; sourceTree = "<group>"; };
 		3AA2D02D1F38F79300B90963 /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
-		3AA2D02F1F38FEF400B90963 /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		3AA2D0311F39F65C00B90963 /* ProjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
 		3ACB55441F1171D600382476 /* S3Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S3Util.swift; sourceTree = "<group>"; };
 		3ACB55461F12AAC200382476 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -178,7 +176,6 @@
 				3AA2D02C1F38F79300B90963 /* Data.xcdatamodeld */,
 				3A5A0F941EFAFD6C0069384D /* MathPix.swift */,
 				3A2B65C41EE9B37900E8B7BD /* AppDelegate.swift */,
-				3AA2D02F1F38FEF400B90963 /* Project.swift */,
 				3A2B65C61EE9B37900E8B7BD /* MenuViewController.swift */,
 				3A2B65CA1EE9B37900E8B7BD /* Main.storyboard */,
 				3A0408341F43B2D4000C60A2 /* DebugViewController.swift */,
@@ -573,7 +570,6 @@
 				3A6A99591F329A02000B89E1 /* ProcessingViewController.swift in Sources */,
 				3A2B65C71EE9B37900E8B7BD /* MenuViewController.swift in Sources */,
 				3A2F89511F06EF600076E10A /* Constants.swift in Sources */,
-				3AA2D0301F38FEF400B90963 /* Project.swift in Sources */,
 				3A21DB4F1F4B87EB003916C3 /* CardProject.swift in Sources */,
 				3A88F7971F587CB9005A8CE7 /* Loop.swift in Sources */,
 			);

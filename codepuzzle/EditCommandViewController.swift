@@ -98,6 +98,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var descriptionText: UILabel!
+    
     @IBOutlet weak var colorPickerView: UIView!
     
     let colorPicker = ChromaColorPicker(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
@@ -123,13 +125,15 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         if selectedIndex >= 0 && selectedIndex < cards.count {
             selectedCard = cards[selectedIndex]
+            errorCard = selectedCard.error
             selectedCode = Functions.processedCode(code: selectedCard.code)
             
             if (errorCard) {
+                titleLabel.text = "Fix This Card"
                 if selectedCode.characters.count == 0 {
-                    titleLabel.text = "We were unable to read the function on this card."
+                    descriptionText.text = "We were unable to read the function on this card."
                 } else {
-                    titleLabel.text = "We were unable to read the parameter on this card."
+                    descriptionText.text = "We were unable to read the parameter on this card."
                 }
                 toolbar.items?.removeAll()
                 toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
@@ -632,7 +636,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
-            dvc.errorCard = true
         }
     }
 }

@@ -293,8 +293,23 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func deleteProjectButton(_ sender: UIBarButtonItem) {
-//        cardProject.delete()
-        performSegue(withIdentifier: "delete-project-segue", sender: nil)
+        let deleteAlert = UIAlertController(title: "Delete Project", message: "Do you want to delete this project?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        deleteAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            let context = self.cardProject.persistedManagedObjectContext!
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                self.cardProject.mr_deleteEntity(in: context)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+                self.performSegue(withIdentifier: "delete-project-segue", sender: nil)
+            })
+        }))
+        
+        present(deleteAlert, animated: true, completion: nil)
     }
     
     func resizeView(image: UIImage) {

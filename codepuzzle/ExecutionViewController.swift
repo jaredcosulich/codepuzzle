@@ -83,6 +83,22 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         if (selectedIndex != -1) {
             pause()
+        } else {
+            for i in 0..<cards.count {
+                let card = cards[i]
+                if (card.error) {
+                    Timer.scheduledTimer(
+                        withTimeInterval: 0,
+                        repeats: false,
+                        block: {
+                            (Timer) in
+                            self.selectedIndex = i
+                            self.performSegue(withIdentifier: "edit-command-segue", sender: nil)
+                        }
+                    )
+                    return
+                }
+            }
         }
         
         initExecution()

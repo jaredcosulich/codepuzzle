@@ -90,16 +90,25 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let cardProject = self.cardProjects[indexPath.row]
-            cardProject.persistedManagedObjectContext.mr_save({
-                (localContext: NSManagedObjectContext!) in
-                cardProject.mr_deleteEntity(in: cardProject.persistedManagedObjectContext)
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                self.loadCardProjects()
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-            })
+            let deleteAlert = UIAlertController(title: "Delete Project", message: "Do you want to delete this project?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            deleteAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                let cardProject = self.cardProjects[indexPath.row]
+                let context = cardProject.persistedManagedObjectContext!
+                context.mr_save({
+                    (localContext: NSManagedObjectContext!) in
+                    cardProject.mr_deleteEntity(in: context)
+                }, completion: {
+                    (MRSaveCompletionHandler) in
+                    self.loadCardProjects()
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    context.mr_saveToPersistentStoreAndWait()
+                })
+            }))
+            
+            present(deleteAlert, animated: true, completion: nil)
         }
     }
     
