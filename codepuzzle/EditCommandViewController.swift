@@ -176,7 +176,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             selectedCode = "A1"
             titleLabel.text = "Add Card To Project"
             cardView.image = drawCard(
-                image: UIImage(named: selectedCode)!,
+                code: selectedCode,
                 param: nil
             )
         }
@@ -390,27 +390,42 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
     }
     
-    func drawCard(image: UIImage, param: String?) -> UIImage {
+    func drawCard(code: String!, param: String?) -> UIImage {
+        let processedCode = Functions.processedCode(code: code)
+        let info = Functions.info(code: processedCode)
+        let image = UIImage(named: processedCode)!
         let textColor = UIColor.black
         let textFont = UIFont(name: "Helvetica", size: 60)!
         
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
         
-        let textFontAttributes = [
-            NSFontAttributeName: textFont,
-            NSForegroundColorAttributeName: textColor,
-            ] as [String : Any]
-        
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
-        
+
         if (param != nil) {
-            let x = (image.size.width - CGFloat(36 * param!.characters.count)) / 2
-            let textOrigin = CGPoint(x: x, y: 300)
-            let rect = CGRect(origin: textOrigin, size: image.size)
-            param!.draw(in: rect, withAttributes: textFontAttributes)
-        }
+            if (info.paramCount == 1) {
+                let x = (image.size.width - CGFloat(36 * param!.characters.count)) / 2
+                let textOrigin = CGPoint(x: x, y: 300)
+                let rect = CGRect(origin: textOrigin, size: image.size)
+
+                let textFontAttributes = [
+                    NSFontAttributeName: textFont,
+                    NSForegroundColorAttributeName: textColor,
+                    ] as [String : Any]
+                
+                if (param != nil) {
+                    param!.draw(in: rect, withAttributes: textFontAttributes)
+                }
+            }
             
+            if (info.color) {
+                let colorRect = CGRect(origin: CGPoint(x: 180, y: 270), size: CGSize(width: 90, height: 90))
+                
+                ImageProcessor.colorFrom(text: param!).setFill()
+                UIRectFill(colorRect)
+            }
+        }
+        
         let newCardImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -484,7 +499,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
             if (selectedCard == nil) {
                 let drawnCard = drawCard(
-                    image: UIImage(named: newCode)!,
+                    code: newCode,
                     param: param.text!
                 )
                 newCard.code = newCode
@@ -499,7 +514,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 selectedCard.param = param.text!
                 if (!errorCard) {
                     selectedCard.image = drawCard(
-                        image: UIImage(named: newCode)!,
+                        code: newCode,
                         param: param.text!
                     )
                     cardView.image = selectedCard.image
@@ -562,7 +577,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             if (!errorCard) {
                 let newImage = drawCard(
-                    image: UIImage(named: Functions.processedCode(code: selectedCard.code))!,
+                    code: selectedCard.code,
                     param: paramText
                 )
                 selectedCard?.image = newImage
