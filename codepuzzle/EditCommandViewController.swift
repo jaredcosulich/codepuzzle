@@ -223,13 +223,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func colorPickerDidChooseColor(_ colorPicker: ChromaColorPicker, color: UIColor) {
-        let param = "\(color)"
-        if selectedCard == nil {
-            newCard.param = param
-        } else {
-            selectedCard.param = param
-        }
         prepareCard()
+        colorParam.backgroundColor = color
         colorPickerView.isHidden = true
     }
     
@@ -557,7 +552,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         } else {
             paramText = param.text!
         }
-        
+
         if (paramText != (selectedCard == nil ? newCard.param : selectedCard.param)) {
             if (selectedCard != nil) {
                 selectedCard.param = paramText

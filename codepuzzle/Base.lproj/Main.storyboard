@@ -928,7 +928,7 @@
                                 <rect key="frame" x="283" y="166" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" image="edit"/>
                                 <connections>
                                     <action selector="editParam:" destination="L7d-Q3-87b" eventType="touchUpInside" id="tDd-KV-aMg"/>
@@ -938,7 +938,7 @@
                                 <rect key="frame" x="283" y="127" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <inset key="imageEdgeInsets" minX="6" minY="6" maxX="4" maxY="6"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" image="edit"/>
                                 <connections>
                                     <action selector="editFunction:" destination="L7d-Q3-87b" eventType="touchUpInside" id="VL8-eE-K59"/>
