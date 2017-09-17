@@ -831,10 +831,6 @@
                                 <rect key="frame" x="0.0" y="256" width="320" height="268"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QnH-gw-C4f">
-                                <rect key="frame" x="0.0" y="42" width="320" height="180"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pickerView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YP1-8k-suQ">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -960,23 +956,73 @@
                                 <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                 <state key="normal" image="edit"/>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
-                                <rect key="frame" x="10" y="96" width="300" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JVS-0m-mg4">
                                 <rect key="frame" x="283" y="127" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                 <state key="normal" image="edit"/>
+                                <connections>
+                                    <action selector="editFunction:" destination="L7d-Q3-87b" eventType="touchUpInside" id="VL8-eE-K59"/>
+                                </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RBc-4x-uLQ">
+                                <rect key="frame" x="17" y="127" width="287" height="324"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QnH-gw-C4f">
+                                        <rect key="frame" x="1" y="104" width="284" height="172"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit Function" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Clz-O0-gyU">
+                                        <rect key="frame" x="40" y="15" width="207" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select the function for this card:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9k-fT-hOl">
+                                        <rect key="frame" x="49" y="44" width="188" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xId-ZR-fTG">
+                                        <rect key="frame" x="40" y="276" width="61" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveFunction:" destination="L7d-Q3-87b" eventType="touchUpInside" id="8Aj-IQ-P1S"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3kv-se-WvF">
+                                        <rect key="frame" x="195" y="276" width="52" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelEditFunction:" destination="L7d-Q3-87b" eventType="touchUpInside" id="hHb-Ea-CZA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
+                                <rect key="frame" x="10" y="96" width="300" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="QnH-gw-C4f"/>
                                 <exclude reference="q9q-7h-wTc"/>
                                 <exclude reference="PHJ-Fx-pdX"/>
                             </mask>
@@ -988,12 +1034,14 @@
                         <outlet property="colorParam" destination="9LS-gT-zA2" id="T1B-Bj-x3w"/>
                         <outlet property="colorPickerView" destination="PHJ-Fx-pdX" id="5nn-32-yA2"/>
                         <outlet property="editFunction" destination="JVS-0m-mg4" id="baa-xk-A2C"/>
+                        <outlet property="editFunctionView" destination="RBc-4x-uLQ" id="GW9-K2-H49"/>
                         <outlet property="editParam" destination="Sus-gh-2ld" id="a6z-Ag-V72"/>
                         <outlet property="functionDisplay" destination="iv5-G3-shE" id="Xqo-kI-qx2"/>
                         <outlet property="functionPicker" destination="QnH-gw-C4f" id="nlh-eg-2qy"/>
                         <outlet property="param" destination="q9q-7h-wTc" id="VlB-yN-BLI"/>
                         <outlet property="paramDisplay" destination="yjn-rA-p38" id="4qD-e9-H4t"/>
                         <outlet property="paramLabel" destination="yjn-rA-p38" id="vMg-RI-yGf"/>
+                        <outlet property="saveFunction" destination="xId-ZR-fTG" id="J4C-1u-9yk"/>
                         <outlet property="titleLabel" destination="4It-rP-Ub6" id="OGi-27-9eh"/>
                         <outlet property="toolbar" destination="YP1-8k-suQ" id="ddd-P4-t3h"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="save-edit-segue" id="sp7-dt-xFh"/>

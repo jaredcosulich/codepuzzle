@@ -88,6 +88,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     var selectedCard: Card!
     
+    var newCode: String!
+    
+    @IBOutlet weak var editFunctionView: UIView!
+    
+    @IBOutlet weak var saveFunction: UIButton!
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var colorPickerView: UIView!
@@ -103,6 +109,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         editFunction.layer.cornerRadius = 10
         editParam.layer.cornerRadius = 10
+        editFunctionView.layer.cornerRadius = 10
+        saveFunction.layer.cornerRadius = 6
         
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
@@ -237,10 +245,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     func pickerView(_
         pickerView: UIPickerView,
-                    titleForRow row: Int,
+                    attributedTitleForRow row: Int,
                     forComponent component: Int
-        ) -> String? {
-        return pickerData[component][row]
+        ) -> NSAttributedString? {
+        let rowString = NSAttributedString(string: pickerData[component][row], attributes: [NSForegroundColorAttributeName:UIColor.white])
+        return rowString
     }
     
     func pickerView(
@@ -248,33 +257,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         didSelectRow row: Int,
         inComponent component: Int)
     {
-        let newCode = functionCodes[row]
-        if (selectedCard == nil) {
-            let drawnCard = drawCard(
-                image: UIImage(named: newCode)!,
-                param: param.text!
-            )
-            newCard.code = newCode
-            newCard.param = param.text!
-            newCard.image = drawnCard
-            newCard.originalCode = newCode
-            newCard.originalParam = param.text!
-            newCard.originalImage = drawnCard
-            cardView.image = drawnCard
-        } else if (newCode != selectedCard.code) {
-            selectedCard.code = newCode
-            selectedCard.param = param.text!
-            if (!errorCard) {
-                selectedCard.image = drawCard(
-                    image: UIImage(named: newCode)!,
-                    param: param.text!
-                )
-                cardView.image = selectedCard.image
-            }
-            updateSelectedCard()
-        }
-        
-        prepareCard()
+        newCode = functionCodes[row]
     }
     
     func textFieldShouldReturn(_ sender: UITextField) -> Bool {
@@ -494,6 +477,80 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
     }
 
+    @IBAction func editFunction(_ sender: UIButton) {
+        newCode = nil
+        for i in 0..<Functions.functionInfo.count {
+            if (functionCodes[i] == Functions.processedCode(code: selectedCard.code)) {
+                functionPicker.selectRow(i, inComponent: 0, animated: false)
+            }
+        }
+        
+        editFunctionView.alpha = 0.0
+        editFunctionView.isHidden = false
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.editFunctionView.alpha = 1.0
+            }
+        )
+
+    }
+    
+    @IBAction func cancelEditFunction(_ sender: UIButton) {
+        hideFunction()
+    }
+    
+    @IBAction func saveFunction(_ sender: UIButton) {
+        if (newCode != nil) {
+            functionDisplay.text = Functions.info(code: newCode).name
+
+            if (selectedCard == nil) {
+                let drawnCard = drawCard(
+                    image: UIImage(named: newCode)!,
+                    param: param.text!
+                )
+                newCard.code = newCode
+                newCard.param = param.text!
+                newCard.image = drawnCard
+                newCard.originalCode = newCode
+                newCard.originalParam = param.text!
+                newCard.originalImage = drawnCard
+                cardView.image = drawnCard
+            } else if (newCode != selectedCard.code) {
+                selectedCard.code = newCode
+                selectedCard.param = param.text!
+                if (!errorCard) {
+                    selectedCard.image = drawCard(
+                        image: UIImage(named: newCode)!,
+                        param: param.text!
+                    )
+                    cardView.image = selectedCard.image
+                }
+                updateSelectedCard()
+            }
+            
+            prepareCard()
+        }
+        
+        hideFunction()
+    }
+    
+    func hideFunction() {
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.editFunctionView.alpha = 0.0
+            }, completion: { (position) in
+                self.editFunctionView.isHidden = true
+            }
+        )
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (newCard != nil) {
             newCard.image = nil
