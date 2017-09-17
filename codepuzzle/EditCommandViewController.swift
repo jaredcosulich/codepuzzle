@@ -91,8 +91,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     var newCode: String!
     
     @IBOutlet weak var editFunctionView: UIView!
-    
     @IBOutlet weak var saveFunction: UIButton!
+    
+    @IBOutlet weak var editParamView: UIView!
+    @IBOutlet weak var saveParam: UIButton!
     
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -111,6 +113,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         editParam.layer.cornerRadius = 10
         editFunctionView.layer.cornerRadius = 10
         saveFunction.layer.cornerRadius = 6
+        editParamView.layer.cornerRadius = 10
+        saveParam.layer.cornerRadius = 6
         
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
@@ -209,9 +213,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         colorPicker.hexLabel.textColor = UIColor.white
         
         colorPickerView.addSubview(colorPicker)
-
-        functionDisplay.text = Functions.info(code: selectedCard.code).name
-        paramDisplay.text = selectedCard.param
         
         prepareCard()
     }
@@ -279,11 +280,16 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
         
         if (info.color) {
+            paramDisplay.text = ""
+            let color = ImageProcessor.colorFrom(text: cardParam)
+            paramDisplay.backgroundColor = color
             colorLabel.isHidden = false
             colorParam.isHidden = false
-            colorParam.backgroundColor = ImageProcessor.colorFrom(text: cardParam)
-            colorPicker.adjustToColor(colorParam.backgroundColor!)
+            colorParam.backgroundColor = color
+            colorPicker.adjustToColor(color)
         } else {
+            paramDisplay.backgroundColor = UIColor.white
+            paramDisplay.text = selectedCard.param
             colorLabel.isHidden = true
             colorParam.isHidden = true
         }
@@ -293,6 +299,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 functionPicker.selectRow(i, inComponent: 0, animated: true)
             }
         }
+        
+        functionDisplay.text = Functions.info(code: selectedCard.code).name
     }
     
     @IBAction func selectColor(_ sender: UIButton) {
@@ -328,34 +336,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         }
     }
-
-    @IBAction func showParam(_ sender: Any) {
-        let code: String!
-        
-        if (selectedCard != nil) {
-            selectedCard.param = param.text!
-            code = selectedCard.code
-        } else {
-            newCard.param = param.text!
-            code = newCard.code
-        }
-        
-        if (!errorCard) {
-            let newImage = drawCard(
-                image: UIImage(named: Functions.processedCode(code: code))!,
-                param: param.text
-            )
-            selectedCard?.image = newImage
-            newCard?.image = newImage
-            cardView.image = newImage
-        }
-    }
-    
-    @IBAction func saveParam(_ sender: Any) {
-        showParam(sender: sender)
-        updateSelectedCard()
-    }
-    
     
     @IBAction func revert(_ sender: UIBarButtonItem) {
         param.text = selectedCard.originalParam
@@ -374,6 +354,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         selectedCard.code = selectedCard.originalCode!
         selectedCard.image = selectedCard.originalImage!
         selectedCard.disabled = false
+        
         prepareCard()
         updateSelectedCard()
     }
@@ -550,6 +531,72 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         )
         
     }
+    
+    @IBAction func editParam(_ sender: UIButton) {
+        param.text = selectedCard.param
+        editParamView.alpha = 0.0
+        editParamView.isHidden = false
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.editParamView.alpha = 1.0
+        }
+        )
+    }
+    
+    @IBAction func cancelEditParam(_ sender: UIButton) {
+        hideParam()
+    }
+    
+    @IBAction func saveParam(_ sender: UIButton) {
+        var paramText: String!
+        if (param.isHidden) {
+            paramText = "\(colorParam.backgroundColor ?? UIColor.black)"
+        } else {
+            paramText = param.text!
+        }
+        
+        if (paramText != (selectedCard == nil ? newCard.param : selectedCard.param)) {
+            if (selectedCard != nil) {
+                selectedCard.param = paramText
+            } else {
+                newCard.param = paramText
+            }
+            
+            if (!errorCard) {
+                let newImage = drawCard(
+                    image: UIImage(named: Functions.processedCode(code: selectedCard.code))!,
+                    param: paramText
+                )
+                selectedCard?.image = newImage
+                newCard?.image = newImage
+                cardView.image = newImage
+            }
+            
+            updateSelectedCard()
+            
+            prepareCard()
+        }
+        
+        hideParam()
+    }
+    
+    func hideParam() {
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.editParamView.alpha = 0.0
+            }, completion: { (position) in
+                self.editParamView.isHidden = true
+            }
+        )
+    }
+
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (newCard != nil) {
