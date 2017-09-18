@@ -37,6 +37,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         
         startProjectButton.layer.cornerRadius = 6
+        startProjectButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        startProjectButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        
         startButton.layer.cornerRadius = 6
         projectTitleView.layer.cornerRadius = 10
         
