@@ -22,6 +22,7 @@
 		3A2B65E71EE9B37900E8B7BD /* codepuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65E61EE9B37900E8B7BD /* codepuzzleUITests.swift */; };
 		3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */; };
 		3A2F89511F06EF600076E10A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F89501F06EF600076E10A /* Constants.swift */; };
+		3A4B8DEF1F70054E008F4400 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */; };
 		3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F421EF033A80069384D /* TesseractOCR.framework */; };
 		3A5A0F4E1EF040CD0069384D /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3A5A0F4D1EF040CD0069384D /* tessdata */; };
 		3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A0F941EFAFD6C0069384D /* MathPix.swift */; };
@@ -84,6 +85,7 @@
 		3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		3A2F89501F06EF600076E10A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		3A5A0F421EF033A80069384D /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
 		3A5A0F4D1EF040CD0069384D /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		3A5A0F941EFAFD6C0069384D /* MathPix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathPix.swift; path = ../MathPix.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				3A2B65C41EE9B37900E8B7BD /* AppDelegate.swift */,
 				3A2B65C61EE9B37900E8B7BD /* MenuViewController.swift */,
 				3A2B65CA1EE9B37900E8B7BD /* Main.storyboard */,
+				3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */,
 				3A0408341F43B2D4000C60A2 /* DebugViewController.swift */,
 				3AA2D0311F39F65C00B90963 /* ProjectViewController.swift */,
 				3AA2D01F1F36535900B90963 /* EditCommandViewController.swift */,
@@ -364,6 +367,7 @@
 				3A2B65D11EE9B37900E8B7BD /* LaunchScreen.storyboard in Resources */,
 				3A5A0F4E1EF040CD0069384D /* tessdata in Resources */,
 				3A2B65CE1EE9B37900E8B7BD /* Assets.xcassets in Resources */,
+				3A4B8DEF1F70054E008F4400 /* Launch Screen.storyboard in Resources */,
 				3A2B65CC1EE9B37900E8B7BD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -743,6 +747,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -767,6 +772,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

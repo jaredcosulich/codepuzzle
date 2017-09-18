@@ -26,6 +26,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var startProjectButton: UIButton!
     
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
+    @IBOutlet weak var existingProjectsLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +44,20 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         startProjectButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
         
         startButton.layer.cornerRadius = 6
+        startButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        startButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        
+        cancelButton.layer.cornerRadius = 6
+        cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        cancelButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        
+        projectTitle.adjustsFontSizeToFitWidth = true
+        
         projectTitleView.layer.cornerRadius = 10
+        
+        if cardProjects.count == 0 {
+            existingProjectsLabel.isHidden = true
+        }
         
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 1,
@@ -141,6 +157,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func startProject(_ sender: UIButton) {
         projectTitleView.alpha = 0.0
         projectTitleView.isHidden = false
+        
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
