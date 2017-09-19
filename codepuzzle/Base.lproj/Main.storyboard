@@ -358,57 +358,6 @@
                                     <action selector="changePhotoButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="NVU-Kw-azz"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1s-qE-7Rk">
-                                <rect key="frame" x="16" y="119" width="288" height="141"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eLN-LB-i5H">
-                                        <rect key="frame" x="8" y="8" width="272" height="125"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Project Title:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nE-r0-zzo">
-                                                <rect key="frame" x="8" y="8" width="256" height="26"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ddf-J6-nlI">
-                                                <rect key="frame" x="8" y="49" width="256" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVi-bz-Dpx">
-                                                <rect key="frame" x="166" y="87" width="48" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Cancel">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="cancelEditProject:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="6OG-VO-rEL"/>
-                                                    <action selector="cancelEditProject:" destination="9pv-A4-QxB" eventType="touchUpInside" id="pJh-2K-JSA"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJ9-FC-tAu">
-                                                <rect key="frame" x="50" y="87" width="46" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <state key="normal" title="Save">
-                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="saveProjectTitle:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7E2-aH-J7u"/>
-                                                    <action selector="saveProjectTitle:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="AtS-4i-f8t"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.0" green="0.044991018680000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
                                 <rect key="frame" x="211.5" y="540.5" width="115" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -432,6 +381,77 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2L0-R0-IVo">
+                                <rect key="frame" x="96" y="192" width="576" height="384"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="a58-S7-FMe">
+                                        <rect key="frame" x="87" y="278" width="173.5" height="58"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="a58-S7-FMe" secondAttribute="height" multiplier="3:1" id="ewg-Hd-hpQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
+                                        <inset key="titleEdgeInsets" minX="18" minY="18" maxX="15" maxY="18"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="createProject:" destination="ueC-M8-gXi" eventType="touchUpInside" id="6o4-la-Px9"/>
+                                            <action selector="saveProjectTitle:" destination="9pv-A4-QxB" eventType="touchUpInside" id="4mb-cy-wAb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="GxZ-ra-ljJ">
+                                        <rect key="frame" x="325" y="281" width="156" height="52"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="GxZ-ra-ljJ" secondAttribute="height" multiplier="3:1" id="5xV-xg-KCv"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <inset key="titleEdgeInsets" minX="9" minY="9" maxX="9" maxY="9"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelEditProject:" destination="9pv-A4-QxB" eventType="touchUpInside" id="yek-dX-vYG"/>
+                                            <action selector="cancelStartProject:" destination="ueC-M8-gXi" eventType="touchUpInside" id="0LU-iG-M4R"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project Title" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-Wm-kjG">
+                                        <rect key="frame" x="72.5" y="159.5" width="432" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="ceh-Wm-kjG" secondAttribute="height" multiplier="40:6" id="ZK2-w5-bNd"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.25" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bt6-qR-pf4">
+                                        <rect key="frame" x="144.5" y="37.5" width="287.5" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bt6-qR-pf4" secondAttribute="height" multiplier="18:5" id="3js-LK-CGK"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="a58-S7-FMe" firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="width" multiplier="0.3" id="0rV-1u-pq8"/>
+                                    <constraint firstItem="GxZ-ra-ljJ" firstAttribute="centerX" secondItem="2L0-R0-IVo" secondAttribute="centerX" multiplier="1.4" id="36k-Ba-1kb"/>
+                                    <constraint firstItem="GxZ-ra-ljJ" firstAttribute="centerY" secondItem="2L0-R0-IVo" secondAttribute="centerY" multiplier="1.6" id="7Gd-mp-cbD"/>
+                                    <constraint firstItem="ceh-Wm-kjG" firstAttribute="centerX" secondItem="2L0-R0-IVo" secondAttribute="centerX" id="Flp-F2-KDb"/>
+                                    <constraint firstItem="bt6-qR-pf4" firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="width" multiplier="0.5" id="MZJ-tc-vUi"/>
+                                    <constraint firstItem="bt6-qR-pf4" firstAttribute="centerX" secondItem="2L0-R0-IVo" secondAttribute="centerX" id="Mea-9B-bUC"/>
+                                    <constraint firstItem="GxZ-ra-ljJ" firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="width" multiplier="0.27" id="RxJ-bJ-1dN"/>
+                                    <constraint firstItem="ceh-Wm-kjG" firstAttribute="centerY" secondItem="2L0-R0-IVo" secondAttribute="centerY" id="Ten-Gq-3Yg"/>
+                                    <constraint firstItem="ceh-Wm-kjG" firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="width" multiplier="0.75" id="ZFW-h5-6GO"/>
+                                    <constraint firstItem="a58-S7-FMe" firstAttribute="centerX" secondItem="2L0-R0-IVo" secondAttribute="centerX" multiplier="0.6" id="ZY0-HZ-Ddl"/>
+                                    <constraint firstItem="bt6-qR-pf4" firstAttribute="centerY" secondItem="2L0-R0-IVo" secondAttribute="centerY" multiplier="0.4" id="kG9-Gc-ANn"/>
+                                    <constraint firstItem="a58-S7-FMe" firstAttribute="centerY" secondItem="2L0-R0-IVo" secondAttribute="centerY" multiplier="1.6" id="zFy-Vx-cN0"/>
+                                    <constraint firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="height" multiplier="3:2" id="zJf-4r-bcp"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -444,8 +464,10 @@
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.1" id="5MG-LI-7dG"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="6EF-0B-UGn"/>
                             <constraint firstItem="GDl-Vx-efq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.55" id="799-We-4wi"/>
+                            <constraint firstItem="2L0-R0-IVo" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.75" id="8AZ-k2-AgJ"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.6" id="9cN-Wm-8NA"/>
+                            <constraint firstItem="2L0-R0-IVo" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.75" id="AlY-OA-uNi"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="centerY" secondItem="oC9-YJ-yGS" secondAttribute="centerY" id="DbX-4F-yQv"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="EWK-yL-B3f"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.7" id="GCD-1L-CBl"/>
@@ -467,6 +489,7 @@
                             <constraint firstItem="GDl-Vx-efq" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="dLs-oH-3MP"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.15" id="eIi-ii-bwr"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.6" id="fKa-3i-Vwf"/>
+                            <constraint firstItem="2L0-R0-IVo" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="fcB-1e-nE3"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="g2w-Nn-qSQ"/>
                             <constraint firstItem="GDl-Vx-efq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="gB2-9R-jib"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.4" id="hJT-Vg-cjn"/>
@@ -487,21 +510,18 @@
                             <constraint firstItem="ZXf-Oi-D1i" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.1" id="wPe-xg-9UX"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.5" id="yEt-f9-4NX"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="N1s-qE-7Rk"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="activityView" destination="aFa-DB-79J" id="VK7-ED-Eir"/>
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
                         <outlet property="analyzePhoto" destination="STb-mJ-6cP" id="LoQ-BA-l5Y"/>
+                        <outlet property="cancelButton" destination="GxZ-ra-ljJ" id="IsZ-A3-gRQ"/>
                         <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
                         <outlet property="deleteProject" destination="uRS-Ut-foB" id="f1f-HI-SNS"/>
-                        <outlet property="editProjectTitle" destination="ddf-J6-nlI" id="Jnf-eh-UpE"/>
-                        <outlet property="editProjectView" destination="N1s-qE-7Rk" id="kJI-cN-CV4"/>
+                        <outlet property="editProjectLabel" destination="bt6-qR-pf4" id="QP3-Hn-x6n"/>
+                        <outlet property="editProjectTitle" destination="ceh-Wm-kjG" id="Hap-RX-zcQ"/>
+                        <outlet property="editProjectView" destination="2L0-R0-IVo" id="KLn-Ps-xbw"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
                         <outlet property="loadPhoto" destination="2qb-cf-lUO" id="zxg-pc-T9x"/>
                         <outlet property="newPhoto" destination="qvc-0w-NOq" id="aoN-sY-u8J"/>
@@ -511,6 +531,7 @@
                         <outlet property="rotateLabel" destination="ZXf-Oi-D1i" id="nO3-Fv-0dj"/>
                         <outlet property="rotateLeft" destination="N9z-JF-GIm" id="mHL-hU-ieO"/>
                         <outlet property="rotateRight" destination="nzL-hW-vmB" id="mh1-Dj-c9z"/>
+                        <outlet property="saveButton" destination="a58-S7-FMe" id="JRm-Zb-51e"/>
                         <outlet property="tableView" destination="GDl-Vx-efq" id="AI2-Sg-CD0"/>
                         <segue destination="ueC-M8-gXi" kind="show" identifier="delete-project-segue" id="Kvr-WZ-WZn"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="zhG-AU-rJY"/>
@@ -941,10 +962,8 @@
                         <outlet property="colorSwatch" destination="cjJ-xy-2ov" id="OQQ-g7-byu"/>
                         <outlet property="drawingScrollView" destination="SpO-dI-9Ry" id="4e9-LR-0pC"/>
                         <outlet property="drawingView" destination="6rf-pU-4to" id="Akv-cf-b3C"/>
-                        <outlet property="editProjectView" destination="N1s-qE-7Rk" id="6KL-vX-efR"/>
                         <outlet property="imageView" destination="55S-Gc-Zaf" id="yJO-Ay-yWh"/>
                         <outlet property="output" destination="wgm-Ga-ZhA" id="mx5-Au-a3H"/>
-                        <outlet property="projectTitle" destination="ddf-J6-nlI" id="zU9-Tm-2aS"/>
                         <outlet property="speedButtons" destination="ito-3F-4r1" id="s5p-CF-j3M"/>
                         <outlet property="toolbar" destination="nS6-7g-Dsd" id="rj6-qO-vZH"/>
                         <segue destination="L7d-Q3-87b" kind="presentation" identifier="edit-command-segue" id="wOF-ww-Kkf"/>
