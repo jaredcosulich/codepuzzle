@@ -63,21 +63,28 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         editProjectTitle.text = cardProject.title
 
         loadPhoto.layer.cornerRadius = 6
-//        loadPhoto.titleLabel?.adjustsFontSizeToFitWidth = true
-        loadPhoto.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
         Util.proportionalFont(anyElement: loadPhoto, buffer: 15)
 
         newPhoto.layer.cornerRadius = 6
-//        newPhoto.titleLabel?.adjustsFontSizeToFitWidth = true
-        newPhoto.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
-        Util.proportionalFont(anyElement: newPhoto, buffer: 15)
+        newPhoto.titleLabel?.font = loadPhoto.titleLabel?.font
 
-        rotateLeft.layer.cornerRadius = 6
-        rotateRight.layer.cornerRadius = 6
         changePhoto.layer.cornerRadius = 6
-        processPhoto.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: changePhoto, buffer: 12)
+
         analyzePhoto.layer.cornerRadius = 6
-       
+        analyzePhoto.titleLabel?.font = changePhoto.titleLabel?.font
+
+        Util.proportionalFont(anyElement: rotateLabel, buffer: 6)
+        
+        rotateLeft.layer.cornerRadius = 6
+        rotateLeft.titleLabel?.font = rotateLabel.font
+
+        rotateRight.layer.cornerRadius = 6
+        rotateRight.titleLabel?.font = rotateLabel.font
+
+        processPhoto.layer.cornerRadius = 6
+        processPhoto.titleLabel?.font = rotateLabel.font
+
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
