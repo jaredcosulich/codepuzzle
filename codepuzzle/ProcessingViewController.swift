@@ -19,8 +19,6 @@ class ProcessingViewController: UIViewController {
     let mathPix = MathPix()
 //    let tesseract = G8Tesseract()
     
-    var timer = Timer()
-
     var analyzedCardCount = Int32(0)
     var processedCardCodeCount = Int32(0)
     var processedCardParamCount = Int32(0)
@@ -34,6 +32,8 @@ class ProcessingViewController: UIViewController {
     var processing: Bool!
     
     var execute = false
+    
+    var stopExecution = false
     
     @IBOutlet weak var yesButton: UIButton!
     
@@ -145,7 +145,6 @@ class ProcessingViewController: UIViewController {
     }
     
     @IBAction func rejectCard(_ sender: UIButton) {
-        timer.invalidate()
         Timer.scheduledTimer(
             timeInterval: 0,
             target: self,
@@ -313,6 +312,10 @@ class ProcessingViewController: UIViewController {
     }
     
     func processCards(i: Int32) {
+        if (stopExecution) {
+            return
+        }
+        
         output.text = "Processing Card \(i + 1)"
         
         let context = cardProject.persistedManagedObjectContext!
@@ -390,6 +393,8 @@ class ProcessingViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
 //        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+        
+        stopExecution = true
         
         imageView?.removeFromSuperview()
         
