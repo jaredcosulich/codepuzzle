@@ -21,8 +21,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var cardProject: CardProject!
     
-    var fontSize: CGFloat!
-    
     @IBOutlet weak var splash: UIImageView!
     
     @IBOutlet weak var startProjectButton: UIButton!
@@ -54,8 +52,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         cancelButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
         
         projectTitle.adjustsFontSizeToFitWidth = true
-        fontSize = projectTitle.bounds.height / 2.5
-        projectTitle.font = projectTitle.font?.withSize(fontSize)
+        Util.proportionalFont(anyElement: projectTitle)
 
         projectTitleView.layer.cornerRadius = 10
         
@@ -101,10 +98,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
-        cell?.textLabel?.font = cell?.textLabel?.font.withSize(fontSize)
+        Util.proportionalFont(anyElement: cell!)
 
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
-        cell?.detailTextLabel?.font = cell?.textLabel?.font.withSize(fontSize - 6)
+        Util.proportionalFont(anyElement: cell!.detailTextLabel!)
         
         if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
             let thumbnail = cardProject.cardGroups.first!.image!

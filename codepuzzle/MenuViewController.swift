@@ -57,7 +57,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         projectTitle.setTitle(cardProject.title, for: UIControlState.normal)
         projectTitle.titleLabel?.adjustsFontSizeToFitWidth = true
         projectTitle.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
-        projectTitle.titleLabel?.font = projectTitle.titleLabel?.font.withSize(projectTitle.bounds.height * (1/log2(4.0)))
+        Util.proportionalFont(anyElement: projectTitle)
+        Util.proportionalFont(anyElement: addPhotoLabel)
 
         editProjectTitle.text = cardProject.title
         
