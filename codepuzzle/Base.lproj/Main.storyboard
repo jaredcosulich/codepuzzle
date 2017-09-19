@@ -678,7 +678,7 @@
                                 <rect key="frame" x="0.0" y="92" width="768" height="512"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIT-q5-Y3J">
-                                <rect key="frame" x="153.5" y="665.5" width="461" height="154"/>
+                                <rect key="frame" x="153.5" y="640" width="461" height="205"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -782,7 +782,7 @@
                             <constraint firstItem="VnU-i3-Xkq" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="kYe-i3-jj6"/>
                             <constraint firstItem="fip-F0-ggz" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" id="kjB-cE-ybH"/>
                             <constraint firstItem="VnU-i3-Xkq" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="1.5" id="ntl-HW-Fxa"/>
-                            <constraint firstItem="OIT-q5-Y3J" firstAttribute="height" secondItem="4Ip-Hf-yXw" secondAttribute="height" multiplier="0.15" id="qzT-5Q-cY5"/>
+                            <constraint firstItem="OIT-q5-Y3J" firstAttribute="height" secondItem="4Ip-Hf-yXw" secondAttribute="height" multiplier="0.2" id="qzT-5Q-cY5"/>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="centerY" secondItem="4Ip-Hf-yXw" secondAttribute="centerY" multiplier="0.68" id="sEX-XG-Iyw"/>
                             <constraint firstItem="olz-L4-RAi" firstAttribute="centerY" secondItem="4Qn-N3-5Wa" secondAttribute="centerY" id="tVV-gA-8G8"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="centerY" secondItem="4Ip-Hf-yXw" secondAttribute="centerY" multiplier="1.45" id="tex-F2-nSW"/>

@@ -62,9 +62,18 @@ class ProcessingViewController: UIViewController {
         
         initCardList()
         
+        Util.proportionalFont(anyElement: output, bufferPercentage: nil)
+        
         yesButton.layer.cornerRadius = 6
-        fixButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: yesButton, bufferPercentage: nil)
+        noButton.titleLabel?.font = yesButton.titleLabel?.font
+        
         changePhotoButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: changePhotoButton, bufferPercentage: 10)
+
+        fixButton.layer.cornerRadius = 6
+        fixButton.titleLabel?.font = changePhotoButton.titleLabel?.font
+        
         selectPhoto.layer.cornerRadius = 6
         
 //        tesseract.language = "eng+fra"
