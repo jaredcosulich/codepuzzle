@@ -98,10 +98,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
-        Util.proportionalFont(anyElement: cell!, bufferPercentage: 10)
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 15)
 
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
-        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 5)
+//        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 50)
         
         if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
             let thumbnail = cardProject.cardGroups.first!.image!

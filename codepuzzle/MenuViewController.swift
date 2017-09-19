@@ -161,14 +161,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let cardGroup = cardProject.cardGroups[indexPath.row]
         cell?.textLabel?.text = "Card Photo \(indexPath.row + 1)"
-        Util.proportionalFont(anyElement: cell!, bufferPercentage: 3)
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 15)
         
         if (cardGroup.isProcessed) {
             cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
         } else  {
             cell?.detailTextLabel?.text = "Not Yet Processed"
         }
-        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 2)
+//        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 2)
         cell?.imageView?.image = cardGroup.image
         
         return cell!
