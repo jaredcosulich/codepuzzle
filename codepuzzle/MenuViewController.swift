@@ -58,25 +58,25 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         tableView.dataSource = self
         
         projectTitle.setTitle(cardProject.title, for: UIControlState.normal)
-        Util.proportionalFont(anyElement: projectTitle, buffer: nil)
+        Util.proportionalFont(anyElement: projectTitle, bufferPercentage: nil)
 
-        Util.proportionalFont(anyElement: addPhotoLabel, buffer: nil)
+        Util.proportionalFont(anyElement: addPhotoLabel, bufferPercentage: nil)
 
         editProjectTitle.text = cardProject.title
 
         loadPhoto.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: loadPhoto, buffer: 15)
+        Util.proportionalFont(anyElement: loadPhoto, bufferPercentage: 5)
 
         newPhoto.layer.cornerRadius = 6
         newPhoto.titleLabel?.font = loadPhoto.titleLabel?.font
 
         changePhoto.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: changePhoto, buffer: 12)
+        Util.proportionalFont(anyElement: changePhoto, bufferPercentage: nil)
 
         analyzePhoto.layer.cornerRadius = 6
         analyzePhoto.titleLabel?.font = changePhoto.titleLabel?.font
 
-        Util.proportionalFont(anyElement: rotateLabel, buffer: 6)
+        Util.proportionalFont(anyElement: rotateLabel, bufferPercentage: nil)
         
         rotateLeft.layer.cornerRadius = 6
         rotateLeft.titleLabel?.font = rotateLabel.font
@@ -89,14 +89,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
         editProjectView.layer.cornerRadius = 6
         
-        Util.proportionalFont(anyElement: editProjectLabel, buffer: nil)
+        Util.proportionalFont(anyElement: editProjectLabel, bufferPercentage: nil)
         
         editProjectTitle.adjustsFontSizeToFitWidth = true
-        Util.proportionalFont(anyElement: editProjectTitle, buffer: 12)
+        Util.proportionalFont(anyElement: editProjectTitle, bufferPercentage: 5)
         editProjectTitle.returnKeyType = .done
         
         cancelButton.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: cancelButton, buffer: 15)
+        Util.proportionalFont(anyElement: cancelButton, bufferPercentage: 8)
         
         saveButton.layer.cornerRadius = 6
         saveButton.titleLabel?.font = cancelButton.titleLabel?.font
@@ -161,14 +161,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let cardGroup = cardProject.cardGroups[indexPath.row]
         cell?.textLabel?.text = "Card Photo \(indexPath.row + 1)"
-        Util.proportionalFont(anyElement: cell!, buffer: 8)
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 3)
         
         if (cardGroup.isProcessed) {
             cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
         } else  {
             cell?.detailTextLabel?.text = "Not Yet Processed"
         }
-        Util.proportionalFont(anyElement: cell!.detailTextLabel!, buffer: 15)
+        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 2)
         cell?.imageView?.image = cardGroup.image
         
         return cell!

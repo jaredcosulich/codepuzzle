@@ -231,9 +231,9 @@
                                 <rect key="frame" x="77" y="180" width="614" height="307"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0W3-VK-vjJ">
-                                <rect key="frame" x="153.5" y="105" width="461" height="46"/>
+                                <rect key="frame" x="153.5" y="82" width="461" height="92"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="10:1" id="LxX-5Q-yUW"/>
+                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="5:1" id="LxX-5Q-yUW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="Project Title">
@@ -373,9 +373,9 @@
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotate:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXf-Oi-D1i">
-                                <rect key="frame" x="96" y="547.5" width="115" height="32"/>
+                                <rect key="frame" x="96" y="540.5" width="115" height="46"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="ZXf-Oi-D1i" secondAttribute="height" multiplier="115:32" id="CsA-1p-KlX"/>
+                                    <constraint firstAttribute="width" secondItem="ZXf-Oi-D1i" secondAttribute="height" multiplier="10:4" id="CsA-1p-KlX"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <nil key="textColor"/>
@@ -423,7 +423,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" enablesReturnKeyAutomatically="YES"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.25" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bt6-qR-pf4">
                                         <rect key="frame" x="144.5" y="37.5" width="287.5" height="80"/>

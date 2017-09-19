@@ -10,13 +10,15 @@ import Foundation
 
 class Util {
  
-    class func proportionalFont(anyElement: AnyObject, buffer: Int?) {
+    class func proportionalFont(anyElement: AnyObject, bufferPercentage: Int?) {
+        anyElement.layoutIfNeeded()
+        
         var height = anyElement.bounds.height
-        if (buffer != nil) {
-            height -= CGFloat(buffer! * 2)
+        if (bufferPercentage != nil) {
+            height -= (((height * CGFloat(bufferPercentage!)) / 100) * 2)
         }
         
-        var size = height * (1/log2(3))
+        var size = height * (2/3)
         
         if let element = anyElement as? UITextField {
             element.font = element.font?.withSize(size)

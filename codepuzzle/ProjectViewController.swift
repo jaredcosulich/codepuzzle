@@ -52,7 +52,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         cancelButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
         
         projectTitle.adjustsFontSizeToFitWidth = true
-        Util.proportionalFont(anyElement: projectTitle, buffer: nil)
+        Util.proportionalFont(anyElement: projectTitle, bufferPercentage: nil)
 
         projectTitleView.layer.cornerRadius = 10
         
@@ -98,10 +98,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
-        Util.proportionalFont(anyElement: cell!, buffer: 8)
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 10)
 
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
-        Util.proportionalFont(anyElement: cell!.detailTextLabel!, buffer: 15)
+        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 5)
         
         if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
             let thumbnail = cardProject.cardGroups.first!.image!
