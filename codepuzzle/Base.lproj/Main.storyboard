@@ -216,9 +216,8 @@
                                     <constraint firstAttribute="width" secondItem="kpc-Nh-ea6" secondAttribute="height" multiplier="97:52" id="9Qa-eB-A3g"/>
                                 </constraints>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
-                                <rect key="frame" x="0.0" y="611" width="768" height="368"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
+                                <rect key="frame" x="0.0" y="614.5" width="768" height="358"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aFa-DB-79J">
@@ -337,7 +336,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="STb-mJ-6cP" secondAttribute="height" multiplier="5:1" id="Gcf-xy-fZX"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Debug Photo">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -351,7 +350,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qu3-rI-zKi" secondAttribute="height" multiplier="5:1" id="KDX-Gj-RUe"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Change Photo">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -436,6 +435,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="GDl-Vx-efq" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.35" id="0Xm-we-xwh"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.55" id="1XY-UY-AYy"/>
                             <constraint firstItem="STb-mJ-6cP" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.4" id="2a8-Kg-svk"/>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="trailing" secondItem="kYr-Ju-MDh" secondAttribute="trailing" constant="-20" id="2rp-DU-f1D"/>
@@ -443,6 +443,7 @@
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.6" id="3nK-y8-qlv"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.1" id="5MG-LI-7dG"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="6EF-0B-UGn"/>
+                            <constraint firstItem="GDl-Vx-efq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.55" id="799-We-4wi"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.6" id="9cN-Wm-8NA"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="centerY" secondItem="oC9-YJ-yGS" secondAttribute="centerY" id="DbX-4F-yQv"/>
@@ -463,9 +464,11 @@
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="Va0-Vf-bnq"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="width" multiplier="0.15" id="Zpv-CD-MgM"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.7" id="cx6-eP-eLc"/>
+                            <constraint firstItem="GDl-Vx-efq" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="dLs-oH-3MP"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.15" id="eIi-ii-bwr"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.6" id="fKa-3i-Vwf"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="g2w-Nn-qSQ"/>
+                            <constraint firstItem="GDl-Vx-efq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="gB2-9R-jib"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.4" id="hJT-Vg-cjn"/>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="hmu-hA-cEh"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="i3E-mY-v8V"/>
