@@ -260,6 +260,19 @@
                                 <rect key="frame" x="16" y="93" width="736" height="633"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0W3-VK-vjJ">
+                                <rect key="frame" x="154" y="105" width="461" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="10:1" id="LxX-5Q-yUW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="Project Title">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="editProjectTitleButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ujK-4T-mPb"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add A Photo Of Cards To This Project" textAlignment="center" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fB1-2o-fwd">
                                 <rect key="frame" x="192" y="210" width="384" height="93"/>
                                 <constraints>
@@ -302,16 +315,32 @@
                                     <action selector="debugImage:" destination="9pv-A4-QxB" eventType="touchUpInside" id="FiR-g7-8tO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
-                                <rect key="frame" x="256" y="406" width="113" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvc-0w-NOq">
+                                <rect key="frame" x="115" y="329.5" width="230" height="57.5"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qvc-0w-NOq" secondAttribute="height" multiplier="4:1" id="0PF-15-Wgh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="New Photo">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="newphotobutton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="7sB-My-jkr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
+                                <rect key="frame" x="422" y="329.5" width="230" height="57.5"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="2qb-cf-lUO" secondAttribute="height" multiplier="4:1" id="JuX-WB-X2S"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Load Photo">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu3-rI-zKi">
@@ -377,18 +406,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qb-cf-lUO">
-                                <rect key="frame" x="398" y="406" width="105" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Load Photo">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="photolibraryaction:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Jhd-IR-2h9"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N9z-JF-GIm">
                                 <rect key="frame" x="308" y="509" width="50" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -400,37 +417,30 @@
                                     <action selector="rotateleft:" destination="9pv-A4-QxB" eventType="touchUpInside" id="UfK-ZB-E9q"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0W3-VK-vjJ">
-                                <rect key="frame" x="154" y="99.5" width="461" height="57"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="461:57" id="LxX-5Q-yUW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <state key="normal" title="Project Title">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="editProjectTitleButton:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ujK-4T-mPb"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="trailing" secondItem="kYr-Ju-MDh" secondAttribute="trailing" constant="-20" id="2rp-DU-f1D"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="leading" secondItem="kYr-Ju-MDh" secondAttribute="leading" constant="20" id="3hC-FQ-9Ph"/>
+                            <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.6" id="3nK-y8-qlv"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="6EF-0B-UGn"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.6" id="9cN-Wm-8NA"/>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="height" secondItem="kYr-Ju-MDh" secondAttribute="height" multiplier="0.6" id="Gq5-QY-fFW"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.5" id="I26-dN-gKg"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.25" id="P6C-Q7-hle"/>
+                            <constraint firstItem="qvc-0w-NOq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.7" id="cx6-eP-eLc"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="g2w-Nn-qSQ"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.4" id="hJT-Vg-cjn"/>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="hmu-hA-cEh"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="i3E-mY-v8V"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="iGZ-yY-bpl"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="k7p-bE-Mr4"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.12" id="l5z-00-Rh6"/>
+                            <constraint firstItem="qvc-0w-NOq" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="lhX-VU-RxV"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="nZm-AZ-7Qa"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="height" secondItem="kpc-Nh-ea6" secondAttribute="height" multiplier="0.98" id="uk8-Kw-5na"/>
+                            <constraint firstItem="2qb-cf-lUO" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.7" id="vQt-nZ-Xxp"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.5" id="yEt-f9-4NX"/>
                         </constraints>
                         <variation key="default">

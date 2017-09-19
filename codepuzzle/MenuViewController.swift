@@ -57,15 +57,23 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         projectTitle.setTitle(cardProject.title, for: UIControlState.normal)
         projectTitle.titleLabel?.adjustsFontSizeToFitWidth = true
         projectTitle.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
-        Util.proportionalFont(anyElement: projectTitle)
-        Util.proportionalFont(anyElement: addPhotoLabel)
+        Util.proportionalFont(anyElement: projectTitle, buffer: nil)
+        Util.proportionalFont(anyElement: addPhotoLabel, buffer: nil)
 
         editProjectTitle.text = cardProject.title
-        
+
+        loadPhoto.layer.cornerRadius = 6
+//        loadPhoto.titleLabel?.adjustsFontSizeToFitWidth = true
+        loadPhoto.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        Util.proportionalFont(anyElement: loadPhoto, buffer: 15)
+
+        newPhoto.layer.cornerRadius = 6
+//        newPhoto.titleLabel?.adjustsFontSizeToFitWidth = true
+        newPhoto.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        Util.proportionalFont(anyElement: newPhoto, buffer: 15)
+
         rotateLeft.layer.cornerRadius = 6
         rotateRight.layer.cornerRadius = 6
-        newPhoto.layer.cornerRadius = 6
-        loadPhoto.layer.cornerRadius = 6
         changePhoto.layer.cornerRadius = 6
         processPhoto.layer.cornerRadius = 6
         analyzePhoto.layer.cornerRadius = 6
