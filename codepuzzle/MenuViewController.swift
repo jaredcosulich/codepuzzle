@@ -161,7 +161,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let cardGroup = cardProject.cardGroups[indexPath.row]
         cell?.textLabel?.text = "Card Photo \(indexPath.row + 1)"
-        Util.proportionalFont(anyElement: cell!, bufferPercentage: 15)
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 18)
         
         if (cardGroup.isProcessed) {
             cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
