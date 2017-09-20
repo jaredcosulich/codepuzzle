@@ -160,7 +160,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func textFieldShouldReturn(_ sender: UITextField) -> Bool {
-        editProjectTitle.resignFirstResponder()
+        projectTitle.resignFirstResponder()
         return true
     }
     
