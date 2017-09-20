@@ -104,7 +104,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.25" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Wa-3s-qCQ">
                                         <rect key="frame" x="144" y="22" width="288" height="80"/>
@@ -423,7 +423,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.25" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bt6-qR-pf4">
                                         <rect key="frame" x="144.5" y="37.5" width="287.5" height="80"/>
@@ -1314,7 +1314,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="M45-p5-jnD"/>
         <segue reference="vm4-N1-lIh"/>
-        <segue reference="OVi-Ig-nvb"/>
+        <segue reference="sp7-dt-xFh"/>
         <segue reference="MeG-Wg-0Xp"/>
     </inferredMetricsTieBreakers>
 </document>

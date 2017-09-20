@@ -181,6 +181,10 @@ class ProcessingViewController: UIViewController {
     }
 
     func analyzeCards() {
+        if (stopExecution) {
+            return
+        }
+
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
@@ -216,6 +220,10 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardCodeProcessing() {
+        if (stopExecution) {
+            return
+        }
+
         if (processedCardCodeCount < cardList.count()) {
             if (execute) {
                 output.text = "Analyzing Card Codes \(processedCardCodeCount + 1)..."
@@ -272,6 +280,10 @@ class ProcessingViewController: UIViewController {
     }
 
     func checkCardParamProcessing() {
+        if (stopExecution) {
+            return
+        }
+
         if (processedCardParamCount < cardList.count()) {
             if (execute) {
                 output.text = "Analyzing Card Parameters \(processedCardParamCount + 1)..."

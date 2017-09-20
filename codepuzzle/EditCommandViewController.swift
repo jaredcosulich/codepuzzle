@@ -550,13 +550,14 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         param.text = selectedCard.param
         editParamView.alpha = 0.0
         editParamView.isHidden = false
+        param.becomeFirstResponder()
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
             options: .curveEaseOut,
             animations: {
                 self.editParamView.alpha = 1.0
-        }
+            }
         )
     }
     
@@ -598,6 +599,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func hideParam() {
+        param.resignFirstResponder()
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
