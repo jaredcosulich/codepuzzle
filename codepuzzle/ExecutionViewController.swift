@@ -42,7 +42,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     
     var executedLayers = [CALayer]()
     
-    let scrollLayerWidth = CGFloat(85.0)
+    var scrollLayerWidth: CGFloat!
     
     var currentTranslation = CGFloat(0)
     
@@ -57,6 +57,11 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        imageView.layoutIfNeeded()        
+
+        Util.proportionalFont(anyElement: output, bufferPercentage: nil)
+        Util.proportionalFont(anyElement: speedButtons, bufferPercentage: 10)
+        
         drawingScrollView.minimumZoomScale = 1.0
         drawingScrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
         
@@ -115,7 +120,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     
     func initExecution() {
         // start the timer
-        
         var cardOffset = imageView.bounds.width / 2.0
         
         for card in cards {
@@ -125,8 +129,9 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.50
         
-            let ratio = (imageView.bounds.height - 5) / image.size.height
+            let ratio = (imageView.bounds.height - (imageView.bounds.height*0.05)) / image.size.height
             let layerWidth = image.size.width * ratio
+            scrollLayerWidth = CGFloat(layerWidth + (layerWidth * 0.1))
             let layerHeight = (imageView.bounds.height - 5)
             let bounds = CGRect(x: 0, y: 0, width: layerWidth, height: layerHeight)
             

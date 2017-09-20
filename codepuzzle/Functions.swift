@@ -132,6 +132,10 @@ class Functions {
     init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
         imageView = uiImageView
         scrollView = uiScrollView
+        
+        imageView.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
+        
         drawingRect = scrollView.convert(scrollView.bounds, to: imageView)
         initDrawing()
     }

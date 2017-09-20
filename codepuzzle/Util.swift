@@ -25,6 +25,12 @@ class Util {
             return
         }
         
+        if let element = anyElement as? UISegmentedControl {
+            let font = UIFont.systemFont(ofSize: 16)
+            element.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+            return
+        }
+        
         var label: UILabel!
         if let element = anyElement as? UIButton {
             label = element.titleLabel!
