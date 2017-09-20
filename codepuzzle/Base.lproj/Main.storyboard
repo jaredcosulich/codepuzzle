@@ -231,9 +231,9 @@
                                 <rect key="frame" x="77" y="180" width="614" height="307"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0W3-VK-vjJ">
-                                <rect key="frame" x="153.5" y="82" width="461" height="92"/>
+                                <rect key="frame" x="77" y="77" width="614" height="102"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="5:1" id="LxX-5Q-yUW"/>
+                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="6:1" id="LxX-5Q-yUW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="Project Title">
@@ -466,7 +466,7 @@
                             <constraint firstItem="GDl-Vx-efq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.55" id="799-We-4wi"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.75" id="8AZ-k2-AgJ"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
-                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.6" id="9cN-Wm-8NA"/>
+                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="9cN-Wm-8NA"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.75" id="AlY-OA-uNi"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="centerY" secondItem="oC9-YJ-yGS" secondAttribute="centerY" id="DbX-4F-yQv"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="EWK-yL-B3f"/>

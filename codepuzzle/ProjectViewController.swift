@@ -9,7 +9,7 @@
 import Foundation
 import MagicalRecord
 
-class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -53,6 +53,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         projectTitle.adjustsFontSizeToFitWidth = true
         Util.proportionalFont(anyElement: projectTitle, bufferPercentage: nil)
+        projectTitle.delegate = self
 
         projectTitleView.layer.cornerRadius = 10
         
@@ -156,6 +157,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
         return cardProjects.count
+    }
+    
+    func textFieldShouldReturn(_ sender: UITextField) -> Bool {
+        editProjectTitle.resignFirstResponder()
+        return true
     }
     
     @IBAction func startProject(_ sender: UIButton) {

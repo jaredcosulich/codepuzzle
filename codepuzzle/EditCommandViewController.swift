@@ -611,8 +611,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         )
     }
-
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (newCard != nil) {

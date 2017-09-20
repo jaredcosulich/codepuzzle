@@ -9,7 +9,7 @@
 import UIKit
 import MagicalRecord
 
-class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -94,6 +94,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         editProjectTitle.adjustsFontSizeToFitWidth = true
         Util.proportionalFont(anyElement: editProjectTitle, bufferPercentage: 5)
         editProjectTitle.returnKeyType = .done
+        editProjectTitle.delegate = self
         
         cancelButton.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: cancelButton, bufferPercentage: 8)
@@ -211,6 +212,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             cardGroupCount -= 1
         }
         return cardGroupCount
+    }
+    
+    func textFieldShouldReturn(_ sender: UITextField) -> Bool {
+        editProjectTitle.resignFirstResponder()
+        return true
     }
     
     @IBAction func newphotobutton(_ sender: UIButton) {
