@@ -136,6 +136,9 @@ class Functions {
         imageView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
         
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
+        
         drawingRect = scrollView.convert(scrollView.bounds, to: imageView)
         initDrawing()
     }
