@@ -136,10 +136,19 @@ class Functions {
         imageView.layoutIfNeeded()
         scrollView.layoutIfNeeded()
         
-        scrollView.minimumZoomScale = 1
+        scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
         
-        drawingRect = scrollView.convert(scrollView.bounds, to: imageView)
+        let s = imageView.bounds.size
+        drawingRect = CGRect(
+            x: s.width/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
+            y: s.height/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
+            width: s.width/Functions.STARTING_ZOOM,
+            height: s.height/Functions.STARTING_ZOOM
+        )
+        
+        scrollView.zoom(to: drawingRect, animated: false)
+
         initDrawing()
     }
     
@@ -479,13 +488,21 @@ class Functions {
                 permanentPath.stroke()
             }
             
+//            for i in stride(from: 0, to: size.width, by: 10) {
+//                for j in stride(from: 0, to: size.height, by: 10) {
+//                    context.setStrokeColor(UIColor.blue.cgColor)
+//                    context.stroke(CGRect(x: i, y: j, width: 10, height: 10), width: 1)
+//                }
+//            }
+            
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-            let pX = Int(currentPoint.x * 2 * Functions.STARTING_ZOOM)
-            let pY = Int(currentPoint.y * 2 * Functions.STARTING_ZOOM)
+//            let pX = Int(currentPoint.x * (Functions.STARTING_ZOOM * 3))
+//            let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * 3))
             
-            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+            let coloredImage = image!//.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+//            let coloredImage = OpenCVWrapper.floodFill(image, pX, pY, 255, 0, 0)
             
             scaledImage = coloredImage
             permanentPathComponents.removeAll()
@@ -501,8 +518,6 @@ class Functions {
             scrollView.zoom(to: drawingRect, animated: false)
             layer.isHidden = false
             imageView.layer.addSublayer(layer)
-            
-//                imageView.image = OpenCVWrapper.floodFill(image, Int32(currentPoint.x), Int32(currentPoint.y), 255, 0, 0)
         }
         
         currentPoint = nextPoint

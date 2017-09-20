@@ -57,25 +57,13 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        imageView.layoutIfNeeded()        
+        imageView.layoutIfNeeded()
+        
+        drawingScrollView.delegate = self
 
         Util.proportionalFont(anyElement: output, bufferPercentage: nil)
         Util.proportionalFont(anyElement: speedButtons, bufferPercentage: 10)
         
-        drawingScrollView.minimumZoomScale = 1.0
-        drawingScrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
-        
-        let s = drawingView.bounds.size
-        drawingScrollView.zoom(
-            to: CGRect(
-                x: s.width/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
-                y: s.height/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
-                width: s.width/Functions.STARTING_ZOOM,
-                height: s.height/Functions.STARTING_ZOOM
-            ),
-            animated: false
-        )
-
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeAddMenu))
         tap.delegate = self
         addMenuBlur.addGestureRecognizer(tap)
