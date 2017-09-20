@@ -471,7 +471,7 @@ class Functions {
             scrollView.zoomScale = 1.0
             let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
             let size = imageView.bounds.size.applying(scaleTransform)
-            UIGraphicsBeginImageContextWithOptions(size, imageView.layer.isOpaque, 0)
+            UIGraphicsBeginImageContextWithOptions(size, false, 0)
             let context = UIGraphicsGetCurrentContext()!
             
             if (scaledImage != nil) {
@@ -498,10 +498,10 @@ class Functions {
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-//            let pX = Int(currentPoint.x * (Functions.STARTING_ZOOM * 3))
-//            let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * 3))
+            let pX = Int(currentPoint.x * (Functions.STARTING_ZOOM * 3))
+            let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * 3))
             
-            let coloredImage = image!//.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
 //            let coloredImage = OpenCVWrapper.floodFill(image, pX, pY, 255, 0, 0)
             
             scaledImage = coloredImage
