@@ -547,7 +547,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     @IBAction func editParam(_ sender: UIButton) {
-        param.text = selectedCard.param
+        if (selectedCard == nil) {
+            param.text = newCard.param
+        } else {
+            param.text = selectedCard.param
+        }
         editParamView.alpha = 0.0
         editParamView.isHidden = false
         param.becomeFirstResponder()
