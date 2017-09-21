@@ -288,7 +288,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             colorPicker.adjustToColor(color)
         } else {
             paramDisplay.backgroundColor = UIColor.white
-            paramDisplay.text = selectedCard.param
+            paramDisplay.text = cardParam
             colorLabel.isHidden = true
             colorParam.isHidden = true
         }
@@ -299,7 +299,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         }
         
-        functionDisplay.text = Functions.info(code: selectedCard.code).name
+        functionDisplay.text = Functions.info(code: cardCode).name
     }
     
     @IBAction func selectColor(_ sender: UIButton) {
