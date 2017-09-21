@@ -504,8 +504,6 @@ class Functions {
 //            }
             
             let image = UIGraphicsGetImageFromCurrentImageContext()
-//            print("CGIMAGE: \(image?.cgImage)")
-//            print("CGIMAGE2 \(context.makeImage())")
             UIGraphicsEndImageContext()
             
             var xFactor = CGFloat(2)

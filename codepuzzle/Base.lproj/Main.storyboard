@@ -888,85 +888,6 @@
                                     <constraint firstItem="1Ma-id-cMm" firstAttribute="height" secondItem="DeN-dr-92c" secondAttribute="height" id="e4K-3K-pNY"/>
                                 </constraints>
                             </scrollView>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCm-iO-agc">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="K19-gR-HU9">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nff-py-nGR">
-                                            <rect key="frame" x="40" y="179" width="240" height="251"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GgE-s1-JjQ">
-                                                    <rect key="frame" x="76" y="155" width="89" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="To Beginning"/>
-                                                    <connections>
-                                                        <action selector="newCard:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="Tck-lc-fUm"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add To This Project" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jIB-ji-hal">
-                                                    <rect key="frame" x="12" y="8" width="217" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add New Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEH-u5-Bvi">
-                                                    <rect key="frame" x="0.0" y="128" width="240" height="32"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hoS-cG-wFG">
-                                                    <rect key="frame" x="97" y="181" width="47" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="To End"/>
-                                                    <connections>
-                                                        <action selector="newCard:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="hGR-w1-VKT"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Qx-0C-6VX">
-                                                    <rect key="frame" x="73" y="94" width="92" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Photo Library"/>
-                                                    <connections>
-                                                        <action selector="newPhoto:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="Mpu-pU-5EM"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add New Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZV1-jr-uyo">
-                                                    <rect key="frame" x="61" y="48" width="119" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WP2-RE-Lxs">
-                                                    <rect key="frame" x="82" y="68" width="77" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Take Photo"/>
-                                                    <connections>
-                                                        <action selector="newPhoto:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="f1X-ES-UI8"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EI-Fh-zPY">
-                                                    <rect key="frame" x="97" y="221" width="48" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Cancel"/>
-                                                    <connections>
-                                                        <action selector="closeAddMenu:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="DGj-bu-gkv"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </subviews>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="55S-Gc-Zaf">
                                 <rect key="frame" x="0.0" y="789.5" width="768" height="184.5"/>
                                 <gestureRecognizers/>
@@ -976,7 +897,7 @@
                                 </connections>
                             </imageView>
                             <segmentedControl hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="ito-3F-4r1">
-                                <rect key="frame" x="96" y="921.5" width="576" height="52"/>
+                                <rect key="frame" x="96" y="891" width="576" height="62"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <segments>
                                     <segment title="Normal"/>
@@ -987,16 +908,117 @@
                                     <action selector="speedbutton:" destination="yyQ-YR-DlG" eventType="valueChanged" id="VUL-AA-ySY"/>
                                 </connections>
                             </segmentedControl>
+                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCm-iO-agc">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="K19-gR-HU9">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nff-py-nGR">
+                                            <rect key="frame" x="96" y="128" width="576" height="768"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add To This Project" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jIB-ji-hal">
+                                                    <rect key="frame" x="197" y="19.5" width="182.5" height="115.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add New Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZV1-jr-uyo">
+                                                    <rect key="frame" x="228" y="115" width="119" height="115.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WP2-RE-Lxs">
+                                                    <rect key="frame" x="249" y="172.5" width="77" height="115.5"/>
+                                                    <state key="normal" title="Take Photo"/>
+                                                    <connections>
+                                                        <action selector="newPhoto:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="f1X-ES-UI8"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Qx-0C-6VX">
+                                                    <rect key="frame" x="242" y="230.5" width="92" height="115"/>
+                                                    <state key="normal" title="Photo Library"/>
+                                                    <connections>
+                                                        <action selector="newPhoto:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="Mpu-pU-5EM"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add New Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEH-u5-Bvi">
+                                                    <rect key="frame" x="238" y="326.5" width="99" height="115"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GgE-s1-JjQ">
+                                                    <rect key="frame" x="243.5" y="384" width="89" height="115.5"/>
+                                                    <state key="normal" title="To Beginning"/>
+                                                    <connections>
+                                                        <action selector="newCard:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="Tck-lc-fUm"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hoS-cG-wFG">
+                                                    <rect key="frame" x="264.5" y="441.5" width="47" height="115.5"/>
+                                                    <state key="normal" title="To End"/>
+                                                    <connections>
+                                                        <action selector="newCard:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="hGR-w1-VKT"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EI-Fh-zPY">
+                                                    <rect key="frame" x="264.5" y="556.5" width="48" height="115.5"/>
+                                                    <state key="normal" title="Cancel"/>
+                                                    <connections>
+                                                        <action selector="closeAddMenu:" destination="yyQ-YR-DlG" eventType="touchUpInside" id="DGj-bu-gkv"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="GgE-s1-JjQ" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="0PA-P7-5of"/>
+                                                <constraint firstItem="hoS-cG-wFG" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="2r4-UT-099"/>
+                                                <constraint firstItem="GgE-s1-JjQ" firstAttribute="centerX" secondItem="Nff-py-nGR" secondAttribute="centerX" id="5Gp-YC-Dc3"/>
+                                                <constraint firstItem="8EI-Fh-zPY" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="1.6" id="B6V-bi-F0f"/>
+                                                <constraint firstItem="GgE-s1-JjQ" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="1.15" id="CV6-fg-Qnq"/>
+                                                <constraint firstItem="WP2-RE-Lxs" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="Kf4-JW-vpf"/>
+                                                <constraint firstItem="hoS-cG-wFG" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="1.3" id="NPH-3z-qSd"/>
+                                                <constraint firstItem="8EI-Fh-zPY" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="NYN-7N-2Rp"/>
+                                                <constraint firstItem="ZV1-jr-uyo" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="Q0M-Qj-nxR"/>
+                                                <constraint firstItem="hoS-cG-wFG" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="RXP-jc-F3d"/>
+                                                <constraint firstItem="7Qx-0C-6VX" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="W0k-T2-QYk"/>
+                                                <constraint firstItem="ZV1-jr-uyo" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="Wdz-PB-yLV"/>
+                                                <constraint firstItem="8EI-Fh-zPY" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="ZoV-aH-Rhx"/>
+                                                <constraint firstItem="VEH-u5-Bvi" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="Zzp-Rh-YsM"/>
+                                                <constraint firstItem="WP2-RE-Lxs" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="bP5-jD-4Jm"/>
+                                                <constraint firstItem="jIB-ji-hal" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="0.2" id="c2L-qE-ZYz"/>
+                                                <constraint firstItem="WP2-RE-Lxs" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="0.6" id="erd-1O-gj5"/>
+                                                <constraint firstItem="7Qx-0C-6VX" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="0.75" id="mvf-E8-y96"/>
+                                                <constraint firstItem="jIB-ji-hal" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="qX8-1Q-Qf7"/>
+                                                <constraint firstItem="ZV1-jr-uyo" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" multiplier="0.45" id="sHU-I2-r36"/>
+                                                <constraint firstItem="GgE-s1-JjQ" firstAttribute="height" secondItem="Nff-py-nGR" secondAttribute="height" multiplier="0.15" id="uUJ-KV-Klv"/>
+                                                <constraint firstItem="VEH-u5-Bvi" firstAttribute="centerY" secondItem="Nff-py-nGR" secondAttribute="centerY" id="v5W-0D-Nr1"/>
+                                                <constraint firstItem="VEH-u5-Bvi" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="vFO-os-1XL"/>
+                                                <constraint firstItem="7Qx-0C-6VX" firstAttribute="centerX" secondItem="jIB-ji-hal" secondAttribute="centerX" id="y6e-cy-58U"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="Nff-py-nGR" firstAttribute="width" secondItem="eCm-iO-agc" secondAttribute="width" multiplier="0.75" id="0Gd-Nd-I0e"/>
+                                    <constraint firstItem="Nff-py-nGR" firstAttribute="centerX" secondItem="eCm-iO-agc" secondAttribute="centerX" id="dLx-KL-T1r"/>
+                                    <constraint firstItem="Nff-py-nGR" firstAttribute="centerY" secondItem="eCm-iO-agc" secondAttribute="centerY" id="mKd-7f-mga"/>
+                                    <constraint firstItem="Nff-py-nGR" firstAttribute="height" secondItem="eCm-iO-agc" secondAttribute="height" multiplier="0.75" id="xhq-qM-INV"/>
+                                </constraints>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BGN-9f-DUk" firstAttribute="trailing" secondItem="sJs-rs-rVh" secondAttribute="trailing" constant="-20" id="12L-Md-bZb"/>
                             <constraint firstItem="nS6-7g-Dsd" firstAttribute="top" secondItem="55S-Gc-Zaf" secondAttribute="bottom" constant="6" id="1gf-P8-sKb"/>
                             <constraint firstItem="BGN-9f-DUk" firstAttribute="width" secondItem="BGN-9f-DUk" secondAttribute="height" multiplier="1:1" id="3pH-cT-7Pw"/>
-                            <constraint firstItem="ito-3F-4r1" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" multiplier="0.05" id="9FO-tw-kvv"/>
+                            <constraint firstItem="ito-3F-4r1" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" multiplier="0.06" id="9FO-tw-kvv"/>
                             <constraint firstItem="55S-Gc-Zaf" firstAttribute="width" secondItem="MHB-EX-G77" secondAttribute="width" id="9uT-G1-sxo"/>
                             <constraint firstItem="cjJ-xy-2ov" firstAttribute="height" secondItem="wgm-Ga-ZhA" secondAttribute="height" multiplier="0.6" id="BRj-m3-Sds"/>
-                            <constraint firstItem="ito-3F-4r1" firstAttribute="centerY" secondItem="MHB-EX-G77" secondAttribute="centerY" multiplier="1.85" id="BfR-e8-YBE"/>
+                            <constraint firstItem="ito-3F-4r1" firstAttribute="centerY" secondItem="MHB-EX-G77" secondAttribute="centerY" multiplier="1.8" id="BfR-e8-YBE"/>
                             <constraint firstItem="BGN-9f-DUk" firstAttribute="centerY" secondItem="sJs-rs-rVh" secondAttribute="centerY" id="EF8-Py-MF6"/>
                             <constraint firstItem="BGN-9f-DUk" firstAttribute="height" secondItem="sJs-rs-rVh" secondAttribute="height" multiplier="0.6" id="F33-Qe-yLe"/>
                             <constraint firstItem="wgm-Ga-ZhA" firstAttribute="centerY" secondItem="MHB-EX-G77" secondAttribute="centerY" multiplier="1.42" id="FGE-Gx-H07"/>
@@ -1005,11 +1027,13 @@
                             <constraint firstItem="sJs-rs-rVh" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" multiplier="0.05" id="IYW-ff-Asb"/>
                             <constraint firstItem="DeN-dr-92c" firstAttribute="width" secondItem="MHB-EX-G77" secondAttribute="width" id="J2e-FR-eak"/>
                             <constraint firstItem="cjJ-xy-2ov" firstAttribute="centerY" secondItem="wgm-Ga-ZhA" secondAttribute="centerY" id="OfP-eq-1cn"/>
+                            <constraint firstItem="eCm-iO-agc" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="QVM-tk-oJA"/>
                             <constraint firstItem="wgm-Ga-ZhA" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="RCC-CD-o69"/>
                             <constraint firstItem="sJs-rs-rVh" firstAttribute="width" secondItem="MHB-EX-G77" secondAttribute="width" id="TEM-yS-d7B"/>
                             <constraint firstItem="nS6-7g-Dsd" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="U7l-Zr-eLF"/>
                             <constraint firstItem="wlb-PJ-one" firstAttribute="width" secondItem="wlb-PJ-one" secondAttribute="height" multiplier="97:52" id="UG3-H7-kKI"/>
                             <constraint firstItem="BGN-9f-DUk" firstAttribute="width" secondItem="BGN-9f-DUk" secondAttribute="height" multiplier="1:1" id="UIA-En-Cac"/>
+                            <constraint firstItem="eCm-iO-agc" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" id="Xos-pU-qXb"/>
                             <constraint firstItem="wgm-Ga-ZhA" firstAttribute="width" secondItem="MHB-EX-G77" secondAttribute="width" id="YcQ-yy-TEL"/>
                             <constraint firstItem="sJs-rs-rVh" firstAttribute="centerY" secondItem="MHB-EX-G77" secondAttribute="centerY" multiplier="0.12" id="ali-zz-nir"/>
                             <constraint firstItem="DeN-dr-92c" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="dfo-RA-igf"/>
@@ -1019,19 +1043,16 @@
                             <constraint firstItem="wlb-PJ-one" firstAttribute="width" secondItem="wlb-PJ-one" secondAttribute="height" multiplier="97:52" id="gBz-GO-qB6"/>
                             <constraint firstItem="ito-3F-4r1" firstAttribute="centerX" secondItem="MHB-EX-G77" secondAttribute="centerX" id="gFE-5r-5k2"/>
                             <constraint firstItem="nS6-7g-Dsd" firstAttribute="width" secondItem="MHB-EX-G77" secondAttribute="width" id="gKr-EI-bKe"/>
+                            <constraint firstItem="eCm-iO-agc" firstAttribute="centerY" secondItem="MHB-EX-G77" secondAttribute="centerY" id="hwp-0Q-Blq"/>
                             <constraint firstItem="wlb-PJ-one" firstAttribute="leading" secondItem="sJs-rs-rVh" secondAttribute="leading" constant="20" id="kOD-xB-C7A"/>
                             <constraint firstItem="wlb-PJ-one" firstAttribute="centerY" secondItem="sJs-rs-rVh" secondAttribute="centerY" id="mcl-Cu-APk"/>
                             <constraint firstItem="DeN-dr-92c" firstAttribute="centerY" secondItem="MHB-EX-G77" secondAttribute="centerY" multiplier="0.78" id="nR3-vD-0MV"/>
                             <constraint firstItem="wgm-Ga-ZhA" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" multiplier="0.05" id="pgh-QV-950"/>
+                            <constraint firstItem="eCm-iO-agc" firstAttribute="width" secondItem="MHB-EX-G77" secondAttribute="width" id="qAw-Vc-fZa"/>
                             <constraint firstItem="sJs-rs-rVh" firstAttribute="height" secondItem="wlb-PJ-one" secondAttribute="height" multiplier="0.98" id="qjd-Wx-5E9"/>
                             <constraint firstItem="DeN-dr-92c" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" multiplier="0.6" id="vuv-qr-0r7"/>
                             <constraint firstItem="55S-Gc-Zaf" firstAttribute="height" secondItem="MHB-EX-G77" secondAttribute="height" multiplier="0.18" id="zQ2-ng-WSX"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="eCm-iO-agc"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="addMenuBlur" destination="eCm-iO-agc" id="DtC-M6-fZC"/>
