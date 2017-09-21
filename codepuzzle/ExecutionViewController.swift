@@ -72,8 +72,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         cards = cardProject.allCards()
         
-        print("CARDS: \(cards.count), SELECTED INDEX: \(selectedIndex), EXECUTION INDEX: \(executionIndex)")
-        
         if (selectedIndex != -1) {
             pause()
         } else {
@@ -110,6 +108,19 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         // start the timer
         var cardOffset = imageView.bounds.width / 2.0
         
+        var largestRatio = CGFloat(0)
+        var cardWidth: CGFloat!
+        for card in cards {
+            let image = card.image!
+            let ratio = (imageView.bounds.height - (imageView.bounds.height*0.05)) / image.size.height
+            if (ratio > largestRatio) {
+                largestRatio = ratio
+                cardWidth = image.size.width * largestRatio
+            }
+        }
+
+        scrollLayerWidth = CGFloat(cardWidth + (cardWidth / 8))
+
         for card in cards {
             let functionLayer = CALayer()
             let image = card.image!
@@ -117,11 +128,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.50
         
-            let ratio = (imageView.bounds.height - (imageView.bounds.height*0.05)) / image.size.height
-            let layerWidth = image.size.width * ratio
-            scrollLayerWidth = CGFloat(layerWidth + (layerWidth * 0.1))
-            let layerHeight = (imageView.bounds.height - 5)
-            let bounds = CGRect(x: 0, y: 0, width: layerWidth, height: layerHeight)
+            let layerHeight = image.size.height * largestRatio
+            let bounds = CGRect(x: 0, y: 0, width: cardWidth, height: layerHeight)
             
             functionLayer.bounds = bounds
             functionLayer.shadowColor = UIColor.black.cgColor
@@ -288,8 +296,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     func findCardIndex(x: CGFloat) -> Int {
         for i in 0..<executedLayers.count {
             let l = executedLayers[i]
-            let positionX = l.position.x - (scrollLayerWidth / 2) + (scrollLayerWidth / 8)
-            if (positionX <= x && x < positionX + scrollLayerWidth) {
+            let positionX = l.position.x - (scrollLayerWidth / 2) + (scrollLayerWidth / 16) - 2
+            if (positionX <= x && x < positionX + scrollLayerWidth + 2) {
                 return i
             }
         }
