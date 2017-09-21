@@ -586,7 +586,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             if (!errorCard) {
                 let newImage = drawCard(
-                    code: selectedCard.code,
+                    code: selectedCard == nil ? newCard.code : selectedCard.code,
                     param: paramText
                 )
                 selectedCard?.image = newImage

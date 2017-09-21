@@ -474,7 +474,7 @@ class Functions {
             layer.isHidden = true
 
             scrollView.zoomScale = 1.0
-            let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
+            let scaleTransform = CGAffineTransform(scaleX: Functions.STARTING_ZOOM, y: Functions.STARTING_ZOOM)
             let size = imageView.bounds.size.applying(scaleTransform)
             UIGraphicsBeginImageContextWithOptions(size, true, 0)
             let context = UIGraphicsGetCurrentContext()!
@@ -515,11 +515,9 @@ class Functions {
             let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * xFactor))
             
             
-//            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
-//            let coloredImage = OpenCVWrapper.floodFill(image, Int32(pX), Int32(pY), 255, 0, 0)
-            let coloredImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
-
-            scaledImage = coloredImage
+            scaledImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+//            scaledImage = OpenCVWrapper.floodFill(image, Int32(pX), Int32(pY), 255, 0, 0)
+//            scaledImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
             permanentPathComponents.removeAll()
             permanentPathComponents.append(PermanentPathComponent(
                 size:  penSize,
@@ -528,7 +526,7 @@ class Functions {
             ))
 
             imageView.layer.sublayers?.removeAll()
-            imageView.image = coloredImage
+            imageView.image = scaledImage
             
             scrollView.zoom(to: drawingRect, animated: false)
             layer.isHidden = false
