@@ -353,6 +353,11 @@ class Functions {
     }
         
     func execute(code: String, param: String, instant: Bool = false) -> Int {
+//        if scaledImage != nil {
+//            imageView.image = scaledImage
+//            return 0
+//        }
+        
         expandBounds(point: currentPoint)
 
         let methodName = Functions.info(code: code).method
@@ -471,11 +476,14 @@ class Functions {
             scrollView.zoomScale = 1.0
             let scaleTransform = CGAffineTransform(scaleX: CGFloat(Functions.STARTING_ZOOM), y: CGFloat(Functions.STARTING_ZOOM))
             let size = imageView.bounds.size.applying(scaleTransform)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0)
+            UIGraphicsBeginImageContextWithOptions(size, true, 0)
             let context = UIGraphicsGetCurrentContext()!
+            let contextRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            context.setFillColor(UIColor.white.cgColor)
+            context.fill(contextRect)
             
             if (scaledImage != nil) {
-                scaledImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+                scaledImage.draw(in: contextRect)
             }
             
             for permanentPathComponent in permanentPathComponents {
@@ -488,22 +496,31 @@ class Functions {
                 permanentPath.stroke()
             }
             
-//            for i in stride(from: 0, to: size.width, by: 10) {
-//                for j in stride(from: 0, to: size.height, by: 10) {
+//            for i in stride(from: 0, to: size.width, by: 100) {
+//                for j in stride(from: 0, to: size.height, by: 100) {
 //                    context.setStrokeColor(UIColor.blue.cgColor)
-//                    context.stroke(CGRect(x: i, y: j, width: 10, height: 10), width: 1)
+//                    context.stroke(CGRect(x: i, y: j, width: 100, height: 100), width: 1)
 //                }
 //            }
             
             let image = UIGraphicsGetImageFromCurrentImageContext()
+//            print("CGIMAGE: \(image?.cgImage)")
+//            print("CGIMAGE2 \(context.makeImage())")
             UIGraphicsEndImageContext()
             
-            let pX = Int(currentPoint.x * (Functions.STARTING_ZOOM * 3))
-            let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * 3))
+            var xFactor = CGFloat(2)
+            if UIDevice().type.rawValue.contains("Plus") {
+                xFactor = 3
+            }
             
-            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
-//            let coloredImage = OpenCVWrapper.floodFill(image, pX, pY, 255, 0, 0)
+            let pX = Int(currentPoint.x * (Functions.STARTING_ZOOM * xFactor))
+            let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * xFactor))
             
+            
+//            let coloredImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+//            let coloredImage = OpenCVWrapper.floodFill(image, Int32(pX), Int32(pY), 255, 0, 0)
+            let coloredImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
+
             scaledImage = coloredImage
             permanentPathComponents.removeAll()
             permanentPathComponents.append(PermanentPathComponent(

@@ -1088,7 +1088,7 @@
                                 <state key="normal" image="home"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="4jZ-1z-iUn">
-                                <rect key="frame" x="20" y="36.5" width="96.5" height="51"/>
+                                <rect key="frame" x="20" y="36" width="97" height="52"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="4jZ-1z-iUn" secondAttribute="height" multiplier="97:52" id="U1A-ha-irg"/>
                                 </constraints>
