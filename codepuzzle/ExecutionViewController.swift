@@ -108,14 +108,14 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         // start the timer
         var cardOffset = imageView.bounds.width / 2.0
         
-        var largestRatio = CGFloat(0)
+        var smallestRatio = CGFloat(1.0)
         var cardWidth: CGFloat!
         for card in cards {
             let image = card.image!
-            let ratio = (imageView.bounds.height - (imageView.bounds.height*0.05)) / image.size.height
-            if (ratio > largestRatio) {
-                largestRatio = ratio
-                cardWidth = image.size.width * largestRatio
+            let ratio = imageView.bounds.height / image.size.height
+            if (ratio < smallestRatio) {
+                smallestRatio = ratio
+                cardWidth = image.size.width * smallestRatio
             }
         }
 
@@ -128,7 +128,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             functionLayer.contents = image.cgImage
             functionLayer.opacity = 0.50
         
-            let layerHeight = image.size.height * largestRatio
+            let layerHeight = image.size.height * smallestRatio
             let bounds = CGRect(x: 0, y: 0, width: cardWidth, height: layerHeight)
             
             functionLayer.bounds = bounds
