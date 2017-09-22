@@ -10,7 +10,7 @@
 
 #define DEBUG_ANTIALIASING 0
 
-@implementation UIImage (FloodFill)
+@implementation Floodfill
 /*
  startPoint : Point from where you want to color. Generaly this is touch point.
  This is important because color at start point will be replaced with other.
@@ -23,12 +23,12 @@
  If You dont want to use tolerance and want to incress performance Than you can change
  compareColor(ocolor, color, tolerance) with just ocolor==color which reduse function call.
  */
-- (UIImage *) floodFillFromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance
++ (void) executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance
 {
-    return [self floodFillFromPoint:startPoint withColor:newColor andTolerance:tolerance useAntiAlias:YES];
+    [self executeInContext:context fromPoint:startPoint withColor:newColor andTolerance:tolerance useAntiAlias:YES];
 }
 
-- (UIImage *) floodFillFromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance useAntiAlias:(BOOL)antiAlias
++ (void) executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance useAntiAlias:(BOOL)antiAlias
 {
     @try
     {
@@ -39,35 +39,20 @@
          http://stackoverflow.com/questions/448125/how-to-get-pixel-data-from-a-uiimage-cocoa-touch-or-cgimage-core-graphics
          */
         
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        
-        CGImageRef imageRef = [self CGImage];
-        
-        NSUInteger width = CGImageGetWidth(imageRef);
-        NSUInteger height = CGImageGetHeight(imageRef);
-        
-        NSUInteger bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
-        NSUInteger bytesPerRow = CGImageGetBytesPerRow(imageRef);
-        NSUInteger bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
+        NSUInteger width = CGBitmapContextGetWidth(context);
+        NSUInteger height = CGBitmapContextGetHeight(context);
+//
+        NSUInteger bitsPerPixel = CGBitmapContextGetBitsPerPixel(context);
+        NSUInteger bytesPerRow = CGBitmapContextGetBytesPerRow(context);
+        NSUInteger bitsPerComponent = CGBitmapContextGetBitsPerComponent(context);
         NSUInteger bytesPerPixel = bitsPerPixel / bitsPerComponent;
         
-        unsigned char *imageData = malloc(height * width * bitsPerComponent);
+        unsigned char *imageData = CGBitmapContextGetData(context);
 
-        CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+        CGBitmapInfo bitmapInfo = CGBitmapContextGetBitmapInfo(context);
         if (kCGImageAlphaLast == (uint32_t)bitmapInfo || kCGImageAlphaFirst == (uint32_t)bitmapInfo) {
             bitmapInfo = (uint32_t)kCGImageAlphaPremultipliedLast;
         }
-        
-        CGContextRef context = CGBitmapContextCreate(imageData,
-                                                     width,
-                                                     height,
-                                                     bitsPerComponent,
-                                                     bytesPerRow,
-                                                     colorSpace,
-                                                     bitmapInfo);
-        CGColorSpaceRelease(colorSpace);
-        
-        CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
         
         //Get color at start point
         unsigned int byteIndex = (bytesPerRow * roundf(startPoint.y)) + roundf(startPoint.x) * bytesPerPixel;
@@ -76,7 +61,7 @@
         
         if (compareColor(ocolor, 0, 0)) {
             printf("BAD COLOR: %u - %f - %lu\n", ocolor, startPoint.x, (unsigned long)width);
-            return nil;
+            return;
         }
         
         //Convert newColor to RGBA value so we can save it to image.
@@ -425,19 +410,6 @@
             }
         }
         
-        //Convert Flood filled image row data back to UIImage object.
-        
-        CGImageRef newCGImage = CGBitmapContextCreateImage(context);
-        
-        UIImage *result = [UIImage imageWithCGImage:newCGImage scale:[self scale] orientation:UIImageOrientationUp];
-        
-        CGImageRelease(newCGImage);
-        
-        CGContextRelease(context);
-        
-        free(imageData);
-        
-        return result;
     }
     @catch (NSException *exception)
     {

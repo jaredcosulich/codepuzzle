@@ -502,22 +502,23 @@ class Functions {
 //                    context.stroke(CGRect(x: i, y: j, width: 100, height: 100), width: 1)
 //                }
 //            }
-            
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
+
             var xFactor = CGFloat(2)
             if UIDevice().type.rawValue.contains("Plus") {
                 xFactor = 3
             }
-            
+
             let pX = Int(currentPoint.x * (Functions.STARTING_ZOOM * xFactor))
             let pY = Int(currentPoint.y * (Functions.STARTING_ZOOM * xFactor))
+
+            Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
+            scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
             
             
-            scaledImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+//            scaledImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
 //            scaledImage = OpenCVWrapper.floodFill(image, Int32(pX), Int32(pY), 255, 0, 0)
-//            scaledImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
+//            scaledImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, in: context, andTolerance: 5)
             permanentPathComponents.removeAll()
             permanentPathComponents.append(PermanentPathComponent(
                 size:  penSize,
