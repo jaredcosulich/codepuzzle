@@ -328,7 +328,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     
     func executeCard(index: Int, redraw: Bool = false) {
         if index == -1 || index >= cards.count {
-            if (redraw || speed == 0) {
+            if (redraw) {
                 functions.drawInstant(instant: true)
             }
             
@@ -344,7 +344,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         if (card.disabled) {
             functionText = "Deleted Card"
         } else {
-            let loopCount = functions.execute(code: card.code, param: card.param, instant: (redraw || speed == 0))
+            let loopCount = functions.execute(code: card.code, param: card.param, instant: redraw)
             if loopCount > 0 {
                 loops.append(Loop(startingIndex: index, count: loopCount))
                 functionText = "Loop \(loops.last!.count) Times"
@@ -363,7 +363,8 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         executionIndex = loopIndex > -1 ? loopIndex : index
         
-        if (speed == 0 || (redraw && executionIndex < selectedIndex)) {
+
+        if (redraw && executionIndex < selectedIndex) {
             executeCard(index: executionIndex + 1, redraw: true)
         } else {
             output.text = functionText
@@ -375,7 +376,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             }
             selectedIndex = executionIndex
 
-            if (redraw || speed == 0) {
+            if (redraw) {
                 functions.drawInstant(instant: true)
             }
         }
@@ -442,9 +443,11 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             let cardIndex = findCardIndex(x: tapX)
             if (cardIndex == cards.count) {
                 if (tapY < imageView.bounds.size.height / 2) {
-                    reset()
+                    scrollToCard(index: 0)
+                    highlightCard(index: 0)
                     play()
-                    initExecution()
+                    executeNextCard()
+                    startTimer()
                 } else {
                     addMenuBlur.isHidden = false
                 }
@@ -475,6 +478,11 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     }
     
     func play() {
+        if (speed == 0) {
+            scrollToCard(index: cards.count - 1)
+            highlightCard(index: cards.count - 1)
+        }
+
         paused = false
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.pause, target: self, action: #selector(playbutton))
         toolbar.items?[2] = button

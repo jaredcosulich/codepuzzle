@@ -128,9 +128,10 @@ class Functions {
     var currentUserDefinedFunction: CGFloat?
     
     var permanentPathComponents = [PermanentPathComponent]()
-    var scaledImage: UIImage!
     
     var instantContext: CGContext!
+    
+    var scaledImage: UIImage!
     
     init(uiImageView: UIImageView, uiScrollView: UIScrollView) {
         imageView = uiImageView
@@ -156,10 +157,15 @@ class Functions {
     }
     
     func initDrawing() {
+        instantContext = nil
+        
+        scaledImage = nil
+        
         imageView.image = nil
         imageView.layer.sublayers?.removeAll()
         
-        scaledImage = nil
+        permanentPathComponents.removeAll()
+        
         permanentPathComponents.append(
             PermanentPathComponent(size: 1, color: UIColor.black, path: UIBezierPath(), fillPoint: nil)
         )
@@ -358,7 +364,6 @@ class Functions {
     func initDrawingContext() -> CGContext {
         layer.isHidden = true
         
-        scrollView.zoomScale = 1.0
         let scaleTransform = CGAffineTransform(scaleX: Functions.STARTING_ZOOM, y: Functions.STARTING_ZOOM)
         let size = imageView.bounds.size.applying(scaleTransform)
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -408,7 +413,7 @@ class Functions {
         let methodName = Functions.info(code: code).method
 
         let paramNumber = Functions.translate(param: param)
-
+        
         if (currentUserDefinedFunction != nil) {
             if (methodName == "endFunction") {
                 currentUserDefinedFunction = nil
