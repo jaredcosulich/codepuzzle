@@ -360,12 +360,21 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         if (!colorPickerView.isHidden) {
-            let param = "\(colorPicker.currentColor)"
+            let paramText = "\(colorPicker.currentColor)"
+            
             if (selectedCard == nil) {
-                newCard.param = param
+                newCard.param = paramText
             } else {
-                selectedCard.param = param
+                selectedCard.param = paramText
             }
+            
+            let newImage = drawCard(
+                code: selectedCard == nil ? newCard.code : selectedCard.code,
+                param: paramText
+            )
+            
+            selectedCard?.image = newImage
+            newCard?.image = newImage
         }
         
         if (newCard != nil) {
@@ -423,10 +432,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
             
             if (info.color) {
+                let context = UIGraphicsGetCurrentContext()
                 let colorRect = CGRect(origin: CGPoint(x: 180, y: 270), size: CGSize(width: 90, height: 90))
                 
-                ImageProcessor.colorFrom(text: param!).setFill()
-                UIRectFill(colorRect)
+                let color = ImageProcessor.colorFrom(text: param!)
+                context?.setFillColor(color.cgColor)
+                context?.fill(colorRect)
             }
         }
         
@@ -473,9 +484,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
 
     @IBAction func editFunction(_ sender: UIButton) {
+        let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
         newCode = nil
         for i in 0..<Functions.functionInfo.count {
-            if (functionCodes[i] == Functions.processedCode(code: selectedCard.code)) {
+            if (functionCodes[i] == Functions.processedCode(code: cardCode)) {
                 functionPicker.selectRow(i, inComponent: 0, animated: false)
             }
         }
@@ -554,7 +566,9 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
         editParamView.alpha = 0.0
         editParamView.isHidden = false
-        param.becomeFirstResponder()
+        if !param.isHidden {
+            param.becomeFirstResponder()
+        }
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,

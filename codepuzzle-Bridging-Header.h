@@ -5,5 +5,5 @@
 #import "OpenCVWrapper.h"
 #import <TesseractOCR/TesseractOCR.h>
 #import "CardListWrapper.h"
-#import "UIImage+FloodFill.h"
+#import "FloodFill.h"
 

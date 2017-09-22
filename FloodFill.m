@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 ZWT. All rights reserved.
 //
 
-#import "UIImage+FloodFill.h"
+#import "FloodFill.h"
 
 #define DEBUG_ANTIALIASING 0
 
