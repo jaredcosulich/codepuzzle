@@ -404,7 +404,6 @@ class Functions {
     
     func execute(code: String, param: String, instant: Bool = false) -> Int {
         if instant && instantContext == nil {
-            print("INSTANTIATE INSTANT")
             instantContext = initDrawingContext()
         }
 
@@ -426,6 +425,7 @@ class Functions {
         }
         
         var nextPoint = currentPoint
+        var function = false
         var fill = false
         var fillColor = UIColor.red
         
