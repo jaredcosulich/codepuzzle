@@ -328,6 +328,10 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     
     func executeCard(index: Int, redraw: Bool = false) {
         if index == -1 || index >= cards.count {
+            if (redraw || speed == 0) {
+                functions.drawInstant(instant: true)
+            }
+            
             return
         }
         
@@ -359,7 +363,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         executionIndex = loopIndex > -1 ? loopIndex : index
         
-        if (redraw && executionIndex < selectedIndex) {
+        if (speed == 0 || (redraw && executionIndex < selectedIndex)) {
             executeCard(index: executionIndex + 1, redraw: true)
         } else {
             output.text = functionText
@@ -370,6 +374,10 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
                 colorSwatch.isHidden = true
             }
             selectedIndex = executionIndex
+
+            if (redraw || speed == 0) {
+                functions.drawInstant(instant: true)
+            }
         }
     }
     

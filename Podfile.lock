@@ -1,15 +1,14 @@
 PODS:
-  - Alamofire (4.5.0)
-  - AWSCognito (2.5.10):
-    - AWSCore (= 2.5.10)
-  - AWSCore (2.5.10)
-  - AWSS3 (2.5.10):
-    - AWSCore (= 2.5.10)
+  - Alamofire (4.5.1)
+  - AWSCognito (2.6.1):
+    - AWSCore (= 2.6.1)
+  - AWSCore (2.6.1)
+  - AWSS3 (2.6.1):
+    - AWSCore (= 2.6.1)
   - ChromaColorPicker (1.5.1)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - PaintBucket (0.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
@@ -18,17 +17,15 @@ DEPENDENCIES:
   - AWSS3
   - ChromaColorPicker
   - MagicalRecord
-  - PaintBucket
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  AWSCognito: 75de3956984129b9a270f99261c431fa1eb87c26
-  AWSCore: 490c988f6af48a10ea113ff06c53a1ef72a3534b
-  AWSS3: cd25080951a7637668d4f33393fe24bcb04dfac7
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  AWSCognito: 9aad635e11de0febf026e8a8acbbd345b2016801
+  AWSCore: e7d37fa0715def975acf1b0d75556576780088b8
+  AWSS3: 2e18ede28199a5530955dc1a65434da43dcc4d2c
   ChromaColorPicker: cc7fc1d92569a8a9198fe89d9a420147e508462c
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  PaintBucket: ffa4e1666ee71e0c2fe8b299e2a1b87afaf3fe78
 
-PODFILE CHECKSUM: 590dd135363fceb1d5faac53c550134a3f74746d
+PODFILE CHECKSUM: 3ab69d38549248972cf96cce00fa20063bb2cd5d
 
 COCOAPODS: 1.3.1

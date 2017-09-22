@@ -10,7 +10,7 @@ target 'codepuzzle' do
   pod 'AWSCognito'
   pod 'AWSS3' 
   pod "MagicalRecord"
-  pod 'PaintBucket'
+  # pod 'PaintBucket'
   pod 'ChromaColorPicker'
 
   target 'codepuzzleTests' do
