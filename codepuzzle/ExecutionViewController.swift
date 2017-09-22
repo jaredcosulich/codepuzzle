@@ -329,7 +329,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     func executeCard(index: Int, redraw: Bool = false) {
         if index == -1 || index >= cards.count {
             if (redraw) {
-                functions.drawInstant(instant: true)
+                functions.draw(instant: true)
             }
             
             return
@@ -377,7 +377,7 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
             selectedIndex = executionIndex
 
             if (redraw) {
-                functions.drawInstant(instant: true)
+                functions.draw(instant: true)
             }
         }
     }

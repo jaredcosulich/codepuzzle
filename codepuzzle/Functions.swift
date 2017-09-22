@@ -362,8 +362,6 @@ class Functions {
     }
     
     func initDrawingContext() -> CGContext {
-        layer.isHidden = true
-        
         let scaleTransform = CGAffineTransform(scaleX: Functions.STARTING_ZOOM, y: Functions.STARTING_ZOOM)
         let size = imageView.bounds.size.applying(scaleTransform)
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -378,7 +376,7 @@ class Functions {
         return context
     }
     
-    func drawInstant(instant: Bool) {
+    func draw(instant: Bool) {
         drawPermanentPath(instant: instant)
         scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -401,6 +399,7 @@ class Functions {
         scrollView.zoom(to: drawingRect, animated: false)
         layer.isHidden = false
         imageView.layer.addSublayer(layer)
+        drawPointer(at: currentPoint, angle: currentAngle)
     }
     
     func execute(code: String, param: String, instant: Bool = false) -> Int {
@@ -537,7 +536,7 @@ class Functions {
         }
 
         if (fill && !instant) {
-            drawInstant(instant: false)
+            draw(instant: false)
         }
         
         currentPoint = nextPoint
@@ -546,7 +545,6 @@ class Functions {
     }
     
     func drawPermanentPath(instant: Bool) {
-        layer.isHidden = true
         var context: CGContext!
         
         if instant {
@@ -571,7 +569,7 @@ class Functions {
                 
                 Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
             } else {
-                instantContext.setStrokeColor(permanentPathComponent.color.cgColor)
+                context.setStrokeColor(permanentPathComponent.color.cgColor)
                 
                 let permanentPath = permanentPathComponent.path!
                 
@@ -581,11 +579,7 @@ class Functions {
                 context.addPath(permanentPath.cgPath)
                 permanentPath.stroke()
             }
-            
         }
-        
-        drawPointer(at: currentPoint, angle: currentAngle)
-        imageView.layer.sublayers?.append(layer)
     }
     
     func expandBounds(point: CGPoint) {
