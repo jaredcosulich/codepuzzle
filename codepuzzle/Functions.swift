@@ -404,6 +404,7 @@ class Functions {
     
     func execute(code: String, param: String, instant: Bool = false) -> Int {
         if instant && instantContext == nil {
+            print("INSTANTIATE INSTANT")
             instantContext = initDrawingContext()
         }
 
@@ -418,7 +419,7 @@ class Functions {
                 currentUserDefinedFunction = nil
             } else {
                 userDefinedFunctions[currentUserDefinedFunction!]!.append({
-                    return self.execute(code: code, param: param, instant: true)
+                    return self.execute(code: code, param: param, instant: false)
                 })
             }
             return 0
