@@ -60,7 +60,6 @@
         unsigned int ocolor = getColorCode(byteIndex, imageData);
         
         if (compareColor(ocolor, 0, 0)) {
-            printf("BAD COLOR: %u - %f - %lu\n", ocolor, startPoint.x, (unsigned long)width);
             return;
         }
         

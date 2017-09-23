@@ -425,7 +425,6 @@ class Functions {
         }
         
         var nextPoint = currentPoint
-        var function = false
         var fill = false
         var fillColor = UIColor.red
         
