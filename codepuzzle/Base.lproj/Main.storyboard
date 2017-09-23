@@ -316,7 +316,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyo-uf-VfJ">
-                                <rect key="frame" x="441.5" y="554" width="192" height="38.5"/>
+                                <rect key="frame" x="403" y="540" width="269" height="67"/>
                                 <color key="backgroundColor" red="0.014507189130000001" green="0.60684504530000005" blue="0.001450365028" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <state key="normal" title="Process">
@@ -328,10 +328,10 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu3-rI-zKi">
-                                <rect key="frame" x="134.5" y="554" width="192" height="38.5"/>
+                                <rect key="frame" x="96" y="540" width="269" height="67"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="qu3-rI-zKi" secondAttribute="height" multiplier="5:1" id="KDX-Gj-RUe"/>
+                                    <constraint firstAttribute="width" secondItem="qu3-rI-zKi" secondAttribute="height" multiplier="4:1" id="KDX-Gj-RUe"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Change Photo">
@@ -356,7 +356,7 @@
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotate:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXf-Oi-D1i">
-                                <rect key="frame" x="203.5" y="489" width="115" height="46"/>
+                                <rect key="frame" x="196" y="489" width="115" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZXf-Oi-D1i" secondAttribute="height" multiplier="10:4" id="CsA-1p-KlX"/>
                                 </constraints>
@@ -456,7 +456,7 @@
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.5" id="I26-dN-gKg"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.12" id="Idw-4z-ekf"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="centerY" secondItem="ZXf-Oi-D1i" secondAttribute="centerY" id="JSI-yy-4e2"/>
-                            <constraint firstItem="ZXf-Oi-D1i" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.68" id="JVo-ue-jP7"/>
+                            <constraint firstItem="ZXf-Oi-D1i" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.66" id="JVo-ue-jP7"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.25" id="P6C-Q7-hle"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.65" id="Qjb-9x-gMk"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.4" id="Udc-dn-TEe"/>
@@ -478,7 +478,7 @@
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="hmu-hA-cEh"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="i3E-mY-v8V"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="iGZ-yY-bpl"/>
-                            <constraint firstItem="qu3-rI-zKi" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.25" id="jv3-Wi-ZyP"/>
+                            <constraint firstItem="qu3-rI-zKi" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.35" id="jv3-Wi-ZyP"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="k7p-bE-Mr4"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.12" id="l5z-00-Rh6"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="lhX-VU-RxV"/>
