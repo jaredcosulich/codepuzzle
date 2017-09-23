@@ -1281,7 +1281,6 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="saveFunction:" destination="L7d-Q3-87b" eventType="touchUpInside" id="IaX-cP-5Xn"/>
                                             <action selector="saveParam:" destination="L7d-Q3-87b" eventType="touchUpInside" id="vdM-Vz-xNh"/>
                                         </connections>
                                     </button>

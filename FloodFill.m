@@ -98,8 +98,6 @@
         
         unsigned int ncolor = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | newAlpha;
         
-        printf("NEW GREEN: %d\n", newGreen);
-        
         /*
          We are using stack to store point.
          Stack is implemented by LinkList.

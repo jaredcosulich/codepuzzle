@@ -567,7 +567,7 @@ class Functions {
                 let pX = Int(p.x * (Functions.STARTING_ZOOM * xFactor))
                 let pY = Int(p.y * (Functions.STARTING_ZOOM * xFactor))
                 
-                Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 5)
+                Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 0)
             } else {
                 context.setStrokeColor(permanentPathComponent.color.cgColor)
                 

@@ -227,7 +227,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func colorPickerDidChooseColor(_ colorPicker: ChromaColorPicker, color: UIColor) {
-        prepareCard()
         colorParam.backgroundColor = color
         colorPickerView.isHidden = true
     }
