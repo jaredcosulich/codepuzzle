@@ -70,7 +70,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         newPhoto.titleLabel?.font = loadPhoto.titleLabel?.font
 
         changePhoto.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: changePhoto, bufferPercentage: 5)
+        Util.proportionalFont(anyElement: changePhoto, bufferPercentage: 10)
 
         processPhoto.layer.cornerRadius = 6
         processPhoto.titleLabel?.font = changePhoto.titleLabel?.font
