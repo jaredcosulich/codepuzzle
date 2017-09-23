@@ -12,6 +12,7 @@ import ChromaColorPicker
 
 struct TempCard {
     var cardProject: CardProject!
+    var manual: Bool
     var code: String
     var param: String
     var image: UIImage?
@@ -25,6 +26,7 @@ struct TempCard {
             (localContext: NSManagedObjectContext!) in
             newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
             newCard?.cardGroup = cardGroup
+            newCard?.manual = self.manual
             newCard?.code = self.code
             newCard?.param = self.param
             newCard?.image = self.image
@@ -42,6 +44,7 @@ struct TempCard {
     func updateCard(card: Card, completion: @escaping () -> Void) {
         cardProject.persistedManagedObjectContext.mr_save({
             (localContext: NSManagedObjectContext!) in
+            card.manual = self.manual
             card.code = self.code
             card.param = self.param
             card.image = self.image
@@ -153,6 +156,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
             uneditedCard = TempCard(
                 cardProject: cardProject,
+                manual: selectedCard.manual,
                 code: selectedCard.code,
                 param: selectedCard.param,
                 image: selectedCard.image!,
@@ -170,6 +174,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
             newCard = TempCard(
                 cardProject: cardProject,
+                manual: true,
                 code: "A1",
                 param: "",
                 image: nil,
@@ -456,7 +461,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             let context = self.cardProject.persistedManagedObjectContext!
             context.mr_save({
                 (localContext: NSManagedObjectContext!) in
-                if self.selectedCard.originalImage == nil {
+                print("DELETING, MANUAL: \(self.selectedCard.manual)")
+                if self.selectedCard.manual {
                     self.selectedCard.mr_deleteEntity(in: context)
                 } else {
                     self.selectedCard.disabled = true

@@ -16,6 +16,7 @@ class Card: NSManagedObject {
     
     // Attributes
     
+    @NSManaged var manual: Bool
     @NSManaged var error: Bool
 
     @NSManaged var imageFilename: String?

@@ -5,6 +5,7 @@
         <attribute name="disabled" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="error" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="imageFilename" attributeType="String" syncable="YES"/>
+        <attribute name="manual" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="originalCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="originalImageFilename" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,7 +25,7 @@
         <relationship name="cardGroups" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardGroup" inverseName="cardProject" inverseEntity="CardGroup" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Card" positionX="-27" positionY="18" width="128" height="195"/>
+        <element name="Card" positionX="-27" positionY="18" width="128" height="210"/>
         <element name="CardGroup" positionX="18" positionY="108" width="128" height="120"/>
         <element name="CardProject" positionX="54" positionY="135" width="128" height="75"/>
     </elements>

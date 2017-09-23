@@ -47,9 +47,9 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
-//    let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
-//
-//    let params: [String] = ["6", "UIExtendedSRGBColorSpace 0.27451 0.588235 0.513725 1", "10", "30", "20", "30", "20", "30", "1", "UIExtendedSRGBColorSpace 0.243137 0.219608 0.192157 1", "", "40", "69", "3", "0.5", "", "40", "", "12", "1", "13", "", "30", "UIExtendedSRGBColorSpace 0.819608 0.721569 0.305882 1", "30", "196", "", ""]
+    let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
+
+    let params: [String] = ["6", "UIExtendedSRGBColorSpace 0.27451 0.588235 0.513725 1", "10", "30", "20", "30", "20", "30", "1", "UIExtendedSRGBColorSpace 0.243137 0.219608 0.192157 1", "", "40", "69", "3", "0.5", "", "40", "", "12", "1", "13", "", "30", "UIExtendedSRGBColorSpace 0.819608 0.721569 0.305882 1", "30", "196", "", ""]
 
 //    var start = NSDate()
     
@@ -201,7 +201,7 @@ class ProcessingViewController: UIViewController {
         self.mathPix.processImage(
             image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
             identifier: "function\(analyzedCardCount)",
-            result: nil//codes[Int(analyzedCardCount)]//nil//codes[Int(analyzedCardCount)]
+            result: codes[Int(analyzedCardCount)]//nil//codes[Int(analyzedCardCount)]
         )
         
         analyzedCardCount += 1
@@ -268,7 +268,7 @@ class ProcessingViewController: UIViewController {
                 self.mathPix.processImage(
                     image: paramImage,
                     identifier: "param\(processedCardCodeCount)",
-                    result: nil//params[Int(processedCardCodeCount)]//result//nil//
+                    result: params[Int(processedCardCodeCount)]//result//nil//
                 )
 
                 processedCardCodeCount += 1
