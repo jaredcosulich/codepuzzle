@@ -712,7 +712,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIc-U1-5Nm">
-                                <rect key="frame" x="269" y="896" width="230" height="51"/>
+                                <rect key="frame" x="192" y="896" width="384" height="51"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Change Photo">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -776,7 +776,7 @@
                             <constraint firstItem="DdK-kf-zRc" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.35" id="hoc-ZF-iWD"/>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="hq0-kk-jux"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="ilQ-we-Nfh"/>
-                            <constraint firstItem="pIc-U1-5Nm" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.3" id="jI1-vk-hKT"/>
+                            <constraint firstItem="pIc-U1-5Nm" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.5" id="jI1-vk-hKT"/>
                             <constraint firstItem="NPC-WB-rbs" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="1.2" id="jka-Vk-Lpb"/>
                             <constraint firstItem="xkn-7s-0Ow" firstAttribute="width" secondItem="xkn-7s-0Ow" secondAttribute="height" multiplier="1:1" id="kBj-Z9-s3a"/>
                             <constraint firstItem="VnU-i3-Xkq" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="kYe-i3-jj6"/>

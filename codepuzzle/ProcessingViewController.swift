@@ -114,7 +114,7 @@ class ProcessingViewController: UIViewController {
                 self.activityView.stopAnimating()
                 
                 if (self.cardList.count() == 0) {
-                    self.output.text = "Unable to find any cards.\r\rPlease try a new photo."
+                    self.output.text = "Unable to find any cards. Please try a new photo."
                     self.selectPhoto.isHidden = false
                 } else {
                     self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
