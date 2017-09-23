@@ -29,7 +29,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var loadPhoto: UIButton!
     @IBOutlet weak var changePhoto: UIButton!
     @IBOutlet weak var processPhoto: UIButton!
-    @IBOutlet weak var analyzePhoto: UIButton!
     @IBOutlet weak var addPhotoLabel: UILabel!
     
     @IBOutlet weak var playProject: UIBarButtonItem!
@@ -72,9 +71,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
         changePhoto.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: changePhoto, bufferPercentage: nil)
-
-        analyzePhoto.layer.cornerRadius = 6
-        analyzePhoto.titleLabel?.font = changePhoto.titleLabel?.font
 
         Util.proportionalFont(anyElement: rotateLabel, bufferPercentage: nil)
         
@@ -311,7 +307,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         rotateLabel.isHidden = false
         rotateRight.isHidden = false
         rotateLeft.isHidden = false
-        analyzePhoto.isHidden = false
         processPhoto.isHidden = false
         changePhoto.isHidden = false
         addPhotoLabel.isHidden = true
@@ -325,7 +320,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         rotateLabel.isHidden = true
         rotateRight.isHidden = true
         rotateLeft.isHidden = true
-        analyzePhoto.isHidden = true
         processPhoto.isHidden = true
         changePhoto.isHidden = true
         imageView.isHidden = true
@@ -441,14 +435,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         })
     }
 
-    @IBAction func homeButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "home-segue", sender: nil)
-    }
-    
-    @IBAction func debugImage(_ sender: UIButton) {
-        performSegue(withIdentifier: "debug-segue", sender: nil)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         imageView.removeFromSuperview()
         tableView.removeFromSuperview()

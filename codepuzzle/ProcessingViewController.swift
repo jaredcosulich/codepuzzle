@@ -44,7 +44,9 @@ class ProcessingViewController: UIViewController {
     @IBOutlet weak var changePhotoButton: UIButton!
     
     @IBOutlet weak var selectPhoto: UIButton!
-    
+
+    @IBOutlet weak var debugPhoto: UIButton!
+
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
@@ -73,6 +75,9 @@ class ProcessingViewController: UIViewController {
 
         fixButton.layer.cornerRadius = 6
         fixButton.titleLabel?.font = changePhotoButton.titleLabel?.font
+
+        debugPhoto.layer.cornerRadius = 6
+        debugPhoto.titleLabel?.font = changePhotoButton.titleLabel?.font
         
         selectPhoto.layer.cornerRadius = 6
         
@@ -113,6 +118,8 @@ class ProcessingViewController: UIViewController {
 
                 self.activityView.stopAnimating()
                 
+                self.debugPhoto.isHidden = false
+
                 if (self.cardList.count() == 0) {
                     self.output.text = "Unable to find any cards. Please try a new photo."
                     self.selectPhoto.isHidden = false
@@ -138,6 +145,7 @@ class ProcessingViewController: UIViewController {
         activityView.startAnimating()
         yesButton.isHidden = true
         noButton.isHidden = true
+        debugPhoto.isHidden = true
         output.text = "Analyzing cards. One moment..."
 
         if (processedCardParamCount < cardList.count()) {
@@ -397,6 +405,7 @@ class ProcessingViewController: UIViewController {
             
             self.fixButton.isHidden = false
             self.changePhotoButton.isHidden = false
+            self.debugPhoto.isHidden = false
             
             return
         }
@@ -430,6 +439,11 @@ class ProcessingViewController: UIViewController {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
+        } else if segue.identifier == "debug-segue" {
+            let dvc = segue.destination as! DebugViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+            dvc.image = cardGroup.image
         }
     }
     
