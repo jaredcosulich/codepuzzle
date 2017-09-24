@@ -9,7 +9,7 @@
 import Foundation
 import MagicalRecord
 
-class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,6 +26,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var startProjectButton: UIButton!
     
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
+    @IBOutlet weak var existingProjectsLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +40,26 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         
         startProjectButton.layer.cornerRadius = 6
+        startProjectButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        startProjectButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        
         startButton.layer.cornerRadius = 6
+        startButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        startButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        
+        cancelButton.layer.cornerRadius = 6
+        cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        cancelButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        
+        projectTitle.adjustsFontSizeToFitWidth = true
+        Util.proportionalFont(anyElement: projectTitle, bufferPercentage: nil)
+        projectTitle.delegate = self
+
         projectTitleView.layer.cornerRadius = 10
+        
+        if cardProjects.count == 0 {
+            existingProjectsLabel.isHidden = true
+        }
         
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 1,
@@ -78,7 +99,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 18)
+
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
+//        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 50)
         
         if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
             let thumbnail = cardProject.cardGroups.first!.image!
@@ -135,9 +159,15 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         return cardProjects.count
     }
     
+    func textFieldShouldReturn(_ sender: UITextField) -> Bool {
+        projectTitle.resignFirstResponder()
+        return true
+    }
+    
     @IBAction func startProject(_ sender: UIButton) {
         projectTitleView.alpha = 0.0
         projectTitleView.isHidden = false
+        
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,

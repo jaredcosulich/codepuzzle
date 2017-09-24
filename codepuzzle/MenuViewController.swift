@@ -9,7 +9,7 @@
 import UIKit
 import MagicalRecord
 
-class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -29,7 +29,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var loadPhoto: UIButton!
     @IBOutlet weak var changePhoto: UIButton!
     @IBOutlet weak var processPhoto: UIButton!
-    @IBOutlet weak var analyzePhoto: UIButton!
     @IBOutlet weak var addPhotoLabel: UILabel!
     
     @IBOutlet weak var playProject: UIBarButtonItem!
@@ -37,8 +36,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var deleteProject: UIBarButtonItem!
     
     @IBOutlet weak var editProjectView: UIView!    
+    @IBOutlet weak var editProjectLabel: UILabel!
     @IBOutlet weak var editProjectTitle: UITextField!
-
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
     var selectedCardGroupIndex = -1
     
     let s3Util = S3Util()
@@ -54,17 +56,48 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         tableView.delegate = self
         tableView.dataSource = self
         
-        projectTitle.titleLabel?.text = cardProject.title
+        projectTitle.setTitle(cardProject.title, for: UIControlState.normal)
+        Util.proportionalFont(anyElement: projectTitle, bufferPercentage: nil)
+
+        Util.proportionalFont(anyElement: addPhotoLabel, bufferPercentage: nil)
+
         editProjectTitle.text = cardProject.title
+
+        loadPhoto.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: loadPhoto, bufferPercentage: 5)
+
+        newPhoto.layer.cornerRadius = 6
+        newPhoto.titleLabel?.font = loadPhoto.titleLabel?.font
+
+        changePhoto.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: changePhoto, bufferPercentage: 10)
+
+        processPhoto.layer.cornerRadius = 6
+        processPhoto.titleLabel?.font = changePhoto.titleLabel?.font
+
+        Util.proportionalFont(anyElement: rotateLabel, bufferPercentage: nil)
         
         rotateLeft.layer.cornerRadius = 6
+        rotateLeft.titleLabel?.font = rotateLabel.font
+
         rotateRight.layer.cornerRadius = 6
-        newPhoto.layer.cornerRadius = 6
-        loadPhoto.layer.cornerRadius = 6
-        changePhoto.layer.cornerRadius = 6
-        processPhoto.layer.cornerRadius = 6
-        analyzePhoto.layer.cornerRadius = 6
-       
+        rotateRight.titleLabel?.font = rotateLabel.font
+
+        editProjectView.layer.cornerRadius = 6
+        
+        Util.proportionalFont(anyElement: editProjectLabel, bufferPercentage: nil)
+        
+        editProjectTitle.adjustsFontSizeToFitWidth = true
+        Util.proportionalFont(anyElement: editProjectTitle, bufferPercentage: 5)
+        editProjectTitle.returnKeyType = .done
+        editProjectTitle.delegate = self
+        
+        cancelButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: cancelButton, bufferPercentage: 8)
+        
+        saveButton.layer.cornerRadius = 6
+        saveButton.titleLabel?.font = cancelButton.titleLabel?.font
+        
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
@@ -125,11 +158,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let cardGroup = cardProject.cardGroups[indexPath.row]
         cell?.textLabel?.text = "Card Photo \(indexPath.row + 1)"
+        Util.proportionalFont(anyElement: cell!, bufferPercentage: 20)
+        
         if (cardGroup.isProcessed) {
             cell?.detailTextLabel?.text = "\(cardGroup.cards.count) Cards"
         } else  {
             cell?.detailTextLabel?.text = "Not Yet Processed"
         }
+//        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 2)
         cell?.imageView?.image = cardGroup.image
         
         return cell!
@@ -172,6 +208,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             cardGroupCount -= 1
         }
         return cardGroupCount
+    }
+    
+    func textFieldShouldReturn(_ sender: UITextField) -> Bool {
+        editProjectTitle.resignFirstResponder()
+        return true
     }
     
     @IBAction func newphotobutton(_ sender: UIButton) {
@@ -266,7 +307,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         rotateLabel.isHidden = false
         rotateRight.isHidden = false
         rotateLeft.isHidden = false
-        analyzePhoto.isHidden = false
         processPhoto.isHidden = false
         changePhoto.isHidden = false
         addPhotoLabel.isHidden = true
@@ -280,7 +320,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         rotateLabel.isHidden = true
         rotateRight.isHidden = true
         rotateLeft.isHidden = true
-        analyzePhoto.isHidden = true
         processPhoto.isHidden = true
         changePhoto.isHidden = true
         imageView.isHidden = true
@@ -322,7 +361,19 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func editProjectTitleButton(_ sender: UIButton) {
+        editProjectView.alpha = 0.0
         editProjectView.isHidden = false
+
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.editProjectView.alpha = 1.0
+            }
+        )
+
+        editProjectTitle.becomeFirstResponder()
     }
     
     @IBAction func saveProjectTitle(_ sender: UIButton) {
@@ -334,12 +385,28 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
         })
         projectTitle.titleLabel?.text = editProjectTitle.text!
-        editProjectView.isHidden = true
+        
+        closeEditProject()
     }
     
     @IBAction func cancelEditProject(_ sender: UIButton) {
         editProjectTitle.text = cardProject.title
-        editProjectView.isHidden = true
+        closeEditProject()
+    }
+    
+    func closeEditProject() {
+        editProjectTitle.resignFirstResponder()
+        
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.editProjectView.alpha = 0.0
+            }, completion: { (position) in
+                self.editProjectView.isHidden = true
+            }
+        )
     }
 
     @IBAction func playButton(_ sender: UIBarButtonItem) {
@@ -368,14 +435,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         })
     }
 
-    @IBAction func homeButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "home-segue", sender: nil)
-    }
-    
-    @IBAction func debugImage(_ sender: UIButton) {
-        performSegue(withIdentifier: "debug-segue", sender: nil)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         imageView.removeFromSuperview()
         tableView.removeFromSuperview()

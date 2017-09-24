@@ -19,8 +19,6 @@ class ProcessingViewController: UIViewController {
     let mathPix = MathPix()
 //    let tesseract = G8Tesseract()
     
-    var timer = Timer()
-
     var analyzedCardCount = Int32(0)
     var processedCardCodeCount = Int32(0)
     var processedCardParamCount = Int32(0)
@@ -35,6 +33,8 @@ class ProcessingViewController: UIViewController {
     
     var execute = false
     
+    var stopExecution = false
+    
     @IBOutlet weak var yesButton: UIButton!
     
     @IBOutlet weak var noButton: UIButton!
@@ -44,7 +44,9 @@ class ProcessingViewController: UIViewController {
     @IBOutlet weak var changePhotoButton: UIButton!
     
     @IBOutlet weak var selectPhoto: UIButton!
-    
+
+    @IBOutlet weak var debugPhoto: UIButton!
+
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
@@ -62,9 +64,21 @@ class ProcessingViewController: UIViewController {
         
         initCardList()
         
+        Util.proportionalFont(anyElement: output, bufferPercentage: nil)
+        
         yesButton.layer.cornerRadius = 6
-        fixButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: yesButton, bufferPercentage: nil)
+        noButton.titleLabel?.font = yesButton.titleLabel?.font
+        
         changePhotoButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: changePhotoButton, bufferPercentage: 10)
+
+        fixButton.layer.cornerRadius = 6
+        fixButton.titleLabel?.font = changePhotoButton.titleLabel?.font
+
+        debugPhoto.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: debugPhoto, bufferPercentage: nil)
+        
         selectPhoto.layer.cornerRadius = 6
         
 //        tesseract.language = "eng+fra"
@@ -104,8 +118,10 @@ class ProcessingViewController: UIViewController {
 
                 self.activityView.stopAnimating()
                 
+                self.debugPhoto.isHidden = false
+
                 if (self.cardList.count() == 0) {
-                    self.output.text = "Unable to find any cards.\r\rPlease try a new photo."
+                    self.output.text = "Unable to find any cards. Please try a new photo."
                     self.selectPhoto.isHidden = false
                 } else {
                     self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
@@ -129,6 +145,7 @@ class ProcessingViewController: UIViewController {
         activityView.startAnimating()
         yesButton.isHidden = true
         noButton.isHidden = true
+        debugPhoto.isHidden = true
         output.text = "Analyzing cards. One moment..."
 
         if (processedCardParamCount < cardList.count()) {
@@ -145,7 +162,6 @@ class ProcessingViewController: UIViewController {
     }
     
     @IBAction func rejectCard(_ sender: UIButton) {
-        timer.invalidate()
         Timer.scheduledTimer(
             timeInterval: 0,
             target: self,
@@ -173,6 +189,10 @@ class ProcessingViewController: UIViewController {
     }
 
     func analyzeCards() {
+        if (stopExecution) {
+            return
+        }
+
 //            s3Util.upload(
 //                image: cardList.getFunctionImage(index),
 //                identifier: "function\(i)",
@@ -208,6 +228,10 @@ class ProcessingViewController: UIViewController {
     }
     
     func checkCardCodeProcessing() {
+        if (stopExecution) {
+            return
+        }
+
         if (processedCardCodeCount < cardList.count()) {
             if (execute) {
                 output.text = "Analyzing Card Codes \(processedCardCodeCount + 1)..."
@@ -264,6 +288,10 @@ class ProcessingViewController: UIViewController {
     }
 
     func checkCardParamProcessing() {
+        if (stopExecution) {
+            return
+        }
+
         if (processedCardParamCount < cardList.count()) {
             if (execute) {
                 output.text = "Analyzing Card Parameters \(processedCardParamCount + 1)..."
@@ -313,6 +341,10 @@ class ProcessingViewController: UIViewController {
     }
     
     func processCards(i: Int32) {
+        if (stopExecution) {
+            return
+        }
+        
         output.text = "Processing Card \(i + 1)"
         
         let context = cardProject.persistedManagedObjectContext!
@@ -373,6 +405,7 @@ class ProcessingViewController: UIViewController {
             
             self.fixButton.isHidden = false
             self.changePhotoButton.isHidden = false
+            self.debugPhoto.isHidden = false
             
             return
         }
@@ -391,6 +424,8 @@ class ProcessingViewController: UIViewController {
 //        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
 //        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
         
+        stopExecution = true
+        
         imageView?.removeFromSuperview()
         
         if segue.identifier == "cancel-segue" || segue.identifier == "select-photo-segue" {
@@ -404,6 +439,11 @@ class ProcessingViewController: UIViewController {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject
             dvc.selectedIndex = selectedIndex
+        } else if segue.identifier == "debug-segue" {
+            let dvc = segue.destination as! DebugViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+            dvc.image = cardGroup.image
         }
     }
     

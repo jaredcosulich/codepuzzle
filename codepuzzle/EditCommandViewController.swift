@@ -12,6 +12,7 @@ import ChromaColorPicker
 
 struct TempCard {
     var cardProject: CardProject!
+    var manual: Bool
     var code: String
     var param: String
     var image: UIImage?
@@ -25,6 +26,7 @@ struct TempCard {
             (localContext: NSManagedObjectContext!) in
             newCard = Card.mr_createEntity(in: self.cardProject.persistedManagedObjectContext)
             newCard?.cardGroup = cardGroup
+            newCard?.manual = self.manual
             newCard?.code = self.code
             newCard?.param = self.param
             newCard?.image = self.image
@@ -42,6 +44,7 @@ struct TempCard {
     func updateCard(card: Card, completion: @escaping () -> Void) {
         cardProject.persistedManagedObjectContext.mr_save({
             (localContext: NSManagedObjectContext!) in
+            card.manual = self.manual
             card.code = self.code
             card.param = self.param
             card.image = self.image
@@ -61,6 +64,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
+    @IBOutlet weak var functionLabel: UILabel!
     @IBOutlet weak var colorLabel: UILabel!
     @IBOutlet weak var paramLabel: UILabel!
     @IBOutlet weak var param: UITextField!
@@ -102,21 +106,43 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var colorPickerView: UIView!
     
-    let colorPicker = ChromaColorPicker(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
+    var colorPicker: ChromaColorPicker!
 
     @IBOutlet weak var colorParam: UIView!
     
     @IBOutlet weak var toolbar: UIToolbar!
     
+    @IBOutlet weak var editFunctionTitle: UILabel!
+    @IBOutlet weak var editFunctionDescription: UILabel!
+    
+    @IBOutlet weak var editParamTitle: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Util.proportionalFont(anyElement: titleLabel, bufferPercentage: nil)
+
+        Util.proportionalFont(anyElement: descriptionText, bufferPercentage: 10)
+        
+        Util.proportionalFont(anyElement: functionLabel, bufferPercentage: nil)
+        paramLabel.font = functionLabel.font
+        colorLabel.font = functionLabel.font
+        
+        Util.proportionalFont(anyElement: functionDisplay, bufferPercentage: 10)
+        paramDisplay.font = functionDisplay.font
+
         editFunction.layer.cornerRadius = 10
         editParam.layer.cornerRadius = 10
         editFunctionView.layer.cornerRadius = 10
         saveFunction.layer.cornerRadius = 6
         editParamView.layer.cornerRadius = 10
         saveParam.layer.cornerRadius = 6
+
+        Util.proportionalFont(anyElement: editFunctionTitle, bufferPercentage: nil)
+        Util.proportionalFont(anyElement: editFunctionDescription, bufferPercentage: nil)
+        
+        Util.proportionalFont(anyElement: editParamTitle, bufferPercentage: nil)
+        
         
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
@@ -153,6 +179,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
             uneditedCard = TempCard(
                 cardProject: cardProject,
+                manual: selectedCard.manual,
                 code: selectedCard.code,
                 param: selectedCard.param,
                 image: selectedCard.image!,
@@ -170,6 +197,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
 
             newCard = TempCard(
                 cardProject: cardProject,
+                manual: true,
                 code: "A1",
                 param: "",
                 image: nil,
@@ -201,16 +229,22 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         param.delegate = self
         
+        colorParam.layoutIfNeeded()
         colorParam.layer.cornerRadius = colorParam.frame.size.height/2;
         colorParam.layer.masksToBounds = true;
         colorParam.layer.borderColor = UIColor.black.cgColor;
         colorParam.layer.borderWidth = 1;
-        
+
+        colorPickerView.layoutIfNeeded()
         colorPickerView.layer.cornerRadius = colorPickerView.frame.size.height/2;
         colorPickerView.layer.masksToBounds = true;
         colorPickerView.layer.borderColor = UIColor.black.cgColor;
         colorPickerView.layer.borderWidth = 2;
         
+        let viewDim = colorPickerView.bounds.height
+        let position = viewDim * 0.1
+        let dim = viewDim - (position * 2)
+        colorPicker = ChromaColorPicker(frame: CGRect(x: position, y: position, width: dim, height: dim))
         colorPicker.delegate = self //ChromaColorPickerDelegate
         colorPicker.padding = 5
         colorPicker.stroke = 3
@@ -227,7 +261,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func colorPickerDidChooseColor(_ colorPicker: ChromaColorPicker, color: UIColor) {
-        prepareCard()
         colorParam.backgroundColor = color
         colorPickerView.isHidden = true
     }
@@ -288,7 +321,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             colorPicker.adjustToColor(color)
         } else {
             paramDisplay.backgroundColor = UIColor.white
-            paramDisplay.text = selectedCard.param
+            paramDisplay.text = cardParam
             colorLabel.isHidden = true
             colorParam.isHidden = true
         }
@@ -299,7 +332,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         }
         
-        functionDisplay.text = Functions.info(code: selectedCard.code).name
+        functionDisplay.text = Functions.info(code: cardCode).name
     }
     
     @IBAction func selectColor(_ sender: UIButton) {
@@ -360,12 +393,21 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         if (!colorPickerView.isHidden) {
-            let param = "\(colorPicker.currentColor)"
+            let paramText = "\(colorPicker.currentColor)"
+            
             if (selectedCard == nil) {
-                newCard.param = param
+                newCard.param = paramText
             } else {
-                selectedCard.param = param
+                selectedCard.param = paramText
             }
+            
+            let newImage = drawCard(
+                code: selectedCard == nil ? newCard.code : selectedCard.code,
+                param: paramText
+            )
+            
+            selectedCard?.image = newImage
+            newCard?.image = newImage
         }
         
         if (newCard != nil) {
@@ -423,10 +465,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
             
             if (info.color) {
+                let context = UIGraphicsGetCurrentContext()
                 let colorRect = CGRect(origin: CGPoint(x: 180, y: 270), size: CGSize(width: 90, height: 90))
                 
-                ImageProcessor.colorFrom(text: param!).setFill()
-                UIRectFill(colorRect)
+                let color = ImageProcessor.colorFrom(text: param!)
+                context?.setFillColor(color.cgColor)
+                context?.fill(colorRect)
             }
         }
         
@@ -446,7 +490,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             let context = self.cardProject.persistedManagedObjectContext!
             context.mr_save({
                 (localContext: NSManagedObjectContext!) in
-                if self.selectedCard.originalImage == nil {
+                print("DELETING, MANUAL: \(self.selectedCard.manual)")
+                if self.selectedCard.manual {
                     self.selectedCard.mr_deleteEntity(in: context)
                 } else {
                     self.selectedCard.disabled = true
@@ -473,9 +518,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
 
     @IBAction func editFunction(_ sender: UIButton) {
+        let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
         newCode = nil
         for i in 0..<Functions.functionInfo.count {
-            if (functionCodes[i] == Functions.processedCode(code: selectedCard.code)) {
+            if (functionCodes[i] == Functions.processedCode(code: cardCode)) {
                 functionPicker.selectRow(i, inComponent: 0, animated: false)
             }
         }
@@ -547,16 +593,23 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     @IBAction func editParam(_ sender: UIButton) {
-        param.text = selectedCard.param
+        if (selectedCard == nil) {
+            param.text = newCard.param
+        } else {
+            param.text = selectedCard.param
+        }
         editParamView.alpha = 0.0
         editParamView.isHidden = false
+        if !param.isHidden {
+            param.becomeFirstResponder()
+        }
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
             options: .curveEaseOut,
             animations: {
                 self.editParamView.alpha = 1.0
-        }
+            }
         )
     }
     
@@ -581,7 +634,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             if (!errorCard) {
                 let newImage = drawCard(
-                    code: selectedCard.code,
+                    code: selectedCard == nil ? newCard.code : selectedCard.code,
                     param: paramText
                 )
                 selectedCard?.image = newImage
@@ -598,6 +651,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func hideParam() {
+        param.resignFirstResponder()
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
@@ -609,8 +663,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         )
     }
-
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (newCard != nil) {

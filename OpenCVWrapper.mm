@@ -169,7 +169,11 @@ using namespace std;
         
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
             hexagons.push_back(contours[i]);
-            
+
+            printf("HEXAGON FOUND: %d\n", i);
+            cv::Scalar color = cv::Scalar(255,255,0);
+            cv::drawContours( processed, contours, i, color, 10, 8, hierarchy, 0, cv::Point() );
+
             cv::Rect bound = boundingRect(contours[i]);
             
             cv::Mat hex(src, bound);
