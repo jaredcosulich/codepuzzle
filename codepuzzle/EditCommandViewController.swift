@@ -64,6 +64,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var functionPicker: UIPickerView!
     
+    @IBOutlet weak var functionLabel: UILabel!
     @IBOutlet weak var colorLabel: UILabel!
     @IBOutlet weak var paramLabel: UILabel!
     @IBOutlet weak var param: UITextField!
@@ -105,21 +106,43 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var colorPickerView: UIView!
     
-    let colorPicker = ChromaColorPicker(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
+    var colorPicker: ChromaColorPicker!
 
     @IBOutlet weak var colorParam: UIView!
     
     @IBOutlet weak var toolbar: UIToolbar!
     
+    @IBOutlet weak var editFunctionTitle: UILabel!
+    @IBOutlet weak var editFunctionDescription: UILabel!
+    
+    @IBOutlet weak var editParamTitle: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Util.proportionalFont(anyElement: titleLabel, bufferPercentage: nil)
+
+        Util.proportionalFont(anyElement: descriptionText, bufferPercentage: 10)
+        
+        Util.proportionalFont(anyElement: functionLabel, bufferPercentage: nil)
+        paramLabel.font = functionLabel.font
+        colorLabel.font = functionLabel.font
+        
+        Util.proportionalFont(anyElement: functionDisplay, bufferPercentage: 10)
+        paramDisplay.font = functionDisplay.font
+
         editFunction.layer.cornerRadius = 10
         editParam.layer.cornerRadius = 10
         editFunctionView.layer.cornerRadius = 10
         saveFunction.layer.cornerRadius = 6
         editParamView.layer.cornerRadius = 10
         saveParam.layer.cornerRadius = 6
+
+        Util.proportionalFont(anyElement: editFunctionTitle, bufferPercentage: nil)
+        Util.proportionalFont(anyElement: editFunctionDescription, bufferPercentage: nil)
+        
+        Util.proportionalFont(anyElement: editParamTitle, bufferPercentage: nil)
+        
         
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
@@ -206,16 +229,22 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         param.delegate = self
         
+        colorParam.layoutIfNeeded()
         colorParam.layer.cornerRadius = colorParam.frame.size.height/2;
         colorParam.layer.masksToBounds = true;
         colorParam.layer.borderColor = UIColor.black.cgColor;
         colorParam.layer.borderWidth = 1;
-        
+
+        colorPickerView.layoutIfNeeded()
         colorPickerView.layer.cornerRadius = colorPickerView.frame.size.height/2;
         colorPickerView.layer.masksToBounds = true;
         colorPickerView.layer.borderColor = UIColor.black.cgColor;
         colorPickerView.layer.borderWidth = 2;
         
+        let viewDim = colorPickerView.bounds.height
+        let position = viewDim * 0.1
+        let dim = viewDim - (position * 2)
+        colorPicker = ChromaColorPicker(frame: CGRect(x: position, y: position, width: dim, height: dim))
         colorPicker.delegate = self //ChromaColorPickerDelegate
         colorPicker.padding = 5
         colorPicker.stroke = 3
