@@ -14,7 +14,7 @@
 
 + (UIImage *) individualProcess :(UIImage *) image :(int) process;
 
-+ (UIImage *) debug :(UIImage *) image;
++ (UIImage *) debug :(UIImage *) image :(int) stage;
 
 + (void) process :(UIImage *) image :(CardListWrapper *) cards;
 

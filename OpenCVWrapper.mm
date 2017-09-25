@@ -128,7 +128,7 @@ using namespace std;
     return (angle * -180 / CV_PI);
 }
 
-+ (UIImage *) debug :(UIImage *) image {
++ (UIImage *) debug :(UIImage *) image :(int) stage {
     cv::Mat src;
     cv::Mat gray;
     cv::Mat canny;
@@ -136,15 +136,18 @@ using namespace std;
     cv::Mat dilated;
     cv::Mat sharpened;
     cv::Mat processed;
+    cv::Mat debug;
     
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
+    std::vector<cv::Vec4i> debugHierarchy;
     std::vector<cv::Point> approx;
     std::vector<std::vector<cv::Point>> hexagons;
     std::vector<std::vector<cv::Point>> innerHexagons;
     cv::Rect bound;
     
     UIImageToMat(image, src);
+    cv::cvtColor(src, debug, CV_BGRA2BGR);
     
     gray = [[self class] color:src];
 //    threshold = [[self class] threshold:gray];
@@ -163,16 +166,22 @@ using namespace std;
         // Skip small or non-convex objects
         if (std::fabs(cv::contourArea(contours[i])) < 400 || !cv::isContourConvex(approx))
             continue;
-        
+
+        if (stage == 0) {
+            cv::Scalar color = cv::Scalar(0,255,0);
+            cv::drawContours(debug, contours, i, color, 2, 8, debugHierarchy, 0, cv::Point());
+        }
+
         bound = cv::boundingRect(contours[i]);
         float aspectRatio = float(bound.width)/bound.height;
         
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
             hexagons.push_back(contours[i]);
 
-            printf("HEXAGON FOUND: %d\n", i);
-            cv::Scalar color = cv::Scalar(255,255,0);
-            cv::drawContours( processed, contours, i, color, 10, 8, hierarchy, 0, cv::Point() );
+            if (stage == 1) {
+                cv::Scalar color = cv::Scalar(255,0,0);
+                cv::drawContours(debug, contours, i, color, 2, 8, debugHierarchy, 0, cv::Point());
+            }
 
             cv::Rect bound = boundingRect(contours[i]);
             
@@ -184,6 +193,12 @@ using namespace std;
             double rotation = 0;
             double angle = 0;
             
+            if (stage == 2) {
+                printf("INNER HEX\n");
+                cv::Scalar color = cv::Scalar(255,0,0);
+                cv::drawContours(debug, innerHexagons, -1, color, 10, 8, debugHierarchy, 0, cv::Point());
+            }
+
             for (int j=0; j<innerHexagons.size(); ++j) {
                 cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
                 
@@ -240,18 +255,18 @@ using namespace std;
 //                        cv::Scalar color = cv::Scalar(255,255,255);
 //                        cv::circle(processed, corner, 1, color, 6, 8, 0);
 
-                        int xOrigin = bound.x + (bound.size().width / 2);
-                        int yOrigin = bound.y + (bound.size().height / 2);
-
-                        int x = corner.x;
-                        int y = corner.y;
+//                        int xOrigin = bound.x + (bound.size().width / 2);
+//                        int yOrigin = bound.y + (bound.size().height / 2);
+//
+//                        int x = corner.x;
+//                        int y = corner.y;
                         
-                        float s1 = sin(angle * -1);
-                        float c1 = cos(angle * -1);
+//                        float s1 = sin(angle * -1);
+//                        float c1 = cos(angle * -1);
                         
                         // translate point back to origin:
-                        x -= xOrigin;
-                        y -= yOrigin;
+//                        x -= xOrigin;
+//                        y -= yOrigin;
                         
                         // rotate point
 //                        float xnew = x * c1 - y * s1;
@@ -281,7 +296,11 @@ using namespace std;
         }
     }
     
-    return MatToUIImage(processed);
+    if (stage == -1) {
+        return MatToUIImage(processed);
+    } else {
+        return MatToUIImage(debug);
+    }
 }
 
 + (std::vector<std::vector<cv::Point>>) findHexagons :(cv::Mat) src {

@@ -77,7 +77,7 @@ class ProcessingViewController: UIViewController {
         fixButton.titleLabel?.font = changePhotoButton.titleLabel?.font
 
         debugPhoto.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: debugPhoto, bufferPercentage: nil)
+        Util.proportionalFont(anyElement: debugPhoto, bufferPercentage: 5)
         
         selectPhoto.layer.cornerRadius = 6
         

@@ -769,7 +769,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lkj-Hm-Xo5">
-                                <rect key="frame" x="283.5" y="928" width="201.5" height="38"/>
+                                <rect key="frame" x="276.5" y="928" width="215.5" height="38"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Debug Photo">
@@ -808,7 +808,7 @@
                             <constraint firstItem="4Qn-N3-5Wa" firstAttribute="height" secondItem="olz-L4-RAi" secondAttribute="height" multiplier="0.98" id="V7f-D3-bV4"/>
                             <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" multiplier="0.75" id="Yqi-Ec-KbJ"/>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" id="abo-aO-g8H"/>
-                            <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="width" secondItem="DdK-kf-zRc" secondAttribute="width" multiplier="0.75" id="e0I-wG-mvR"/>
+                            <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="width" secondItem="DdK-kf-zRc" secondAttribute="width" multiplier="0.8" id="e0I-wG-mvR"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" id="ePz-cy-hfa"/>
                             <constraint firstItem="DdK-kf-zRc" firstAttribute="height" secondItem="4Ip-Hf-yXw" secondAttribute="height" multiplier="0.05" id="fd8-Vr-x6u"/>
                             <constraint firstItem="fip-F0-ggz" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.15" id="g4Y-yW-i9s"/>

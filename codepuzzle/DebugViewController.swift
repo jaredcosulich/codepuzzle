@@ -45,7 +45,15 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
 //        tesseract.engineMode = .tesseractOnly
 //        tesseract.pageSegmentationMode = .auto
 //        tesseract.maximumRecognitionTime = 60.0
-        
+
+        pickerData["Common Operations"] = [
+            "All Contours",
+            "All Hexagons",
+            "All InnerHexagons",
+            "All Valid Hexagons",
+            "OpenCV Transformation"
+        ]
+
         pickerData["View All"] = [
             "Cards",
             "Functions",
@@ -153,6 +161,20 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         let component1Row = functionPicker.selectedRow(inComponent: 1)
         
         switch component0Row {
+        case "Common Operations":
+            switch component1Row {
+            case 0:
+                cardGroupImageView.image = OpenCVWrapper.debug(image, 0)
+            case 1:
+                cardGroupImageView.image = OpenCVWrapper.debug(image, 1)
+            case 2:
+                cardGroupImageView.image = OpenCVWrapper.debug(image, 2)
+            case 3:
+                process()
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex")
+            default:
+                cardGroupImageView.image = OpenCVWrapper.debug(image, -1)
+            }
         case "View All":
             process()
             switch component1Row {
@@ -195,7 +217,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
             showNextCard()
         default:
             if component1Row == functionPicker.numberOfRows(inComponent: 1) - 1 {
-                cardGroupImageView.image = OpenCVWrapper.debug(image)
+                cardGroupImageView.image = OpenCVWrapper.debug(image, -1)
             } else {
                 cardGroupImageView.image = OpenCVWrapper.individualProcess(image, Int32(component1Row))
             }
