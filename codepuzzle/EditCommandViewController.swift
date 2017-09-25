@@ -164,11 +164,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 toolbar.items?.removeAll()
                 toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
                 toolbar.items?.append(UIBarButtonItem(title: "Save", style: .plain, target: nil, action: #selector(save)))
-                toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-                
-                if (selectedCode.characters.count == 0) {
-                    selectedCard.code = "A1"
-                }
+                toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))                
             }
 
             param.text = selectedCard.param
@@ -273,7 +269,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int
         ) -> Int {
-        return pickerData[component].count
+        return pickerData[component].count + 1
     }
 
     func pickerView(_
@@ -281,7 +277,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                     attributedTitleForRow row: Int,
                     forComponent component: Int
         ) -> NSAttributedString? {
-        let rowString = NSAttributedString(string: pickerData[component][row], attributes: [NSForegroundColorAttributeName:UIColor.white])
+        var entry: String!
+        if row == 0 {
+            entry = ""
+        } else {
+            entry = pickerData[component][row - 1]
+        }
+        let rowString = NSAttributedString(string: entry, attributes: [NSForegroundColorAttributeName:UIColor.white])
         return rowString
     }
     
@@ -290,7 +292,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         didSelectRow row: Int,
         inComponent component: Int)
     {
-        newCode = functionCodes[row]
+        if row == 0 {
+            newCode = ""
+        } else {
+            newCode = functionCodes[row - 1]
+        }
     }
     
     func textFieldShouldReturn(_ sender: UITextField) -> Bool {
@@ -306,9 +312,11 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         if (info.paramCount == 0) {
             param.isHidden = true
             paramLabel.isHidden = true
+            editParam.isHidden = true
         } else {
             param.isHidden = false
             paramLabel.isHidden = false
+            editParam.isHidden = false
         }
         
         if (info.color) {
@@ -332,7 +340,13 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             }
         }
         
-        functionDisplay.text = Functions.info(code: cardCode).name
+        if (info.name == "N/A") {
+            functionDisplay.backgroundColor = UIColor.red
+            functionDisplay.text = "???"
+        } else {
+            functionDisplay.backgroundColor = UIColor.lightGray
+            functionDisplay.text = Functions.info(code: cardCode).name
+        }
     }
     
     @IBAction func selectColor(_ sender: UIButton) {
@@ -522,7 +536,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         newCode = nil
         for i in 0..<Functions.functionInfo.count {
             if (functionCodes[i] == Functions.processedCode(code: cardCode)) {
-                functionPicker.selectRow(i, inComponent: 0, animated: false)
+                functionPicker.selectRow(i + 1, inComponent: 0, animated: false)
             }
         }
         
