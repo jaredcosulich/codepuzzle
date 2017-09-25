@@ -394,12 +394,19 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         speedButtons.isHidden = true
 
         if (selectedIndex == -1) {
-            reset()
-            initExecution()
-        } else {
+            CATransaction.begin()
+            CATransaction.setAnimationDuration(0)
+            scrollToCard(index: 0)
+            highlightCard(index: 0)
+            CATransaction.commit()
+            
             play()
             startTimer()
+            
         }
+        
+        play()
+        startTimer()
     }
 
     @IBAction func executionSwipe(sender: UIPanGestureRecognizer) {
@@ -491,7 +498,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     @IBAction func playbutton(_ sender: UIBarButtonItem) {
         if (paused) {
             speedButtons.isHidden = false
-            play()
         } else {
             speedButtons.isHidden = true
             pause()
