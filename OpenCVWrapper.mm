@@ -254,12 +254,12 @@ using namespace std;
                         y -= yOrigin;
                         
                         // rotate point
-                        float xnew = x * c1 - y * s1;
-                        float ynew = x * s1 + y * c1;
+//                        float xnew = x * c1 - y * s1;
+//                        float ynew = x * s1 + y * c1;
                         
                         // translate point back:
-                        float xRotated = xnew + xOrigin;
-                        float yRotated = ynew + yOrigin;
+//                        float xRotated = xnew + xOrigin;
+//                        float yRotated = ynew + yOrigin;
                         
 //                        int xRotated = ((x - xOrigin) * cos(rotation)) - ((yOrigin - y) * sin(rotation)) + xOrigin;
 //                        int yRotated = ((yOrigin - y) * cos(rotation)) - ((x - xOrigin) * sin(rotation)) + yOrigin;
