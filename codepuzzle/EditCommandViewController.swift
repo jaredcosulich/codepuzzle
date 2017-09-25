@@ -164,7 +164,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 toolbar.items?.removeAll()
                 toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
                 toolbar.items?.append(UIBarButtonItem(title: "Save", style: .plain, target: nil, action: #selector(save)))
-                toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))                
+                toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
             }
 
             param.text = selectedCard.param
@@ -306,39 +306,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     func prepareCard() {
         let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
-        let cardParam = selectedCard == nil ? newCard.param : selectedCard.param
+        var cardParam = selectedCard == nil ? newCard.param : selectedCard.param
         let info = Functions.info(code:  cardCode)
-        
-        if (info.paramCount == 0) {
-            param.isHidden = true
-            paramLabel.isHidden = true
-            editParam.isHidden = true
-        } else {
-            param.isHidden = false
-            paramLabel.isHidden = false
-            editParam.isHidden = false
-        }
-        
-        if (info.color) {
-            paramDisplay.text = ""
-            let color = ImageProcessor.colorFrom(text: cardParam)
-            paramDisplay.backgroundColor = color
-            colorLabel.isHidden = false
-            colorParam.isHidden = false
-            colorParam.backgroundColor = color
-            colorPicker.adjustToColor(color)
-        } else {
-            paramDisplay.backgroundColor = UIColor.white
-            paramDisplay.text = cardParam
-            colorLabel.isHidden = true
-            colorParam.isHidden = true
-        }
-        
-        for i in 0..<Functions.functionInfo.count {
-            if (functionCodes[i] == Functions.processedCode(code: cardCode)) {
-                functionPicker.selectRow(i, inComponent: 0, animated: true)
-            }
-        }
         
         if (info.name == "N/A") {
             functionDisplay.backgroundColor = UIColor.red
@@ -346,6 +315,51 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         } else {
             functionDisplay.backgroundColor = UIColor.lightGray
             functionDisplay.text = Functions.info(code: cardCode).name
+        
+            for i in 0..<Functions.functionInfo.count {
+                if (functionCodes[i] == Functions.processedCode(code: cardCode)) {
+                    functionPicker.selectRow(i, inComponent: 0, animated: true)
+                }
+            }
+        }
+
+        param.isHidden = true
+        paramLabel.isHidden = true
+        editParam.isHidden = true
+        colorLabel.isHidden = true
+        colorParam.isHidden = true
+        
+        if (info.color) {
+            paramDisplay.text = ""
+            let color = ImageProcessor.colorFrom(text: cardParam)
+            paramDisplay.backgroundColor = color
+            colorParam.backgroundColor = color
+            colorPicker.adjustToColor(color)
+
+            colorLabel.isHidden = false
+            colorParam.isHidden = false
+            editParam.isHidden = false
+        } else if info.paramCount > 0 {
+            if (cardParam.range(of:"UIExtendedSRGB") != nil) {
+                cardParam = ""
+                if (selectedCard == nil) {
+                    newCard.param = cardParam
+                } else {
+                    selectedCard.param = cardParam
+                }
+            }
+
+            if (info.paramCount > 0 && cardParam.characters.count == 0) {
+                paramDisplay.backgroundColor = UIColor.red
+                paramDisplay.text = "???"
+            } else {
+                paramDisplay.backgroundColor = UIColor.lightGray
+                paramDisplay.text = cardParam
+            }
+            
+            param.isHidden = false
+            paramLabel.isHidden = false
+            editParam.isHidden = false
         }
     }
     
@@ -429,22 +443,20 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
             })
         } else {
-            if (errorCard) {
-                let errorIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })
-                
-                if (errorIndex != nil) {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let dvc = storyboard.instantiateViewController(withIdentifier: "editCommandViewController") as! EditCommandViewController
-                    dvc.cardProject = cardProject
-                    dvc.selectedIndex = errorIndex
-                    dvc.errorCard = true
-                    
-                    present(dvc, animated: true, completion: nil)
-                    return
-                }
+            let errorIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })
             
-                selectedIndex = -1
+            if (errorIndex != nil) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let dvc = storyboard.instantiateViewController(withIdentifier: "editCommandViewController") as! EditCommandViewController
+                dvc.cardProject = cardProject
+                dvc.selectedIndex = errorIndex
+                dvc.errorCard = true
+                
+                present(dvc, animated: true, completion: nil)
+                return
             }
+        
+            selectedIndex = -1
 
             self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
         }
