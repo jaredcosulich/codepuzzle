@@ -164,16 +164,16 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         case "Common Operations":
             switch component1Row {
             case 0:
-                cardGroupImageView.image = OpenCVWrapper.debug(image, 0)
+                cardGroupImageView.image = OpenCVWrapper.debug(image, 0, 1)
             case 1:
-                cardGroupImageView.image = OpenCVWrapper.debug(image, 1)
+                cardGroupImageView.image = OpenCVWrapper.debug(image, 1, 1)
             case 2:
-                cardGroupImageView.image = OpenCVWrapper.debug(image, 2)
+                cardGroupImageView.image = OpenCVWrapper.debug(image, 2, 1)
             case 3:
                 process()
                 cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex")
             default:
-                cardGroupImageView.image = OpenCVWrapper.debug(image, -1)
+                cardGroupImageView.image = OpenCVWrapper.debug(image, -1, 1)
             }
         case "View All":
             process()
@@ -217,7 +217,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
             showNextCard()
         default:
             if component1Row == functionPicker.numberOfRows(inComponent: 1) - 1 {
-                cardGroupImageView.image = OpenCVWrapper.debug(image, -1)
+                cardGroupImageView.image = OpenCVWrapper.debug(image, -1, 1)
             } else {
                 cardGroupImageView.image = OpenCVWrapper.individualProcess(image, Int32(component1Row))
             }
@@ -226,7 +226,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     
     func process() {
         cardList.clear()
-        OpenCVWrapper.process(image, cardList)
+        OpenCVWrapper.process(image, cardList, 1)
         output.text = "Found: \(cardList.count())"
     }
 

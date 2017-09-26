@@ -88,9 +88,16 @@ using namespace std;
     return result;
 }
 
++ (cv::Mat) blur :(cv::Mat) src {
+    cv::Mat result;
+    cv::blur(src, result, cv::Size(3,3));
+    return result;
+}
+
 + (cv::Mat) threshold :(cv::Mat) src {
     cv::Mat result;
-    cv::threshold(src, result, 200, 255, 0);
+//    cv::threshold(src, result, 200, 255, 0);
+    cv::threshold(src, result, 50, 255, 0);
     return result;
 }
 
@@ -109,8 +116,8 @@ using namespace std;
 + (cv::Mat) sharpen :(cv::Mat) src {
     cv::Mat result;
     
-    cv::GaussianBlur(src, result, cv::Size(0, 0), 3);
-//    cv::addWeighted(src, 1.5, result, -0.5, 0, result);
+    cv::GaussianBlur(src, result, cv::Size(5, 5), 3);
+    cv::addWeighted(src, 1.5, result, -0.5, 0, result);
     return result;
 }
 
@@ -128,9 +135,10 @@ using namespace std;
     return (angle * -180 / CV_PI);
 }
 
-+ (UIImage *) debug :(UIImage *) image :(int) stage {
++ (UIImage *) debug :(UIImage *) image :(int) stage  :(double) scale {
     cv::Mat src;
     cv::Mat gray;
+    cv::Mat blur;
     cv::Mat canny;
     cv::Mat threshold;
     cv::Mat dilated;
@@ -146,20 +154,31 @@ using namespace std;
     std::vector<std::vector<cv::Point>> innerHexagons;
     cv::Rect bound;
     
-    UIImageToMat(image, src);
-    cv::cvtColor(src, debug, CV_BGRA2BGR);
+    cv::Mat unsized;
+    UIImageToMat(image, unsized);
     
+    cv::resize(unsized, src, cv::Size(), scale, scale);
+
+    cv::cvtColor(src, debug, CV_BGRA2BGR);
+
     gray = [[self class] color:src];
-//    threshold = [[self class] threshold:gray];
-//    sharpened = [[self class] sharpen:gray];
-    canny = [[self class] canny:gray];
-//    dilated = [[self class] dilate:canny];
+    blur = [[self class] blur:gray];
+//    dilated = [[self class] dilate:blur];
+    canny = [[self class] canny:blur];
+
+//    threshold = [[self class] threshold:src];
+//    gray = [[self class] color:threshold];
+////    sharpened = [[self class] sharpen:gray];
+//    dilated = [[self class] dilate:gray];
+//    canny = [[self class] canny:dilated];
     
     processed = canny;
     cv::findContours(processed, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
     int drawn = 0;
     
+    printf("CONTOURS: %lu\n", contours.size());
+           
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
@@ -188,24 +207,18 @@ using namespace std;
             cv::Mat hex(src, bound);
             
             cv::Rect validInnerHex;
-            innerHexagons = [[self class] findHexagons:hex];
+            innerHexagons = [[self class] findHexagons:hex :debug :(stage == 2)];
             
             double rotation = 0;
             double angle = 0;
             
-            if (stage == 2) {
-                printf("INNER HEX\n");
-                cv::Scalar color = cv::Scalar(255,0,0);
-                cv::drawContours(debug, innerHexagons, -1, color, 10, 8, debugHierarchy, 0, cv::Point());
-            }
-
             for (int j=0; j<innerHexagons.size(); ++j) {
                 cv::Rect innerBound = cv::boundingRect(innerHexagons[j]);
                 
                 std::vector<float> rotations;
                 if (std::abs(innerBound.width - bound.width) > (bound.width / 15.0) && std::abs(innerBound.height - bound.height)) {
                     validInnerHex = innerBound;
-                    
+
                     int left = -1;
                     int right = -1;
                     cv::Point leftPoint(9999, 0);
@@ -304,7 +317,13 @@ using namespace std;
 }
 
 + (std::vector<std::vector<cv::Point>>) findHexagons :(cv::Mat) src {
+    cv::Mat debug;
+    return [[self class] findHexagons:src :debug :false];
+}
+
++ (std::vector<std::vector<cv::Point>>) findHexagons :(cv::Mat) src :(cv::Mat) debug :(BOOL) doDebug {
     cv::Mat gray;
+    cv::Mat blur;
     cv::Mat threshold;
     cv::Mat canny;
     cv::Mat dilated;
@@ -312,16 +331,21 @@ using namespace std;
     cv::Mat processed;
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
+    std::vector<cv::Vec4i> debugHierarchy;
     std::vector<cv::Point> approx;
     std::vector<std::vector<cv::Point>> hexagons;
     cv::Rect bound;
 
-    
     gray = [[self class] color:src];
-//    threshold = [[self class] threshold:gray];
-//    sharpened = [[self class] sharpen:gray];
-    canny = [[self class] canny:gray];
-//    dilated = [[self class] dilate:canny];
+    blur = [[self class] blur:gray];
+//    dilated = [[self class] dilate:blur];
+    canny = [[self class] canny:blur];
+
+//    threshold = [[self class] threshold:src];
+//    gray = [[self class] color:threshold];
+//    //    sharpened = [[self class] sharpen:gray];
+//    dilated = [[self class] dilate:gray];
+//    canny = [[self class] canny:dilated];
     
     processed = canny;
     
@@ -333,9 +357,15 @@ using namespace std;
         if (std::fabs(cv::contourArea(contours[i])) < 400 || !cv::isContourConvex(approx))
             continue;
         
+        if (doDebug) {
+            cv::Scalar color = cv::Scalar(0,0,255);
+            cv::drawContours(debug, contours, i, color, 2, 8, debugHierarchy, 0, cv::Point());
+        }
+        
         bound = cv::boundingRect(contours[i]);
         float aspectRatio = float(bound.width)/bound.height;
         
+        printf("FINDING HEX: %lu, %f\n", approx.size(), aspectRatio);
         if (approx.size() == 6 && aspectRatio > 0.8 && aspectRatio < 1.2) {
             hexagons.push_back(approx);
         }
@@ -344,18 +374,20 @@ using namespace std;
 }
 
 
-+ (void) process :(UIImage *) image :(CardListWrapper *) cardListWrapper {
++ (void) process :(UIImage *) image :(CardListWrapper *) cardListWrapper :(double) scale {
     std::vector<std::vector<cv::Point>> hexagons;
     std::vector<std::vector<cv::Point>> innerHexagons;
     double angle = 0;
     double rotation = 0;
     
-    cv::Mat analyzed;
-//    cv::Mat unsized;
     cv::Mat src;
-    UIImageToMat(image, src);
-//    cv::resize(unsized, src, cv::Size(), 0.5, 0.5);
-    //    src.copyTo(analyzed);
+    if (scale < 1.0) {
+        cv::Mat unsized;
+        UIImageToMat(image, unsized);
+        cv::resize(unsized, src, cv::Size(), scale, scale);
+    } else {
+        UIImageToMat(image, src);
+    }
 
     hexagons = [[self class] findHexagons:src];
     

@@ -109,7 +109,11 @@ class ProcessingViewController: UIViewController {
     }
     
     func startCardProcessing() {
-        OpenCVWrapper.process(cardGroup.image, self.cardList)
+        OpenCVWrapper.process(cardGroup.image, self.cardList, 1)
+        
+        if self.cardList.count() == 0 {
+            OpenCVWrapper.process(cardGroup.image, self.cardList, 0.2)
+        }
         
         setProcessedImage(
             image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1),

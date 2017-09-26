@@ -14,9 +14,9 @@
 
 + (UIImage *) individualProcess :(UIImage *) image :(int) process;
 
-+ (UIImage *) debug :(UIImage *) image :(int) stage;
++ (UIImage *) debug :(UIImage *) image :(int) stage  :(double) scale;
 
-+ (void) process :(UIImage *) image :(CardListWrapper *) cards;
++ (void) process :(UIImage *) image :(CardListWrapper *) cards  :(double) scale;
 
 + (UIImage *) floodFill :(UIImage *) image :(int) x :(int) y :(int) red :(int) green :(int) blue;
 
