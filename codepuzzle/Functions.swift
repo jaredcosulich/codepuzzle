@@ -270,8 +270,10 @@ class Functions {
             .replacingOccurrences(of: ".", with: "")
             .replacingOccurrences(of: "‘", with: "")
             .replacingOccurrences(of: "_", with: "")
+            .replacingOccurrences(of: "+", with: "")
             .replacingOccurrences(of: ":", with: "")
             .replacingOccurrences(of: "?", with: "3")
+            .uppercased()
     }
     
     class func valid(code: String, param: String?) -> Bool {

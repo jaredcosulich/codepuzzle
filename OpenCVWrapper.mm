@@ -163,22 +163,13 @@ using namespace std;
 
     gray = [[self class] color:src];
     blur = [[self class] blur:gray];
-//    dilated = [[self class] dilate:blur];
     canny = [[self class] canny:blur];
-
-//    threshold = [[self class] threshold:src];
-//    gray = [[self class] color:threshold];
-////    sharpened = [[self class] sharpen:gray];
-//    dilated = [[self class] dilate:gray];
-//    canny = [[self class] canny:dilated];
     
     processed = canny;
     cv::findContours(processed, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
     int drawn = 0;
     
-    printf("CONTOURS: %lu\n", contours.size());
-           
     for (int i = 0; i < contours.size(); i++) {
         cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
         
@@ -223,7 +214,6 @@ using namespace std;
                     int right = -1;
                     cv::Point leftPoint(9999, 0);
                     cv::Point rightPoint(-1, 0);
-                    printf("SIZE: %lu\n", innerHexagons[j].size());
                     for (int c = 0; c<innerHexagons[j].size(); ++c) {
                         cv::Point corner = cvPoint(bound.x + innerHexagons[j][c].x, bound.y + innerHexagons[j][c].y);
                         
@@ -295,15 +285,8 @@ using namespace std;
 
     gray = [[self class] color:src];
     blur = [[self class] blur:gray];
-//    dilated = [[self class] dilate:blur];
     canny = [[self class] canny:blur];
 
-//    threshold = [[self class] threshold:src];
-//    gray = [[self class] color:threshold];
-//    //    sharpened = [[self class] sharpen:gray];
-//    dilated = [[self class] dilate:gray];
-//    canny = [[self class] canny:dilated];
-    
     processed = canny;
     
     cv::findContours(processed, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
@@ -347,8 +330,6 @@ using namespace std;
 
     hexagons = [[self class] findHexagons:src];
     
-    printf("Hexagons: %lu found\n ", hexagons.size());
-
     for (int i = 0; i < hexagons.size(); ++i) {
         cv::Rect bound = boundingRect(hexagons[i]);
         
@@ -423,12 +404,9 @@ using namespace std;
                     
                     innerHexagons[j][c].x = xRotated;
                     innerHexagons[j][c].y = yRotated;
-                    
-//                    printf("Point: %d, %d -> %f, %f\n", x, y, xRotated, yRotated);
                 }
                 
                 rotatedBound = boundingRect(innerHexagons[j]);
-//                printf("Rotation: %f, Bound: %dx%d \n\n", angle, rotatedBound.width, rotatedBound.height);
 
                 break;
             }
@@ -467,10 +445,10 @@ using namespace std;
         functionBound.height = rotatedBound.height - (rotatedBound.height * 0.6);
 
         cv::Rect paramBound;
-        paramBound.x = rotatedBound.x - rotatedBound.width * 0.55;
-        paramBound.y = rotatedBound.y - rotatedBound.height * 3.4;
-        paramBound.width = rotatedBound.width * 2.2;
-        paramBound.height = rotatedBound.height * 1.8;
+        paramBound.x = rotatedBound.x - rotatedBound.width * 0.3;
+        paramBound.y = rotatedBound.y - rotatedBound.height * 2.6;
+        paramBound.width = rotatedBound.width * 1.6;
+        paramBound.height = rotatedBound.height * 1.6;
 
         CGRect fullRect = [[self class] CvRectToCgRect:fullCardBound];
         CGRect hexRect = [[self class] CvRectToCgRect:rotatedBound];
