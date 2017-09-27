@@ -439,10 +439,10 @@ using namespace std;
 //        }
         
         cv::Rect functionBound;
-        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.26);
-        functionBound.y = rotatedBound.y + (rotatedBound.height * 0.28);
-        functionBound.width = rotatedBound.width - (rotatedBound.width * 0.5);
-        functionBound.height = rotatedBound.height - (rotatedBound.height * 0.6);
+        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.23);
+        functionBound.y = rotatedBound.y + (rotatedBound.height * 0.24);
+        functionBound.width = rotatedBound.width - (rotatedBound.width * 0.45);
+        functionBound.height = rotatedBound.height - (rotatedBound.height * 0.55);
 
         cv::Rect paramBound;
         paramBound.x = rotatedBound.x - rotatedBound.width * 0.3;
