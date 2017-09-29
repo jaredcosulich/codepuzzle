@@ -102,7 +102,6 @@
                                             <constraint firstAttribute="width" secondItem="mT0-HJ-NaA" secondAttribute="height" multiplier="3:1" id="rQV-iY-c7Q"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
-                                        <inset key="titleEdgeInsets" minX="18" minY="18" maxX="15" maxY="18"/>
                                         <state key="normal" title="Start">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -116,7 +115,6 @@
                                             <constraint firstAttribute="width" secondItem="0YL-Yb-bP0" secondAttribute="height" multiplier="3:1" id="Qj8-q6-vuV"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <inset key="titleEdgeInsets" minX="9" minY="9" maxX="9" maxY="9"/>
                                         <state key="normal" title="Cancel">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>

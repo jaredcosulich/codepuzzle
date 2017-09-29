@@ -100,7 +100,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func loadCardProjects() {
-        cardProjects = CardProject.mr_findAll() as! [CardProject]
+        if parentClass != nil {
+            cardProjects = (parentClass?.cardProjects)!
+        } else {
+            cardProjects = CardProject.mr_findAll() as! [CardProject]
+        }
         
         for cp in cardProjects {
             cp.persistedManagedObjectContext = cp.managedObjectContext!
@@ -205,11 +209,21 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         if (title?.characters.count == 0) {
             title = "Project \(cardProjects.count)"
         }
+        
+        var context = parentClass?.managedObjectContext
+        
         MagicalRecord.save({
             (localContext: NSManagedObjectContext!) in
-            self.cardProject = CardProject.mr_createEntity(in: localContext)
+            if context == nil {
+                context = localContext
+            }
+            
+            self.cardProject = CardProject.mr_createEntity(in: context!)
+            if self.parentClass != nil {
+                self.cardProject.parentClass = self.parentClass!
+            }
             self.cardProject.title = self.projectTitle.text!
-            self.cardProject.persistedManagedObjectContext = localContext
+            self.cardProject.persistedManagedObjectContext = context
         }, completion: {
             (MRSaveCompletionHandler) in
             self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()

@@ -75,7 +75,6 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
                 repeats: true,
                 block: {
                     (timer) in
-                    print("-\(slug)- = \(self.puzzleSchool.processing(identifier: slug))")
                     if self.puzzleSchool.processing(identifier: slug) {
                         return
                     }
@@ -86,9 +85,20 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
                     }
                     
                     timer.invalidate()
+                    
+                    let existingClasses = ParentClass.mr_findAll() as! [ParentClass]
+                    for c in existingClasses {
+                        if c.slug == slug {
+                            self.parentClass = c
+                        }
+                    }
+                    
                     MagicalRecord.save({
                         (localContext: NSManagedObjectContext!) in
-                        self.parentClass = ParentClass.mr_createEntity(in: localContext)
+                        if (self.parentClass == nil) {
+                            self.parentClass = ParentClass.mr_createEntity(in: localContext)
+                        }
+                        
                         self.parentClass!.name = self.puzzleSchool.results[slug]!!
                         self.parentClass!.slug = slug
                         self.parentClass!.persistedManagedObjectContext = localContext
