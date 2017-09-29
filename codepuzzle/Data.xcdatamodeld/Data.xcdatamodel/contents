@@ -21,12 +21,21 @@
         <relationship name="cards" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Card" inverseName="cardGroup" inverseEntity="Card" syncable="YES"/>
     </entity>
     <entity name="CardProject" representedClassName="CardProject" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="uri" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="cardGroups" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardGroup" inverseName="cardProject" inverseEntity="CardGroup" syncable="YES"/>
+        <relationship name="parentClass" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentClass" inverseName="cardProjects" inverseEntity="ParentClass" syncable="YES"/>
+    </entity>
+    <entity name="ParentClass" representedClassName="ParentClass" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="slug" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cardProjects" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CardProject" inverseName="parentClass" inverseEntity="CardProject" syncable="YES"/>
     </entity>
     <elements>
         <element name="Card" positionX="-27" positionY="18" width="128" height="210"/>
         <element name="CardGroup" positionX="18" positionY="108" width="128" height="120"/>
-        <element name="CardProject" positionX="54" positionY="135" width="128" height="75"/>
+        <element name="CardProject" positionX="54" positionY="135" width="128" height="120"/>
+        <element name="ParentClass" positionX="18" positionY="117" width="128" height="90"/>
     </elements>
 </model>

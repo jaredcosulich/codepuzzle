@@ -42,6 +42,9 @@
 		3AD692C91F72E0FC00CCA820 /* LinkedListStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD692C81F72E0FC00CCA820 /* LinkedListStack.m */; };
 		3AD692CB1F72E15400CCA820 /* FloodFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD692CA1F72E15400CCA820 /* FloodFill.m */; };
 		3AD692CE1F742DA400CCA820 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD692CD1F742DA400CCA820 /* UIDevice.swift */; };
+		3AFE57651F7C801800A7D387 /* ClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE57641F7C801800A7D387 /* ClassViewController.swift */; };
+		3AFE57671F7D3F3600A7D387 /* PuzzleSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE57661F7D3F3600A7D387 /* PuzzleSchool.swift */; };
+		3AFE576B1F7D46A300A7D387 /* ParentClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE576A1F7D46A300A7D387 /* ParentClass.swift */; };
 		A590C4ECBB68DC8749A60197 /* Pods_codepuzzleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B2F9BDA847479BF2AE247C /* Pods_codepuzzleTests.framework */; };
 		C5C53EA35C98D1FF82C30F77 /* Pods_codepuzzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F1875460C5C0E0CD305CD1 /* Pods_codepuzzle.framework */; };
 /* End PBXBuildFile section */
@@ -113,6 +116,9 @@
 		3AD692CA1F72E15400CCA820 /* FloodFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloodFill.m; sourceTree = "<group>"; };
 		3AD692CC1F72E16100CCA820 /* FloodFill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloodFill.h; sourceTree = "<group>"; };
 		3AD692CD1F742DA400CCA820 /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		3AFE57641F7C801800A7D387 /* ClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassViewController.swift; sourceTree = "<group>"; };
+		3AFE57661F7D3F3600A7D387 /* PuzzleSchool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleSchool.swift; sourceTree = "<group>"; };
+		3AFE576A1F7D46A300A7D387 /* ParentClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentClass.swift; sourceTree = "<group>"; };
 		54F1875460C5C0E0CD305CD1 /* Pods_codepuzzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_codepuzzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		880FB6235960906F7A3C76DA /* Pods-codepuzzleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-codepuzzleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-codepuzzleUITests/Pods-codepuzzleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF6E823DAC9EF063685600C4 /* Pods_codepuzzleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_codepuzzleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +201,7 @@
 				3A2B65C41EE9B37900E8B7BD /* AppDelegate.swift */,
 				3A2B65C61EE9B37900E8B7BD /* MenuViewController.swift */,
 				3A2B65CA1EE9B37900E8B7BD /* Main.storyboard */,
+				3AFE57641F7C801800A7D387 /* ClassViewController.swift */,
 				3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */,
 				3A0408341F43B2D4000C60A2 /* DebugViewController.swift */,
 				3AA2D0311F39F65C00B90963 /* ProjectViewController.swift */,
@@ -215,6 +222,8 @@
 				3A21DB541F4BC8D9003916C3 /* ImageSaver.swift */,
 				3A88F7961F587CB9005A8CE7 /* Loop.swift */,
 				3AD692C51F705F0600CCA820 /* Util.swift */,
+				3AFE57661F7D3F3600A7D387 /* PuzzleSchool.swift */,
+				3AFE576A1F7D46A300A7D387 /* ParentClass.swift */,
 			);
 			path = codepuzzle;
 			sourceTree = "<group>";
@@ -574,8 +583,10 @@
 				3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */,
 				3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */,
 				3ACB55471F12AAC200382476 /* Functions.swift in Sources */,
+				3AFE57651F7C801800A7D387 /* ClassViewController.swift in Sources */,
 				3A2B65C51EE9B37900E8B7BD /* AppDelegate.swift in Sources */,
 				3AD692C91F72E0FC00CCA820 /* LinkedListStack.m in Sources */,
+				3AFE57671F7D3F3600A7D387 /* PuzzleSchool.swift in Sources */,
 				3AA2D02E1F38F79300B90963 /* Data.xcdatamodeld in Sources */,
 				3A21DB531F4B8BA5003916C3 /* Card.swift in Sources */,
 				3AA2D0321F39F65C00B90963 /* ProjectViewController.swift in Sources */,
@@ -583,6 +594,7 @@
 				3A21DB551F4BC8D9003916C3 /* ImageSaver.swift in Sources */,
 				3AD692C61F705F0600CCA820 /* Util.swift in Sources */,
 				3A5A0F951EFAFD6C0069384D /* MathPix.swift in Sources */,
+				3AFE576B1F7D46A300A7D387 /* ParentClass.swift in Sources */,
 				3A5A0FA41EFC3D430069384D /* CardListWrapper.mm in Sources */,
 				3AA2D01E1F339BB700B90963 /* ExecutionViewController.swift in Sources */,
 				3A0408351F43B2D4000C60A2 /* DebugViewController.swift in Sources */,

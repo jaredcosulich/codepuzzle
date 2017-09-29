@@ -20,11 +20,16 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     var cardProjects = [CardProject]()
     
     var cardProject: CardProject!
+    var parentClass: ParentClass?
     
     @IBOutlet weak var splash: UIImageView!
     
     @IBOutlet weak var startProjectButton: UIButton!
+    @IBOutlet weak var classCodeButton: UIButton!
+
+    @IBOutlet weak var classTitle: UILabel!
     
+    @IBOutlet weak var startClassProjectButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
@@ -38,24 +43,39 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
 
         tableView.delegate = self
         tableView.dataSource = self
-        
+
+        classCodeButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: classCodeButton, bufferPercentage: 20)
+
         startProjectButton.layer.cornerRadius = 6
-        startProjectButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        startProjectButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
-        
+        startProjectButton.titleLabel?.font = classCodeButton.titleLabel?.font
+
+        Util.proportionalFont(anyElement: classCodeButton, bufferPercentage: 20)
+
+        Util.proportionalFont(anyElement: classTitle, bufferPercentage: nil)
+        startClassProjectButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: startClassProjectButton, bufferPercentage: 20)
+
         startButton.layer.cornerRadius = 6
-        startButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        startButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        Util.proportionalFont(anyElement: startButton, bufferPercentage: nil)
         
         cancelButton.layer.cornerRadius = 6
-        cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        cancelButton.titleLabel?.baselineAdjustment = UIBaselineAdjustment.alignCenters
+        cancelButton.titleLabel?.font = startButton.titleLabel?.font
         
         projectTitle.adjustsFontSizeToFitWidth = true
         Util.proportionalFont(anyElement: projectTitle, bufferPercentage: nil)
         projectTitle.delegate = self
 
         projectTitleView.layer.cornerRadius = 10
+        
+        if parentClass != nil {
+            classTitle.text = parentClass?.name
+            classTitle.isHidden = false
+            startClassProjectButton.isHidden = false
+            
+            startProjectButton.isHidden = true
+            classCodeButton.isHidden = true
+        }
         
         if cardProjects.count == 0 {
             existingProjectsLabel.isHidden = true

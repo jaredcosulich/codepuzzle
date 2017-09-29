@@ -49,6 +49,9 @@ class ProcessingViewController: UIViewController {
 
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
+    let s3Util = S3Util()
+
+    
 //    let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
 //
 //    let params: [String] = ["6", "UIExtendedSRGBColorSpace 0.27451 0.588235 0.513725 1", "10", "30", "20", "30", "20", "30", "1", "UIExtendedSRGBColorSpace 0.243137 0.219608 0.192157 1", "", "40", "69", "3", "0.5", "", "40", "", "12", "1", "13", "", "30", "UIExtendedSRGBColorSpace 0.819608 0.721569 0.305882 1", "30", "196", "", ""]
@@ -114,6 +117,27 @@ class ProcessingViewController: UIViewController {
         if self.cardList.count() == 0 {
             OpenCVWrapper.process(cardGroup.image, self.cardList, 0.2)
         }
+        
+        Timer.scheduledTimer(
+            withTimeInterval: 0,
+            repeats: false,
+            block: {
+                (Timer) in
+                for i in 0..<self.cardList.count() {
+                    let rotation = self.cardList.getRotation(Int32(i))
+                    let hexRect = self.cardList.getHexRect(Int32(i))
+                    let fullRect = self.cardList.getFullRect(Int32(i))
+                    let image = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+                    
+                    self.s3Util.upload(
+                        image: image,
+                        identifier: "function\(i)",
+                        projectTimestamp: "TEST"
+                    )
+                }
+            }
+        )
+        
         
         setProcessedImage(
             image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1),
@@ -196,12 +220,6 @@ class ProcessingViewController: UIViewController {
         if (stopExecution) {
             return
         }
-
-//            s3Util.upload(
-//                image: cardList.getFunctionImage(index),
-//                identifier: "function\(i)",
-//                projectTimestamp: "TEST"
-//            )
 
         if (execute) {
             output.text = "Analyzing Card \(analyzedCardCount + 1)..."
