@@ -35,6 +35,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var existingProjectsLabel: UILabel!
     
+    let puzzleSchool = PuzzleSchool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -210,25 +212,51 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             title = "Project \(cardProjects.count)"
         }
         
-        var context = parentClass?.managedObjectContext
-        
-        MagicalRecord.save({
-            (localContext: NSManagedObjectContext!) in
-            if context == nil {
-                context = localContext
+        var identifier: String?
+        if parentClass != nil {
+            identifier = self.puzzleSchool.saveProject(parentClass: parentClass!, title: title!)
+        }
+
+        Timer.scheduledTimer(
+            withTimeInterval: 0.1,
+            repeats: true,
+            block: {
+                (timer) in
+                if identifier != nil {
+                    if self.puzzleSchool.processing(identifier: identifier!) {
+                        return
+                    }
+                }
+                timer.invalidate()
+                
+                var context = self.parentClass?.managedObjectContext
+                
+                MagicalRecord.save({
+                    (localContext: NSManagedObjectContext!) in
+                    if context == nil {
+                        context = localContext
+                    }
+                    
+                    self.cardProject = CardProject.mr_createEntity(in: context!)
+                    if self.parentClass != nil {
+                        self.cardProject.parentClass = self.parentClass!
+                    }
+                    if identifier != nil {
+                        self.cardProject.id = self.puzzleSchool.results[identifier!]!!
+                    }
+                    self.cardProject.title = self.projectTitle.text!
+                    self.cardProject.persistedManagedObjectContext = context
+                }, completion: {
+                    (MRSaveCompletionHandler) in
+                    self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+                    self.performSegue(withIdentifier: "start-project-segue", sender: nil)
+                    
+                })
+                
+                
             }
-            
-            self.cardProject = CardProject.mr_createEntity(in: context!)
-            if self.parentClass != nil {
-                self.cardProject.parentClass = self.parentClass!
-            }
-            self.cardProject.title = self.projectTitle.text!
-            self.cardProject.persistedManagedObjectContext = context
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-            self.performSegue(withIdentifier: "start-project-segue", sender: nil)
-        })
+        )
+
     }
     
     @IBAction func cancelStartProject(_ sender: UIButton) {

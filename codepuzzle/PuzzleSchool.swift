@@ -11,7 +11,7 @@ import Alamofire
 
 class PuzzleSchool {
     
-    let domain = "https://2ed47c7b.ngrok.io" // "https://www.puzzleschool.com"
+    let domain = "https://3c1766b5.ngrok.io" // "https://www.puzzleschool.com"
     
     var results = [String: String?]()
     
@@ -25,7 +25,9 @@ class PuzzleSchool {
         return !results.keys.contains(identifier)
     }
     
-    func getClassName(slug: String) {
+    func getClassName(slug: String) -> String {
+        let identifier = "ParentClass\(slug)\(Date().timeIntervalSince1970)"
+
         Alamofire.request(
             "\(domain)/code_puzzle_classes/\(slug)",
             method: .get,
@@ -40,34 +42,37 @@ class PuzzleSchool {
             }
             
             if let json = response.result.value {
-                self.results[slug] = (json as! NSDictionary)["name"] as? String
+                self.results[identifier] = (json as! NSDictionary)["name"] as? String
             }
         }
+        return identifier
     }
     
     
-    func saveProject(cardProject: CardProject) {
+    func saveProject(parentClass: ParentClass, title: String) -> String {
+        let identifier = "\(parentClass.slug)\(title)\(Date().timeIntervalSince1970)"
+        
         let parameters : Parameters = [
-            "class": cardProject.parentClass.slug,
-            "title": cardProject.title
+            "code_puzzle_project[title]": title
         ]
         
         Alamofire.request(
-            "https://www.puzzleschool.com/code_puzzle_projects",
+            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects",
             method: .post,
             parameters : parameters,
             encoding: JSONEncoding.default,
             headers: [
-                "app_id" : "puzzleschool",
-                "app_key" : "a5f0c88b21f281282fce1adfa9609aaf"
+                "Accept": "application/json"
             ]
         ).responseJSON { response in
             if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
             
-//            if let json = response.result.value {
-//                let value = (json as! NSDictionary)["latex"] as? String
-//                self.results[identifier] = value ?? "No Value"
-//            }
+            if let json = response.result.value {
+                print("JSON: \(json)")
+                let id = (json as! NSDictionary)["id"] as? String
+                self.results[identifier] = id ?? "No Value"
+            }
         }
+        return identifier
     }
 }

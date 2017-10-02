@@ -15,6 +15,7 @@ import CoreData
 class CardProject: NSManagedObject {
     
     // Attributes
+    @NSManaged var id: String
     @NSManaged var title: String
     
     // Relationships

@@ -424,7 +424,7 @@ using namespace std;
         }
         
         cv::Rect fullCardBound;
-        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 1.4);
+        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 1.35);
         fullCardBound.y = rotatedBound.y - (rotatedBound.height * 4.2);
         fullCardBound.width = rotatedBound.width * 3.7;
         fullCardBound.height = rotatedBound.height * 5.7;
@@ -439,10 +439,10 @@ using namespace std;
 //        }
         
         cv::Rect functionBound;
-        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.23);
+        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.22);
         functionBound.y = rotatedBound.y + (rotatedBound.height * 0.24);
-        functionBound.width = rotatedBound.width - (rotatedBound.width * 0.45);
-        functionBound.height = rotatedBound.height - (rotatedBound.height * 0.55);
+        functionBound.width = rotatedBound.width - (rotatedBound.width * 0.5);
+        functionBound.height = rotatedBound.height - (rotatedBound.height * 0.6);
 
         cv::Rect paramBound;
         paramBound.x = rotatedBound.x - rotatedBound.width * 0.3;

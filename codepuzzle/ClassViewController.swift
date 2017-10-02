@@ -64,7 +64,7 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
         if var slug = classCodeInput.text {
             slug = slug.trimmingCharacters(in: .whitespacesAndNewlines)
 
-            puzzleSchool.getClassName(slug: slug)
+            let identifier = puzzleSchool.getClassName(slug: slug)
             
             classCodeButton.isHidden = true
             activityIndicator.isHidden = false
@@ -75,11 +75,11 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
                 repeats: true,
                 block: {
                     (timer) in
-                    if self.puzzleSchool.processing(identifier: slug) {
+                    if self.puzzleSchool.processing(identifier: identifier) {
                         return
                     }
                     
-                    if self.puzzleSchool.results[slug] == nil {
+                    if self.puzzleSchool.results[identifier] == nil {
                         print("HANDLE THIS! NO CLASS FOUND")
                         return
                     }
@@ -99,7 +99,7 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
                             self.parentClass = ParentClass.mr_createEntity(in: localContext)
                         }
                         
-                        self.parentClass!.name = self.puzzleSchool.results[slug]!!
+                        self.parentClass!.name = self.puzzleSchool.results[identifier]!!
                         self.parentClass!.slug = slug
                         self.parentClass!.persistedManagedObjectContext = localContext
                     }, completion: {
