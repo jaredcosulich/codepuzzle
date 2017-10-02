@@ -53,32 +53,32 @@ class Functions {
             color: false
         ),
         "A5": FunctionInfo(
+            name: "Fill Color",
+            method: "fillColor",
+            paramCount: 0,
+            color: true
+        ),
+        "P1": FunctionInfo(
             name: "Pen Up",
             method: "penUp",
             paramCount: 0,
             color: false
         ),
-        "A6": FunctionInfo(
+        "P2": FunctionInfo(
             name: "Pen Down",
             method: "penDown",
             paramCount: 0,
             color: false
         ),
-        "A7": FunctionInfo(
+        "P3": FunctionInfo(
             name: "Pen Size",
             method: "penSize",
             paramCount: 1,
             color: false
         ),
-        "A8": FunctionInfo(
+        "P4": FunctionInfo(
             name: "Pen Color",
             method: "penColor",
-            paramCount: 0,
-            color: true
-        ),
-        "A9": FunctionInfo(
-            name: "Fill Color",
-            method: "fillColor",
             paramCount: 0,
             color: true
         ),

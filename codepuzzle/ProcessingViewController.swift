@@ -290,7 +290,6 @@ class ProcessingViewController: UIViewController {
                     )
 
                     paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: colorRect, hexRect: hexRect, rotation: rotation)
-                    
                     result = "\(paramImage.averageColor())"
                 } else {
                     paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation)
@@ -299,7 +298,7 @@ class ProcessingViewController: UIViewController {
                 self.mathPix.processImage(
                     image: paramImage,
                     identifier: "param\(processedCardCodeCount)",
-                    result: nil//params[Int(processedCardCodeCount)]//result//nil//
+                    result: result//params[Int(processedCardCodeCount)]
                 )
 
                 processedCardCodeCount += 1
