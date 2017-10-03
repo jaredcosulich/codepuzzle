@@ -43,15 +43,18 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     var selectedCardGroupIndex = -1
     
-    let s3Util = S3Util()
-    
+    var s3Util: S3Util!
     var cardProject: CardProject!
     
     var addPhoto: String!
     
+    let puzzleSchool = PuzzleSchool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        s3Util = S3Util(projectName: cardProject.title, className: cardProject.parentClass?.name)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -414,8 +417,18 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
-        let context = self.cardProject.persistedManagedObjectContext!
+        s3Util.upload(
+            image: image,
+            imageType: "full",
+            completion: {
+                s3Url in
+                if self.cardProject.parentClass != nil {
+                    self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
+                }
+            }
+        )
 
+        let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in
             var editingCardGroup: CardGroup!

@@ -19,7 +19,7 @@ class CardProject: NSManagedObject {
     @NSManaged var title: String
     
     // Relationships
-    @NSManaged var parentClass: ParentClass
+    @NSManaged var parentClass: ParentClass?
 
     @NSManaged var cardGroups: [CardGroup]
     

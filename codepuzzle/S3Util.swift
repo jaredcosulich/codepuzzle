@@ -24,29 +24,42 @@ class S3Util {
     let credentialsProvider = AWSCognitoCredentialsProvider(regionType:.USEast1,
                                                             identityPoolId:"us-east-1:277eaedd-a718-4f7a-a8c4-2016d02f55d9")
     var contentUrls = [String: URL!]()
+
+    var projectName: String!
+
+    var className: String?
     
     var s3Url: URL!
     
-    init() {
+    init(projectName: String, className: String?) {
+        self.projectName = projectName
+        self.className = className
+        
         let configuration = AWSServiceConfiguration(region:.USEast1, credentialsProvider:credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
 
-        s3Url = AWSS3.default().configuration.endpoint.url
+        self.s3Url = AWSS3.default().configuration.endpoint.url
     }
     
     func processing() -> Bool {
         return processingCount > 0
     }
     
-    func getS3Url(identifier: String, projectTimestamp: String) -> URL {
-        let key = "\(uuid)-\(identifier)-\(projectTimestamp).png"
-        return contentUrls[key]!
+    func fullProjectName() {
+        var name = projectName
+        if className != nil {
+            name!.append("-\(className ?? "N/A")")
+        }
     }
     
-    func upload(image: UIImage, identifier: String, projectTimestamp: String) {
+    func getS3Url(imageType: String) -> URL {
+        return contentUrls[imageType]!
+    }
+    
+    func upload(image: UIImage, imageType: String, completion: ((URL) -> Void)?) {
         processingCount += 1
         
-        let key = "\(uuid)-\(identifier)-\(projectTimestamp).png"
+        let key = "\(imageType)/\(fullProjectName())/\(uuid).png"
 
         var filename: URL!
         
@@ -67,11 +80,12 @@ class S3Util {
             if let error = task.error {
                 print(error)
             }
+
             if task.result != nil {
-                print("Uploaded \(key)")
-                let contentUrl = self.s3Url.appendingPathComponent(self.bucketName).appendingPathComponent(key)
-                self.contentUrls[key] = contentUrl
-                print("URL: \(contentUrl)")
+                let timestampKey = "\(key)-\(Date().timeIntervalSince1970)"
+                let contentUrl = self.s3Url.appendingPathComponent(self.bucketName).appendingPathComponent(timestampKey)
+                self.contentUrls[imageType] = contentUrl
+                completion?(contentUrl)
             }
             self.processingCount -= 1
             return nil

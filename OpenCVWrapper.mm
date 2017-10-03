@@ -380,8 +380,10 @@ using namespace std;
                 rotations.push_back([[self class] calculateXRotation :ordered[5] :ordered[1]]);
                 rotations.push_back([[self class] calculateXRotation :ordered[4] :ordered[2]]);
                 
-                std::sort (rotations.begin(), rotations.end());
-                rotation = (rotations[1] + rotations[2] + rotations[3]) / 3;
+                auto func=[](float a, float b) { return abs(a) < abs(b); };
+                std::sort(rotations.begin(), rotations.end(), func);
+
+                rotation = (rotations[0] + rotations[1] + rotations[2   ]) / 3;
                 angle = (rotation * CV_PI) / 180;
 
                 int xOrigin = bound.x + (bound.size().width / 2);

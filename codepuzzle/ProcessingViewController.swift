@@ -49,7 +49,7 @@ class ProcessingViewController: UIViewController {
 
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
-    let s3Util = S3Util()
+    var s3Util: S3Util!
 
     
 //    let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
@@ -61,6 +61,8 @@ class ProcessingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        s3Util = S3Util(projectName: cardProject.title, className: cardProject.parentClass?.name)
+        
         cardGroup = cardProject.cardGroups[selectedIndex]
         
         imageView.image = ImageProcessor.scale(image: cardGroup.image!, view: imageView)
@@ -124,27 +126,6 @@ class ProcessingViewController: UIViewController {
             OpenCVWrapper.process(cardGroup.image, self.cardList, 0.2)
         }
         
-        Timer.scheduledTimer(
-            withTimeInterval: 0,
-            repeats: false,
-            block: {
-                (Timer) in
-                for i in 0..<self.cardList.count() {
-                    let rotation = self.cardList.getRotation(Int32(i))
-                    let hexRect = self.cardList.getHexRect(Int32(i))
-                    let fullRect = self.cardList.getFullRect(Int32(i))
-                    let image = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
-                    
-//                    self.s3Util.upload(
-//                        image: image,
-//                        identifier: "function\(i)",
-//                        projectTimestamp: "TEST"
-//                    )
-                }
-            }
-        )
-        
-        
         setProcessedImage(
             image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1),
             completion: {
@@ -169,6 +150,26 @@ class ProcessingViewController: UIViewController {
                         selector: #selector(self.analyzeCards),
                         userInfo: nil,
                         repeats: false
+                    )
+                
+                    Timer.scheduledTimer(
+                        withTimeInterval: 0,
+                        repeats: false,
+                        block: {
+                            (Timer) in
+                            for i in 0..<self.cardList.count() {
+                                let rotation = self.cardList.getRotation(Int32(i))
+                                let hexRect = self.cardList.getHexRect(Int32(i))
+                                let fullRect = self.cardList.getFullRect(Int32(i))
+                                let image = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+                                
+                                self.s3Util.upload(
+                                    image: image,
+                                    imageType: "function\(i)",
+                                    completion: nil
+                                )
+                            }
+                        }
                     )
                 }
             }

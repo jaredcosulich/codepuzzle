@@ -11,7 +11,7 @@ import Alamofire
 
 class PuzzleSchool {
     
-    let domain = "https://3c1766b5.ngrok.io" // "https://www.puzzleschool.com"
+    let domain = "https://775e57a1.ngrok.io" // "https://www.puzzleschool.com"
     
     var results = [String: String?]()
     
@@ -72,6 +72,34 @@ class PuzzleSchool {
                 let id = (json as! NSDictionary)["id"] as? String
                 self.results[identifier] = id ?? "No Value"
             }
+        }
+        return identifier
+    }
+    
+    func saveGroup(cardProject: CardProject, imageUrl: URL) -> String {
+        let parentClass = cardProject.parentClass!
+        let identifier = "\(parentClass.slug)\(cardProject.title)\(Date().timeIntervalSince1970)"
+        
+        let parameters : Parameters = [
+            "photo_url": imageUrl.absoluteString,
+            "position": cardProject.cardGroups.count
+        ]
+        
+        Alamofire.request(
+            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups",
+            method: .post,
+            parameters : parameters,
+            encoding: JSONEncoding.default,
+            headers: [
+                "Accept": "application/json"
+            ]
+            ).responseJSON { response in
+                if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
+                
+                if let json = response.result.value {
+                    print("JSON: \(json)")
+                    self.results[identifier] = "Success"
+                }
         }
         return identifier
     }
