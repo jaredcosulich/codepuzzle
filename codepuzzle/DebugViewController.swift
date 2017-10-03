@@ -226,7 +226,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
     
     func process() {
         cardList.clear()
-        OpenCVWrapper.process(image, cardList, 1)
+        OpenCVWrapper.process(image, cardList, 0.5)
         output.text = "Found: \(cardList.count())"
     }
 

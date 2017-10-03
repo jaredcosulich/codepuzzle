@@ -112,9 +112,15 @@ class ProcessingViewController: UIViewController {
     }
     
     func startCardProcessing() {
-        OpenCVWrapper.process(cardGroup.image, self.cardList, 1)
+        OpenCVWrapper.process(cardGroup.image, self.cardList, 0.5)
         
-        if self.cardList.count() == 0 {
+        if self.cardList.count() == 0 || self.cardList.getHexRect(0).width < 75 {
+            self.cardList.clear()
+            OpenCVWrapper.process(cardGroup.image, self.cardList, 1)
+        }
+        
+        if self.cardList.count() == 0 || self.cardList.getHexRect(0).width > 400 {
+            self.cardList.clear()
             OpenCVWrapper.process(cardGroup.image, self.cardList, 0.2)
         }
         
@@ -129,11 +135,11 @@ class ProcessingViewController: UIViewController {
                     let fullRect = self.cardList.getFullRect(Int32(i))
                     let image = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
                     
-                    self.s3Util.upload(
-                        image: image,
-                        identifier: "function\(i)",
-                        projectTimestamp: "TEST"
-                    )
+//                    self.s3Util.upload(
+//                        image: image,
+//                        identifier: "function\(i)",
+//                        projectTimestamp: "TEST"
+//                    )
                 }
             }
         )

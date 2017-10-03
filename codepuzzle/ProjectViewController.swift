@@ -250,7 +250,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                     (MRSaveCompletionHandler) in
                     self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
                     self.performSegue(withIdentifier: "start-project-segue", sender: nil)
-                    
                 })
                 
                 
