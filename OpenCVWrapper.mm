@@ -383,7 +383,7 @@ using namespace std;
                 auto func=[](float a, float b) { return abs(a) < abs(b); };
                 std::sort(rotations.begin(), rotations.end(), func);
 
-                rotation = (rotations[0] + rotations[1] + rotations[2   ]) / 3;
+                rotation = (rotations[0] + rotations[1] + rotations[2]) / 3;
                 angle = (rotation * CV_PI) / 180;
 
                 int xOrigin = bound.x + (bound.size().width / 2);

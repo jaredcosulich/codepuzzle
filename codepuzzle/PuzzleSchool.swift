@@ -52,8 +52,8 @@ class PuzzleSchool {
     func saveProject(parentClass: ParentClass, title: String) -> String {
         let identifier = "\(parentClass.slug)\(title)\(Date().timeIntervalSince1970)"
         
-        let parameters : Parameters = [
-            "code_puzzle_project[title]": title
+        let parameters : [String:Parameters] = [
+            "code_puzzle_project": ["title": title]
         ]
         
         Alamofire.request(
