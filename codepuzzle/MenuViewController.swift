@@ -54,6 +54,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        print("CLASS: \(cardProject.parentClass)")
+        print("ID: \(cardProject.id)")
+        
         s3Util = S3Util(projectName: cardProject.title, className: cardProject.parentClass?.name)
         
         tableView.delegate = self

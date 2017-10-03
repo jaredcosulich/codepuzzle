@@ -472,7 +472,7 @@
                                 <rect key="frame" x="403" y="540" width="269" height="67"/>
                                 <color key="backgroundColor" red="0.014507189130000001" green="0.60684504530000005" blue="0.001450365028" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <state key="normal" title="Process">
+                                <state key="normal" title="Use Photo">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="0.0" green="0.044991018683365525" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>

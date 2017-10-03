@@ -69,8 +69,8 @@ class PuzzleSchool {
             
             if let json = response.result.value {
                 print("JSON: \(json)")
-                let id = (json as! NSDictionary)["id"] as? String
-                self.results[identifier] = id ?? "No Value"
+                let id = (json as! NSDictionary)["id"] as? Int
+                self.results[identifier] = "\(id)"
             }
         }
         return identifier
@@ -84,7 +84,7 @@ class PuzzleSchool {
             "photo_url": imageUrl.absoluteString,
             "position": cardProject.cardGroups.count
         ]
-        
+                
         Alamofire.request(
             "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups",
             method: .post,
