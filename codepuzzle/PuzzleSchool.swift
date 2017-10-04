@@ -76,7 +76,7 @@ class PuzzleSchool {
         return identifier
     }
     
-    func saveGroup(cardProject: CardProject, imageUrl: URL) {
+    func saveGroup(cardProject: CardProject, imageUrl: URL) -> String {
         let parentClass = cardProject.parentClass!
         let identifier = "\(parentClass.slug)\(cardProject.title)\(cardProject.cardGroups.count)\(Date().timeIntervalSince1970)"
         
@@ -100,8 +100,41 @@ class PuzzleSchool {
             
             if let json = response.result.value {
                 print("JSON: \(json)")
-                self.results[identifier] = "Success"
+                let id = (json as! NSDictionary)["id"] as? Int
+                self.results[identifier] = "\(id!)"
             }
+        }
+        
+        return identifier
+    }
+    
+    func saveCard(cardGroup: CardGroup, imageUrl: URL, code: String, parameter: String) {
+        let cardProject = cardGroup.cardProject
+        let parentClass = cardProject.parentClass!
+        let identifier = "\(parentClass.slug)\(cardProject.id)\(cardProject.cardGroups.count)\(Date().timeIntervalSince1970)"
+        
+        let parameters : [String:Parameters] = [
+            "code_puzzle_group": [
+                "photo_url": imageUrl.absoluteString,
+                "position": cardProject.cardGroups.count
+            ]
+        ]
+        
+        Alamofire.request(
+            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups",
+            method: .post,
+            parameters : parameters,
+            encoding: JSONEncoding.default,
+            headers: [
+                "Accept": "application/json"
+            ]
+            ).responseJSON { response in
+                if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
+                
+                if let json = response.result.value {
+                    print("JSON: \(json)")
+                    self.results[identifier] = "Success"
+                }
         }
     }
 }

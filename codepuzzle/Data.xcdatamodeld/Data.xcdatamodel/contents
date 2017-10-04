@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16A323" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Data">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Data">
     <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="code" attributeType="String" syncable="YES"/>
         <attribute name="disabled" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -14,6 +14,7 @@
         <relationship name="cardGroup" maxCount="1" deletionRule="Nullify" destinationEntity="CardGroup" inverseName="cards" inverseEntity="CardGroup" syncable="YES"/>
     </entity>
     <entity name="CardGroup" representedClassName="CardGroup" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageFilename" attributeType="String" syncable="YES"/>
         <attribute name="processed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="processedImageFilename" optional="YES" attributeType="String" syncable="YES"/>
@@ -34,7 +35,7 @@
     </entity>
     <elements>
         <element name="Card" positionX="-27" positionY="18" width="128" height="210"/>
-        <element name="CardGroup" positionX="18" positionY="108" width="128" height="120"/>
+        <element name="CardGroup" positionX="18" positionY="108" width="128" height="135"/>
         <element name="CardProject" positionX="54" positionY="135" width="128" height="120"/>
         <element name="ParentClass" positionX="18" positionY="117" width="128" height="90"/>
     </elements>

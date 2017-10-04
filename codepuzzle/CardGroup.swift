@@ -15,6 +15,7 @@ import CoreData
 class CardGroup: NSManagedObject {
     
     // Attributes
+    @NSManaged var id: String
     @NSManaged var imageFilename: String?
         
     weak var image: UIImage? {

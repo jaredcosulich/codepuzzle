@@ -423,9 +423,27 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             completion: {
                 s3Url in
                 if self.cardProject.parentClass != nil {
-                    self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
+                    let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
+                
+                    Timer.scheduledTimer(
+                        withTimeInterval: 0.1,
+                        repeats: true,
+                        block: {
+                            (timer) in
+                            if self.puzzleSchool.processing(identifier: identifier) {
+                                return
+                            }
+                            timer.invalidate()
+                            
+                            let groupId = self.puzzleSchool.results[identifier]!!
+                            self.cardProject.cardGroups[self.selectedCardGroupIndex].id = groupId
+                            self.performSegue(withIdentifier: "processing-segue", sender: nil)
+                        }
+                    )
+                    //processing-segue
+                } else {
+                    self.performSegue(withIdentifier: "processing-segue", sender: nil)
                 }
-                //processing-segue
             }
         )
     }
