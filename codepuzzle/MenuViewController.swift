@@ -54,9 +54,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        print("CLASS: \(cardProject.parentClass)")
-        print("ID: \(cardProject.id)")
-        
         s3Util = S3Util(projectName: cardProject.title, className: cardProject.parentClass?.name)
         
         tableView.delegate = self
@@ -418,19 +415,22 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func playButton(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "execution-segue", sender: nil)
     }
-    
-    func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
+
+    @IBAction func processPhoto(_ sender: UIButton) {
         s3Util.upload(
-            image: image,
+            image: cardProject.cardGroups[selectedCardGroupIndex].image!,
             imageType: "full",
             completion: {
                 s3Url in
                 if self.cardProject.parentClass != nil {
                     self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
                 }
+                //processing-segue
             }
         )
-
+    }
+    
+    func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
         let context = self.cardProject.persistedManagedObjectContext!
         context.mr_save({
             (localContext: NSManagedObjectContext!) in

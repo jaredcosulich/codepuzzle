@@ -230,7 +230,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                 timer.invalidate()
                 
                 var context = self.parentClass?.managedObjectContext
-                
                 MagicalRecord.save({
                     (localContext: NSManagedObjectContext!) in
                     if context == nil {
@@ -244,7 +243,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                     if identifier != nil {
                         self.cardProject.id = self.puzzleSchool.results[identifier!]!!
                     }
-                    self.cardProject.title = self.projectTitle.text!
+                    self.cardProject.title = title!
                     self.cardProject.persistedManagedObjectContext = context
                 }, completion: {
                     (MRSaveCompletionHandler) in

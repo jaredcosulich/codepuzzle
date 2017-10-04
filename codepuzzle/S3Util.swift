@@ -45,11 +45,12 @@ class S3Util {
         return processingCount > 0
     }
     
-    func fullProjectName() {
+    func fullProjectName() -> String {
         var name = projectName
         if className != nil {
             name!.append("-\(className ?? "N/A")")
         }
+        return name!
     }
     
     func getS3Url(imageType: String) -> URL {
@@ -61,18 +62,20 @@ class S3Util {
         
         let key = "\(imageType)/\(fullProjectName())/\(uuid).png"
 
-        var filename: URL!
+        let imageName = NSURL.fileURL(withPath: NSTemporaryDirectory() + key).lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+        
+        // getting local path
+        let localPath = (documentDirectory as NSString).appendingPathComponent(imageName)
         
         if let data = UIImagePNGRepresentation(image) {
-            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            filename = documentsPath.appendingPathComponent(key)
-            try? data.write(to: filename)
+            try? data.write(to: Foundation.URL(string: "file://" + localPath)!, options: Data.WritingOptions.atomic)
         }
         
         let request = AWSS3TransferManagerUploadRequest()!
         request.bucket = bucketName
         request.key = key
-        request.body = filename
+        request.body = NSURL(fileURLWithPath: localPath) as URL
         request.acl = .publicReadWrite
         
         let transferManager = AWSS3TransferManager.default()

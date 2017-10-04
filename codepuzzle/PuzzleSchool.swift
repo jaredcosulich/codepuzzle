@@ -70,21 +70,23 @@ class PuzzleSchool {
             if let json = response.result.value {
                 print("JSON: \(json)")
                 let id = (json as! NSDictionary)["id"] as? Int
-                self.results[identifier] = "\(id)"
+                self.results[identifier] = "\(id!)"
             }
         }
         return identifier
     }
     
-    func saveGroup(cardProject: CardProject, imageUrl: URL) -> String {
+    func saveGroup(cardProject: CardProject, imageUrl: URL) {
         let parentClass = cardProject.parentClass!
-        let identifier = "\(parentClass.slug)\(cardProject.title)\(Date().timeIntervalSince1970)"
+        let identifier = "\(parentClass.slug)\(cardProject.title)\(cardProject.cardGroups.count)\(Date().timeIntervalSince1970)"
         
-        let parameters : Parameters = [
-            "photo_url": imageUrl.absoluteString,
-            "position": cardProject.cardGroups.count
+        let parameters : [String:Parameters] = [
+            "code_puzzle_group": [
+                "photo_url": imageUrl.absoluteString,
+                "position": cardProject.cardGroups.count
+            ]
         ]
-                
+        
         Alamofire.request(
             "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups",
             method: .post,
@@ -93,14 +95,13 @@ class PuzzleSchool {
             headers: [
                 "Accept": "application/json"
             ]
-            ).responseJSON { response in
-                if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
-                
-                if let json = response.result.value {
-                    print("JSON: \(json)")
-                    self.results[identifier] = "Success"
-                }
+        ).responseJSON { response in
+            if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
+            
+            if let json = response.result.value {
+                print("JSON: \(json)")
+                self.results[identifier] = "Success"
+            }
         }
-        return identifier
     }
 }

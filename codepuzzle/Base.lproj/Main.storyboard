@@ -477,7 +477,7 @@
                                     <color key="titleShadowColor" red="0.0" green="0.044991018683365525" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" id="wUW-rb-M7n"/>
+                                    <action selector="processPhoto:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ejQ-W7-wdc"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu3-rI-zKi">
@@ -696,6 +696,7 @@
                         <segue destination="ueC-M8-gXi" kind="show" identifier="delete-project-segue" id="Kvr-WZ-WZn"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="zhG-AU-rJY"/>
                         <segue destination="bVL-Zx-Wui" kind="show" identifier="debug-segue" id="Z1L-qb-ND3"/>
+                        <segue destination="um8-fG-7IM" kind="show" identifier="processing-segue" id="cii-4Q-Jsu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
