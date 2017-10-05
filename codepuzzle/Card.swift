@@ -16,10 +16,13 @@ class Card: NSManagedObject {
     
     // Attributes
     
+    @NSManaged var id: Int
     @NSManaged var manual: Bool
     @NSManaged var error: Bool
 
     @NSManaged var imageFilename: String?
+    var s3Url: String?
+    
     weak var image: UIImage? {
         get {
             return ImageSaver.retrieve(filename: imageFilename!)

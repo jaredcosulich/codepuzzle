@@ -50,6 +50,8 @@ class ProcessingViewController: UIViewController {
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     var s3Util: S3Util!
+    
+    let puzzleSchool = PuzzleSchool()
 
     
 //    let codes: [String] = ["A 7", "A 8", "A 4", "A 1", "A 3", "A 1", "A 4", "A 1", "A 7", "A 8", "F 1", "A 1", "", "A 3", "A 1", "12", "A 1", "F 2", "17", "F 1", "A 4", "A 5", "A 2", "A 9", "A 1", "A 3", "A C", "12"]
@@ -150,26 +152,6 @@ class ProcessingViewController: UIViewController {
                         selector: #selector(self.analyzeCards),
                         userInfo: nil,
                         repeats: false
-                    )
-                
-                    Timer.scheduledTimer(
-                        withTimeInterval: 0,
-                        repeats: false,
-                        block: {
-                            (Timer) in
-                            for i in 0..<self.cardList.count() {
-                                let rotation = self.cardList.getRotation(Int32(i))
-                                let hexRect = self.cardList.getHexRect(Int32(i))
-                                let fullRect = self.cardList.getFullRect(Int32(i))
-                                let image = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
-                                
-                                self.s3Util.upload(
-                                    image: image,
-                                    imageType: "function\(i)",
-                                    completion: nil
-                                )
-                            }
-                        }
                     )
                 }
             }
@@ -375,53 +357,71 @@ class ProcessingViewController: UIViewController {
         }
         
         output.text = "Processing Card \(i + 1)"
+
+        let code = self.mathPix.getValue(identifier: "function\(i)")
+        let param = self.mathPix.getValue(identifier: "param\(i)")
+
+        let rotation = self.cardList.getRotation(i)
+        let hexRect = self.cardList.getHexRect(i)
+        let fullRect = self.cardList.getFullRect(i)
         
+        let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+
         let context = cardProject.persistedManagedObjectContext!
-        context.mr_save({
-            (localContext: NSManagedObjectContext!) in
-            
-            let rotation = self.cardList.getRotation(i)
-            let hexRect = self.cardList.getHexRect(i)
-            //            let functionRect = self.cardList.getFunctionRect(i)
-            //            tesseract.image = ImageProcessor.cropCard(image: self.cardGroup.image, rect: functionRect, hexRect: hexRect, rotation: 0).g8_blackAndWhite()
-            //            tesseract.recognize()
-            
-            let fullRect = self.cardList.getFullRect(i)
-            
-            let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
-            
-            //            let code = Functions.processedCode(code: tesseract.recognizedText!)
-            
-            let code = self.mathPix.getValue(identifier: "function\(i)")
-            let param = self.mathPix.getValue(identifier: "param\(i)")
-            
-            //                print("\(self.mathPix.getValue(identifier: "function\(i)")), \(self.mathPix.getValue(identifier: "param\(i)")) -> \(Functions.signature(code: code, param: param))")
-            
-            let newCard = Card.mr_createEntity(in: context)
-            newCard?.cardGroup = self.cardGroup!
-            newCard?.code = code
-            newCard?.param = param
-            newCard?.image = cardImage
-            
-            newCard?.originalCode = code
-            newCard?.originalParam = param
-            newCard?.originalImage = cardImage
-            newCard?.error = !Functions.valid(code: code, param: param)
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            Timer.scheduledTimer(
-                withTimeInterval: 0,
-                repeats: false,
-                block: {(t) in
-                    if (i == self.processedCardParamCount - 1) {
-                        self.cardGroup.isProcessed = true
-                        self.completeCardProcessing(context: context)
-                    } else {
-                        self.processCards(i: i + 1)
-                    }
+
+        self.s3Util.upload(
+            image: cardImage,
+            imageType: "function",
+            completion: {
+                s3Url in
+                
+                var identifier: String?
+                if self.cardProject.parentClass != nil {
+                    identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
                 }
-            )
-        })
+                
+                Timer.scheduledTimer(
+                    withTimeInterval: 0.1,
+                    repeats: true,
+                    block: {
+                        (timer) in
+                        if identifier != nil && self.puzzleSchool.processing(identifier: identifier!) {
+                            return
+                        }
+                        timer.invalidate()
+                        
+                        context.mr_save({
+                            (localContext: NSManagedObjectContext!) in
+                            let newCard = Card.mr_createEntity(in: context)
+                            newCard?.cardGroup = self.cardGroup!
+                            newCard?.code = code
+                            newCard?.param = param
+                            newCard?.image = cardImage
+                            
+                            newCard?.originalCode = code
+                            newCard?.originalParam = param
+                            newCard?.originalImage = cardImage
+                            newCard?.error = !Functions.valid(code: code, param: param)
+                        }, completion: {
+                            (MRSaveCompletionHandler) in
+                            
+                            Timer.scheduledTimer(
+                                withTimeInterval: 0,
+                                repeats: false,
+                                block: {(t) in
+                                    if (i == self.processedCardParamCount - 1) {
+                                        self.cardGroup.isProcessed = true
+                                        self.completeCardProcessing(context: context)
+                                    } else {
+                                        self.processCards(i: i + 1)
+                                    }
+                                }
+                            )
+                        })
+                    }
+                )
+            }
+        )
     }
 
     func completeCardProcessing(context: NSManagedObjectContext) {
@@ -450,8 +450,8 @@ class ProcessingViewController: UIViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
-//        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
+        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
         
         stopExecution = true
         

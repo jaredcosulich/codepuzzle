@@ -440,7 +440,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                             self.performSegue(withIdentifier: "processing-segue", sender: nil)
                         }
                     )
-                    //processing-segue
+                    
                 } else {
                     self.performSegue(withIdentifier: "processing-segue", sender: nil)
                 }

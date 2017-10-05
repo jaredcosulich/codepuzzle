@@ -83,7 +83,7 @@ class PuzzleSchool {
         let parameters : [String:Parameters] = [
             "code_puzzle_group": [
                 "photo_url": imageUrl.absoluteString,
-                "position": cardProject.cardGroups.count
+                "position": cardProject.cardGroups.count - 1
             ]
         ]
         
@@ -108,33 +108,36 @@ class PuzzleSchool {
         return identifier
     }
     
-    func saveCard(cardGroup: CardGroup, imageUrl: URL, code: String, parameter: String) {
+    func saveCard(cardGroup: CardGroup, imageUrl: URL, position: Int, code: String, param: String) -> String {
         let cardProject = cardGroup.cardProject
         let parentClass = cardProject.parentClass!
-        let identifier = "\(parentClass.slug)\(cardProject.id)\(cardProject.cardGroups.count)\(Date().timeIntervalSince1970)"
+        let identifier = "\(parentClass.slug)\(cardProject.id)\(cardGroup.id)\(position)\(Date().timeIntervalSince1970)"
         
         let parameters : [String:Parameters] = [
-            "code_puzzle_group": [
+            "code_puzzle_card": [
                 "photo_url": imageUrl.absoluteString,
-                "position": cardProject.cardGroups.count
+                "position": "\(position)",
+                "code": code,
+                "param": param
             ]
         ]
         
         Alamofire.request(
-            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups",
+            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups/\(cardGroup.id)/code_puzzle_cards",
             method: .post,
             parameters : parameters,
             encoding: JSONEncoding.default,
             headers: [
                 "Accept": "application/json"
             ]
-            ).responseJSON { response in
-                if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
-                
-                if let json = response.result.value {
-                    print("JSON: \(json)")
-                    self.results[identifier] = "Success"
-                }
+        ).responseJSON { response in
+            if (response.error != nil) { print("Error: \(response.error ?? "No Error" as! Error)") }
+            
+            if let json = response.result.value {
+                print("JSON: \(json)")
+                self.results[identifier] = "Success"
+            }
         }
+        return identifier
     }
 }
