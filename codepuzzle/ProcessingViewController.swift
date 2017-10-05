@@ -58,6 +58,9 @@ class ProcessingViewController: UIViewController {
 //
 //    let params: [String] = ["6", "UIExtendedSRGBColorSpace 0.27451 0.588235 0.513725 1", "10", "30", "20", "30", "20", "30", "1", "UIExtendedSRGBColorSpace 0.243137 0.219608 0.192157 1", "", "40", "69", "3", "0.5", "", "40", "", "12", "1", "13", "", "30", "UIExtendedSRGBColorSpace 0.819608 0.721569 0.305882 1", "30", "196", "", ""]
 
+//    let codes: [String] = ["L 1", "a 1", "A 3", "L 2", "P 1", "A 3", "A 1", "A 5"]
+//    let params: [String] = ["5", "100", "144", "", "", "18", "50", "UIExtendedSRGBColorSpace 0.345098 0.243137 0.376471 1"]
+    
 //    var start = NSDate()
     
     override func viewDidLoad() {
@@ -68,8 +71,6 @@ class ProcessingViewController: UIViewController {
         cardGroup = cardProject.cardGroups[selectedIndex]
         
         imageView.image = ImageProcessor.scale(image: cardGroup.image!, view: imageView)
-        
-        initCardList()
         
         Util.proportionalFont(anyElement: output, bufferPercentage: nil)
         
@@ -93,6 +94,41 @@ class ProcessingViewController: UIViewController {
 //        tesseract.pageSegmentationMode = .auto
 //        tesseract.maximumRecognitionTime = 60.0
         
+        initCardList()
+
+        Timer.scheduledTimer(
+            withTimeInterval: 0,
+            repeats: false,
+            block: {
+                (timer) in
+                self.s3Util.upload(
+                    image: self.cardGroup.image!,
+                    imageType: "full",
+                    completion: {
+                        s3Url in
+                        print("S3 UPLOADED")
+                        if self.cardProject.parentClass != nil {
+                            let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
+                            
+                            Timer.scheduledTimer(
+                                withTimeInterval: 0.1,
+                                repeats: true,
+                                block: {
+                                    (timer) in
+                                    if self.puzzleSchool.processing(identifier: identifier) {
+                                        return
+                                    }
+                                    timer.invalidate()
+
+                                    self.cardGroup.id = self.puzzleSchool.results[identifier]!!
+                                }
+                            )
+                            
+                        }
+                    }
+                )
+            }
+        )
     }
     
     override func didReceiveMemoryWarning() {
@@ -450,8 +486,8 @@ class ProcessingViewController: UIViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
-        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+//        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
+//        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
         
         stopExecution = true
         

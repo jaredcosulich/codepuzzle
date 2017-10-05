@@ -326,7 +326,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         processPhoto.isHidden = true
         changePhoto.isHidden = true
         imageView.isHidden = true
-
         
         addPhotoLabel.isHidden = false
         
@@ -417,35 +416,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
     @IBAction func processPhoto(_ sender: UIButton) {
-        s3Util.upload(
-            image: cardProject.cardGroups[selectedCardGroupIndex].image!,
-            imageType: "full",
-            completion: {
-                s3Url in
-                if self.cardProject.parentClass != nil {
-                    let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
-                
-                    Timer.scheduledTimer(
-                        withTimeInterval: 0.1,
-                        repeats: true,
-                        block: {
-                            (timer) in
-                            if self.puzzleSchool.processing(identifier: identifier) {
-                                return
-                            }
-                            timer.invalidate()
-                            
-                            let groupId = self.puzzleSchool.results[identifier]!!
-                            self.cardProject.cardGroups[self.selectedCardGroupIndex].id = groupId
-                            self.performSegue(withIdentifier: "processing-segue", sender: nil)
-                        }
-                    )
-                    
-                } else {
-                    self.performSegue(withIdentifier: "processing-segue", sender: nil)
-                }
-            }
-        )
+        self.performSegue(withIdentifier: "processing-segue", sender: nil)
     }
     
     func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
