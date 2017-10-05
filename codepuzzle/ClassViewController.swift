@@ -59,7 +59,7 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func registerClass(_ sender: UIButton) {
-        if let url = URL(string: "http://puzzleschool.com") {
+        if let url = URL(string: "http://www.thecodepuzzle.com/") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }

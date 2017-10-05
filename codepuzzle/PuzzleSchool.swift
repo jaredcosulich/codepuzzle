@@ -11,7 +11,7 @@ import Alamofire
 
 class PuzzleSchool {
     
-    let domain = "https://775e57a1.ngrok.io" // "https://www.puzzleschool.com"
+    let domain = "https://www.puzzleschool.com" //"https://775e57a1.ngrok.io"
     
     var results = [String: String?]()
     
