@@ -21,6 +21,8 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var errorLabel: UILabel!
+    
     var parentClass: ParentClass?
     
     let puzzleSchool = PuzzleSchool()
@@ -30,7 +32,9 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         Util.proportionalFont(anyElement: instructions, bufferPercentage: nil)
-        
+
+        Util.proportionalFont(anyElement: errorLabel, bufferPercentage: nil)
+
         registerClassButton.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: registerClassButton, bufferPercentage: 10)
         
@@ -68,6 +72,7 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
             
             classCodeButton.isHidden = true
             activityIndicator.isHidden = false
+            errorLabel.isHidden = true
             activityIndicator.startAnimating()
             
             Timer.scheduledTimer(
@@ -79,12 +84,15 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
-                    if self.puzzleSchool.results[identifier] == nil {
-                        print("HANDLE THIS! NO CLASS FOUND")
+                    timer.invalidate()
+
+                    if self.puzzleSchool.getValue(identifier: identifier) == nil {
+                        self.classCodeButton.isHidden = false
+                        self.activityIndicator.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                        self.errorLabel.isHidden = false
                         return
                     }
-                    
-                    timer.invalidate()
                     
                     let existingClasses = ParentClass.mr_findAll() as! [ParentClass]
                     for c in existingClasses {
@@ -99,7 +107,7 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
                             self.parentClass = ParentClass.mr_createEntity(in: localContext)
                         }
                         
-                        self.parentClass!.name = self.puzzleSchool.results[identifier]!!
+                        self.parentClass!.name = self.puzzleSchool.getValue(identifier: identifier)!
                         self.parentClass!.slug = slug
                         self.parentClass!.persistedManagedObjectContext = localContext
                     }, completion: {

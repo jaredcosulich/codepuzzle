@@ -120,7 +120,7 @@ class ProcessingViewController: UIViewController {
                                     }
                                     timer.invalidate()
 
-                                    self.cardGroup.id = self.puzzleSchool.results[identifier]!!
+                                    self.cardGroup.id = self.puzzleSchool.getValue(identifier: identifier)!
                                 }
                             )
                             

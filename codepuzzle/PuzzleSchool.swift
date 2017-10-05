@@ -18,6 +18,9 @@ class PuzzleSchool {
     init() {}
     
     func getValue(identifier: String) -> String? {
+        if results.keys.contains(identifier) && results[identifier]! == "N/A" {
+            return nil
+        }
         return results[identifier]!
     }
     
@@ -37,7 +40,8 @@ class PuzzleSchool {
             ]
         ).responseJSON { response in
             if (response.error != nil) {
-                self.results[slug] = nil
+                self.results[identifier] = "N/A"
+                print("IDENTIFIER: \(identifier) = \(self.results.keys.contains(identifier))")
                 print("Error: \(response.error ?? "No Error" as! Error)")
             }
             

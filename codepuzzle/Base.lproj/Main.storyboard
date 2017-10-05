@@ -305,12 +305,22 @@
                                     <action selector="submitClassCode:" destination="h4n-aC-lwv" eventType="touchUpInside" id="JCQ-XR-hhq"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qkt-qf-Ttb">
+                                <rect key="frame" x="38.5" y="474" width="691" height="77"/>
+                                <string key="text">That class code appears to be invalid.
+Please check the code and try again.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" red="1" green="0.36755700229999999" blue="0.2436595567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JMx-Di-iJK" firstAttribute="centerX" secondItem="0hn-AR-DpE" secondAttribute="centerX" id="09Q-lK-IAr"/>
                             <constraint firstItem="JMx-Di-iJK" firstAttribute="centerY" secondItem="0hn-AR-DpE" secondAttribute="centerY" multiplier="1.35" id="2h7-LX-iSt"/>
                             <constraint firstItem="O4j-Kj-mT1" firstAttribute="centerY" secondItem="0hn-AR-DpE" secondAttribute="centerY" multiplier="0.55" id="4y8-Eg-UKy"/>
+                            <constraint firstItem="Qkt-qf-Ttb" firstAttribute="centerX" secondItem="0hn-AR-DpE" secondAttribute="centerX" id="6MF-Lo-LUF"/>
+                            <constraint firstItem="Qkt-qf-Ttb" firstAttribute="height" secondItem="0hn-AR-DpE" secondAttribute="height" multiplier="0.075" id="6Ry-Wf-iGw"/>
                             <constraint firstItem="WuW-u3-BfS" firstAttribute="height" secondItem="0hn-AR-DpE" secondAttribute="height" multiplier="0.05" id="6Vt-0M-lWd"/>
                             <constraint firstItem="yRW-Vd-QU8" firstAttribute="width" secondItem="0hn-AR-DpE" secondAttribute="width" multiplier="0.6" id="917-tr-AIR"/>
                             <constraint firstItem="HTg-dO-W5f" firstAttribute="centerY" secondItem="0hn-AR-DpE" secondAttribute="centerY" multiplier="0.8" id="9sD-Ha-0nE"/>
@@ -330,6 +340,7 @@
                             <constraint firstItem="HTg-dO-W5f" firstAttribute="centerX" secondItem="0hn-AR-DpE" secondAttribute="centerX" id="Z2t-6O-afl"/>
                             <constraint firstItem="KrW-YJ-VKL" firstAttribute="centerX" secondItem="0hn-AR-DpE" secondAttribute="centerX" id="a1T-Zb-mUG"/>
                             <constraint firstItem="O4j-Kj-mT1" firstAttribute="width" secondItem="0hn-AR-DpE" secondAttribute="width" multiplier="0.5" id="awe-Wj-mIs"/>
+                            <constraint firstItem="Qkt-qf-Ttb" firstAttribute="centerY" secondItem="0hn-AR-DpE" secondAttribute="centerY" id="dCY-hT-Fi5"/>
                             <constraint firstItem="kmH-K4-eGz" firstAttribute="width" secondItem="kmH-K4-eGz" secondAttribute="height" multiplier="97:52" id="eWE-VO-Hf1"/>
                             <constraint firstItem="kmH-K4-eGz" firstAttribute="centerY" secondItem="WuW-u3-BfS" secondAttribute="centerY" id="fSb-BQ-rhn"/>
                             <constraint firstItem="yRW-Vd-QU8" firstAttribute="height" secondItem="0hn-AR-DpE" secondAttribute="height" multiplier="0.08" id="hHw-ty-IVh"/>
@@ -340,6 +351,7 @@
                             <constraint firstItem="JMx-Di-iJK" firstAttribute="width" secondItem="0hn-AR-DpE" secondAttribute="width" multiplier="0.8" id="q60-xS-oFV"/>
                             <constraint firstItem="kmH-K4-eGz" firstAttribute="leading" secondItem="WuW-u3-BfS" secondAttribute="leading" constant="20" id="rlB-Zr-EdV"/>
                             <constraint firstItem="WuW-u3-BfS" firstAttribute="centerY" secondItem="0hn-AR-DpE" secondAttribute="centerY" multiplier="0.12" id="sKE-QW-cqZ"/>
+                            <constraint firstItem="Qkt-qf-Ttb" firstAttribute="width" secondItem="0hn-AR-DpE" secondAttribute="width" multiplier="0.9" id="sOr-Fy-u3f"/>
                             <constraint firstItem="bPT-FQ-afb" firstAttribute="height" secondItem="WuW-u3-BfS" secondAttribute="height" multiplier="0.6" id="tif-XD-R1T"/>
                             <constraint firstItem="O4j-Kj-mT1" firstAttribute="centerX" secondItem="0hn-AR-DpE" secondAttribute="centerX" id="ydK-3g-2Q7"/>
                             <constraint firstItem="UxT-ID-Tf1" firstAttribute="height" secondItem="HTg-dO-W5f" secondAttribute="height" id="zr8-55-HHT"/>
@@ -350,6 +362,7 @@
                         <outlet property="classCodeButton" destination="HTg-dO-W5f" id="oFj-b7-P7i"/>
                         <outlet property="classCodeInput" destination="O4j-Kj-mT1" id="EZd-g1-0T5"/>
                         <outlet property="classCodeLabel" destination="KrW-YJ-VKL" id="jpT-1I-kc4"/>
+                        <outlet property="errorLabel" destination="Qkt-qf-Ttb" id="bDa-g2-OLk"/>
                         <outlet property="instructions" destination="JMx-Di-iJK" id="Cas-Ny-Sg2"/>
                         <outlet property="registerClassButton" destination="yRW-Vd-QU8" id="hz7-Vy-RJs"/>
                     </connections>
@@ -1713,6 +1726,6 @@
         <segue reference="zhG-AU-rJY"/>
         <segue reference="Z1L-qb-ND3"/>
         <segue reference="J9V-CR-a6i"/>
-        <segue reference="MeG-Wg-0Xp"/>
+        <segue reference="xX9-3a-e0T"/>
     </inferredMetricsTieBreakers>
 </document>

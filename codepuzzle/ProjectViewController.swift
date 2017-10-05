@@ -241,7 +241,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.cardProject.parentClass = self.parentClass!
                     }
                     if identifier != nil {
-                        self.cardProject.id = self.puzzleSchool.results[identifier!]!!
+                        self.cardProject.id = self.puzzleSchool.getValue(identifier: identifier!)!
                     }
                     self.cardProject.title = title!
                     self.cardProject.persistedManagedObjectContext = context
