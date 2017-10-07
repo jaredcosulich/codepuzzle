@@ -315,6 +315,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         addPhotoLabel.isHidden = true
         newPhoto.isHidden = true
         loadPhoto.isHidden = true
+        tableView.isHidden = true
     }
     
     func hidePhoto() {
@@ -331,6 +332,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         newPhoto.isHidden = false
         loadPhoto.isHidden = false
+
+        tableView.isHidden = false
     }
     
     @IBAction func deleteProjectButton(_ sender: UIBarButtonItem) {
@@ -412,11 +415,21 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
     @IBAction func playButton(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "execution-segue", sender: nil)
+        if cardProject.cardGroups.count == 0 {
+            let noGroupsAlert = UIAlertController(title: "Add A Photo", message: "Please add at least one photo and click \"Use Photo\" to process it", preferredStyle: UIAlertControllerStyle.alert)
+            
+            noGroupsAlert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            
+            present(noGroupsAlert, animated: true, completion: nil)
+        } else if !cardProject.cardGroups.last!.isProcessed {
+            performSegue(withIdentifier: "processing-segue", sender: nil)
+        } else {
+            performSegue(withIdentifier: "execution-segue", sender: nil)
+        }
     }
 
     @IBAction func processPhoto(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "processing-segue", sender: nil)
+        performSegue(withIdentifier: "processing-segue", sender: nil)
     }
     
     func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {

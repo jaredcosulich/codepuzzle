@@ -346,7 +346,7 @@
 				TargetAttributes = {
 					3A2B65C01EE9B37800E8B7BD = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = YR46RFDS4W;
+						DevelopmentTeam = WASH6HKS85;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -763,7 +763,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YR46RFDS4W;
+				DEVELOPMENT_TEAM = WASH6HKS85;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,7 +771,7 @@
 				);
 				INFOPLIST_FILE = codepuzzle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.IrrationalDesign.codepuzzle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.irrationaldesign.codepuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
@@ -789,7 +789,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YR46RFDS4W;
+				DEVELOPMENT_TEAM = WASH6HKS85;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -797,7 +797,7 @@
 				);
 				INFOPLIST_FILE = codepuzzle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.IrrationalDesign.codepuzzle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.irrationaldesign.codepuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
