@@ -167,7 +167,7 @@ class ProcessingViewController: UIViewController {
         }
         
         setProcessedImage(
-            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1),
+            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8),
             completion: {
                 self.imageView.image = ImageProcessor.scale(image: self.cardGroup.processedImage!, view: self.imageView)
 

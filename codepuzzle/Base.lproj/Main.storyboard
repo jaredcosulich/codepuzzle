@@ -383,10 +383,6 @@ Please check the code and try again.</string>
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
-                                <rect key="frame" x="0.0" y="650" width="768" height="287"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aFa-DB-79J">
                                 <rect key="frame" x="338" y="404.5" width="92.5" height="92.5"/>
                                 <constraints>
@@ -624,15 +620,19 @@ Please check the code and try again.</string>
                                     <constraint firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="height" multiplier="3:2" id="zJf-4r-bcp"/>
                                 </constraints>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
+                                <rect key="frame" x="0.0" y="564" width="768" height="358"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="GDl-Vx-efq" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.28" id="0Xm-we-xwh"/>
+                            <constraint firstItem="GDl-Vx-efq" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.35" id="0Xm-we-xwh"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.4" id="1XY-UY-AYy"/>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="trailing" secondItem="kYr-Ju-MDh" secondAttribute="trailing" constant="-20" id="2rp-DU-f1D"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="leading" secondItem="kYr-Ju-MDh" secondAttribute="leading" constant="20" id="3hC-FQ-9Ph"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.5" id="3nK-y8-qlv"/>
-                            <constraint firstItem="GDl-Vx-efq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.55" id="799-We-4wi"/>
+                            <constraint firstItem="W6D-mv-hUv" firstAttribute="top" secondItem="GDl-Vx-efq" secondAttribute="bottom" id="888-e6-dwL"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.75" id="8AZ-k2-AgJ"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="9cN-Wm-8NA"/>

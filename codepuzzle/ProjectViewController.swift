@@ -185,6 +185,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         return cardProjects.count
     }
     
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
     func textFieldShouldReturn(_ sender: UITextField) -> Bool {
         projectTitle.resignFirstResponder()
         return true

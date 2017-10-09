@@ -213,6 +213,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return cardGroupCount
     }
     
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
     func textFieldShouldReturn(_ sender: UITextField) -> Bool {
         editProjectTitle.resignFirstResponder()
         return true

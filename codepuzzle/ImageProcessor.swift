@@ -84,6 +84,10 @@ class ImageProcessor {
     }
     
     class func scale(image: UIImage, scale: CGFloat) -> UIImage {
+        if scale == 1.0 {
+            return image
+        }
+        
         let size = image.size.applying(CGAffineTransform(scaleX: scale, y: scale))
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
@@ -121,12 +125,12 @@ class ImageProcessor {
         
     }
     
-    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1, style: String = "full") -> UIImage {
+    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1, style: String = "full", width: CGFloat) -> UIImage {
         UIGraphicsBeginImageContext(image.size)
         image.draw(at: CGPoint.zero)
         let ctx = UIGraphicsGetCurrentContext()
         ctx?.setStrokeColor(UIColor.green.cgColor)
-        ctx?.setLineWidth(8)
+        ctx?.setLineWidth(width)
         
         if (index == -1) {
             for i in 0..<cardList.count() {

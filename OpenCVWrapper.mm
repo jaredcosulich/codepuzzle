@@ -441,7 +441,7 @@ using namespace std;
 //        }
         
         cv::Rect functionBound;
-        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.23);
+        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.2);
         functionBound.y = rotatedBound.y + (rotatedBound.height * 0.24);
         functionBound.width = rotatedBound.width - (rotatedBound.width * 0.4);
         functionBound.height = rotatedBound.height - (rotatedBound.height * 0.5);
