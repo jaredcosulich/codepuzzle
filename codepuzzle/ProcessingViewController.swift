@@ -76,6 +76,8 @@ class ProcessingViewController: UIViewController {
         
         yesButton.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: yesButton, bufferPercentage: nil)
+
+        noButton.layer.cornerRadius = 6
         noButton.titleLabel?.font = yesButton.titleLabel?.font
         
         changePhotoButton.layer.cornerRadius = 6

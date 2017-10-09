@@ -101,6 +101,12 @@
       "idiom" : "ipad",
       "filename" : "Code Puzzle Logo-16.png",
       "scale" : "2x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "Code Puzzle Logo-17.png",
+      "scale" : "1x"
     }
   ],
   "info" : {

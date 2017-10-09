@@ -10,6 +10,6 @@
 #import "LinkedListStack.h"
 
 @interface Floodfill : NSObject
-+ (void)executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance;
+    + (void)executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance;
     + (void)executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance useAntiAlias:(BOOL)antiAlias;
 @end

@@ -388,14 +388,14 @@ Please check the code and try again.</string>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aFa-DB-79J">
-                                <rect key="frame" x="338" y="415" width="92.5" height="92.5"/>
+                                <rect key="frame" x="338" y="404.5" width="92.5" height="92.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="aFa-DB-79J" secondAttribute="height" multiplier="1:1" id="FOt-bj-MDG"/>
                                 </constraints>
                                 <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <imageView hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
-                                <rect key="frame" x="77" y="179.5" width="614" height="563"/>
+                                <rect key="frame" x="77" y="169" width="614" height="563"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0W3-VK-vjJ">
                                 <rect key="frame" x="77" y="77" width="614" height="102"/>
@@ -648,7 +648,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="centerY" secondItem="qvc-0w-NOq" secondAttribute="centerY" id="LDN-I4-xzv"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="baseline" secondItem="tsR-hK-woN" secondAttribute="baseline" id="OU6-Ef-XTk"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.25" id="P6C-Q7-hle"/>
-                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.9" id="Qjb-9x-gMk"/>
+                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.88" id="Qjb-9x-gMk"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="T6J-mY-PIp"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.45" id="Udc-dn-TEe"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="UsK-Zg-bGP"/>
@@ -910,7 +910,8 @@ Please check the code and try again.</string>
                                 <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPC-WB-rbs">
-                                <rect key="frame" x="403.5" y="844.5" width="115" height="51"/>
+                                <rect key="frame" x="230.5" y="844.5" width="115" height="51"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="No">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -920,7 +921,7 @@ Please check the code and try again.</string>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fip-F0-ggz">
-                                <rect key="frame" x="211.5" y="844.5" width="115" height="51"/>
+                                <rect key="frame" x="422.5" y="844.5" width="115" height="51"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Yes">
@@ -961,7 +962,7 @@ Please check the code and try again.</string>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lkj-Hm-Xo5">
-                                <rect key="frame" x="276.5" y="928" width="215.5" height="38"/>
+                                <rect key="frame" x="263.5" y="928" width="242" height="38"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Debug Photo">
@@ -984,7 +985,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="gS7-m4-WDL" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="Bni-wt-Ui7"/>
                             <constraint firstItem="NPC-WB-rbs" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.15" id="DpI-wP-mcl"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.6" id="El2-pc-jgr"/>
-                            <constraint firstItem="fip-F0-ggz" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="0.7" id="Hhz-pD-6CI"/>
+                            <constraint firstItem="fip-F0-ggz" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="1.25" id="Hhz-pD-6CI"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="IxN-cs-ldi"/>
                             <constraint firstItem="olz-L4-RAi" firstAttribute="width" secondItem="olz-L4-RAi" secondAttribute="height" multiplier="97:52" id="JNq-RR-4oH"/>
                             <constraint firstItem="gS7-m4-WDL" firstAttribute="centerY" secondItem="4Ip-Hf-yXw" secondAttribute="centerY" multiplier="1.7" id="LmQ-vJ-AbF"/>
@@ -1000,7 +1001,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="4Qn-N3-5Wa" firstAttribute="height" secondItem="olz-L4-RAi" secondAttribute="height" multiplier="0.98" id="V7f-D3-bV4"/>
                             <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" multiplier="0.75" id="Yqi-Ec-KbJ"/>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" id="abo-aO-g8H"/>
-                            <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="width" secondItem="DdK-kf-zRc" secondAttribute="width" multiplier="0.8" id="e0I-wG-mvR"/>
+                            <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="width" secondItem="DdK-kf-zRc" secondAttribute="width" multiplier="0.9" id="e0I-wG-mvR"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" id="ePz-cy-hfa"/>
                             <constraint firstItem="DdK-kf-zRc" firstAttribute="height" secondItem="4Ip-Hf-yXw" secondAttribute="height" multiplier="0.05" id="fd8-Vr-x6u"/>
                             <constraint firstItem="fip-F0-ggz" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.15" id="g4Y-yW-i9s"/>
@@ -1011,7 +1012,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="hq0-kk-jux"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="ilQ-we-Nfh"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.5" id="jI1-vk-hKT"/>
-                            <constraint firstItem="NPC-WB-rbs" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="1.2" id="jka-Vk-Lpb"/>
+                            <constraint firstItem="NPC-WB-rbs" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="0.75" id="jka-Vk-Lpb"/>
                             <constraint firstItem="xkn-7s-0Ow" firstAttribute="width" secondItem="xkn-7s-0Ow" secondAttribute="height" multiplier="1:1" id="kBj-Z9-s3a"/>
                             <constraint firstItem="VnU-i3-Xkq" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="kYe-i3-jj6"/>
                             <constraint firstItem="fip-F0-ggz" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" id="kjB-cE-ybH"/>
@@ -1055,26 +1056,6 @@ Please check the code and try again.</string>
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJs-rs-rVh" userLabel="Logo Background">
-                                <rect key="frame" x="0.0" y="36" width="768" height="51"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGN-9f-DUk" userLabel="Home Button">
-                                <rect key="frame" x="717.5" y="46.5" width="30.5" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="BGN-9f-DUk" secondAttribute="height" multiplier="1:1" id="P96-tK-ANQ"/>
-                                </constraints>
-                                <state key="normal" image="home"/>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="wlb-PJ-one">
-                                <rect key="frame" x="20" y="35" width="97.5" height="52"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="wlb-PJ-one" secondAttribute="height" multiplier="97:52" id="HOu-Db-Q7H"/>
-                                </constraints>
-                            </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nS6-7g-Dsd">
                                 <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                                 <items>
@@ -1245,6 +1226,29 @@ Please check the code and try again.</string>
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJs-rs-rVh" userLabel="Logo Background">
+                                <rect key="frame" x="0.0" y="36" width="768" height="51"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGN-9f-DUk" userLabel="Home Button">
+                                <rect key="frame" x="717" y="46" width="30.5" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="BGN-9f-DUk" secondAttribute="height" multiplier="1:1" id="P96-tK-ANQ"/>
+                                </constraints>
+                                <state key="normal" image="home"/>
+                                <connections>
+                                    <segue destination="ueC-M8-gXi" kind="show" identifier="home-segue" id="aga-6W-itZ"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="wlb-PJ-one">
+                                <rect key="frame" x="20" y="35" width="97.5" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="wlb-PJ-one" secondAttribute="height" multiplier="97:52" id="HOu-Db-Q7H"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1722,10 +1726,10 @@ Please check the code and try again.</string>
         <image name="logo" width="296" height="160"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wOF-ww-Kkf"/>
-        <segue reference="zhG-AU-rJY"/>
-        <segue reference="Z1L-qb-ND3"/>
-        <segue reference="J9V-CR-a6i"/>
-        <segue reference="xX9-3a-e0T"/>
+        <segue reference="vm4-N1-lIh"/>
+        <segue reference="OVi-Ig-nvb"/>
+        <segue reference="Wra-3f-fNi"/>
+        <segue reference="M45-p5-jnD"/>
+        <segue reference="QQf-3M-pE3"/>
     </inferredMetricsTieBreakers>
 </document>

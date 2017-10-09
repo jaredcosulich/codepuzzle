@@ -771,7 +771,7 @@
 				);
 				INFOPLIST_FILE = codepuzzle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.irrationaldesign.codepuzzle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.puzzleschool.codepuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
@@ -797,7 +797,7 @@
 				);
 				INFOPLIST_FILE = codepuzzle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.irrationaldesign.codepuzzle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.puzzleschool.codepuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "codepuzzle-Bridging-Header.h";
