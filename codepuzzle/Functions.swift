@@ -25,7 +25,8 @@ struct PermanentPathComponent {
 
 class Functions {
     
-    static let STARTING_ZOOM = CGFloat(5)
+    static let STARTING_ZOOM = CGFloat(4)
+    static let CONVERSION_ZOOM = CGFloat(4)
     
     static let functionInfo = [
         "A1": FunctionInfo(
@@ -143,12 +144,13 @@ class Functions {
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = Functions.STARTING_ZOOM * 2
         
-        let s = imageView.bounds.size
+        let width = CGFloat(400 / Functions.STARTING_ZOOM)
+        let height = CGFloat(400 / Functions.STARTING_ZOOM)
         drawingRect = CGRect(
-            x: s.width/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
-            y: s.height/Functions.STARTING_ZOOM * ((Functions.STARTING_ZOOM - 1) / 2),
-            width: s.width/Functions.STARTING_ZOOM,
-            height: s.height/Functions.STARTING_ZOOM
+            x: (imageView.bounds.width / 2) - (width / 2),
+            y: (imageView.bounds.height / 2) - (height / 2),
+            width: width,
+            height: height
         )
         
         scrollView.zoom(to: drawingRect, animated: false)
@@ -364,8 +366,9 @@ class Functions {
     }
     
     func initDrawingContext() -> CGContext {
-        let scaleTransform = CGAffineTransform(scaleX: Functions.STARTING_ZOOM, y: Functions.STARTING_ZOOM)
+        let scaleTransform = CGAffineTransform(scaleX: Functions.CONVERSION_ZOOM, y: Functions.CONVERSION_ZOOM)
         let size = imageView.bounds.size.applying(scaleTransform)
+        
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
         let context = UIGraphicsGetCurrentContext()!
         let contextRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -375,33 +378,8 @@ class Functions {
         if (scaledImage != nil) {
             scaledImage.draw(in: contextRect)
         }
+
         return context
-    }
-    
-    func draw(instant: Bool) {
-        drawPermanentPath(instant: instant)
-        scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        instantContext = nil
-        
-        //            scaledImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
-        //            scaledImage = OpenCVWrapper.floodFill(image, Int32(pX), Int32(pY), 255, 0, 0)
-        //            scaledImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, in: context, andTolerance: 5)
-        permanentPathComponents.removeAll()
-        permanentPathComponents.append(PermanentPathComponent(
-            size:  penSize,
-            color: penColor,
-            path: UIBezierPath(),
-            fillPoint: nil
-        ))
-        
-        imageView.layer.sublayers?.removeAll()
-        imageView.image = scaledImage
-        
-        scrollView.zoom(to: drawingRect, animated: false)
-        layer.isHidden = false
-        imageView.layer.addSublayer(layer)
-        drawPointer(at: currentPoint, angle: currentAngle)
     }
     
     func execute(code: String, param: String, instant: Bool = false) -> Int {
@@ -519,6 +497,7 @@ class Functions {
                 
                 if (!instant) {
                     let pathLayer = CAShapeLayer()
+                    
                     pathLayer.strokeColor = penColor.cgColor
                     pathLayer.lineWidth = (penSize / Functions.STARTING_ZOOM)
                     
@@ -566,22 +545,50 @@ class Functions {
                 }
                 
                 let p = permanentPathComponent.fillPoint!
-                let pX = Int(p.x * (Functions.STARTING_ZOOM * xFactor))
-                let pY = Int(p.y * (Functions.STARTING_ZOOM * xFactor))
-                
-                Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 0)
+                let pX = Int(p.x * (Functions.CONVERSION_ZOOM * xFactor))
+                let pY = Int(p.y * (Functions.CONVERSION_ZOOM * xFactor))
+//                let pX = Int(p.x * (xFactor))
+//                let pY = Int(p.y * (xFactor))
+
+                Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 50)
             } else {
                 context.setStrokeColor(permanentPathComponent.color.cgColor)
                 
                 let permanentPath = permanentPathComponent.path!
                 
-                let scaleTransform = CGAffineTransform(scaleX: Functions.STARTING_ZOOM, y: Functions.STARTING_ZOOM)
+                let scaleTransform = CGAffineTransform(scaleX: Functions.CONVERSION_ZOOM, y: Functions.CONVERSION_ZOOM)
                 permanentPath.apply(scaleTransform)
                 permanentPath.lineWidth = permanentPathComponent.size!
                 context.addPath(permanentPath.cgPath)
                 permanentPath.stroke()
             }
         }
+    }
+    
+    func draw(instant: Bool) {
+        drawPermanentPath(instant: instant)
+        scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        instantContext = nil
+        
+        //            scaledImage = image!.pbk_imageByReplacingColorAt(pX, pY, withColor: fillColor, tolerance: 5, antialias: true)
+        //            scaledImage = OpenCVWrapper.floodFill(image, Int32(pX), Int32(pY), 255, 0, 0)
+        //            scaledImage = image!.floodFill(from: CGPoint(x: pX, y: pY), with: fillColor, in: context, andTolerance: 5)
+        permanentPathComponents.removeAll()
+        permanentPathComponents.append(PermanentPathComponent(
+            size:  penSize,
+            color: penColor,
+            path: UIBezierPath(),
+            fillPoint: nil
+        ))
+        
+        imageView.layer.sublayers?.removeAll()
+        imageView.image = scaledImage
+        
+        scrollView.zoom(to: drawingRect, animated: false)
+        layer.isHidden = false
+        imageView.layer.addSublayer(layer)
+        drawPointer(at: currentPoint, angle: currentAngle)
     }
     
     func expandBounds(point: CGPoint) {

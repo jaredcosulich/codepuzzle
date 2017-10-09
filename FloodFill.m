@@ -307,7 +307,7 @@
 #endif
                 }
             }
-            if (x<width)
+            if (x<width-10)
             {
                 byteIndex = (bytesPerRow * roundf(y)) + roundf(x + 1) * bytesPerPixel;
                 color = getColorCode(byteIndex, imageData);
@@ -374,7 +374,7 @@
                 }
             }
             
-            if (y<height)
+            if (y<height-10)
             {
                 byteIndex = (bytesPerRow * roundf(y + 1)) + roundf(x) * bytesPerPixel;
                 color = getColorCode(byteIndex, imageData);
