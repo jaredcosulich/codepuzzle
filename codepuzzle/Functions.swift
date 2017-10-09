@@ -540,7 +540,7 @@ class Functions {
                 let fillColor = permanentPathComponent.color
                 
                 var xFactor = CGFloat(2)
-                if UIDevice().type.rawValue.contains("Plus") {
+                if UIDevice().type.rawValue.contains("Plus") || UIDevice().type.rawValue.contains("X"){
                     xFactor = 3
                 }
                 
