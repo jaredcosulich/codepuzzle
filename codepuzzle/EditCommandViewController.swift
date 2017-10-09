@@ -365,6 +365,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBAction func selectColor(_ sender: UIButton) {
         colorPickerView.isHidden = false
+        colorPickerView.superview?.bringSubview(toFront: colorPickerView)
+        colorPickerView.bringSubview(toFront: colorPicker)
     }
     
     
