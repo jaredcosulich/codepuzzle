@@ -1560,7 +1560,7 @@ Please check the code and try again.</string>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9LS-gT-zA2">
-                                        <rect key="frame" x="223.5" y="108" width="92" height="92"/>
+                                        <rect key="frame" x="223.5" y="107.5" width="92" height="92"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sy1-T4-ThT">
                                                 <rect key="frame" x="28" y="28" width="37" height="37"/>
@@ -1584,7 +1584,7 @@ Please check the code and try again.</string>
                                         </constraints>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHJ-Fx-pdX">
-                                        <rect key="frame" x="-38" y="-76.5" width="614" height="614"/>
+                                        <rect key="frame" x="39" y="-76.5" width="460" height="460"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="PHJ-Fx-pdX" secondAttribute="height" multiplier="1:1" id="sSM-zM-3w1"/>
@@ -1593,6 +1593,7 @@ Please check the code and try again.</string>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
+                                    <constraint firstItem="9LS-gT-zA2" firstAttribute="centerX" secondItem="PHJ-Fx-pdX" secondAttribute="centerX" id="0FK-rJ-iVv"/>
                                     <constraint firstItem="5SF-Ts-78Q" firstAttribute="centerX" secondItem="rbs-Bd-Fza" secondAttribute="centerX" id="0Hq-oe-5C7"/>
                                     <constraint firstItem="q9q-7h-wTc" firstAttribute="height" secondItem="rbs-Bd-Fza" secondAttribute="height" multiplier="0.15" id="0Qb-fu-xvM"/>
                                     <constraint firstItem="5na-Od-yTB" firstAttribute="height" secondItem="zE9-Xk-kWq" secondAttribute="height" id="0xe-ej-8u3"/>
@@ -1600,17 +1601,17 @@ Please check the code and try again.</string>
                                     <constraint firstItem="5na-Od-yTB" firstAttribute="centerX" secondItem="rbs-Bd-Fza" secondAttribute="centerX" multiplier="0.5" id="2UF-Ox-dsb"/>
                                     <constraint firstItem="5na-Od-yTB" firstAttribute="centerY" secondItem="zE9-Xk-kWq" secondAttribute="centerY" id="6g2-jk-7ek"/>
                                     <constraint firstItem="q9q-7h-wTc" firstAttribute="width" secondItem="rbs-Bd-Fza" secondAttribute="width" multiplier="0.8" id="84e-h1-HtA"/>
-                                    <constraint firstItem="PHJ-Fx-pdX" firstAttribute="centerX" secondItem="rbs-Bd-Fza" secondAttribute="centerX" id="8Yt-dX-MOe"/>
                                     <constraint firstItem="q9q-7h-wTc" firstAttribute="centerX" secondItem="rbs-Bd-Fza" secondAttribute="centerX" id="9aw-fm-ni4"/>
                                     <constraint firstItem="5na-Od-yTB" firstAttribute="width" secondItem="zE9-Xk-kWq" secondAttribute="width" id="Bgh-aN-lr7"/>
+                                    <constraint firstItem="9LS-gT-zA2" firstAttribute="width" secondItem="PHJ-Fx-pdX" secondAttribute="width" multiplier="0.2" id="Dep-2C-d5F"/>
                                     <constraint firstItem="9LS-gT-zA2" firstAttribute="centerY" secondItem="rbs-Bd-Fza" secondAttribute="centerY" id="DwF-zw-hRf"/>
                                     <constraint firstItem="zE9-Xk-kWq" firstAttribute="height" secondItem="rbs-Bd-Fza" secondAttribute="height" multiplier="0.1" id="Ekh-wG-0Re"/>
                                     <constraint firstItem="9LS-gT-zA2" firstAttribute="height" secondItem="q9q-7h-wTc" secondAttribute="height" multiplier="2" id="F2o-dX-JOM"/>
-                                    <constraint firstItem="PHJ-Fx-pdX" firstAttribute="centerY" secondItem="rbs-Bd-Fza" secondAttribute="centerY" multiplier="1.5" id="KSM-hB-fKS"/>
                                     <constraint firstItem="zE9-Xk-kWq" firstAttribute="width" secondItem="rbs-Bd-Fza" secondAttribute="width" multiplier="0.3" id="NK9-g2-JOt"/>
                                     <constraint firstItem="q9q-7h-wTc" firstAttribute="centerY" secondItem="rbs-Bd-Fza" secondAttribute="centerY" id="PSM-p7-UXr"/>
                                     <constraint firstItem="9LS-gT-zA2" firstAttribute="centerX" secondItem="rbs-Bd-Fza" secondAttribute="centerX" id="aHn-PN-WYa"/>
                                     <constraint firstItem="5SF-Ts-78Q" firstAttribute="width" secondItem="rbs-Bd-Fza" secondAttribute="width" multiplier="0.8" id="bfP-9q-w2G"/>
+                                    <constraint firstItem="9LS-gT-zA2" firstAttribute="centerY" secondItem="PHJ-Fx-pdX" secondAttribute="centerY" id="dpT-ph-liJ"/>
                                     <constraint firstItem="zE9-Xk-kWq" firstAttribute="centerX" secondItem="rbs-Bd-Fza" secondAttribute="centerX" multiplier="1.5" id="gCm-oo-Ibk"/>
                                     <constraint firstItem="5SF-Ts-78Q" firstAttribute="centerY" secondItem="rbs-Bd-Fza" secondAttribute="centerY" multiplier="0.3" id="mLH-tK-O8u"/>
                                     <constraint firstItem="5SF-Ts-78Q" firstAttribute="height" secondItem="rbs-Bd-Fza" secondAttribute="height" multiplier="0.15" id="qfI-rn-NNX"/>
@@ -1643,7 +1644,6 @@ Please check the code and try again.</string>
                             <constraint firstItem="bga-uH-SdD" firstAttribute="centerX" secondItem="wKY-x9-tk3" secondAttribute="centerX" id="Ogm-6A-2Ix"/>
                             <constraint firstItem="0t3-GL-v4f" firstAttribute="centerY" secondItem="wKY-x9-tk3" secondAttribute="centerY" multiplier="0.4" id="OkM-n6-afw"/>
                             <constraint firstItem="4jZ-1z-iUn" firstAttribute="width" secondItem="4jZ-1z-iUn" secondAttribute="height" multiplier="97:52" id="PNs-aF-bhq"/>
-                            <constraint firstItem="PHJ-Fx-pdX" firstAttribute="width" secondItem="wKY-x9-tk3" secondAttribute="width" multiplier="0.8" id="QES-sv-600"/>
                             <constraint firstItem="RaM-OY-O6j" firstAttribute="height" secondItem="wKY-x9-tk3" secondAttribute="height" multiplier="0.05" id="TdG-i8-PwG"/>
                             <constraint firstItem="yjn-rA-p38" firstAttribute="centerX" secondItem="iv5-G3-shE" secondAttribute="centerX" id="TfV-xh-VbC"/>
                             <constraint firstItem="9eU-5U-B8n" firstAttribute="centerY" secondItem="RaM-OY-O6j" secondAttribute="centerY" id="Tfd-6D-N9L"/>
