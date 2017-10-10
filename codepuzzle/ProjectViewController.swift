@@ -126,13 +126,13 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
         Util.proportionalFont(anyElement: cell!, bufferPercentage: 18)
-
-        cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
-//        Util.proportionalFont(anyElement: cell!.detailTextLabel!, bufferPercentage: 50)
         
-        if (cardProject.cardGroups.count > 0 && cell?.imageView != nil && cardProject.cardGroups.first!.image != nil) {
-            let thumbnail = cardProject.cardGroups.first!.image!
-            cell!.imageView!.image = ImageProcessor.scale(image: thumbnail, view: tableView)
+        cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
+        
+        if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
+            if let thumbnail = cardProject.cardGroups.first!.image {
+                cell!.imageView!.image = ImageProcessor.scale(image: thumbnail, view: tableView)
+            }
         }
         
         return cell!
@@ -146,16 +146,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             
             deleteAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
                 let cardProject = self.cardProjects[indexPath.row]
-                let context = cardProject.persistedManagedObjectContext!
-                context.mr_save({
-                    (localContext: NSManagedObjectContext!) in
-                    cardProject.mr_deleteEntity(in: context)
-                }, completion: {
-                    (MRSaveCompletionHandler) in
-                    self.loadCardProjects()
-                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                    context.mr_saveToPersistentStoreAndWait()
-                })
+                if let context = cardProject.persistedManagedObjectContext {
+                    context.mr_save({
+                        (localContext: NSManagedObjectContext!) in
+                        cardProject.mr_deleteEntity(in: context)
+                    }, completion: {
+                        (MRSaveCompletionHandler) in
+                        self.loadCardProjects()
+                        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                        context.mr_saveToPersistentStoreAndWait()
+                    })
+                }
             }))
             
             present(deleteAlert, animated: true, completion: nil)
@@ -213,7 +214,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBAction func createProject(_ sender: UIButton) {
         var title = projectTitle.text
-        if (title?.characters.count == 0) {
+        if (title == nil || title?.characters.count == 0) {
             title = "Project \(cardProjects.count)"
         }
         

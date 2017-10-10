@@ -278,24 +278,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                editingInfo: [NSObject : AnyObject]!) {
         
         showPhoto(activity: true)
-//        var start = NSDate()
 
         let normalized = ImageProcessor.normalize(image: image)
-        
-//        print("Time 1 \(start.timeIntervalSinceNow) seconds");
-//        start = NSDate()
-        
         resizeView(image: normalized)
         
-//        print("Time 2 \(start.timeIntervalSinceNow) seconds");
-//        start = NSDate()
-        
         saveCardGroup(image: normalized, completion: { self.showPhoto(activity: false) })
-        
-        self.dismiss(animated: true, completion: nil)
 
-//        print("Time 3 \(start.timeIntervalSinceNow) seconds");
-}
+        self.dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func changePhotoButton(_ sender: UIButton) {
         hidePhoto()
@@ -306,6 +296,20 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             activityView.startAnimating()
             imageView.isHidden = true
         } else {
+            if cardProject.cardGroups[selectedCardGroupIndex].image == nil {
+                showPhoto(activity: true)
+                
+                Timer.scheduledTimer(
+                    withTimeInterval: 1,
+                    repeats: false,
+                    block: {
+                        (timer) in
+                        self.showPhoto(activity: false)
+                    }
+                )
+                
+                return
+            }
             activityView.stopAnimating()
             let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
             imageView.image = ImageProcessor.scale(image: cardImage, view: imageView)
@@ -347,15 +351,16 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         deleteAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            let context = self.cardProject.persistedManagedObjectContext!
-            context.mr_save({
-                (localContext: NSManagedObjectContext!) in
-                self.cardProject.mr_deleteEntity(in: context)
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                context.mr_saveToPersistentStoreAndWait()
-                self.performSegue(withIdentifier: "delete-project-segue", sender: nil)
-            })
+            if let context = self.cardProject.persistedManagedObjectContext {
+                context.mr_save({
+                    (localContext: NSManagedObjectContext!) in
+                    self.cardProject.mr_deleteEntity(in: context)
+                }, completion: {
+                    (MRSaveCompletionHandler) in
+                    context.mr_saveToPersistentStoreAndWait()
+                    self.performSegue(withIdentifier: "delete-project-segue", sender: nil)
+                })
+            }
         }))
         
         present(deleteAlert, animated: true, completion: nil)

@@ -518,7 +518,7 @@ Please check the code and try again.</string>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotate:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXf-Oi-D1i">
-                                <rect key="frame" x="153.5" y="766" width="138" height="55.5"/>
+                                <rect key="frame" x="145.5" y="763" width="154" height="61.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZXf-Oi-D1i" secondAttribute="height" multiplier="10:4" id="CsA-1p-KlX"/>
                                 </constraints>
@@ -652,7 +652,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="T6J-mY-PIp"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.45" id="Udc-dn-TEe"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="UsK-Zg-bGP"/>
-                            <constraint firstItem="ZXf-Oi-D1i" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.18" id="Uwu-2b-phE"/>
+                            <constraint firstItem="ZXf-Oi-D1i" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.2" id="Uwu-2b-phE"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.55" id="VQj-u2-mQt"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="Va0-Vf-bnq"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.1" id="YS4-HT-MHd"/>
