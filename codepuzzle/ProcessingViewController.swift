@@ -169,28 +169,32 @@ class ProcessingViewController: UIViewController {
         setProcessedImage(
             image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8),
             completion: {
-                self.imageView.image = ImageProcessor.scale(image: self.cardGroup.processedImage!, view: self.imageView)
-
-                self.activityView.stopAnimating()
-                
-                self.debugPhoto.isHidden = false
-
-                if (self.cardList.count() == 0) {
-                    self.output.text = "Unable to find any cards. Please try a new photo."
-                    self.selectPhoto.isHidden = false
+                if let processedImage = self.cardGroup.processedImage {
+                    self.imageView.image = ImageProcessor.scale(image: processedImage, view: self.imageView)
+                    
+                    self.activityView.stopAnimating()
+                    
+                    self.debugPhoto.isHidden = false
+                    
+                    if (self.cardList.count() == 0) {
+                        self.output.text = "Unable to find any cards. Please try a new photo."
+                        self.selectPhoto.isHidden = false
+                    } else {
+                        self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
+                        
+                        self.yesButton.isHidden = false
+                        self.noButton.isHidden = false
+                        
+                        Timer.scheduledTimer(
+                            timeInterval: 0,
+                            target: self,
+                            selector: #selector(self.analyzeCards),
+                            userInfo: nil,
+                            repeats: false
+                        )
+                    }
                 } else {
-                    self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
-                    
-                    self.yesButton.isHidden = false
-                    self.noButton.isHidden = false
-                    
-                    Timer.scheduledTimer(
-                        timeInterval: 0,
-                        target: self,
-                        selector: #selector(self.analyzeCards),
-                        userInfo: nil,
-                        repeats: false
-                    )
+                    self.startCardProcessing()
                 }
             }
         )
@@ -227,20 +231,21 @@ class ProcessingViewController: UIViewController {
     }
     
     func completeCardRejection() {
-        let context = self.cardProject.persistedManagedObjectContext!
-        context.mr_save({
-            (localContext: NSManagedObjectContext!) in
-            self.cardGroup.isProcessed = false
-            self.cardGroup.processedImage = nil
-            for card in self.cardGroup.cards {
-                card.mr_deleteEntity(in: context)
-            }
-            self.cardGroup.mr_deleteEntity(in: context)
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            context.mr_saveToPersistentStoreAndWait()
-            self.performSegue(withIdentifier: "cancel-segue", sender: nil)
-        })
+        if let context = self.cardProject.persistedManagedObjectContext {
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                self.cardGroup.isProcessed = false
+                self.cardGroup.processedImage = nil
+                for card in self.cardGroup.cards {
+                    card.mr_deleteEntity(in: context)
+                }
+                self.cardGroup.mr_deleteEntity(in: context)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+                self.performSegue(withIdentifier: "cancel-segue", sender: nil)
+            })
+        }
     }
 
     func analyzeCards() {
@@ -255,11 +260,13 @@ class ProcessingViewController: UIViewController {
         let rotation = self.cardList.getRotation(Int32(analyzedCardCount))
         let hexRect = self.cardList.getHexRect(Int32(analyzedCardCount))
         let functionRect = self.cardList.getFunctionRect(Int32(analyzedCardCount))
-        self.mathPix.processImage(
-            image: ImageProcessor.cropCard(image: self.cardGroup.image!, rect: functionRect, hexRect: hexRect, rotation: rotation),
-            identifier: "function\(analyzedCardCount)",
-            result: nil//codes[Int(analyzedCardCount)]
-        )
+        if let fullImage = self.cardGroup.image {
+            self.mathPix.processImage(
+                image: ImageProcessor.cropCard(image: fullImage, rect: functionRect, hexRect: hexRect, rotation: rotation),
+                identifier: "function\(analyzedCardCount)",
+                result: nil//codes[Int(analyzedCardCount)]
+            )
+        }
         
         analyzedCardCount += 1
 
@@ -308,27 +315,29 @@ class ProcessingViewController: UIViewController {
                 let methodName = Functions.info(code: functionValue).method
                 print("PROCESSED: \(methodName)")
                 var result: String!
-                if methodName == "fillColor" || methodName == "penColor" {
-                    let colorRect = CGRect(
-                        x: paramRect.midX - 5,
-                        y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
-                        width: 10,
-                        height: 10
-                    )
-
-                    paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: colorRect, hexRect: hexRect, rotation: rotation)
-                    result = "\(paramImage.averageColor())"
-                } else {
-                    paramImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: paramRect, hexRect: hexRect, rotation: rotation)
-                }
+                if let fullImage = self.cardGroup.image {
+                    if methodName == "fillColor" || methodName == "penColor" {
+                        let colorRect = CGRect(
+                            x: paramRect.midX - 5,
+                            y: paramRect.minY + (paramRect.height * 3 / 4) - 5,
+                            width: 10,
+                            height: 10
+                        )
+                        
+                        paramImage = ImageProcessor.cropCard(image: fullImage, rect: colorRect, hexRect: hexRect, rotation: rotation)
+                        result = "\(paramImage.averageColor())"
+                    } else {
+                        paramImage = ImageProcessor.cropCard(image: fullImage, rect: paramRect, hexRect: hexRect, rotation: rotation)
+                    }
                 
-                self.mathPix.processImage(
-                    image: paramImage,
-                    identifier: "param\(processedCardCodeCount)",
-                    result: result//params[Int(processedCardCodeCount)]
-                )
+                    self.mathPix.processImage(
+                        image: paramImage,
+                        identifier: "param\(processedCardCodeCount)",
+                        result: result//params[Int(processedCardCodeCount)]
+                    )
+                    processedCardCodeCount += 1
+                }
 
-                processedCardCodeCount += 1
                 checkCardCodeProcessing()
             }
         } else {
@@ -370,15 +379,16 @@ class ProcessingViewController: UIViewController {
     }
 
     func setProcessedImage(image: UIImage, completion: @escaping () -> Void) {
-        let context = self.cardProject.persistedManagedObjectContext!
-        context.mr_save({
-            (localContext: NSManagedObjectContext!) in
-            self.cardGroup.processedImage = image
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            context.mr_saveToPersistentStoreAndWait()
-            completion()
-        })
+        if let context = self.cardProject.persistedManagedObjectContext {
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                self.cardGroup.processedImage = image
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+                completion()
+            })
+        }
     }
     
     func executeCards() {
@@ -402,64 +412,66 @@ class ProcessingViewController: UIViewController {
         let rotation = self.cardList.getRotation(i)
         let hexRect = self.cardList.getHexRect(i)
         let fullRect = self.cardList.getFullRect(i)
-        
-        let cardImage = ImageProcessor.cropCard(image: self.cardGroup.image!, rect: fullRect, hexRect: hexRect, rotation: rotation)
+        if let fullImage = self.cardGroup.image {
+            let cardImage = ImageProcessor.cropCard(image: fullImage, rect: fullRect, hexRect: hexRect, rotation: rotation)
 
-        let context = cardProject.persistedManagedObjectContext!
-
-        self.s3Util.upload(
-            image: cardImage,
-            imageType: "function",
-            completion: {
-                s3Url in
-                
-                var identifier: String?
-                if self.cardProject.parentClass != nil {
-                    identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
-                }
-                
-                Timer.scheduledTimer(
-                    withTimeInterval: 0.1,
-                    repeats: true,
-                    block: {
-                        (timer) in
-                        if identifier != nil && self.puzzleSchool.processing(identifier: identifier!) {
-                            return
-                        }
-                        timer.invalidate()
+            if let context = cardProject.persistedManagedObjectContext {
+                self.s3Util.upload(
+                    image: cardImage,
+                    imageType: "function",
+                    completion: {
+                        s3Url in
                         
-                        context.mr_save({
-                            (localContext: NSManagedObjectContext!) in
-                            let newCard = Card.mr_createEntity(in: context)
-                            newCard?.cardGroup = self.cardGroup!
-                            newCard?.code = code
-                            newCard?.param = param
-                            newCard?.image = cardImage
-                            
-                            newCard?.originalCode = code
-                            newCard?.originalParam = param
-                            newCard?.originalImage = cardImage
-                            newCard?.error = !Functions.valid(code: code, param: param)
-                        }, completion: {
-                            (MRSaveCompletionHandler) in
-                            
-                            Timer.scheduledTimer(
-                                withTimeInterval: 0,
-                                repeats: false,
-                                block: {(t) in
-                                    if (i == self.processedCardParamCount - 1) {
-                                        self.cardGroup.isProcessed = true
-                                        self.completeCardProcessing(context: context)
-                                    } else {
-                                        self.processCards(i: i + 1)
-                                    }
+                        var identifier: String?
+                        if self.cardProject.parentClass != nil {
+                            identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
+                        }
+                        
+                        Timer.scheduledTimer(
+                            withTimeInterval: 0.1,
+                            repeats: true,
+                            block: {
+                                (timer) in
+                                if identifier != nil && self.puzzleSchool.processing(identifier: identifier!) {
+                                    return
                                 }
-                            )
-                        })
+                                timer.invalidate()
+                                
+                                context.mr_save({
+                                    (localContext: NSManagedObjectContext!) in
+                                    let newCard = Card.mr_createEntity(in: context)
+                                    newCard?.cardGroup = self.cardGroup!
+                                    newCard?.code = code
+                                    newCard?.param = param
+                                    newCard?.image = cardImage
+                                    
+                                    newCard?.originalCode = code
+                                    newCard?.originalParam = param
+                                    newCard?.originalImage = cardImage
+                                    newCard?.error = !Functions.valid(code: code, param: param)
+                                }, completion: {
+                                    (MRSaveCompletionHandler) in
+                                    
+                                    Timer.scheduledTimer(
+                                        withTimeInterval: 0,
+                                        repeats: false,
+                                        block: {(t) in
+                                            if (i == self.processedCardParamCount - 1) {
+                                                self.cardGroup.isProcessed = true
+                                                self.completeCardProcessing(context: context)
+                                            } else {
+                                                self.processCards(i: i + 1)
+                                            }
+                                        }
+                                    )
+                                })
+                            }
+                        )
                     }
                 )
+
             }
-        )
+        }
     }
 
     func completeCardProcessing(context: NSManagedObjectContext) {
