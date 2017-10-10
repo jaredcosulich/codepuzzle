@@ -365,21 +365,22 @@ class Functions {
         return CGFloat((translatedParam as NSString).floatValue)
     }
     
-    func initDrawingContext() -> CGContext {
+    func initDrawingContext() -> CGContext? {
         let scaleTransform = CGAffineTransform(scaleX: Functions.CONVERSION_ZOOM, y: Functions.CONVERSION_ZOOM)
         let size = imageView.bounds.size.applying(scaleTransform)
         
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
-        let context = UIGraphicsGetCurrentContext()!
-        let contextRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        context.setFillColor(UIColor.white.cgColor)
-        context.fill(contextRect)
-        
-        if (scaledImage != nil) {
-            scaledImage.draw(in: contextRect)
+        if let context = UIGraphicsGetCurrentContext() {
+            let contextRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            context.setFillColor(UIColor.white.cgColor)
+            context.fill(contextRect)
+            
+            if (scaledImage != nil) {
+                scaledImage.draw(in: contextRect)
+            }
+            return context
         }
-
-        return context
+        return nil
     }
     
     func execute(code: String, param: String, instant: Bool = false) -> Int {
@@ -457,13 +458,13 @@ class Functions {
         case "endLoop":
             return -1
         case "function":
-            let functionSteps = userDefinedFunctions[paramNumber]
-            if (functionSteps != nil) {
+            
+            if let functionSteps = userDefinedFunctions[paramNumber] {
                 var loops = [Loop]()
                 var index = -1
-                while index < functionSteps!.count - 1 {
+                while index < functionSteps.count - 1 {
                     index += 1
-                    let loopCount = functionSteps![index]()
+                    let loopCount = functionSteps[index]()
                     if loopCount > 0 {
                         loops.append(Loop(startingIndex: index, count: loopCount))
                     } else if loopCount < 0 {
@@ -490,10 +491,11 @@ class Functions {
 
         if (penIsDown) {
             if (currentPoint != nextPoint) {
-                let permanentPath = permanentPathComponents.last!.path!
-                permanentPath.lineWidth = (penSize / Functions.STARTING_ZOOM)
-                permanentPath.move(to: currentPoint)
-                permanentPath.addLine(to: nextPoint)
+                if let permanentPath = permanentPathComponents.last?.path {
+                    permanentPath.lineWidth = (penSize / Functions.STARTING_ZOOM)
+                    permanentPath.move(to: currentPoint)
+                    permanentPath.addLine(to: nextPoint)
+                }
                 
                 if (!instant) {
                     let pathLayer = CAShapeLayer()
@@ -531,7 +533,7 @@ class Functions {
         if instant {
             context = instantContext
         } else {
-            context = initDrawingContext()
+            context = initDrawingContext()!
         }
 
         for permanentPathComponent in permanentPathComponents {
@@ -544,23 +546,22 @@ class Functions {
                     xFactor = 3
                 }
                 
-                let p = permanentPathComponent.fillPoint!
-                let pX = Int(p.x * (Functions.CONVERSION_ZOOM * xFactor))
-                let pY = Int(p.y * (Functions.CONVERSION_ZOOM * xFactor))
-//                let pX = Int(p.x * (xFactor))
-//                let pY = Int(p.y * (xFactor))
-
-                Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 50)
+                if let p = permanentPathComponent.fillPoint {
+                    let pX = Int(p.x * (Functions.CONVERSION_ZOOM * xFactor))
+                    let pY = Int(p.y * (Functions.CONVERSION_ZOOM * xFactor))
+                    
+                    Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 50)
+                }
             } else {
                 context.setStrokeColor(permanentPathComponent.color.cgColor)
                 
-                let permanentPath = permanentPathComponent.path!
-                
-                let scaleTransform = CGAffineTransform(scaleX: Functions.CONVERSION_ZOOM, y: Functions.CONVERSION_ZOOM)
-                permanentPath.apply(scaleTransform)
-                permanentPath.lineWidth = permanentPathComponent.size!
-                context.addPath(permanentPath.cgPath)
-                permanentPath.stroke()
+                if let permanentPath = permanentPathComponent.path {
+                    let scaleTransform = CGAffineTransform(scaleX: Functions.CONVERSION_ZOOM, y: Functions.CONVERSION_ZOOM)
+                    permanentPath.apply(scaleTransform)
+                    permanentPath.lineWidth = permanentPathComponent.size!
+                    context.addPath(permanentPath.cgPath)
+                    permanentPath.stroke()
+                }
             }
         }
     }
