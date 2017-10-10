@@ -392,14 +392,16 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func saveProjectTitle(_ sender: UIButton) {
-        self.cardProject.persistedManagedObjectContext.mr_save({
-            (localContext: NSManagedObjectContext!) in
-                self.cardProject.title = self.editProjectTitle.text!
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-        })
-        projectTitle.titleLabel?.text = editProjectTitle.text!
+        if let titleText = self.editProjectTitle.text {
+            self.cardProject.persistedManagedObjectContext.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                    self.cardProject.title = titleText
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            })
+            projectTitle.titleLabel?.text = titleText
+        }
         
         closeEditProject()
     }
@@ -443,24 +445,25 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
-        let context = self.cardProject.persistedManagedObjectContext!
-        context.mr_save({
-            (localContext: NSManagedObjectContext!) in
-            var editingCardGroup: CardGroup!
-            
-            if self.selectedCardGroupIndex == -1 {
-                editingCardGroup = CardGroup.mr_createEntity(in: context)
-                editingCardGroup?.cardProject = self.cardProject
-            } else {
-                editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
-            }
-            editingCardGroup?.image = image
-        }, completion: {
-            (MRSaveCompletionHandler) in
-            self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1
-            context.mr_saveToPersistentStoreAndWait()
-            completion()
-        })
+        if let context = self.cardProject.persistedManagedObjectContext {
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                var editingCardGroup: CardGroup!
+                
+                if self.selectedCardGroupIndex == -1 {
+                    editingCardGroup = CardGroup.mr_createEntity(in: context)
+                    editingCardGroup?.cardProject = self.cardProject
+                } else {
+                    editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
+                }
+                editingCardGroup?.image = image
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1
+                context.mr_saveToPersistentStoreAndWait()
+                completion()
+            })
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
