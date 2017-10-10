@@ -108,57 +108,58 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         // start the timer
         var cardOffset = imageView.bounds.width / 2.0
         
-        let firstCardImage = cards.first!.image!
-        let ratio = imageView.bounds.height / firstCardImage.size.height
-        let cardWidth = firstCardImage.size.width * ratio
+        if let firstCardImage = cards.first?.image {
+            let ratio = imageView.bounds.height / firstCardImage.size.height
+            let cardWidth = firstCardImage.size.width * ratio
 
-        scrollLayerWidth = CGFloat(cardWidth + (cardWidth / 8))
+            scrollLayerWidth = CGFloat(cardWidth + (cardWidth / 8))
 
-        for card in cards {
-            let functionLayer = CALayer()
-            let image = card.image!
+            for card in cards {
+                let functionLayer = CALayer()
+                let image = card.image!
+                
+                functionLayer.contents = image.cgImage
+                functionLayer.opacity = 0.50
             
-            functionLayer.contents = image.cgImage
-            functionLayer.opacity = 0.50
-        
-            let bounds = CGRect(x: 0, y: 0, width: cardWidth, height: imageView.bounds.height)
-            
-            functionLayer.bounds = bounds
-            functionLayer.shadowColor = UIColor.black.cgColor
-            functionLayer.shadowOffset = CGSize(width: 2, height: 2)
-            functionLayer.shadowOpacity = 0.25
-            functionLayer.shadowRadius = 2.0
-            
-            functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
-            cardOffset += scrollLayerWidth
-            
-            if (card.disabled) {
-                functionLayer.opacity = 0.25
-                functionLayer.shadowOffset = CGSize(width: 0, height: 0)
+                let bounds = CGRect(x: 0, y: 0, width: cardWidth, height: imageView.bounds.height)
+                
+                functionLayer.bounds = bounds
+                functionLayer.shadowColor = UIColor.black.cgColor
+                functionLayer.shadowOffset = CGSize(width: 2, height: 2)
+                functionLayer.shadowOpacity = 0.25
+                functionLayer.shadowRadius = 2.0
+                
+                functionLayer.position = CGPoint(x: cardOffset, y: bounds.height/2.0)
+                cardOffset += scrollLayerWidth
+                
+                if (card.disabled) {
+                    functionLayer.opacity = 0.25
+                    functionLayer.shadowOffset = CGSize(width: 0, height: 0)
+                }
+                
+                executedLayers.append(functionLayer)
+                executionLayer.addSublayer(functionLayer)
             }
             
-            executedLayers.append(functionLayer)
-            executionLayer.addSublayer(functionLayer)
-        }
-        
-        drawReplay(x: cardOffset)
-        drawAddCard(x: cardOffset)
+            drawReplay(x: cardOffset)
+            drawAddCard(x: cardOffset)
 
-        imageView.layer.addSublayer(executionLayer)
-        
-        if (!paused) {
-            play()
-            executeNextCard()
-            startTimer()
-        } else if (selectedIndex > -1) {
-            if (selectedIndex >= cards.count) {
-                scrollToCard(index: selectedIndex - 1)
-                highlightCard(index: selectedIndex - 1)
-                paused = false
+            imageView.layer.addSublayer(executionLayer)
+            
+            if (!paused) {
+                play()
                 executeNextCard()
-            } else {
-                scrollToCard(index: selectedIndex)
-                highlightCard(index: selectedIndex)
+                startTimer()
+            } else if (selectedIndex > -1) {
+                if (selectedIndex >= cards.count) {
+                    scrollToCard(index: selectedIndex - 1)
+                    highlightCard(index: selectedIndex - 1)
+                    paused = false
+                    executeNextCard()
+                } else {
+                    scrollToCard(index: selectedIndex)
+                    highlightCard(index: selectedIndex)
+                }
             }
         }
     }
@@ -509,22 +510,26 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
     }
     
     @IBAction func newPhoto(_ sender: UIButton) {
-        switch sender.titleLabel!.text! {
-        case "Take Photo":
-            addPhoto = "take"
-        default:
-            addPhoto = "library"
+        if let buttonText = sender.titleLabel!.text {
+            switch buttonText {
+            case "Take Photo":
+                addPhoto = "take"
+            default:
+                addPhoto = "library"
+            }
         }
 
         performSegue(withIdentifier: "add-photo-segue", sender: nil)
     }
     
     @IBAction func newCard(_ sender: UIButton) {
-        switch sender.titleLabel!.text! {
-        case "To Beginning":
-            selectedIndex = -1
-        default:
-            selectedIndex = cards.count
+        if let buttonText = sender.titleLabel!.text {
+            switch buttonText {
+            case "To Beginning":
+                selectedIndex = -1
+            default:
+                selectedIndex = cards.count
+            }
         }
         
         performSegue(withIdentifier: "edit-command-segue", sender: nil)
