@@ -620,7 +620,14 @@ Please check the code and try again.</string>
                                     <constraint firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="height" multiplier="3:2" id="zJf-4r-bcp"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOh-5d-VbG">
+                                <rect key="frame" x="77" y="563.5" width="614" height="307"/>
+                                <string key="text">Your photo should be of Code Puzzle Cards. If you don't have any cards visit http://www.thecodepuzzle.com to print out cards. You'll also find instructions on how to use them.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
                                 <rect key="frame" x="0.0" y="564" width="768" height="358"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -632,6 +639,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="trailing" secondItem="kYr-Ju-MDh" secondAttribute="trailing" constant="-20" id="2rp-DU-f1D"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="leading" secondItem="kYr-Ju-MDh" secondAttribute="leading" constant="20" id="3hC-FQ-9Ph"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.5" id="3nK-y8-qlv"/>
+                            <constraint firstItem="gOh-5d-VbG" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.4" id="7U6-cp-isy"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="top" secondItem="GDl-Vx-efq" secondAttribute="bottom" id="888-e6-dwL"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.75" id="8AZ-k2-AgJ"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
@@ -639,6 +647,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.75" id="AlY-OA-uNi"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="width" secondItem="qu3-rI-zKi" secondAttribute="width" id="BJb-aP-b5G"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="centerY" secondItem="oC9-YJ-yGS" secondAttribute="centerY" id="DbX-4F-yQv"/>
+                            <constraint firstItem="gOh-5d-VbG" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="EF8-PW-fQK"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="GCD-1L-CBl"/>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="height" secondItem="kYr-Ju-MDh" secondAttribute="height" multiplier="0.6" id="Gq5-QY-fFW"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.5" id="I26-dN-gKg"/>
@@ -655,6 +664,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="ZXf-Oi-D1i" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.2" id="Uwu-2b-phE"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.55" id="VQj-u2-mQt"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="Va0-Vf-bnq"/>
+                            <constraint firstItem="gOh-5d-VbG" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.3" id="YPO-c4-NuW"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.1" id="YS4-HT-MHd"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="width" multiplier="0.15" id="Zpv-CD-MgM"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="width" secondItem="qvc-0w-NOq" secondAttribute="width" id="bdn-8u-DXN"/>
@@ -664,6 +674,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="centerY" secondItem="qu3-rI-zKi" secondAttribute="centerY" id="fF9-CK-JcL"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.6" id="fKa-3i-Vwf"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="fcB-1e-nE3"/>
+                            <constraint firstItem="gOh-5d-VbG" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="fvq-LX-Rps"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="g2w-Nn-qSQ"/>
                             <constraint firstItem="GDl-Vx-efq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="gB2-9R-jib"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="1.5" id="hJT-Vg-cjn"/>
@@ -690,6 +701,7 @@ Please check the code and try again.</string>
                         <outlet property="activityView" destination="aFa-DB-79J" id="VK7-ED-Eir"/>
                         <outlet property="addPhotoLabel" destination="fB1-2o-fwd" id="Hy4-Xq-QGf"/>
                         <outlet property="cancelButton" destination="GxZ-ra-ljJ" id="IsZ-A3-gRQ"/>
+                        <outlet property="cardsExplanation" destination="gOh-5d-VbG" id="lZX-T9-vyk"/>
                         <outlet property="changePhoto" destination="qu3-rI-zKi" id="Q2u-9C-sDX"/>
                         <outlet property="deleteProject" destination="uRS-Ut-foB" id="f1f-HI-SNS"/>
                         <outlet property="editProjectLabel" destination="bt6-qR-pf4" id="QP3-Hn-x6n"/>

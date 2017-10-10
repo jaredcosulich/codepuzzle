@@ -16,7 +16,11 @@ class MathPix {
     init() {}
     
     func getValue(identifier: String) -> String {
-        return results[identifier]!
+        if let result = results[identifier] {
+            return result
+        } else {
+            return "N/A"
+        }
     }
     
     func processing(identifier: String) -> Bool {

@@ -40,7 +40,9 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var editProjectTitle: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
-    
+
+    @IBOutlet weak var cardsExplanation: UILabel!
+
     var selectedCardGroupIndex = -1
     
     var s3Util: S3Util!
@@ -100,7 +102,15 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         saveButton.layer.cornerRadius = 6
         saveButton.titleLabel?.font = cancelButton.titleLabel?.font
+
+        if cardProject.cardGroups.count > 0 {
+            cardsExplanation.isHidden = true
+            tableView.isHidden = false
+        } else {
+            Util.proportionalFont(anyElement: cardsExplanation, bufferPercentage: nil)
+        }
         
+
         for i in 0..<cardProject.cardGroups.count {
             let cardGroup = cardProject.cardGroups[i]
             if (!cardGroup.isProcessed) {
