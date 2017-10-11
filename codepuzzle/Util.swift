@@ -20,6 +20,11 @@ class Util {
         
         var size = height * (2/3)
         
+        var width = anyElement.bounds.width
+        if (bufferPercentage != nil) {
+            width -= (((width * CGFloat(bufferPercentage!)) / 100) * 2)
+        }
+        
         if let element = anyElement as? UITextField {
             element.font = element.font?.withSize(size)
             return
@@ -42,6 +47,12 @@ class Util {
 
         if (label.numberOfLines > 1) {
             size = size / CGFloat(label.numberOfLines)
+        }
+        
+        let wsize = width * 2.2 / CGFloat((label.text)!.characters.count)
+        print("SIZE: \(size), WSIZE: \(wsize)")
+        if size > wsize {
+            size = wsize
         }
         
         label.font = label.font.withSize(size)

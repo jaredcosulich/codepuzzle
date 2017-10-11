@@ -45,14 +45,12 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
 
         tableView.delegate = self
         tableView.dataSource = self
-
+        
         classCodeButton.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: classCodeButton, bufferPercentage: 20)
 
         startProjectButton.layer.cornerRadius = 6
         startProjectButton.titleLabel?.font = classCodeButton.titleLabel?.font
-
-        Util.proportionalFont(anyElement: classCodeButton, bufferPercentage: 20)
 
         Util.proportionalFont(anyElement: classTitle, bufferPercentage: nil)
         startClassProjectButton.layer.cornerRadius = 6
