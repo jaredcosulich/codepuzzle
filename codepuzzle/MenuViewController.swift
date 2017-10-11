@@ -43,6 +43,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     @IBOutlet weak var cardsExplanation: UILabel!
 
+    @IBOutlet weak var getCardsButton: UIButton!
+    
     var selectedCardGroupIndex = -1
     
     var s3Util: S3Util!
@@ -102,6 +104,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         saveButton.layer.cornerRadius = 6
         saveButton.titleLabel?.font = cancelButton.titleLabel?.font
+        
+        getCardsButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: getCardsButton, bufferPercentage: nil)
+
 
         if cardProject.cardGroups.count > 0 {
             cardsExplanation.isHidden = true
@@ -475,7 +481,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             })
         }
     }
-
+    
+    
+    @IBAction func getCards(_ sender: UIButton) {
+        if let url = URL(string: "http://www.thecodepuzzle.com/") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         imageView.removeFromSuperview()
         tableView.removeFromSuperview()

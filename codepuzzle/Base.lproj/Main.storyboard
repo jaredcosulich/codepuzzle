@@ -383,6 +383,10 @@ Please check the code and try again.</string>
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
+                                <rect key="frame" x="0.0" y="564" width="768" height="358"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aFa-DB-79J">
                                 <rect key="frame" x="338" y="404.5" width="92.5" height="92.5"/>
                                 <constraints>
@@ -526,6 +530,24 @@ Please check the code and try again.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOh-5d-VbG">
+                                <rect key="frame" x="77" y="486" width="614" height="307"/>
+                                <string key="text">Your photo should be of Code Puzzle Cards. If you don't have any cards visit http://www.thecodepuzzle.com to print out cards. You'll also find instructions on how to use them.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wan-tr-SAZ">
+                                <rect key="frame" x="269" y="793" width="230" height="51"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Get Cards">
+                                    <color key="titleColor" red="0.96707167630000002" green="1" blue="0.95954409029999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="getCards:" destination="9pv-A4-QxB" eventType="touchUpInside" id="okF-T0-IXE"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYr-Ju-MDh" userLabel="Logo Background">
                                 <rect key="frame" x="0.0" y="36" width="768" height="51"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -620,17 +642,6 @@ Please check the code and try again.</string>
                                     <constraint firstAttribute="width" secondItem="2L0-R0-IVo" secondAttribute="height" multiplier="3:2" id="zJf-4r-bcp"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOh-5d-VbG">
-                                <rect key="frame" x="77" y="563.5" width="614" height="307"/>
-                                <string key="text">Your photo should be of Code Puzzle Cards. If you don't have any cards visit http://www.thecodepuzzle.com to print out cards. You'll also find instructions on how to use them.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GDl-Vx-efq">
-                                <rect key="frame" x="0.0" y="564" width="768" height="358"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -639,7 +650,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="trailing" secondItem="kYr-Ju-MDh" secondAttribute="trailing" constant="-20" id="2rp-DU-f1D"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="leading" secondItem="kYr-Ju-MDh" secondAttribute="leading" constant="20" id="3hC-FQ-9Ph"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.5" id="3nK-y8-qlv"/>
-                            <constraint firstItem="gOh-5d-VbG" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.4" id="7U6-cp-isy"/>
+                            <constraint firstItem="gOh-5d-VbG" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.25" id="7U6-cp-isy"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="top" secondItem="GDl-Vx-efq" secondAttribute="bottom" id="888-e6-dwL"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.75" id="8AZ-k2-AgJ"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
@@ -666,10 +677,12 @@ Please check the code and try again.</string>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="Va0-Vf-bnq"/>
                             <constraint firstItem="gOh-5d-VbG" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.3" id="YPO-c4-NuW"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.1" id="YS4-HT-MHd"/>
+                            <constraint firstItem="wan-tr-SAZ" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.6" id="Zaa-JX-Qgq"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="width" multiplier="0.15" id="Zpv-CD-MgM"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="width" secondItem="qvc-0w-NOq" secondAttribute="width" id="bdn-8u-DXN"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.8" id="cx6-eP-eLc"/>
                             <constraint firstItem="GDl-Vx-efq" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="dLs-oH-3MP"/>
+                            <constraint firstItem="wan-tr-SAZ" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="dTK-L7-nC9"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.18" id="eIi-ii-bwr"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="centerY" secondItem="qu3-rI-zKi" secondAttribute="centerY" id="fF9-CK-JcL"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" multiplier="0.6" id="fKa-3i-Vwf"/>
@@ -681,8 +694,10 @@ Please check the code and try again.</string>
                             <constraint firstItem="nIl-rN-Cyx" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="hmu-hA-cEh"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="i3E-mY-v8V"/>
                             <constraint firstItem="fB1-2o-fwd" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="iGZ-yY-bpl"/>
+                            <constraint firstItem="wan-tr-SAZ" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="iON-Fy-G9Y"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.35" id="jv3-Wi-ZyP"/>
                             <constraint firstItem="kpc-Nh-ea6" firstAttribute="centerY" secondItem="kYr-Ju-MDh" secondAttribute="centerY" id="k7p-bE-Mr4"/>
+                            <constraint firstItem="wan-tr-SAZ" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="kjW-cu-Kq5"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.12" id="l5z-00-Rh6"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="lGf-QV-Quc"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.35" id="lhX-VU-RxV"/>
@@ -707,6 +722,7 @@ Please check the code and try again.</string>
                         <outlet property="editProjectLabel" destination="bt6-qR-pf4" id="QP3-Hn-x6n"/>
                         <outlet property="editProjectTitle" destination="ceh-Wm-kjG" id="Hap-RX-zcQ"/>
                         <outlet property="editProjectView" destination="2L0-R0-IVo" id="KLn-Ps-xbw"/>
+                        <outlet property="getCardsButton" destination="wan-tr-SAZ" id="hS3-cr-f5r"/>
                         <outlet property="imageView" destination="oC9-YJ-yGS" id="cOK-w9-2lF"/>
                         <outlet property="loadPhoto" destination="2qb-cf-lUO" id="zxg-pc-T9x"/>
                         <outlet property="newPhoto" destination="qvc-0w-NOq" id="aoN-sY-u8J"/>
