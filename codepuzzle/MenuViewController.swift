@@ -106,8 +106,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         saveButton.titleLabel?.font = cancelButton.titleLabel?.font
         
         getCardsButton.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: getCardsButton, bufferPercentage: nil)
-
+        getCardsButton.titleLabel?.font = loadPhoto.titleLabel?.font
 
         if cardProject.cardGroups.count > 0 {
             cardsExplanation.isHidden = true

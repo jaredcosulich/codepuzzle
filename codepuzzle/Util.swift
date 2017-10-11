@@ -45,12 +45,12 @@ class Util {
             label = element
         }
 
-        if (label.numberOfLines > 1) {
-            size = size / CGFloat(label.numberOfLines)
+        let lines = CGFloat(label.numberOfLines)
+        if (lines > 1) {
+            size = size / lines
         }
         
-        let wsize = width * 2.2 / CGFloat((label.text)!.characters.count)
-        print("SIZE: \(size), WSIZE: \(wsize)")
+        let wsize = (width * 2.2 / CGFloat((label.text)!.characters.count)) * lines
         if size > wsize {
             size = wsize
         }
