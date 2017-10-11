@@ -340,6 +340,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         newPhoto.isHidden = true
         loadPhoto.isHidden = true
         tableView.isHidden = true
+        getCardsButton.isHidden = true
+        cardsExplanation.isHidden = true
     }
     
     func hidePhoto() {
@@ -357,7 +359,12 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         newPhoto.isHidden = false
         loadPhoto.isHidden = false
 
-        tableView.isHidden = false
+        if cardProject.cardGroups.count > 0 && cardProject.cardGroups.first!.isProcessed {
+            tableView.isHidden = false
+        } else {
+            getCardsButton.isHidden = false
+            cardsExplanation.isHidden = false
+        }
     }
     
     @IBAction func deleteProjectButton(_ sender: UIBarButtonItem) {
