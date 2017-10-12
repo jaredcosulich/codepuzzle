@@ -402,14 +402,18 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         editProjectView.alpha = 0.0
         editProjectView.isHidden = false
 
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.editProjectView.alpha = 1.0
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.editProjectView.alpha = 1.0
+                }
+            )
+        } else {
+            self.editProjectView.alpha = 1.0
+        }
 
         editProjectTitle.becomeFirstResponder()
     }
@@ -437,16 +441,21 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func closeEditProject() {
         editProjectTitle.resignFirstResponder()
         
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.editProjectView.alpha = 0.0
-            }, completion: { (position) in
-                self.editProjectView.isHidden = true
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.editProjectView.alpha = 0.0
+                }, completion: { (position) in
+                    self.editProjectView.isHidden = true
+                }
+            )
+        } else {
+            self.editProjectView.alpha = 0.0
+            self.editProjectView.isHidden = true
+        }
     }
 
     @IBAction func playButton(_ sender: UIBarButtonItem) {
@@ -492,7 +501,13 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func getCards(_ sender: UIButton) {
         if let url = URL(string: "http://www.thecodepuzzle.com/") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                let urlAlert = UIAlertController(title: "Get Cards", message: "Please visit \(url.absoluteString) in a web browser to find the necessary cards.", preferredStyle: UIAlertControllerStyle.alert)
+                
+                urlAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            }
         }
     }
     

@@ -81,16 +81,21 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             existingProjectsLabel.isHidden = true
         }
         
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 1,
-            delay: 1,
-            options: .curveEaseOut,
-            animations: {
-                self.splash.alpha = 0.0
-            }, completion: { (position) in
-                self.splash.removeFromSuperview()
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 1,
+                delay: 1,
+                options: .curveEaseOut,
+                animations: {
+                    self.splash.alpha = 0.0
+                }, completion: { (position) in
+                    self.splash.removeFromSuperview()
+                }
+            )
+        } else {
+            self.splash.alpha = 0.0
+            self.splash.removeFromSuperview()
+        }
         
     }
     
@@ -198,14 +203,18 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         projectTitleView.alpha = 0.0
         projectTitleView.isHidden = false
         
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.projectTitleView.alpha = 1.0
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.projectTitleView.alpha = 1.0
+                }
+            )
+        } else {
+            self.projectTitleView.alpha = 1.0
+        }
 
         projectTitle.becomeFirstResponder()
     }
@@ -258,7 +267,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                 
             }
         )
-
     }
     
     @IBAction func cancelStartProject(_ sender: UIButton) {

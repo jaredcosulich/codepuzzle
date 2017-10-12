@@ -60,7 +60,13 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func registerClass(_ sender: UIButton) {
         if let url = URL(string: "http://www.thecodepuzzle.com/") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                let urlAlert = UIAlertController(title: "Register Class", message: "Please visit \(url.absoluteString) in a web browser to register a class.", preferredStyle: UIAlertControllerStyle.alert)
+                
+                urlAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            }
         }
     }
     

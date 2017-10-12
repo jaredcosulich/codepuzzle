@@ -556,14 +556,18 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         editFunctionView.alpha = 0.0
         editFunctionView.isHidden = false
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.editFunctionView.alpha = 1.0
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.editFunctionView.alpha = 1.0
+                }
+            )
+        } else {
+            self.editFunctionView.alpha = 1.0
+        }
 
     }
     
@@ -607,16 +611,20 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func hideFunction() {
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.editFunctionView.alpha = 0.0
-            }, completion: { (position) in
-                self.editFunctionView.isHidden = true
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.editFunctionView.alpha = 0.0
+                }, completion: { (position) in
+                    self.editFunctionView.isHidden = true
+                }
+            )
+        } else {
+            self.editFunctionView.isHidden = true
+        }
         
     }
     
@@ -631,14 +639,18 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         if !param.isHidden {
             param.becomeFirstResponder()
         }
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.editParamView.alpha = 1.0
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.editParamView.alpha = 1.0
+                }
+            )
+        } else {
+            self.editParamView.alpha = 1.0
+        }
     }
     
     @IBAction func cancelEditParam(_ sender: UIButton) {
@@ -680,16 +692,20 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     func hideParam() {
         param.resignFirstResponder()
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.editParamView.alpha = 0.0
-            }, completion: { (position) in
-                self.editParamView.isHidden = true
-            }
-        )
+        if #available(iOS 10.0, *) {
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.editParamView.alpha = 0.0
+                }, completion: { (position) in
+                    self.editParamView.isHidden = true
+                }
+            )
+        } else {
+            self.editParamView.isHidden = true
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
