@@ -110,6 +110,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
         if cardProject.cardGroups.count > 0 {
             cardsExplanation.isHidden = true
+            getCardsButton.isHidden = true
             tableView.isHidden = false
         } else {
             Util.proportionalFont(anyElement: cardsExplanation, bufferPercentage: nil)
