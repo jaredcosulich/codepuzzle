@@ -93,10 +93,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mAd-nK-WV9">
-                                <rect key="frame" x="77" y="225" width="614" height="369"/>
+                                <rect key="frame" x="77" y="225.5" width="614" height="368"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="mT0-HJ-NaA">
-                                        <rect key="frame" x="92.5" y="264.5" width="184.5" height="61.5"/>
+                                        <rect key="frame" x="92.5" y="264" width="184.5" height="61.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="mT0-HJ-NaA" secondAttribute="height" multiplier="3:1" id="rQV-iY-c7Q"/>
@@ -110,7 +110,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="0YL-Yb-bP0">
-                                        <rect key="frame" x="346.5" y="267" width="166.5" height="55.5"/>
+                                        <rect key="frame" x="346.5" y="266.5" width="166.5" height="55.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0YL-Yb-bP0" secondAttribute="height" multiplier="3:1" id="Qj8-q6-vuV"/>
                                         </constraints>
@@ -123,7 +123,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project Title" textAlignment="natural" clearsOnBeginEditing="YES" adjustsFontForContentSizeCategory="YES" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="thl-m6-8Vw">
-                                        <rect key="frame" x="77" y="150" width="461" height="69"/>
+                                        <rect key="frame" x="77" y="149.5" width="461" height="69"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="thl-m6-8Vw" secondAttribute="height" multiplier="40:6" id="4I7-xM-dMt"/>
@@ -133,7 +133,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.25" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Wa-3s-qCQ">
-                                        <rect key="frame" x="153" y="31" width="308" height="85.5"/>
+                                        <rect key="frame" x="153.5" y="31" width="307" height="85"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="7Wa-3s-qCQ" secondAttribute="height" multiplier="18:5" id="x3b-hw-E7P"/>
                                         </constraints>
@@ -401,15 +401,15 @@ Please check the code and try again.</string>
                                 <color key="color" red="0.0" green="0.094606803700000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <imageView hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
-                                <rect key="frame" x="260.5" y="245" width="247" height="411"/>
+                                <rect key="frame" x="260.5" y="296" width="247" height="309"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="height" multiplier="3:5" id="WbM-by-eL3"/>
+                                    <constraint firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="height" multiplier="4:5" id="WbM-by-eL3"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0W3-VK-vjJ">
-                                <rect key="frame" x="158.5" y="87" width="451" height="82"/>
+                                <rect key="frame" x="168" y="92" width="432" height="72"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="5.5:1" id="LxX-5Q-yUW"/>
+                                    <constraint firstAttribute="width" secondItem="0W3-VK-vjJ" secondAttribute="height" multiplier="6:1" id="LxX-5Q-yUW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="Project Title">
@@ -420,7 +420,7 @@ Please check the code and try again.</string>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add A Photo Of Cards To This Project" textAlignment="center" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fB1-2o-fwd">
-                                <rect key="frame" x="154" y="198.5" width="461" height="115.5"/>
+                                <rect key="frame" x="174" y="203.5" width="421.5" height="105.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fB1-2o-fwd" secondAttribute="height" multiplier="4:1" id="8XS-jj-8W4"/>
                                 </constraints>
@@ -654,7 +654,7 @@ Please check the code and try again.</string>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="top" secondItem="GDl-Vx-efq" secondAttribute="bottom" id="888-e6-dwL"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.75" id="8AZ-k2-AgJ"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="8Rb-4f-vCV"/>
-                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="9cN-Wm-8NA"/>
+                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" id="9cN-Wm-8NA"/>
                             <constraint firstItem="2L0-R0-IVo" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.75" id="AlY-OA-uNi"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="width" secondItem="qu3-rI-zKi" secondAttribute="width" id="BJb-aP-b5G"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="Bsv-q9-tV8"/>
@@ -671,8 +671,8 @@ Please check the code and try again.</string>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="KE2-zC-mLy"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="centerY" secondItem="qvc-0w-NOq" secondAttribute="centerY" id="LDN-I4-xzv"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="height" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.2" id="LIc-Cz-ZTf"/>
-                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.5" id="NbC-WA-pHK"/>
-                            <constraint firstItem="fB1-2o-fwd" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.08" id="OIZ-MG-ed2"/>
+                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.4" id="NbC-WA-pHK"/>
+                            <constraint firstItem="fB1-2o-fwd" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="OIZ-MG-ed2"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="baseline" secondItem="tsR-hK-woN" secondAttribute="baseline" id="OU6-Ef-XTk"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="height" secondItem="ZXf-Oi-D1i" secondAttribute="height" id="Oqg-Jp-rvC"/>
                             <constraint firstItem="wan-tr-SAZ" firstAttribute="width" secondItem="qvc-0w-NOq" secondAttribute="width" id="P1V-4i-K1g"/>
@@ -681,18 +681,18 @@ Please check the code and try again.</string>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.88" id="Qjb-9x-gMk"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="height" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.075" id="So8-g3-27l"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="T6J-mY-PIp"/>
-                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.08" id="TMK-dB-7kM"/>
+                            <constraint firstItem="0W3-VK-vjJ" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.05" id="TMK-dB-7kM"/>
                             <constraint firstItem="N9z-JF-GIm" firstAttribute="leading" secondItem="ZXf-Oi-D1i" secondAttribute="trailing" constant="30" id="UoA-qS-Egt"/>
-                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="UsK-Zg-bGP"/>
+                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.3" id="UsK-Zg-bGP"/>
                             <constraint firstItem="ZXf-Oi-D1i" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.25" id="Uwu-2b-phE"/>
-                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="height" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.5" id="VQj-u2-mQt"/>
+                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="height" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.6" id="VQj-u2-mQt"/>
                             <constraint firstItem="oC9-YJ-yGS" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="Va0-Vf-bnq"/>
-                            <constraint firstItem="fB1-2o-fwd" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.6" id="XpL-ce-teA"/>
+                            <constraint firstItem="fB1-2o-fwd" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.4" id="XpL-ce-teA"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="leading" secondItem="N9z-JF-GIm" secondAttribute="trailing" constant="30" id="YBu-LA-1He"/>
                             <constraint firstItem="gOh-5d-VbG" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.3" id="YPO-c4-NuW"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.1" id="YS4-HT-MHd"/>
                             <constraint firstItem="wan-tr-SAZ" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="1.6" id="Zaa-JX-Qgq"/>
-                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.4" id="Zc5-gp-qwB"/>
+                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="height" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="height" multiplier="0.2" id="Zc5-gp-qwB"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="width" multiplier="0.15" id="Zpv-CD-MgM"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="top" secondItem="ZXf-Oi-D1i" secondAttribute="bottom" constant="20" id="awe-D9-8qw"/>
                             <constraint firstItem="2qb-cf-lUO" firstAttribute="width" secondItem="qvc-0w-NOq" secondAttribute="width" id="bdn-8u-DXN"/>
@@ -721,13 +721,14 @@ Please check the code and try again.</string>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" multiplier="0.12" id="l5z-00-Rh6"/>
                             <constraint firstItem="W6D-mv-hUv" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="lGf-QV-Quc"/>
                             <constraint firstItem="qvc-0w-NOq" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.2" id="lhX-VU-RxV"/>
+                            <constraint firstItem="oC9-YJ-yGS" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.9" id="lpR-DW-HJo"/>
                             <constraint firstItem="0W3-VK-vjJ" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="nZm-AZ-7Qa"/>
                             <constraint firstItem="lyo-uf-VfJ" firstAttribute="height" secondItem="qu3-rI-zKi" secondAttribute="height" id="ssX-8b-XgF"/>
                             <constraint firstItem="aFa-DB-79J" firstAttribute="centerX" secondItem="oC9-YJ-yGS" secondAttribute="centerX" id="uN6-Dh-akS"/>
                             <constraint firstItem="kYr-Ju-MDh" firstAttribute="height" secondItem="kpc-Nh-ea6" secondAttribute="height" multiplier="0.98" id="uk8-Kw-5na"/>
                             <constraint firstItem="qu3-rI-zKi" firstAttribute="width" relation="greaterThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.25" id="xNW-6p-szk"/>
                             <constraint firstItem="nzL-hW-vmB" firstAttribute="centerY" secondItem="ZXf-Oi-D1i" secondAttribute="centerY" id="y2d-BS-sB3"/>
-                            <constraint firstItem="fB1-2o-fwd" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.8" id="yEt-f9-4NX"/>
+                            <constraint firstItem="fB1-2o-fwd" firstAttribute="width" relation="lessThanOrEqual" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.9" id="yEt-f9-4NX"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
