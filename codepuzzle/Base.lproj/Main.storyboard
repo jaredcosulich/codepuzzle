@@ -402,6 +402,9 @@ Please check the code and try again.</string>
                             </activityIndicatorView>
                             <imageView hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oC9-YJ-yGS">
                                 <rect key="frame" x="260.5" y="296" width="247" height="309"/>
+                                <accessibility key="accessibilityConfiguration" label="Photo of Cards">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="oC9-YJ-yGS" secondAttribute="height" multiplier="4:5" id="WbM-by-eL3"/>
                                 </constraints>

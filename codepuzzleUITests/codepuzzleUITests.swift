@@ -28,14 +28,32 @@ class codepuzzleUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testFlow() {
-        
+    func waitForElementToAppear(_ element: XCUIElement) {
+        let existsPredicate = NSPredicate(format: "exists == true")
+        expectation(for: existsPredicate, evaluatedWith: element, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testCardIdentification() {
         let app = XCUIApplication()
         app.buttons["Start New Project"].tap()
-        app.textFields["Project Title"].typeText("Star")
+        app.textFields["Project Title"].typeText("Test")
         app.buttons["Start"].tap()
-        app.buttons["Load Photo"].tap()
         
+        analyzePhoto(index: 5, count: 8)
+        analyzePhoto(index: 6, count: 1)
+        analyzePhoto(index: 7, count: 28)
+    }
+    
+    func analyzePhoto(index: Int, count: Int) {
+        let app = XCUIApplication()
+        app.buttons["Load Photo"].tap()
+        app.cells.element(boundBy: 1).tap()
+        app.cells.element(boundBy: UInt(index)).tap()
+        waitForElementToAppear(app.images["Photo of Cards"])
+        app.buttons["Use Photo"].tap()
+        XCTAssert(app.staticTexts["Identified \(count) cards\r\rIs that correct?"].exists)
+        app.buttons["No"].tap()
     }
     
     
