@@ -539,16 +539,11 @@ class Functions {
             if (permanentPathComponent.path == nil) {
                 let fillColor = permanentPathComponent.color
                 
-                var xFactor = CGFloat(2)
-                if UIDevice().type.rawValue.contains("Plus") || UIDevice().type.rawValue.contains("X"){
-                    xFactor = 3
-                }
-                
                 if let p = permanentPathComponent.fillPoint {
-                    let pX = Int(p.x * (Functions.CONVERSION_ZOOM * xFactor))
-                    let pY = Int(p.y * (Functions.CONVERSION_ZOOM * xFactor))
+                    let pX = Int(p.x * Functions.CONVERSION_ZOOM)
+                    let pY = Int(p.y * Functions.CONVERSION_ZOOM)
                     
-                    Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, andTolerance: 50)
+                    Floodfill.execute(in: context, from: CGPoint(x: pX, y: pY), with: fillColor, forImageWidth: imageView.bounds.size.width, andTolerance: 50)
                 }
             } else {
                 context.setStrokeColor(permanentPathComponent.color.cgColor)

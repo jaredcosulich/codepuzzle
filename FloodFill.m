@@ -23,12 +23,12 @@
  If You dont want to use tolerance and want to incress performance Than you can change
  compareColor(ocolor, color, tolerance) with just ocolor==color which reduse function call.
  */
-+ (void) executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance
++ (void) executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor forImageWidth:(CGFloat)imageWidth andTolerance:(int)tolerance
 {
-    [self executeInContext:context fromPoint:startPoint withColor:newColor andTolerance:tolerance useAntiAlias:YES];
+    [self executeInContext:context fromPoint:startPoint withColor:newColor forImageWidth:imageWidth andTolerance:tolerance useAntiAlias:YES];
 }
 
-+ (void) executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor andTolerance:(int)tolerance useAntiAlias:(BOOL)antiAlias
++ (void) executeInContext:(CGContextRef)context fromPoint:(CGPoint)startPoint withColor:(UIColor *)newColor forImageWidth:(CGFloat)imageWidth andTolerance:(int)tolerance useAntiAlias:(BOOL)antiAlias
 {
     @try
     {
@@ -48,14 +48,17 @@
         NSUInteger bytesPerPixel = bitsPerPixel / bitsPerComponent;
         
         unsigned char *imageData = CGBitmapContextGetData(context);
-
+        
         CGBitmapInfo bitmapInfo = CGBitmapContextGetBitmapInfo(context);
         if (kCGImageAlphaLast == (uint32_t)bitmapInfo || kCGImageAlphaFirst == (uint32_t)bitmapInfo) {
             bitmapInfo = (uint32_t)kCGImageAlphaPremultipliedLast;
         }
         
         //Get color at start point
-        unsigned int byteIndex = (bytesPerRow * roundf(startPoint.y)) + roundf(startPoint.x) * bytesPerPixel;
+        int x = roundf(startPoint.x) * (width / imageWidth / 4);
+        int y = roundf(startPoint.y) * (width / imageWidth / 4);
+                
+        unsigned int byteIndex = (bytesPerRow * y) + x * bytesPerPixel;
         
         unsigned int ocolor = getColorCode(byteIndex, imageData);
         
@@ -108,9 +111,6 @@
         
         LinkedListStack *points = [[LinkedListStack alloc] initWithCapacity:500 incrementSize:500 andMultiplier:height];
         LinkedListStack *antiAliasingPoints = [[LinkedListStack alloc] initWithCapacity:500 incrementSize:500 andMultiplier:height];
-        
-        int x = roundf(startPoint.x);
-        int y = roundf(startPoint.y);
         
         [points pushFrontX:x andY:y];
         
