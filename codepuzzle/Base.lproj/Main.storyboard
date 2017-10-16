@@ -40,7 +40,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="DkF-9u-9Xy">
-                                <rect key="frame" x="48.5" y="328" width="287" height="82"/>
+                                <rect key="frame" x="69.5" y="334" width="245" height="70"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DkF-9u-9Xy" secondAttribute="height" multiplier="3.5:1" id="AUB-Td-Ylq"/>
@@ -54,7 +54,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="WAc-S8-5af">
-                                <rect key="frame" x="432.5" y="328" width="287" height="82.5"/>
+                                <rect key="frame" x="453.5" y="334" width="245" height="70.5"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <state key="normal" title="Enter Class Code">
@@ -175,7 +175,7 @@
                             <constraint firstItem="vaZ-kd-g04" firstAttribute="centerX" secondItem="7jq-7S-zkF" secondAttribute="centerX" id="9fc-Y0-CsL"/>
                             <constraint firstItem="DkF-9u-9Xy" firstAttribute="centerX" secondItem="7jq-7S-zkF" secondAttribute="centerX" multiplier="0.5" id="ANZ-ab-N3Z"/>
                             <constraint firstItem="mAd-nK-WV9" firstAttribute="width" relation="greaterThanOrEqual" secondItem="7jq-7S-zkF" secondAttribute="width" multiplier="0.5" id="BZs-q4-Ph2"/>
-                            <constraint firstItem="DkF-9u-9Xy" firstAttribute="width" relation="lessThanOrEqual" secondItem="7jq-7S-zkF" secondAttribute="width" multiplier="0.45" id="Bj7-ha-34w"/>
+                            <constraint firstItem="DkF-9u-9Xy" firstAttribute="width" relation="lessThanOrEqual" secondItem="7jq-7S-zkF" secondAttribute="width" multiplier="0.48" id="Bj7-ha-34w"/>
                             <constraint firstItem="pb5-ND-T9x" firstAttribute="width" secondItem="7jq-7S-zkF" secondAttribute="width" id="CFm-cy-dIr"/>
                             <constraint firstItem="qqK-C0-w6u" firstAttribute="height" secondItem="7jq-7S-zkF" secondAttribute="height" multiplier="0.45" id="Cw4-4Y-EQ0"/>
                             <constraint firstItem="VpN-Pp-cuz" firstAttribute="centerY" secondItem="7jq-7S-zkF" secondAttribute="centerY" id="DEL-OZ-X0K"/>
@@ -200,7 +200,7 @@
                             <constraint firstItem="W82-KP-Npv" firstAttribute="height" secondItem="dqj-hF-54I" secondAttribute="height" multiplier="1.02" id="gJh-42-q5l"/>
                             <constraint firstItem="pb5-ND-T9x" firstAttribute="height" secondItem="7jq-7S-zkF" secondAttribute="height" multiplier="0.08" id="hOe-16-VX3"/>
                             <constraint firstItem="ySt-eK-Dbu" firstAttribute="centerY" secondItem="7jq-7S-zkF" secondAttribute="centerY" id="ibK-8o-q1m"/>
-                            <constraint firstItem="DkF-9u-9Xy" firstAttribute="height" relation="greaterThanOrEqual" secondItem="7jq-7S-zkF" secondAttribute="height" multiplier="0.08" id="lXE-9x-ho4"/>
+                            <constraint firstItem="DkF-9u-9Xy" firstAttribute="height" relation="greaterThanOrEqual" secondItem="7jq-7S-zkF" secondAttribute="height" multiplier="0.06" id="lXE-9x-ho4"/>
                             <constraint firstAttribute="bottom" secondItem="qqK-C0-w6u" secondAttribute="bottom" id="lwo-eF-TMZ"/>
                             <constraint firstItem="mAd-nK-WV9" firstAttribute="width" relation="lessThanOrEqual" secondItem="7jq-7S-zkF" secondAttribute="width" multiplier="0.8" id="qss-iT-eQN"/>
                             <constraint firstItem="qqK-C0-w6u" firstAttribute="width" secondItem="7jq-7S-zkF" secondAttribute="width" id="rMg-qg-m9X"/>
