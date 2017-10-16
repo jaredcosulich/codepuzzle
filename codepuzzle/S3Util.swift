@@ -61,7 +61,7 @@ class S3Util {
         processingCount += 1
         
         let timestamp = Int(NSDate().timeIntervalSince1970 * 100000)
-        let key = "\(imageType)/\(fullProjectName())-\(uuid)-\(timestamp).png"
+        let key = "\(imageType)/\(timestamp)-\(uuid).png"
 
         let imageName = NSURL.fileURL(withPath: NSTemporaryDirectory() + key).lastPathComponent
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
