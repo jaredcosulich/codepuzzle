@@ -53,11 +53,14 @@ class ImageProcessor {
         }
 
         var color: UIColor!
+        
+        let formatter = NumberFormatter()
+        formatter.decimalSeparator = "."
         color = UIColor(
-            red: NumberFormatter().number(from: components[1]) as! CGFloat,
-            green: NumberFormatter().number(from: components[2]) as! CGFloat,
-            blue: NumberFormatter().number(from: components[3]) as! CGFloat,
-            alpha: NumberFormatter().number(from: components[4]) as! CGFloat
+            red: formatter.number(from: components[1]) as! CGFloat,
+            green: formatter.number(from: components[2]) as! CGFloat,
+            blue: formatter.number(from: components[3]) as! CGFloat,
+            alpha: formatter.number(from: components[4]) as! CGFloat
         )
         
         return color

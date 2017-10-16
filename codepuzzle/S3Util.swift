@@ -60,7 +60,7 @@ class S3Util {
     func upload(image: UIImage, imageType: String, completion: ((URL) -> Void)?) {
         processingCount += 1
         
-        let timestamp = NSDate().timeIntervalSince1970 * 10000
+        let timestamp = Int(NSDate().timeIntervalSince1970 * 100000)
         let key = "\(imageType)/\(fullProjectName())-\(uuid)-\(timestamp).png"
 
         let imageName = NSURL.fileURL(withPath: NSTemporaryDirectory() + key).lastPathComponent
@@ -70,7 +70,11 @@ class S3Util {
         let localPath = (documentDirectory as NSString).appendingPathComponent(imageName)
         
         if let data = UIImagePNGRepresentation(image) {
-            try? data.write(to: Foundation.URL(string: "file://" + localPath)!, options: Data.WritingOptions.atomic)
+            do {
+                try data.write(to: Foundation.URL(string: "file://" + localPath)!, options: Data.WritingOptions.atomic)
+            } catch {
+                print("S3 ERROR: \(error)")
+            }
         }
         
         let request = AWSS3TransferManagerUploadRequest()!

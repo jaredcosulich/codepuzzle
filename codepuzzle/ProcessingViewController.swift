@@ -155,8 +155,11 @@ class ProcessingViewController: UIViewController {
     
     func startCardProcessing() {
         OpenCVWrapper.process(cardGroup.image, self.cardList, 0.5)
-        
-        if self.cardList.count() == 0 || self.cardList.getHexRect(0).width < 75 {
+
+        if self.cardList.count() == 0 || self.cardList.getHexRect(0).width < 40 {
+            self.cardList.clear()
+            OpenCVWrapper.process(cardGroup.image, self.cardList, 2)
+        } else if self.cardList.count() == 0 || self.cardList.getHexRect(0).width < 75 {
             self.cardList.clear()
             OpenCVWrapper.process(cardGroup.image, self.cardList, 1)
         }
