@@ -60,7 +60,8 @@ class S3Util {
     func upload(image: UIImage, imageType: String, completion: ((URL) -> Void)?) {
         processingCount += 1
         
-        let key = "\(imageType)/\(fullProjectName())/\(uuid).png"
+        let timestamp = NSDate().timeIntervalSince1970 * 10000
+        let key = "\(imageType)/\(fullProjectName())-\(uuid)-\(timestamp).png"
 
         let imageName = NSURL.fileURL(withPath: NSTemporaryDirectory() + key).lastPathComponent
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
