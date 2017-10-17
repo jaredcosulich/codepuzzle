@@ -50,7 +50,7 @@ class S3Util {
         if className != nil {
             name!.append("-\(className ?? "N/A")")
         }
-        return name!
+        return name!.replacingOccurrences(of: "[^0-9A-Za-z]", with: "", options: .regularExpression, range: nil)
     }
     
     func getS3Url(imageType: String) -> URL {
@@ -60,9 +60,11 @@ class S3Util {
     func upload(image: UIImage, imageType: String, completion: ((URL) -> Void)?) {
         processingCount += 1
         
-        let timestamp = Int(NSDate().timeIntervalSince1970 * 100000)
-        let key = "\(imageType)/\(timestamp)-\(uuid).png"
-
+        let timestamp = Int(NSDate().timeIntervalSinceReferenceDate.rounded())
+        let key = "\(imageType)/\(timestamp)-\(uuid)-\(fullProjectName()).png"
+        
+        print("KEY: \(key)")
+        
         let imageName = NSURL.fileURL(withPath: NSTemporaryDirectory() + key).lastPathComponent
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
         
@@ -90,8 +92,8 @@ class S3Util {
             }
 
             if task.result != nil {
-                let timestampKey = "\(key)-\(Date().timeIntervalSince1970)"
-                let contentUrl = self.s3Url.appendingPathComponent(self.bucketName).appendingPathComponent(timestampKey)
+                let contentUrl = self.s3Url.appendingPathComponent(self.bucketName).appendingPathComponent(key)
+                print("CONTENT URL: \(contentUrl)")
                 self.contentUrls[imageType] = contentUrl
                 completion?(contentUrl)
             }

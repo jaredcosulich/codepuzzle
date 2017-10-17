@@ -82,50 +82,55 @@ class ClassViewController: UIViewController, UITextFieldDelegate {
             activityIndicator.startAnimating()
             
             Timer.scheduledTimer(
-                withTimeInterval: 0.1,
-                repeats: true,
-                block: {
-                    (timer) in
-                    if self.puzzleSchool.processing(identifier: identifier) {
-                        return
-                    }
-                    
-                    timer.invalidate()
-
-                    if self.puzzleSchool.getValue(identifier: identifier) == nil {
-                        self.classCodeButton.isHidden = false
-                        self.activityIndicator.isHidden = true
-                        self.activityIndicator.stopAnimating()
-                        self.errorLabel.isHidden = false
-                        return
-                    }
-                    
-                    let existingClasses = ParentClass.mr_findAll() as! [ParentClass]
-                    for c in existingClasses {
-                        if c.slug == slug {
-                            self.parentClass = c
-                        }
-                    }
-                    
-                    MagicalRecord.save({
-                        (localContext: NSManagedObjectContext!) in
-                        if (self.parentClass == nil) {
-                            self.parentClass = ParentClass.mr_createEntity(in: localContext)
-                        }
-                        
-                        self.parentClass!.name = self.puzzleSchool.getValue(identifier: identifier)!
-                        self.parentClass!.slug = slug
-                        self.parentClass!.persistedManagedObjectContext = localContext
-                    }, completion: {
-                        (MRSaveCompletionHandler) in
-                        self.parentClass!.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
-                        self.performSegue(withIdentifier: "projects-segue", sender: nil)
-                    })
-
-                }
+                timeInterval: 0.1,
+                target: self,
+                selector: #selector(saveClassCode),
+                userInfo: identifier,
+                repeats: true
             )
 
         }
+    }
+    
+    func saveClassCode(timer: Timer) {
+        let identifier = timer.userInfo as! String
+        if self.puzzleSchool.processing(identifier: identifier) {
+            return
+        }
+        
+        timer.invalidate()
+        
+        if self.puzzleSchool.getValue(identifier: identifier) == nil {
+            self.classCodeButton.isHidden = false
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
+            self.errorLabel.isHidden = false
+            return
+        }
+        
+        let slug = classCodeInput.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        let existingClasses = ParentClass.mr_findAll() as! [ParentClass]
+        for c in existingClasses {
+            if c.slug == slug {
+                self.parentClass = c
+            }
+        }
+        
+        MagicalRecord.save({
+            (localContext: NSManagedObjectContext!) in
+            if (self.parentClass == nil) {
+                self.parentClass = ParentClass.mr_createEntity(in: localContext)
+            }
+            
+            self.parentClass!.name = self.puzzleSchool.getValue(identifier: identifier)!
+            self.parentClass!.slug = slug!
+            self.parentClass!.persistedManagedObjectContext = localContext
+        }, completion: {
+            (MRSaveCompletionHandler) in
+            self.parentClass!.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+            self.performSegue(withIdentifier: "projects-segue", sender: nil)
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

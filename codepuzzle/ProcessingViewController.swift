@@ -43,6 +43,10 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var changePhotoButton: UIButton!
     
+    @IBOutlet weak var retryButton: UIButton!
+    
+    @IBOutlet weak var cancelButton: UIButton!
+    
     @IBOutlet weak var selectPhoto: UIButton!
 
     @IBOutlet weak var debugPhoto: UIButton!
@@ -79,6 +83,12 @@ class ProcessingViewController: UIViewController {
 
         noButton.layer.cornerRadius = 6
         noButton.titleLabel?.font = yesButton.titleLabel?.font
+
+        cancelButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: cancelButton, bufferPercentage: nil)
+
+        retryButton.layer.cornerRadius = 6
+        retryButton.titleLabel?.font = cancelButton.titleLabel?.font
         
         changePhotoButton.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: changePhotoButton, bufferPercentage: 10)
@@ -96,41 +106,47 @@ class ProcessingViewController: UIViewController {
 //        tesseract.pageSegmentationMode = .auto
 //        tesseract.maximumRecognitionTime = 60.0
         
-        initCardList()
+        initCardList(nil)
 
         Timer.scheduledTimer(
-            withTimeInterval: 0,
-            repeats: false,
-            block: {
-                (timer) in
-                self.s3Util.upload(
-                    image: self.cardGroup.image!,
-                    imageType: "full",
-                    completion: {
-                        s3Url in
-                        print("S3 UPLOADED")
-                        if self.cardProject.parentClass != nil {
-                            let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
-                            
-                            Timer.scheduledTimer(
-                                withTimeInterval: 0.1,
-                                repeats: true,
-                                block: {
-                                    (timer) in
-                                    if self.puzzleSchool.processing(identifier: identifier) {
-                                        return
-                                    }
-                                    timer.invalidate()
-
-                                    self.cardGroup.id = self.puzzleSchool.getValue(identifier: identifier)!
-                                }
-                            )
-                            
-                        }
-                    }
-                )
+            timeInterval: 0,
+            target: self,
+            selector: #selector(initS3Upload),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+    
+    func initS3Upload(timer: Timer) {
+        self.s3Util.upload(
+            image: self.cardGroup.image!,
+            imageType: "full",
+            completion: {
+                s3Url in
+                print("S3 UPLOADED")
+                if self.cardProject.parentClass != nil {
+                    let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
+                    
+                    Timer.scheduledTimer(
+                        timeInterval: 0.1,
+                        target: self,
+                        selector: #selector(self.setCardGroupId),
+                        userInfo: identifier,
+                        repeats: true
+                    )
+                }
             }
         )
+    }
+    
+    func setCardGroupId(timer: Timer) {
+        let identifier = timer.userInfo as! String
+        if self.puzzleSchool.processing(identifier: identifier) {
+            return
+        }
+        timer.invalidate()
+        
+        self.cardGroup.id = self.puzzleSchool.getValue(identifier: identifier)!
     }
     
     override func didReceiveMemoryWarning() {
@@ -138,7 +154,12 @@ class ProcessingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func initCardList() {
+    @IBAction func initCardList(_ sender: Any?) {
+        retryButton.isHidden = true
+        cancelButton.isHidden = true
+        debugPhoto.isHidden = true
+        
+        stopExecution = false
         processing = true
         output.text = "Scanning photo for cards..."
         cardList.clear()
@@ -187,14 +208,6 @@ class ProcessingViewController: UIViewController {
                         
                         self.yesButton.isHidden = false
                         self.noButton.isHidden = false
-                        
-                        Timer.scheduledTimer(
-                            timeInterval: 0,
-                            target: self,
-                            selector: #selector(self.analyzeCards),
-                            userInfo: nil,
-                            repeats: false
-                        )
                     }
                 } else {
                     self.startCardProcessing()
@@ -204,6 +217,10 @@ class ProcessingViewController: UIViewController {
     }
     
     @IBAction func confirmCard(_ sender: UIButton) {
+        if (stopExecution) {
+            return
+        }
+        
         activityView.startAnimating()
         yesButton.isHidden = true
         noButton.isHidden = true
@@ -212,6 +229,14 @@ class ProcessingViewController: UIViewController {
 
         if (processedCardParamCount < cardList.count()) {
             execute = true
+            
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(self.analyzeCards),
+                userInfo: nil,
+                repeats: false
+            )
         } else {
             Timer.scheduledTimer(
                 timeInterval: 0,
@@ -315,6 +340,19 @@ class ProcessingViewController: UIViewController {
                 var paramImage: UIImage!
                 
                 let functionValue = mathPix.getValue(identifier: nextFunctionIdentifier)
+                
+                if functionValue == "ERROR" {
+                    stopExecution = true
+                    output.text = "There was an error. Please check your internet connection and try again."
+                    yesButton.isHidden = true
+                    noButton.isHidden = true
+                    debugPhoto.isHidden = true
+                    self.activityView.stopAnimating()
+                    cancelButton.isHidden = false
+                    retryButton.isHidden = false
+                    return
+                }
+                
                 let methodName = Functions.info(code: functionValue).method
                 print("PROCESSED: \(methodName)")
                 var result: String!
@@ -418,65 +456,75 @@ class ProcessingViewController: UIViewController {
         if let fullImage = self.cardGroup.image {
             let cardImage = ImageProcessor.cropCard(image: fullImage, rect: fullRect, hexRect: hexRect, rotation: rotation)
 
-            if let context = cardProject.persistedManagedObjectContext {
-                self.s3Util.upload(
-                    image: cardImage,
-                    imageType: "function",
-                    completion: {
-                        s3Url in
-                        
-                        var identifier: String?
-                        if self.cardProject.parentClass != nil {
-                            identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
-                        }
-                        
-                        Timer.scheduledTimer(
-                            withTimeInterval: 0.1,
-                            repeats: true,
-                            block: {
-                                (timer) in
-                                if identifier != nil && self.puzzleSchool.processing(identifier: identifier!) {
-                                    return
-                                }
-                                timer.invalidate()
-                                
-                                context.mr_save({
-                                    (localContext: NSManagedObjectContext!) in
-                                    let newCard = Card.mr_createEntity(in: context)
-                                    newCard?.cardGroup = self.cardGroup!
-                                    newCard?.code = code
-                                    newCard?.param = param
-                                    newCard?.image = cardImage
-                                    
-                                    newCard?.originalCode = code
-                                    newCard?.originalParam = param
-                                    newCard?.originalImage = cardImage
-                                    newCard?.error = !Functions.valid(code: code, param: param)
-                                }, completion: {
-                                    (MRSaveCompletionHandler) in
-                                    
-                                    Timer.scheduledTimer(
-                                        withTimeInterval: 0,
-                                        repeats: false,
-                                        block: {(t) in
-                                            if (i == self.processedCardParamCount - 1) {
-                                                self.cardGroup.isProcessed = true
-                                                self.completeCardProcessing(context: context)
-                                            } else {
-                                                self.processCards(i: i + 1)
-                                            }
-                                        }
-                                    )
-                                })
-                            }
-                        )
+            self.s3Util.upload(
+                image: cardImage,
+                imageType: "function",
+                completion: {
+                    s3Url in
+                    
+                    var identifier: String?
+                    if self.cardProject.parentClass != nil {
+                        identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
                     }
-                )
-
-            }
+                    
+                    Timer.scheduledTimer(
+                        timeInterval: 0.1,
+                        target: self,
+                        selector: #selector(self.saveCard),
+                        userInfo: [
+                            "identifier": identifier as Any,
+                            "code": code,
+                            "param": param,
+                            "cardImage": cardImage,
+                            "index": i
+                        ],
+                        repeats: true
+                    )
+                }
+            )
         }
     }
 
+    func saveCard(timer: Timer) {
+        let info = timer.userInfo as! NSDictionary
+
+        let identifier = info["identifier"] as? String
+        if identifier != nil && self.puzzleSchool.processing(identifier: identifier!) {
+            return
+        }
+        timer.invalidate()
+        
+        let code = info["code"] as! String
+        let param = info["param"] as! String
+        let cardImage = info["cardImage"] as! UIImage
+        let index = info["index"] as! Int32
+
+        if let context = cardProject.persistedManagedObjectContext {
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                let newCard = Card.mr_createEntity(in: context)
+                newCard?.cardGroup = self.cardGroup!
+                newCard?.code = code
+                newCard?.param = param
+                newCard?.image = cardImage
+                
+                newCard?.originalCode = code
+                newCard?.originalParam = param
+                newCard?.originalImage = cardImage
+                newCard?.error = !Functions.valid(code: code, param: param)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                
+                if (index == self.processedCardParamCount - 1) {
+                    self.cardGroup.isProcessed = true
+                    self.completeCardProcessing(context: context)
+                } else {
+                    self.processCards(i: index + 1)
+                }
+            })
+        }
+    }
+    
     func completeCardProcessing(context: NSManagedObjectContext) {
         context.mr_saveToPersistentStoreAndWait()
         let cardsWithError = self.cardGroup.cards.filter({ (c) -> Bool in c.error}).count

@@ -134,17 +134,20 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         if (addPhoto != nil) {
             Timer.scheduledTimer(
-                withTimeInterval: 0,
-                repeats: false,
-                block: {
-                    (Timer) in
-                    if self.addPhoto == "take" {
-                        self.newphotobutton(self.newPhoto)
-                    } else if self.addPhoto == "library" {
-                        self.photolibraryaction(self.loadPhoto)
-                    }
-                }
+                timeInterval: 0,
+                target: self,
+                selector: #selector(initAddPhoto),
+                userInfo: nil,
+                repeats: false
             )
+        }
+    }
+    
+    func initAddPhoto() {
+        if self.addPhoto == "take" {
+            self.newphotobutton(self.newPhoto)
+        } else if self.addPhoto == "library" {
+            self.photolibraryaction(self.loadPhoto)
         }
     }
     
@@ -306,6 +309,10 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         hidePhoto()
     }
     
+    func showPhotoImmediately() {
+        showPhoto(activity: false)
+    }
+    
     func showPhoto(activity: Bool) {
         if (activity) {
             activityView.startAnimating()
@@ -315,12 +322,11 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 showPhoto(activity: true)
                 
                 Timer.scheduledTimer(
-                    withTimeInterval: 1,
-                    repeats: false,
-                    block: {
-                        (timer) in
-                        self.showPhoto(activity: false)
-                    }
+                    timeInterval: 1,
+                    target: self,
+                    selector: #selector(showPhotoImmediately),
+                    userInfo: nil,
+                    repeats: false
                 )
                 
                 return

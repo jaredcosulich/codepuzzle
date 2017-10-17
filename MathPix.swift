@@ -53,7 +53,9 @@ class MathPix {
             
             if let json = response.result.value {
                 let value = (json as! NSDictionary)["latex"] as? String
-                self.results[identifier] = value ?? "No Value"
+                self.results[identifier] = value ?? "ERROR"
+            } else {
+                self.results[identifier] = "ERROR"
             }
         }
     }

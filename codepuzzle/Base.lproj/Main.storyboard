@@ -964,6 +964,28 @@ To This Project</string>
                                     <action selector="confirmCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="Ywq-gP-GZH"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Lj-vD-6za">
+                                <rect key="frame" x="230.5" y="844.5" width="115" height="51"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="rejectCard:" destination="um8-fG-7IM" eventType="touchUpInside" id="JXn-Wr-gUd"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mp6-of-VzK">
+                                <rect key="frame" x="422.5" y="844.5" width="115" height="51"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Retry">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="initCardList:" destination="um8-fG-7IM" eventType="touchUpInside" id="rkV-H4-10Y"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIc-U1-5Nm">
                                 <rect key="frame" x="192" y="844.5" width="384" height="51"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1015,9 +1037,11 @@ To This Project</string>
                             <constraint firstItem="fip-F0-ggz" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="6XH-Jh-jZH"/>
                             <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="7oS-Vc-j4J"/>
                             <constraint firstItem="4Qn-N3-5Wa" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" id="8Pi-7M-jkT"/>
+                            <constraint firstItem="fip-F0-ggz" firstAttribute="width" secondItem="Mp6-of-VzK" secondAttribute="width" id="BfR-iI-RqU"/>
                             <constraint firstItem="gS7-m4-WDL" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="Bni-wt-Ui7"/>
                             <constraint firstItem="NPC-WB-rbs" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.15" id="DpI-wP-mcl"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.6" id="El2-pc-jgr"/>
+                            <constraint firstItem="fip-F0-ggz" firstAttribute="height" secondItem="Mp6-of-VzK" secondAttribute="height" id="GUe-ve-edl"/>
                             <constraint firstItem="fip-F0-ggz" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="1.25" id="Hhz-pD-6CI"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="IxN-cs-ldi"/>
                             <constraint firstItem="olz-L4-RAi" firstAttribute="width" secondItem="olz-L4-RAi" secondAttribute="height" multiplier="97:52" id="JNq-RR-4oH"/>
@@ -1027,11 +1051,14 @@ To This Project</string>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="height" secondItem="4Ip-Hf-yXw" secondAttribute="height" multiplier="0.5" id="OoA-X3-Rba"/>
                             <constraint firstItem="DdK-kf-zRc" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="0.5" id="Ovo-eO-vkG"/>
                             <constraint firstItem="gS7-m4-WDL" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.2" id="PF9-Hn-1W9"/>
+                            <constraint firstItem="fip-F0-ggz" firstAttribute="centerX" secondItem="Mp6-of-VzK" secondAttribute="centerX" id="PZo-n5-am6"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="RTB-iG-85k"/>
+                            <constraint firstItem="3Lj-vD-6za" firstAttribute="height" secondItem="NPC-WB-rbs" secondAttribute="height" id="SU4-9i-GBc"/>
                             <constraint firstItem="NPC-WB-rbs" firstAttribute="centerY" secondItem="DdK-kf-zRc" secondAttribute="centerY" id="TUh-oC-hiK"/>
                             <constraint firstItem="xkn-7s-0Ow" firstAttribute="trailing" secondItem="4Qn-N3-5Wa" secondAttribute="trailing" constant="-20" id="Ttw-E9-ZjW"/>
                             <constraint firstItem="VnU-i3-Xkq" firstAttribute="width" secondItem="DdK-kf-zRc" secondAttribute="width" id="UaP-hw-7vm"/>
                             <constraint firstItem="4Qn-N3-5Wa" firstAttribute="height" secondItem="olz-L4-RAi" secondAttribute="height" multiplier="0.98" id="V7f-D3-bV4"/>
+                            <constraint firstItem="fip-F0-ggz" firstAttribute="centerY" secondItem="Mp6-of-VzK" secondAttribute="centerY" id="VFe-pp-Kls"/>
                             <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="height" secondItem="DdK-kf-zRc" secondAttribute="height" multiplier="0.75" id="Yqi-Ec-KbJ"/>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" id="abo-aO-g8H"/>
                             <constraint firstItem="Lkj-Hm-Xo5" firstAttribute="width" secondItem="DdK-kf-zRc" secondAttribute="width" multiplier="0.9" id="e0I-wG-mvR"/>
@@ -1043,6 +1070,7 @@ To This Project</string>
                             <constraint firstItem="xkn-7s-0Ow" firstAttribute="centerY" secondItem="4Qn-N3-5Wa" secondAttribute="centerY" id="hEI-NR-Rs7"/>
                             <constraint firstItem="DdK-kf-zRc" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.35" id="hoc-ZF-iWD"/>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="hq0-kk-jux"/>
+                            <constraint firstItem="NPC-WB-rbs" firstAttribute="centerX" secondItem="3Lj-vD-6za" secondAttribute="centerX" id="iXc-ta-2jr"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" id="ilQ-we-Nfh"/>
                             <constraint firstItem="pIc-U1-5Nm" firstAttribute="width" secondItem="4Ip-Hf-yXw" secondAttribute="width" multiplier="0.5" id="jI1-vk-hKT"/>
                             <constraint firstItem="NPC-WB-rbs" firstAttribute="centerX" secondItem="4Ip-Hf-yXw" secondAttribute="centerX" multiplier="0.75" id="jka-Vk-Lpb"/>
@@ -1055,17 +1083,21 @@ To This Project</string>
                             <constraint firstItem="R2L-pc-3vl" firstAttribute="centerY" secondItem="4Ip-Hf-yXw" secondAttribute="centerY" multiplier="0.68" id="sEX-XG-Iyw"/>
                             <constraint firstItem="olz-L4-RAi" firstAttribute="centerY" secondItem="4Qn-N3-5Wa" secondAttribute="centerY" id="tVV-gA-8G8"/>
                             <constraint firstItem="OIT-q5-Y3J" firstAttribute="centerY" secondItem="4Ip-Hf-yXw" secondAttribute="centerY" multiplier="1.4" id="tex-F2-nSW"/>
+                            <constraint firstItem="3Lj-vD-6za" firstAttribute="width" secondItem="NPC-WB-rbs" secondAttribute="width" id="uTn-w2-a0W"/>
+                            <constraint firstItem="NPC-WB-rbs" firstAttribute="centerY" secondItem="3Lj-vD-6za" secondAttribute="centerY" id="ujk-Nu-9MQ"/>
                             <constraint firstItem="olz-L4-RAi" firstAttribute="leading" secondItem="4Qn-N3-5Wa" secondAttribute="leading" constant="20" id="yhl-Rx-E2b"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityView" destination="gS7-m4-WDL" id="cxM-WJ-3iA"/>
+                        <outlet property="cancelButton" destination="3Lj-vD-6za" id="PQc-uS-ALv"/>
                         <outlet property="changePhotoButton" destination="VnU-i3-Xkq" id="XNE-z1-iTj"/>
                         <outlet property="debugPhoto" destination="Lkj-Hm-Xo5" id="yZS-FH-DrU"/>
                         <outlet property="fixButton" destination="DdK-kf-zRc" id="Iq9-oB-faV"/>
                         <outlet property="imageView" destination="R2L-pc-3vl" id="GQk-jw-PJr"/>
                         <outlet property="noButton" destination="NPC-WB-rbs" id="TdV-du-tjJ"/>
                         <outlet property="output" destination="OIT-q5-Y3J" id="FhS-x7-rqo"/>
+                        <outlet property="retryButton" destination="Mp6-of-VzK" id="KGu-Zb-T25"/>
                         <outlet property="selectPhoto" destination="pIc-U1-5Nm" id="mpr-SO-T90"/>
                         <outlet property="yesButton" destination="fip-F0-ggz" id="vx8-Jk-saQ"/>
                         <segue destination="yyQ-YR-DlG" kind="show" identifier="execution-segue" id="OVi-Ig-nvb"/>

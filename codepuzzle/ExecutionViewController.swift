@@ -79,13 +79,11 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
                 let card = cards[i]
                 if (card.error) {
                     Timer.scheduledTimer(
-                        withTimeInterval: 0,
-                        repeats: false,
-                        block: {
-                            (Timer) in
-                            self.selectedIndex = i
-                            self.performSegue(withIdentifier: "edit-command-segue", sender: nil)
-                        }
+                        timeInterval: 0.1,
+                        target: self,
+                        selector: #selector(fixErrorCard),
+                        userInfo: i,
+                        repeats: true
                     )
                     return
                 }
@@ -93,6 +91,11 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         }
         
         initExecution()
+    }
+    
+    func fixErrorCard(timer: Timer) {
+        self.selectedIndex = timer.userInfo as! Int
+        self.performSegue(withIdentifier: "edit-command-segue", sender: nil)
     }
     
     override func didReceiveMemoryWarning() {
