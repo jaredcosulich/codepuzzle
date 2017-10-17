@@ -79,11 +79,11 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
                 let card = cards[i]
                 if (card.error) {
                     Timer.scheduledTimer(
-                        timeInterval: 0.1,
+                        timeInterval: 0,
                         target: self,
                         selector: #selector(fixErrorCard),
                         userInfo: i,
-                        repeats: true
+                        repeats: false
                     )
                     return
                 }

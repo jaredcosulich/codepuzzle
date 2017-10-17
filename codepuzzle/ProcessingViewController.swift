@@ -85,7 +85,7 @@ class ProcessingViewController: UIViewController {
         noButton.titleLabel?.font = yesButton.titleLabel?.font
 
         cancelButton.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: cancelButton, bufferPercentage: nil)
+        Util.proportionalFont(anyElement: cancelButton, bufferPercentage: 10)
 
         retryButton.layer.cornerRadius = 6
         retryButton.titleLabel?.font = cancelButton.titleLabel?.font
@@ -456,32 +456,48 @@ class ProcessingViewController: UIViewController {
         if let fullImage = self.cardGroup.image {
             let cardImage = ImageProcessor.cropCard(image: fullImage, rect: fullRect, hexRect: hexRect, rotation: rotation)
 
-            self.s3Util.upload(
-                image: cardImage,
-                imageType: "function",
-                completion: {
-                    s3Url in
+            
                     
-                    var identifier: String?
-                    if self.cardProject.parentClass != nil {
-                        identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
+            
+            if self.cardProject.parentClass != nil {
+                self.s3Util.upload(
+                    image: cardImage,
+                    imageType: "function",
+                    completion: {
+                        s3Url in
+                        let identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
+                        
+                        Timer.scheduledTimer(
+                            timeInterval: 0.1,
+                            target: self,
+                            selector: #selector(self.saveCard),
+                            userInfo: [
+                                "identifier": identifier as Any,
+                                "code": code,
+                                "param": param,
+                                "cardImage": cardImage,
+                                "index": i
+                            ],
+                            repeats: true
+                        )
                     }
-                    
-                    Timer.scheduledTimer(
-                        timeInterval: 0.1,
-                        target: self,
-                        selector: #selector(self.saveCard),
-                        userInfo: [
-                            "identifier": identifier as Any,
-                            "code": code,
-                            "param": param,
-                            "cardImage": cardImage,
-                            "index": i
-                        ],
-                        repeats: true
-                    )
-                }
-            )
+                )
+            } else {
+                Timer.scheduledTimer(
+                    timeInterval: 0.1,
+                    target: self,
+                    selector: #selector(self.saveCard),
+                    userInfo: [
+                        "identifier": nil,
+                        "code": code,
+                        "param": param,
+                        "cardImage": cardImage,
+                        "index": i
+                    ],
+                    repeats: true
+                )
+
+            }
         }
     }
 
