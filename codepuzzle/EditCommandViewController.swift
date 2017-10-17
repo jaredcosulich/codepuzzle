@@ -458,7 +458,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 return
             }
         
-            selectedIndex = -1
+//            selectedIndex = -1
 
             self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
         }
@@ -723,6 +723,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         cardView.removeFromSuperview()
         param.removeFromSuperview()
         colorPickerView.removeFromSuperview()
+        
+        print("LEAVING SELECTED INDEX: \(selectedIndex)")
         
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
