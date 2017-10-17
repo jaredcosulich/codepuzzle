@@ -724,8 +724,6 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         param.removeFromSuperview()
         colorPickerView.removeFromSuperview()
         
-        print("LEAVING SELECTED INDEX: \(selectedIndex)")
-        
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject

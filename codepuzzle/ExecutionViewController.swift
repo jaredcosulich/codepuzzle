@@ -72,8 +72,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         cards = cardProject.allCards()
         
-        print("START SELECTED INDEX: \(selectedIndex)")
-        
         if (selectedIndex != -1) {
             pause()
         } else {
@@ -550,8 +548,6 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         imageView?.removeFromSuperview()
         drawingView?.removeFromSuperview()
-        
-        print("TRANSITION SELECTED INDEX: \(selectedIndex)")
         
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
