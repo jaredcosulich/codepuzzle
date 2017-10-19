@@ -128,7 +128,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let cardProject = cardProjects[indexPath.row]
         cell?.textLabel?.text = cardProject.title
-        Util.proportionalFont(anyElement: cell!, bufferPercentage: 18)
+//        cell?.textLabel?.font = cell?.textLabel?.font.withSize(24)
         
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
         

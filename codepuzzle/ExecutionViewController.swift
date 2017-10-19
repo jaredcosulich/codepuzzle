@@ -353,12 +353,16 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
                 loops.append(Loop(startingIndex: index, count: loopCount))
                 functionText = "Loop \(loops.last!.count) Times"
             } else if loopCount < 0 {
-                loopIndex = loops.last!.increment()
-                if loopIndex == -1 {
-                    _ = loops.popLast()
-                    functionText = "Loop Complete"
+                if let loop = loops.last {
+                    loopIndex = loop.increment()
+                    if loopIndex == -1 {
+                        _ = loops.popLast()
+                        functionText = "Loop Complete"
+                    } else {
+                        functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
+                    }
                 } else {
-                    functionText = "Loop \(loops.last!.completedCycles) / \(loops.last!.count)"
+                    functionText = "Error: Missing Loop"
                 }
             } else {
                 functionText = Functions.signature(code: card.code, param: card.param)
