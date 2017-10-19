@@ -324,6 +324,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
 
         param.isHidden = true
+        paramDisplay.isHidden = true
         paramLabel.isHidden = true
         editParam.isHidden = true
         colorLabel.isHidden = true
@@ -337,6 +338,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             colorPicker.adjustToColor(color)
 
             colorLabel.isHidden = false
+            paramDisplay.isHidden = false
             colorParam.isHidden = false
             editParam.isHidden = false
         } else if info.paramCount > 0 {
@@ -359,6 +361,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             param.isHidden = false
             paramLabel.isHidden = false
+            paramDisplay.isHidden = false
             editParam.isHidden = false
         }
     }
