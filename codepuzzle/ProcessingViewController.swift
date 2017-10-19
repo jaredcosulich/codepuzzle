@@ -120,7 +120,7 @@ class ProcessingViewController: UIViewController {
     func initS3Upload(timer: Timer) {
         self.s3Util.upload(
             image: self.cardGroup.image!,
-            imageType: "full",
+            imageType: "group",
             completion: {
                 s3Url in
                 print("S3 UPLOADED")
@@ -354,6 +354,7 @@ class ProcessingViewController: UIViewController {
                 }
                 
                 let methodName = Functions.info(code: functionValue).method
+                output.text = "Reading Card \(processedCardCodeCount + 1):\r\(Functions.info(code: functionValue).name)"
                 print("PROCESSED: \(methodName)")
                 var result: String!
                 if let fullImage = self.cardGroup.image {
@@ -379,7 +380,13 @@ class ProcessingViewController: UIViewController {
                     processedCardCodeCount += 1
                 }
 
-                checkCardCodeProcessing()
+                Timer.scheduledTimer(
+                    timeInterval: 0,
+                    target: self,
+                    selector: #selector(self.checkCardCodeProcessing),
+                    userInfo: nil,
+                    repeats: false
+                )
             }
         } else {
             checkCardParamProcessing()
@@ -445,10 +452,10 @@ class ProcessingViewController: UIViewController {
             return
         }
         
-        output.text = "Processing Card \(i + 1)"
-
         let code = self.mathPix.getValue(identifier: "function\(i)")
         let param = self.mathPix.getValue(identifier: "param\(i)")
+
+        output.text = "Processing Parameter \(i + 1):\r\(param.characters.count > 10 ? "Color" : param)"
 
         let rotation = self.cardList.getRotation(i)
         let hexRect = self.cardList.getHexRect(i)
@@ -456,13 +463,10 @@ class ProcessingViewController: UIViewController {
         if let fullImage = self.cardGroup.image {
             let cardImage = ImageProcessor.cropCard(image: fullImage, rect: fullRect, hexRect: hexRect, rotation: rotation)
 
-            
-                    
-            
             if self.cardProject.parentClass != nil {
                 self.s3Util.upload(
                     image: cardImage,
-                    imageType: "function",
+                    imageType: "full",
                     completion: {
                         s3Url in
                         let identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)

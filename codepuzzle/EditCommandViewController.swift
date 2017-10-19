@@ -456,10 +456,10 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 
                 present(dvc, animated: true, completion: nil)
                 return
+            } else if errorCard {
+                selectedIndex = -1
             }
         
-//            selectedIndex = -1
-
             self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
         }
     }
