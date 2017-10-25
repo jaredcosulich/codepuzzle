@@ -126,7 +126,7 @@ class ProcessingViewController: UIViewController {
                 print("S3 UPLOADED")
                 if self.cardProject.parentClass != nil {
                     let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
-                    
+
                     Timer.scheduledTimer(
                         timeInterval: 0.1,
                         target: self,

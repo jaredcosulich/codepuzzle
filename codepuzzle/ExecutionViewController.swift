@@ -330,6 +330,10 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
         executionLayer.position.x = (CGFloat(index) * scrollLayerWidth * -1)
     }
     
+    func executeCardTimer(timer: Timer) {
+        executeCard(index: timer.userInfo as! Int, redraw: true)
+    }
+    
     func executeCard(index: Int, redraw: Bool = false) {
         if index == -1 || index >= cards.count {
             if (redraw) {
@@ -374,6 +378,13 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
 
         if (redraw && executionIndex < selectedIndex) {
             executeCard(index: executionIndex + 1, redraw: true)
+//            Timer.scheduledTimer(
+//                timeInterval: 0,
+//                target: self,
+//                selector: #selector(executeCardTimer),
+//                userInfo: executionIndex + 1,
+//                repeats: false
+//            )
         } else {
             output.text = functionText
             if functionText == "Fill Color" || functionText == "Pen Color" {
