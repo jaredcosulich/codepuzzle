@@ -9,8 +9,10 @@
 import Foundation
 import MagicalRecord
 
-class SelectCardsViewController: UIViewController {
+class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var output: UILabel!
@@ -28,6 +30,9 @@ class SelectCardsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 6.0
+        
         Util.proportionalFont(anyElement: output, bufferPercentage: nil)
 
         cardGroup = cardProject.cardGroups[selectedIndex]
@@ -40,8 +45,10 @@ class SelectCardsViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        
-        
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
         
     @IBAction func initCardList(_ sender: Any?) {
@@ -75,7 +82,7 @@ class SelectCardsViewController: UIViewController {
         }
         
         setProcessedImage(
-            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8),
+            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true),
             completion: {
                 if let processedImage = self.cardGroup.processedImage {
                     self.imageView.image = ImageProcessor.scale(image: processedImage, view: self.imageView)

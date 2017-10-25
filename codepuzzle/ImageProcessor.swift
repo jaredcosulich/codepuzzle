@@ -128,19 +128,20 @@ class ImageProcessor {
         
     }
     
-    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1, style: String = "full", width: CGFloat) -> UIImage {
+    class func borderCards(image: UIImage, cardList: CardListWrapper, index: Int32 = -1, style: String = "full", width: CGFloat, deleteIcon: Bool) -> UIImage {
         UIGraphicsBeginImageContext(image.size)
         image.draw(at: CGPoint.zero)
         let ctx = UIGraphicsGetCurrentContext()
-        ctx?.setStrokeColor(UIColor.green.cgColor)
-        ctx?.setLineWidth(width)
         
         if (index == -1) {
             for i in 0..<cardList.count() {
-                _borderCard(ctx: ctx!, image: image, cardList: cardList, index: i, style: style)
+                ctx?.setStrokeColor(UIColor.green.cgColor)
+                ctx?.setLineWidth(width)
+
+                _borderCard(ctx: ctx!, image: image, cardList: cardList, index: i, style: style, deleteIcon: deleteIcon)
             }
         } else {
-            _borderCard(ctx: ctx!, image: image, cardList: cardList, index: index, style: style)
+            _borderCard(ctx: ctx!, image: image, cardList: cardList, index: index, style: style, deleteIcon: deleteIcon)
         }
 
         let modifiedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -150,7 +151,7 @@ class ImageProcessor {
         return modifiedImage!
     }
     
-    class func _borderCard(ctx: CGContext, image: UIImage, cardList: CardListWrapper, index: Int32, style: String = "full") {
+    class func _borderCard(ctx: CGContext, image: UIImage, cardList: CardListWrapper, index: Int32, style: String = "full", deleteIcon: Bool) {
         let rotation = CGFloat(cardList.getRotation(index))
         let hex = cardList.getHexRect(index)
         let xTranslation = hex.minX + (hex.size.width / 2)
@@ -160,16 +161,41 @@ class ImageProcessor {
         ctx.rotate(by: (rotation * CGFloat(CGFloat.pi / 180)))
         ctx.translateBy(x: xTranslation * -1, y: yTranslation * -1)
         
+        var rect: CGRect!
         switch style {
         case "hex":
-            ctx.stroke(cardList.getHexRect(index))
+            rect = cardList.getHexRect(index)
         case "function":
-            ctx.stroke(cardList.getFunctionRect(index))
+            rect = cardList.getFunctionRect(index)
         case "param":
-            ctx.stroke(cardList.getParamRect(index))
+            rect = cardList.getParamRect(index)
         default:
-            ctx.stroke(cardList.getFullRect(index))
+            rect = cardList.getFullRect(index)
         }
+        
+        ctx.stroke(rect)
+        
+        let iconDim = rect.width * 0.2
+        let iconX = rect.minX + (rect.width / 2) - (iconDim / 2)
+        let iconY = rect.maxY - (rect.height / 5.6) - (iconDim / 2)
+        
+        ctx.setLineWidth(10)
+        ctx.setStrokeColor(UIColor.red.cgColor)
+        ctx.addEllipse(in:
+            CGRect(
+                x: iconX,
+                y: iconY,
+                width: iconDim,
+                height: iconDim
+            )
+        )
+        
+        let circleDim = CGFloat(cos(45.0 * CGFloat.pi / 180)) * iconDim
+        let circleX = iconX + (iconDim / 2) - (circleDim / 2)
+        let circleY = iconY + (iconDim / 2) - (circleDim / 2)
+        ctx.addLines(between: [CGPoint(x: circleX, y: circleY), CGPoint(x: circleX + circleDim, y: circleY + circleDim)])
+        ctx.addLines(between: [CGPoint(x: circleX + circleDim, y: circleY), CGPoint(x: circleX, y: circleY + circleDim)])
+        ctx.strokePath()
 
         ctx.translateBy(x: xTranslation, y: yTranslation)
         ctx.rotate(by: (rotation * CGFloat(CGFloat.pi / 180) * -1))

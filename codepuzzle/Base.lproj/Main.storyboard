@@ -903,10 +903,10 @@ To This Project</string>
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Arv-sU-qbm">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="Arv-sU-qbm">
                                 <rect key="frame" x="0.0" y="87" width="768" height="717"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-r9-tjK">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-r9-tjK">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="614.5"/>
                                     </imageView>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="TbR-oh-BE6">
@@ -923,6 +923,9 @@ To This Project</string>
                                     <constraint firstItem="TbR-oh-BE6" firstAttribute="height" secondItem="Arv-sU-qbm" secondAttribute="height" multiplier="0.2" id="ggQ-gO-hif"/>
                                     <constraint firstItem="TbR-oh-BE6" firstAttribute="centerY" secondItem="Arv-sU-qbm" secondAttribute="centerY" id="rEJ-bb-X3I"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="Vgx-82-u6D" id="rBo-Fg-wv0"/>
+                                </connections>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ho-L7-hf6" userLabel="Logo Background">
                                 <rect key="frame" x="0.0" y="36" width="768" height="51"/>
@@ -978,6 +981,7 @@ To This Project</string>
                         <outlet property="activityView" destination="TbR-oh-BE6" id="4R8-Ix-V9E"/>
                         <outlet property="imageView" destination="rQa-r9-tjK" id="deL-Z6-iV0"/>
                         <outlet property="output" destination="oSJ-R9-9wm" id="H8k-hY-DFk"/>
+                        <outlet property="scrollView" destination="Arv-sU-qbm" id="1uC-bT-qMc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Os7-6s-Tap" userLabel="First Responder" sceneMemberID="firstResponder"/>

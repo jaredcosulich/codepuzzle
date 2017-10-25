@@ -171,7 +171,7 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
                 cardGroupImageView.image = OpenCVWrapper.debug(image, 2, 1)
             case 3:
                 process()
-                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex", width: 1)
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex", width: 1, deleteIcon: false)
             default:
                 cardGroupImageView.image = OpenCVWrapper.debug(image, -1, 1)
             }
@@ -179,13 +179,13 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
             process()
             switch component1Row {
             case 0:
-                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "full", width: 8)
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "full", width: 8, deleteIcon: false)
             case 1:
-                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "function", width: 1)
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "function", width: 1, deleteIcon: false)
             case 2:
-                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "param", width: 1)
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "param", width: 1, deleteIcon: false)
             default:
-                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex", width: 1)
+                cardGroupImageView.image = ImageProcessor.borderCards(image: image, cardList: cardList, index: -1, style: "hex", width: 1, deleteIcon: false)
             }
         case "View Each":
             switch component1Row {
