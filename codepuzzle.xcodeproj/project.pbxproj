@@ -21,6 +21,7 @@
 		3A2B65DC1EE9B37900E8B7BD /* codepuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65DB1EE9B37900E8B7BD /* codepuzzleTests.swift */; };
 		3A2B65E71EE9B37900E8B7BD /* codepuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65E61EE9B37900E8B7BD /* codepuzzleUITests.swift */; };
 		3A2B65F91EE9B43A00E8B7BD /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */; };
+		3A2E2FFD1FA028B90050F26E /* SelectCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2E2FFC1FA028B90050F26E /* SelectCardsViewController.swift */; };
 		3A2F89511F06EF600076E10A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F89501F06EF600076E10A /* Constants.swift */; };
 		3A4B8DEF1F70054E008F4400 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */; };
 		3A5A0F431EF033A80069384D /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5A0F421EF033A80069384D /* TesseractOCR.framework */; };
@@ -91,6 +92,7 @@
 		3A2B65F61EE9B43900E8B7BD /* codepuzzle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "codepuzzle-Bridging-Header.h"; sourceTree = "<group>"; };
 		3A2B65F71EE9B43A00E8B7BD /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		3A2B65F81EE9B43A00E8B7BD /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		3A2E2FFC1FA028B90050F26E /* SelectCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCardsViewController.swift; sourceTree = "<group>"; };
 		3A2F89501F06EF600076E10A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		3A5A0F421EF033A80069384D /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				3A2B65C41EE9B37900E8B7BD /* AppDelegate.swift */,
 				3A2B65C61EE9B37900E8B7BD /* MenuViewController.swift */,
 				3A2B65CA1EE9B37900E8B7BD /* Main.storyboard */,
+				3A2E2FFC1FA028B90050F26E /* SelectCardsViewController.swift */,
 				3AFE57641F7C801800A7D387 /* ClassViewController.swift */,
 				3A4B8DEE1F70054E008F4400 /* Launch Screen.storyboard */,
 				3A0408341F43B2D4000C60A2 /* DebugViewController.swift */,
@@ -581,6 +584,7 @@
 				3ACB55451F1171D600382476 /* S3Util.swift in Sources */,
 				3AA2D0201F36535900B90963 /* EditCommandViewController.swift in Sources */,
 				3A5A0F9B1EFC32660069384D /* CardList.mm in Sources */,
+				3A2E2FFD1FA028B90050F26E /* SelectCardsViewController.swift in Sources */,
 				3ACE663D1EFCAB720061BBC0 /* ImageProcessor.swift in Sources */,
 				3ACB55471F12AAC200382476 /* Functions.swift in Sources */,
 				3AFE57651F7C801800A7D387 /* ClassViewController.swift in Sources */,

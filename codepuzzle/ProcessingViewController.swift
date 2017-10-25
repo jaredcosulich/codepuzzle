@@ -106,7 +106,7 @@ class ProcessingViewController: UIViewController {
 //        tesseract.pageSegmentationMode = .auto
 //        tesseract.maximumRecognitionTime = 60.0
         
-        initCardList(nil)
+//        initCardList(nil)
 
         Timer.scheduledTimer(
             timeInterval: 0,
@@ -154,67 +154,6 @@ class ProcessingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func initCardList(_ sender: Any?) {
-        retryButton.isHidden = true
-        cancelButton.isHidden = true
-        debugPhoto.isHidden = true
-        
-        stopExecution = false
-        processing = true
-        output.text = "Scanning photo for cards..."
-        cardList.clear()
-        activityView.startAnimating()
-        
-        Timer.scheduledTimer(
-            timeInterval: 0,
-            target: self,
-            selector: #selector(startCardProcessing),
-            userInfo: nil,
-            repeats: false
-        )
-    }
-    
-    func startCardProcessing() {
-        OpenCVWrapper.process(cardGroup.image, self.cardList, 0.5)
-
-        if self.cardList.count() == 0 || self.cardList.getHexRect(0).width < 40 {
-            self.cardList.clear()
-            OpenCVWrapper.process(cardGroup.image, self.cardList, 2)
-        } else if self.cardList.count() == 0 || self.cardList.getHexRect(0).width < 75 {
-            self.cardList.clear()
-            OpenCVWrapper.process(cardGroup.image, self.cardList, 1)
-        }
-        
-        if self.cardList.count() == 0 || self.cardList.getHexRect(0).width > 400 {
-            self.cardList.clear()
-            OpenCVWrapper.process(cardGroup.image, self.cardList, 0.2)
-        }
-        
-        setProcessedImage(
-            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8),
-            completion: {
-                if let processedImage = self.cardGroup.processedImage {
-                    self.imageView.image = ImageProcessor.scale(image: processedImage, view: self.imageView)
-                    
-                    self.activityView.stopAnimating()
-                    
-                    self.debugPhoto.isHidden = false
-                    
-                    if (self.cardList.count() == 0) {
-                        self.output.text = "Unable to find any cards. Please try a new photo."
-                        self.selectPhoto.isHidden = false
-                    } else {
-                        self.output.text = "Identified \(self.cardList.count()) cards\r\rIs that correct?"
-                        
-                        self.yesButton.isHidden = false
-                        self.noButton.isHidden = false
-                    }
-                } else {
-                    self.startCardProcessing()
-                }
-            }
-        )
-    }
     
     @IBAction func confirmCard(_ sender: UIButton) {
         if (stopExecution) {
@@ -426,18 +365,6 @@ class ProcessingViewController: UIViewController {
         }
     }
 
-    func setProcessedImage(image: UIImage, completion: @escaping () -> Void) {
-        if let context = self.cardProject.persistedManagedObjectContext {
-            context.mr_save({
-                (localContext: NSManagedObjectContext!) in
-                self.cardGroup.processedImage = image
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                context.mr_saveToPersistentStoreAndWait()
-                completion()
-            })
-        }
-    }
     
     func executeCards() {
         if (execute) {

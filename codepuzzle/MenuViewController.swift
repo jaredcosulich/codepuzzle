@@ -217,7 +217,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if (cardProject.cardGroups[selectedCardGroupIndex].isProcessed) {
             performSegue(withIdentifier: "debug-segue", sender: nil)
         } else {
-            performSegue(withIdentifier: "processing-segue", sender: nil)            
+            performSegue(withIdentifier: "select-segue", sender: nil)
         }
     }
     
@@ -470,14 +470,14 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             present(noGroupsAlert, animated: true, completion: nil)
         } else if !cardProject.cardGroups.last!.isProcessed {
-            performSegue(withIdentifier: "processing-segue", sender: nil)
+            performSegue(withIdentifier: "select-segue", sender: nil)
         } else {
             performSegue(withIdentifier: "execution-segue", sender: nil)
         }
     }
 
     @IBAction func processPhoto(_ sender: UIButton) {
-        performSegue(withIdentifier: "processing-segue", sender: nil)
+        performSegue(withIdentifier: "select-segue", sender: nil)
     }
     
     func saveCardGroup(image: UIImage, completion: @escaping () -> Void) {
@@ -519,8 +519,8 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         imageView.removeFromSuperview()
         tableView.removeFromSuperview()
         
-        if segue.identifier == "processing-segue" {
-            let dvc = segue.destination as! ProcessingViewController
+        if segue.identifier == "select-segue" {
+            let dvc = segue.destination as! SelectCardsViewController
             dvc.selectedIndex = (selectedCardGroupIndex > -1 ? selectedCardGroupIndex : 0)
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
