@@ -63,6 +63,10 @@
     return self.cardList->getParamRect(index);
 }
 
+- (void) remove :(int) index {
+    self.cardList->remove(index);
+}
+
 - (void) add :(double) rotation :(CGRect) fullRect :(CGRect) hexRect :(CGRect) innerHexRect :(CGRect) functionRect :(CGRect) paramRect {
     self.cardList->add(rotation, fullRect, hexRect, innerHexRect, functionRect, paramRect);
 }

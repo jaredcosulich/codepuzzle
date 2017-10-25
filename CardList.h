@@ -29,6 +29,8 @@ public:
     CGRect getInnerHexRect(int);
     CGRect getFunctionRect(int);
     CGRect getParamRect(int);
+    
+    void remove(int);
 
     void add(double, CGRect, CGRect, CGRect, CGRect, CGRect);
     int count();

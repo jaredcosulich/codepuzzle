@@ -97,6 +97,10 @@ CGRect CardList::getParamRect(int index) {
     return cards[index].paramRect;
 }
 
+void CardList::remove(int index) {
+    cards.erase(cards.begin() + index);
+}
+
 void CardList::add(double rotation, CGRect fullRect, CGRect hexRect, CGRect innerHexRect, CGRect functionRect, CGRect paramRect) {
     Card c;
     c.rotation = rotation;

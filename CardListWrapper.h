@@ -22,6 +22,7 @@
 - (CGRect) getInnerHexRect :(int) index;
 - (CGRect) getFunctionRect :(int) index;
 - (CGRect) getParamRect :(int) index;
+- (void) remove :(int) index;
 - (void) add :(double) rotation :(CGRect) fullRect :(CGRect) hexRect :(CGRect) innerHexRect :(CGRect) functionRect :(CGRect) paramRect;
 - (int) count;
 

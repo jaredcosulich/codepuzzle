@@ -119,7 +119,23 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        print("TAPPED: \(tapGestureRecognizer.location(in: imageView))")
+        let scale = cardGroup.image!.size.width / imageView.frame.size.width
+        
+        let tap = tapGestureRecognizer.location(in: imageView)
+        let scaledTap = CGPoint(x: tap.x * scale, y: tap.y * scale)
+        
+        print("SCALE: \(scale)")
+
+        let buffer = cardList.getHexRect(0).size.width * -0.5
+        for i in 0..<cardList.count() {
+            let hexRect = cardList.getHexRect(i).insetBy(dx: buffer, dy: buffer)
+            print("CHECKING: \(hexRect) -> \(scaledTap) = \(hexRect.contains(scaledTap))")
+            if hexRect.contains(scaledTap) {
+                cardList.remove(i)
+                imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true)
+                break
+            }
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
