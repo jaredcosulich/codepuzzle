@@ -39,6 +39,10 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
         
         imageView.image = ImageProcessor.scale(image: cardGroup.image!, view: imageView)
         
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGestureRecognizer)
+    
         initCardList(nil)
     }
     
@@ -112,6 +116,10 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
                 completion()
             })
         }
+    }
+    
+    func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("TAPPED: \(tapGestureRecognizer.location(in: imageView))")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

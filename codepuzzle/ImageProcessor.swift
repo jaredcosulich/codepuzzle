@@ -177,7 +177,7 @@ class ImageProcessor {
         
         let iconDim = rect.width * 0.2
         let iconX = rect.minX + (rect.width / 2) - (iconDim / 2)
-        let iconY = rect.maxY - (rect.height / 5.6) - (iconDim / 2)
+        let iconY = rect.maxY - (rect.height / 5.7) - (iconDim / 2)
         
         ctx.setLineWidth(10)
         ctx.setStrokeColor(UIColor.red.cgColor)
