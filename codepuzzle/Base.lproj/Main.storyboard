@@ -909,19 +909,12 @@ To This Project</string>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-r9-tjK">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="614.5"/>
                                     </imageView>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="TbR-oh-BE6">
-                                        <rect key="frame" x="374" y="246" width="20" height="122.5"/>
-                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rQa-r9-tjK" firstAttribute="centerX" secondItem="Arv-sU-qbm" secondAttribute="centerX" id="CKm-p8-ZYL"/>
-                                    <constraint firstItem="TbR-oh-BE6" firstAttribute="centerX" secondItem="Arv-sU-qbm" secondAttribute="centerX" id="COe-N1-2eq"/>
                                     <constraint firstItem="rQa-r9-tjK" firstAttribute="width" secondItem="Arv-sU-qbm" secondAttribute="width" id="Eay-2R-haC"/>
                                     <constraint firstItem="rQa-r9-tjK" firstAttribute="centerY" secondItem="Arv-sU-qbm" secondAttribute="centerY" id="HBS-Ys-iWQ"/>
-                                    <constraint firstItem="TbR-oh-BE6" firstAttribute="width" secondItem="Arv-sU-qbm" secondAttribute="width" multiplier="0.2" id="Jtq-bz-deD"/>
                                     <constraint firstItem="rQa-r9-tjK" firstAttribute="height" secondItem="Arv-sU-qbm" secondAttribute="height" id="T1U-w5-kba"/>
-                                    <constraint firstItem="TbR-oh-BE6" firstAttribute="height" secondItem="Arv-sU-qbm" secondAttribute="height" multiplier="0.2" id="ggQ-gO-hif"/>
-                                    <constraint firstItem="TbR-oh-BE6" firstAttribute="centerY" secondItem="Arv-sU-qbm" secondAttribute="centerY" id="rEJ-bb-X3I"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="Vgx-82-u6D" id="rBo-Fg-wv0"/>
