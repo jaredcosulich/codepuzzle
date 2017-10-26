@@ -119,12 +119,14 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let offsetX = (imageView.frame.size.width - imageView.image!.size.width) / 2
-        let offsetY = (imageView.frame.size.height - imageView.image!.size.height) / 2
-        let scale = cardGroup.image!.size.width / scrollView.bounds.width
+        print("TAP!")
+        let bounds = scrollView.bounds
+        let imageSize = cardGroup.image!.size
+        let scale = imageSize.width / bounds.width
 
-        print("OFFSETS: \(offsetX) x \(offsetY)")
-        
+        let offsetX = (bounds.width - (imageSize.width / scale)) / 2
+        let offsetY = (bounds.height - (imageSize.height / scale)) / 2
+
         let tap = tapGestureRecognizer.location(in: imageView)
         let scaledTap = CGPoint(
             x: (tap.x - offsetX) * scale,
