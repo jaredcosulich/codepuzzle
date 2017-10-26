@@ -37,11 +37,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let puzzleSchool = PuzzleSchool()
     
+    var cells: [Int: UITableViewCell] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
         loadCardProjects()
+        
+        for i in 0..<cardProjects.count {
+            _ = constructCell(index: i)
+        }
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -119,6 +125,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        if let cell = cells[indexPath.row] {
+            return cell
+        } else {
+            return constructCell(index: indexPath.row)
+        }
+    }
+    
+    func constructCell(index: Int) -> UITableViewCell {
         let cellIdentifier = "Cell"
         
         var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
@@ -126,9 +140,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
         }
         
-        let cardProject = cardProjects[indexPath.row]
+        let cardProject = cardProjects[index]
         cell?.textLabel?.text = cardProject.title
-//        cell?.textLabel?.font = cell?.textLabel?.font.withSize(24)
         
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
         
@@ -137,6 +150,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell!.imageView!.image = ImageProcessor.scale(image: thumbnail, view: tableView)
             }
         }
+        
+        cells[index] = cell!
         
         return cell!
     }
