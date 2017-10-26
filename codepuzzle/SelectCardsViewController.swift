@@ -147,7 +147,9 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let bounds = scrollView.bounds
         let imageSize = cardGroup.image!.size
-        let scale = imageSize.width / bounds.width
+        let scaleX = imageSize.width / bounds.width
+        let scaleY = imageSize.height / bounds.height
+        let scale = scaleX > scaleY ? scaleX : scaleY
 
         let offsetX = (bounds.width - (imageSize.width / scale)) / 2
         let offsetY = (bounds.height - (imageSize.height / scale)) / 2
@@ -177,6 +179,7 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
             cardList.add(Double(scaledTap.x), Double(scaledTap.y), Double(hexWidth), Double(hexHeight), 0)
         }
         imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true)
+        self.output.text = "Identified \(cardList.count()) cards"
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
