@@ -32,7 +32,7 @@ public:
     
     void remove(int);
 
-    void add(double, CGRect, CGRect, CGRect, CGRect, CGRect);
+    void add(double, double, double, double, double);
     int count();
     
 private:

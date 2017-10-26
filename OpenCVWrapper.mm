@@ -424,41 +424,10 @@ using namespace std;
             rotatedBound.width = rotatedBound.width / scale;
             rotatedBound.height = rotatedBound.height / scale;
         }
-        
-        cv::Rect fullCardBound;
-        fullCardBound.x = rotatedBound.x - (rotatedBound.width * 1.35);
-        fullCardBound.y = rotatedBound.y - (rotatedBound.height * 4.2);
-        fullCardBound.width = rotatedBound.width * 3.7;
-        fullCardBound.height = rotatedBound.height * 5.7;
-        
-//        if (fullCardBound.x < 0) fullCardBound.x = 0;
-//        if (fullCardBound.y < 0) fullCardBound.y = 0;
-//        if (fullCardBound.x + fullCardBound.width > src.size().width) {
-//            fullCardBound.width = src.size().width - fullCardBound.x;
-//        }
-//        if (fullCardBound.y + fullCardBound.height > src.size().height) {
-//            fullCardBound.height = src.size().height - fullCardBound.y;
-//        }
-        
-        cv::Rect functionBound;
-        functionBound.x = rotatedBound.x + (rotatedBound.width * 0.2);
-        functionBound.y = rotatedBound.y + (rotatedBound.height * 0.24);
-        functionBound.width = rotatedBound.width - (rotatedBound.width * 0.4);
-        functionBound.height = rotatedBound.height - (rotatedBound.height * 0.5);
-
-        cv::Rect paramBound;
-        paramBound.x = rotatedBound.x - rotatedBound.width * 0.3;
-        paramBound.y = rotatedBound.y - rotatedBound.height * 2.6;
-        paramBound.width = rotatedBound.width * 1.6;
-        paramBound.height = rotatedBound.height * 1.6;
-
-        CGRect fullRect = [[self class] CvRectToCgRect:fullCardBound];
-        CGRect hexRect = [[self class] CvRectToCgRect:rotatedBound];
-        CGRect innerHexRect = [[self class] CvRectToCgRect:validInnerHex];
-        CGRect functionRect = [[self class] CvRectToCgRect:functionBound];
-        CGRect paramRect = [[self class] CvRectToCgRect:paramBound];
-        
-        [cardListWrapper add :rotation :fullRect :hexRect :innerHexRect :functionRect :paramRect];
+                
+        double hexCenterX = (rotatedBound.x + (rotatedBound.width / 2));
+        double hexCenterY = (rotatedBound.y + (rotatedBound.height / 2));
+        [cardListWrapper add :hexCenterX :hexCenterY :rotatedBound.width :rotatedBound.height :rotation];
     }
     
     printf("CARDS: %d\n", cardListWrapper.count);

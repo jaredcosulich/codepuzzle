@@ -101,15 +101,38 @@ void CardList::remove(int index) {
     cards.erase(cards.begin() + index);
 }
 
-void CardList::add(double rotation, CGRect fullRect, CGRect hexRect, CGRect innerHexRect, CGRect functionRect, CGRect paramRect) {
+void CardList::add(double hexCenterX, double hexCenterY, double hexWidth, double hexHeight, double rotation) {
     Card c;
     c.rotation = rotation;
-    c.fullRect = fullRect;
-    c.hexRect = hexRect;
-    c.innerHexRect = innerHexRect;
-    c.functionRect = functionRect;
-    c.paramRect = paramRect;
     
+    double hexX = hexCenterX - (hexWidth / 2);
+    double hexY = hexCenterY - (hexHeight / 2);
+    
+    c.hexRect = CGRectMake(hexX, hexY, hexWidth, hexHeight);
+    
+//    c.innerHexRect =
+    
+    c.fullRect = CGRectMake(
+        hexX - (hexWidth * 1.35),
+        hexY - (hexHeight * 4.2),
+        hexWidth * 3.7,
+        hexHeight * 5.7
+    );
+    
+    c.functionRect = CGRectMake(
+        hexX + (hexWidth * 0.2),
+        hexY + (hexHeight * 0.24),
+        hexWidth - (hexWidth * 0.4),
+        hexHeight - (hexHeight * 0.5)
+    );
+
+    c.paramRect = CGRectMake(
+        hexX - (hexWidth * 0.3),
+        hexY - (hexHeight * 2.6),
+        hexWidth * 1.6,
+        hexHeight * 1.6
+    );
+
     cards.push_back(c);
     std::sort( cards.begin(), cards.end(), sortFunction );
     cards.erase( unique( cards.begin(), cards.end(), sameCard ), cards.end() );

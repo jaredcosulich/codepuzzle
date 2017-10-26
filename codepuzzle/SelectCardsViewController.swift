@@ -119,23 +119,38 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let offsetX = (imageView.frame.size.width - imageView.image!.size.width) / 2
+        let offsetY = (imageView.frame.size.height - imageView.image!.size.height) / 2
         let scale = cardGroup.image!.size.width / scrollView.bounds.width
 
+        print("OFFSETS: \(offsetX) x \(offsetY)")
+        
         let tap = tapGestureRecognizer.location(in: imageView)
         let scaledTap = CGPoint(
-            x: tap.x * scale,
-            y: tap.y * scale
+            x: (tap.x - offsetX) * scale,
+            y: (tap.y - offsetY) * scale
         )
-
-        let buffer = cardList.getHexRect(0).size.width * -0.5
+        
+        let hexWidth = cardList.getHexRect(0).size.width
+        let hexHeight = cardList.getHexRect(0).size.height
+        let bufferX = hexWidth / -2
+        let bufferY = hexHeight / -2
+        
+        var addCard = true
         for i in 0..<cardList.count() {
-            let hexRect = cardList.getHexRect(i).insetBy(dx: buffer, dy: buffer)
+            let hexRect = cardList.getHexRect(i).insetBy(dx: bufferX, dy: bufferY)
             if hexRect.contains(scaledTap) {
+                addCard = false
                 cardList.remove(i)
-                imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true)
                 break
             }
         }
+        
+        if addCard {
+            cardList.add(Double(scaledTap.x), Double(scaledTap.y), Double(hexWidth), Double(hexHeight), 0)
+        }
+        print("COUNT: \(cardList.count())")
+        imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
