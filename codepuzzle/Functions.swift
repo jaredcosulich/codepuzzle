@@ -259,6 +259,8 @@ class Functions {
             return "A1"
         case "L7":
             return "L1"
+        case "PG":
+            return "P4"
         default:
             return translatedCode
         }

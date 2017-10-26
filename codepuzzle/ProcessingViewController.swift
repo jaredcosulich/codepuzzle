@@ -460,6 +460,34 @@ class ProcessingViewController: UIViewController {
         performSegue(withIdentifier: "manual-segue", sender: nil)
     }
     
+    @IBAction func rejectCard(_ sender: UIButton) {
+        Timer.scheduledTimer(
+            timeInterval: 0,
+            target: self,
+            selector: #selector(self.completeCardRejection),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+    
+    func completeCardRejection() {
+        if let context = self.cardProject.persistedManagedObjectContext {
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                self.cardGroup.isProcessed = false
+                self.cardGroup.processedImage = nil
+                for card in self.cardGroup.cards {
+                    card.mr_deleteEntity(in: context)
+                }
+                self.cardGroup.mr_deleteEntity(in: context)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+                self.performSegue(withIdentifier: "cancel-segue", sender: nil)
+            })
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
 //        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
