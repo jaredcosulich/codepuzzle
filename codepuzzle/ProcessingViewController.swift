@@ -15,7 +15,7 @@ class ProcessingViewController: UIViewController {
     
     @IBOutlet weak var output: UILabel!
     
-    let cardList = CardListWrapper()!
+    var cardList: CardListWrapper!
     let mathPix = MathPix()
 //    let tesseract = G8Tesseract()
     
@@ -34,10 +34,6 @@ class ProcessingViewController: UIViewController {
     var execute = false
     
     var stopExecution = false
-    
-    @IBOutlet weak var yesButton: UIButton!
-    
-    @IBOutlet weak var noButton: UIButton!
     
     @IBOutlet weak var fixButton: UIButton!
     
@@ -74,16 +70,14 @@ class ProcessingViewController: UIViewController {
         
         cardGroup = cardProject.cardGroups[selectedIndex]
         
-        imageView.image = ImageProcessor.scale(image: cardGroup.image!, view: imageView)
+        if let processedImage = cardGroup.processedImage {
+            imageView.image = ImageProcessor.scale(image: processedImage, view: imageView)
+        } else {
+            imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: false)
+        }
         
         Util.proportionalFont(anyElement: output, bufferPercentage: nil)
         
-        yesButton.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: yesButton, bufferPercentage: nil)
-
-        noButton.layer.cornerRadius = 6
-        noButton.titleLabel?.font = yesButton.titleLabel?.font
-
         cancelButton.layer.cornerRadius = 6
         Util.proportionalFont(anyElement: cancelButton, bufferPercentage: 10)
 
@@ -107,7 +101,8 @@ class ProcessingViewController: UIViewController {
 //        tesseract.maximumRecognitionTime = 60.0
         
 //        initCardList(nil)
-
+        initAnalysis(nil)
+        
         Timer.scheduledTimer(
             timeInterval: 0,
             target: self,
@@ -139,6 +134,38 @@ class ProcessingViewController: UIViewController {
         )
     }
     
+    @IBAction func initAnalysis(_ sender: Any?) {
+        retryButton.isHidden = true
+        cancelButton.isHidden = true
+        debugPhoto.isHidden = true
+        
+        stopExecution = false
+        processing = true
+        execute = true
+        
+        activityView.startAnimating()
+        
+        output.text = "Analyzing cards. One moment..."
+        
+        if (processedCardParamCount < cardList.count()) {
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(analyzeCards),
+                userInfo: nil,
+                repeats: false
+            )
+        } else {
+            Timer.scheduledTimer(
+                timeInterval: 0,
+                target: self,
+                selector: #selector(executeCards),
+                userInfo: nil,
+                repeats: false
+            )
+        }
+    }
+    
     func setCardGroupId(timer: Timer) {
         let identifier = timer.userInfo as! String
         if self.puzzleSchool.processing(identifier: identifier) {
@@ -155,66 +182,6 @@ class ProcessingViewController: UIViewController {
     }
     
     
-    @IBAction func confirmCard(_ sender: UIButton) {
-        if (stopExecution) {
-            return
-        }
-        
-        activityView.startAnimating()
-        yesButton.isHidden = true
-        noButton.isHidden = true
-        debugPhoto.isHidden = true
-        output.text = "Analyzing cards. One moment..."
-
-        if (processedCardParamCount < cardList.count()) {
-            execute = true
-            
-            Timer.scheduledTimer(
-                timeInterval: 0,
-                target: self,
-                selector: #selector(self.analyzeCards),
-                userInfo: nil,
-                repeats: false
-            )
-        } else {
-            Timer.scheduledTimer(
-                timeInterval: 0,
-                target: self,
-                selector: #selector(executeCards),
-                userInfo: nil,
-                repeats: false
-            )
-        }
-    }
-    
-    @IBAction func rejectCard(_ sender: UIButton) {
-        Timer.scheduledTimer(
-            timeInterval: 0,
-            target: self,
-            selector: #selector(self.completeCardRejection),
-            userInfo: nil,
-            repeats: false
-        )
-    }
-    
-    func completeCardRejection() {
-        if let context = self.cardProject.persistedManagedObjectContext {
-            context.mr_save({
-                (localContext: NSManagedObjectContext!) in
-                self.cardGroup.isProcessed = false
-                self.cardGroup.processedImage = nil
-                for card in self.cardGroup.cards {
-                    card.mr_deleteEntity(in: context)
-                }
-                self.cardGroup.mr_deleteEntity(in: context)
-            }, completion: {
-                (MRSaveCompletionHandler) in
-                context.mr_saveToPersistentStoreAndWait()
-                self.performSegue(withIdentifier: "cancel-segue", sender: nil)
-            })
-        }
-    }
-
     func analyzeCards() {
         if (stopExecution) {
             return
@@ -283,8 +250,6 @@ class ProcessingViewController: UIViewController {
                 if functionValue == "ERROR" {
                     stopExecution = true
                     output.text = "There was an error. Please check your internet connection and try again."
-                    yesButton.isHidden = true
-                    noButton.isHidden = true
                     debugPhoto.isHidden = true
                     self.activityView.stopAnimating()
                     cancelButton.isHidden = false
@@ -494,8 +459,6 @@ class ProcessingViewController: UIViewController {
         selectedIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })!
         performSegue(withIdentifier: "manual-segue", sender: nil)
     }
-    
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")

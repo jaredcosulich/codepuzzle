@@ -17,7 +17,13 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var output: UILabel!
     
+    @IBOutlet weak var instructions: UILabel!
+    
     @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
+    @IBOutlet weak var looksGoodButton: UIButton!
+    
+    @IBOutlet weak var changePhotoButton: UIButton!
 
     let cardList = CardListWrapper()!
     
@@ -34,6 +40,14 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.maximumZoomScale = 6.0
         
         Util.proportionalFont(anyElement: output, bufferPercentage: nil)
+
+        Util.proportionalFont(anyElement: instructions, bufferPercentage: nil)
+        
+        looksGoodButton.layer.cornerRadius = 6
+        Util.proportionalFont(anyElement: looksGoodButton, bufferPercentage: 5)
+        
+        changePhotoButton.layer.cornerRadius = 6
+        changePhotoButton.titleLabel?.font = looksGoodButton.titleLabel?.font
 
         cardGroup = cardProject.cardGroups[selectedIndex]
         
@@ -93,10 +107,13 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
                     
                     self.activityView.stopAnimating()
                     
+                    self.changePhotoButton.isHidden = false
                     if (self.cardList.count() == 0) {
                         self.output.text = "Unable to find any cards. Please try a new photo."
                     } else {
-                        self.output.text = "Identified \(self.cardList.count()) cards\r\rAdd a card: Tap in the hexagon of the card.\rRemove a card: Tap the X in the card\r(pinch to zoom in and out)"
+                        self.output.text = "Identified \(self.cardList.count()) cards"
+                        self.instructions.isHidden = false
+                        self.looksGoodButton.isHidden = false
                     }
                 } else {
                     self.startCardProcessing()
@@ -118,8 +135,16 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    @IBAction func confirmPhoto(_ sender: UIButton) {
+        setProcessedImage(
+            image: ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: false),
+            completion: {
+                self.performSegue(withIdentifier: "process-segue", sender: nil)
+            }
+        )
+    }
+    
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        print("TAP!")
         let bounds = scrollView.bounds
         let imageSize = cardGroup.image!.size
         let scale = imageSize.width / bounds.width
@@ -151,12 +176,24 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
         if addCard {
             cardList.add(Double(scaledTap.x), Double(scaledTap.y), Double(hexWidth), Double(hexHeight), 0)
         }
-        print("COUNT: \(cardList.count())")
         imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        imageView.removeFromSuperview()
+        scrollView.removeFromSuperview()
         
+        if segue.identifier == "cancel-segue" {
+            let dvc = segue.destination as! MenuViewController
+            self.cardGroup.mr_deleteEntity()
+            dvc.cardProject = cardProject
+        } else if segue.identifier == "process-segue" {
+            let dvc = segue.destination as! ProcessingViewController
+            dvc.cardProject = cardProject
+            dvc.selectedIndex = selectedIndex
+            dvc.cardList = cardList
+        }
+
     }
     
 

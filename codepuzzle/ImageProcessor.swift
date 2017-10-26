@@ -175,27 +175,29 @@ class ImageProcessor {
         
         ctx.stroke(rect)
         
-        let iconDim = rect.width * 0.2
-        let iconX = rect.minX + (rect.width / 2) - (iconDim / 2)
-        let iconY = rect.maxY - (rect.height / 5.7) - (iconDim / 2)
-        
-        ctx.setLineWidth(10)
-        ctx.setStrokeColor(UIColor.red.cgColor)
-        ctx.addEllipse(in:
-            CGRect(
-                x: iconX,
-                y: iconY,
-                width: iconDim,
-                height: iconDim
+        if deleteIcon {
+            let iconDim = rect.width * 0.2
+            let iconX = rect.minX + (rect.width / 2) - (iconDim / 2)
+            let iconY = rect.maxY - (rect.height / 5.7) - (iconDim / 2)
+            
+            ctx.setLineWidth(10)
+            ctx.setStrokeColor(UIColor.red.cgColor)
+            ctx.addEllipse(in:
+                CGRect(
+                    x: iconX,
+                    y: iconY,
+                    width: iconDim,
+                    height: iconDim
+                )
             )
-        )
-        
-        let circleDim = CGFloat(cos(45.0 * CGFloat.pi / 180)) * iconDim
-        let circleX = iconX + (iconDim / 2) - (circleDim / 2)
-        let circleY = iconY + (iconDim / 2) - (circleDim / 2)
-        ctx.addLines(between: [CGPoint(x: circleX, y: circleY), CGPoint(x: circleX + circleDim, y: circleY + circleDim)])
-        ctx.addLines(between: [CGPoint(x: circleX + circleDim, y: circleY), CGPoint(x: circleX, y: circleY + circleDim)])
-        ctx.strokePath()
+            
+            let circleDim = CGFloat(cos(45.0 * CGFloat.pi / 180)) * iconDim
+            let circleX = iconX + (iconDim / 2) - (circleDim / 2)
+            let circleY = iconY + (iconDim / 2) - (circleDim / 2)
+            ctx.addLines(between: [CGPoint(x: circleX, y: circleY), CGPoint(x: circleX + circleDim, y: circleY + circleDim)])
+            ctx.addLines(between: [CGPoint(x: circleX + circleDim, y: circleY), CGPoint(x: circleX, y: circleY + circleDim)])
+            ctx.strokePath()
+        }
 
         ctx.translateBy(x: xTranslation, y: yTranslation)
         ctx.rotate(by: (rotation * CGFloat(CGFloat.pi / 180) * -1))
