@@ -43,11 +43,11 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
 
         Util.proportionalFont(anyElement: instructions, bufferPercentage: nil)
         
-        looksGoodButton.layer.cornerRadius = 6
-        Util.proportionalFont(anyElement: looksGoodButton, bufferPercentage: 5)
-        
         changePhotoButton.layer.cornerRadius = 6
-        changePhotoButton.titleLabel?.font = looksGoodButton.titleLabel?.font
+        Util.proportionalFont(anyElement: changePhotoButton, bufferPercentage: 10)
+        
+        looksGoodButton.layer.cornerRadius = 6
+        looksGoodButton.titleLabel?.font = changePhotoButton.titleLabel?.font
 
         cardGroup = cardProject.cardGroups[selectedIndex]
         
@@ -108,11 +108,12 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
                     self.activityView.stopAnimating()
                     
                     self.changePhotoButton.isHidden = false
+                    self.instructions.isHidden = false
                     if (self.cardList.count() == 0) {
-                        self.output.text = "Unable to find any cards. Please try a new photo."
+                        self.output.isHidden = true
+                        self.instructions.text = "Unable to find any cards. Please try a new photo."
                     } else {
                         self.output.text = "Identified \(self.cardList.count()) cards"
-                        self.instructions.isHidden = false
                         self.looksGoodButton.isHidden = false
                     }
                 } else {

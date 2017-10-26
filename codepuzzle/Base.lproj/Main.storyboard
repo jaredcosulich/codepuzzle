@@ -965,7 +965,7 @@ Remove Card: Tap "x" inside card.
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GWB-mr-fpe">
-                                <rect key="frame" x="422.5" y="926" width="230" height="51"/>
+                                <rect key="frame" x="403" y="926" width="269" height="51"/>
                                 <color key="backgroundColor" red="0.014507189130000001" green="0.60684504530000005" blue="0.001450365028" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Looks Good">
@@ -976,7 +976,7 @@ Remove Card: Tap "x" inside card.
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWu-h5-k83">
-                                <rect key="frame" x="115.5" y="926" width="230" height="51"/>
+                                <rect key="frame" x="96" y="926" width="269" height="51"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Change Photo">
@@ -1016,7 +1016,7 @@ Remove Card: Tap "x" inside card.
                             <constraint firstItem="Qh7-C9-DB3" firstAttribute="trailing" secondItem="6Ho-L7-hf6" secondAttribute="trailing" constant="-20" id="iC9-JT-fVA"/>
                             <constraint firstItem="CJM-uv-oTj" firstAttribute="centerX" secondItem="vhp-yj-UpD" secondAttribute="centerX" id="lBN-UP-eQv"/>
                             <constraint firstItem="oSJ-R9-9wm" firstAttribute="top" secondItem="Arv-sU-qbm" secondAttribute="bottom" id="m3H-8S-uqO"/>
-                            <constraint firstItem="GWB-mr-fpe" firstAttribute="width" secondItem="Yaw-rL-inC" secondAttribute="width" multiplier="0.3" id="oSB-g9-mqF"/>
+                            <constraint firstItem="GWB-mr-fpe" firstAttribute="width" secondItem="Yaw-rL-inC" secondAttribute="width" multiplier="0.35" id="oSB-g9-mqF"/>
                             <constraint firstItem="GWB-mr-fpe" firstAttribute="height" secondItem="JWu-h5-k83" secondAttribute="height" id="qCe-93-2qV"/>
                             <constraint firstItem="oSJ-R9-9wm" firstAttribute="centerX" secondItem="Yaw-rL-inC" secondAttribute="centerX" id="qS6-th-8Ue"/>
                             <constraint firstItem="GWB-mr-fpe" firstAttribute="height" secondItem="Yaw-rL-inC" secondAttribute="height" multiplier="0.05" id="qYa-VX-AVo"/>
