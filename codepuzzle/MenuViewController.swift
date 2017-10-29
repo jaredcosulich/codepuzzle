@@ -317,6 +317,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             activityView.startAnimating()
             imageView.isHidden = true
         } else {
+            print("\(cardProject.cardGroups.count) -> \(selectedCardGroupIndex)")
             if cardProject.cardGroups[selectedCardGroupIndex].image == nil {
                 showPhoto(activity: true)
                 
@@ -334,14 +335,15 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let cardImage = cardProject.cardGroups[selectedCardGroupIndex].image!
             imageView.image = ImageProcessor.scale(image: cardImage, view: imageView)
             imageView.isHidden = false
+
+            rotateLabel.isHidden = false
+            rotateRight.isHidden = false
+            rotateLeft.isHidden = false
+            processPhoto.isHidden = false
+            changePhoto.isHidden = false
+            addPhotoLabel.isHidden = true
         }
         
-        rotateLabel.isHidden = false
-        rotateRight.isHidden = false
-        rotateLeft.isHidden = false
-        processPhoto.isHidden = false
-        changePhoto.isHidden = false
-        addPhotoLabel.isHidden = true
         newPhoto.isHidden = true
         loadPhoto.isHidden = true
         tableView.isHidden = true
