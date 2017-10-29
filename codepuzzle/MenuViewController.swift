@@ -56,6 +56,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         s3Util = S3Util(projectName: cardProject.title, className: cardProject.parentClass?.name)
@@ -317,7 +318,6 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             activityView.startAnimating()
             imageView.isHidden = true
         } else {
-            print("\(cardProject.cardGroups.count) -> \(selectedCardGroupIndex)")
             if cardProject.cardGroups[selectedCardGroupIndex].image == nil {
                 showPhoto(activity: true)
                 

@@ -983,7 +983,7 @@ Remove Card: Tap "x" inside card.
                                     <color key="titleColor" red="0.96707167630000002" green="1" blue="0.95954409029999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="9pv-A4-QxB" kind="show" identifier="cancel-segue" id="EuZ-Pp-gHo"/>
+                                    <action selector="rejectGroup" destination="Vgx-82-u6D" eventType="touchUpInside" id="0Is-YM-Buk"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1034,6 +1034,7 @@ Remove Card: Tap "x" inside card.
                         <outlet property="output" destination="oSJ-R9-9wm" id="H8k-hY-DFk"/>
                         <outlet property="scrollView" destination="Arv-sU-qbm" id="1uC-bT-qMc"/>
                         <segue destination="um8-fG-7IM" kind="show" identifier="process-segue" id="0xF-zJ-7rw"/>
+                        <segue destination="9pv-A4-QxB" kind="show" identifier="cancel-segue" id="E7Y-P2-sNC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Os7-6s-Tap" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1905,7 +1906,7 @@ Remove Card: Tap "x" inside card.
         <segue reference="vm4-N1-lIh"/>
         <segue reference="zhG-AU-rJY"/>
         <segue reference="Z1L-qb-ND3"/>
-        <segue reference="EuZ-Pp-gHo"/>
+        <segue reference="E7Y-P2-sNC"/>
         <segue reference="MeG-Wg-0Xp"/>
     </inferredMetricsTieBreakers>
 </document>

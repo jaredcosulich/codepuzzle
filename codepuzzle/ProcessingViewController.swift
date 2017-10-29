@@ -542,7 +542,6 @@ class ProcessingViewController: UIViewController {
         
         if segue.identifier == "cancel-segue" || segue.identifier == "select-photo-segue" {
             let dvc = segue.destination as! MenuViewController
-            self.cardGroup.mr_deleteEntity()
             dvc.cardProject = cardProject
         } else if segue.identifier == "execution-segue" {
             let dvc = segue.destination as! ExecutionViewController

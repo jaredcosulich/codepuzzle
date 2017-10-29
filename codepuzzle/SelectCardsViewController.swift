@@ -182,6 +182,20 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
         imageView.image = ImageProcessor.borderCards(image: cardGroup.image!, cardList: cardList, index: -1, width: 8, deleteIcon: true)
         self.output.text = "Identified \(cardList.count()) cards"
     }
+    
+    @IBAction func rejectGroup() {
+        if let context = self.cardProject.persistedManagedObjectContext {
+            context.mr_save({
+                (localContext: NSManagedObjectContext!) in
+                self.cardGroup.mr_deleteEntity(in: context)
+            }, completion: {
+                (MRSaveCompletionHandler) in
+                context.mr_saveToPersistentStoreAndWait()
+                self.performSegue(withIdentifier: "cancel-segue", sender: nil)
+            })
+        }
+    }
+
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         imageView.removeFromSuperview()
@@ -189,7 +203,6 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
         
         if segue.identifier == "cancel-segue" {
             let dvc = segue.destination as! MenuViewController
-            self.cardGroup.mr_deleteEntity()
             dvc.cardProject = cardProject
         } else if segue.identifier == "process-segue" {
             let dvc = segue.destination as! ProcessingViewController
