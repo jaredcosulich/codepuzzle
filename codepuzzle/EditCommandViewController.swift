@@ -248,6 +248,14 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         colorPickerView.addSubview(colorPicker)
         
+        let functionTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(initEditFunction))
+        functionDisplay.isUserInteractionEnabled = true
+        functionDisplay.addGestureRecognizer(functionTapGestureRecognizer)
+
+        let paramTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(initEditParam))
+        paramDisplay.isUserInteractionEnabled = true
+        paramDisplay.addGestureRecognizer(paramTapGestureRecognizer)
+
         prepareCard()
     }
     
@@ -547,8 +555,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             })
         }
     }
-
-    @IBAction func editFunction(_ sender: UIButton) {
+    
+    func initEditFunction() {
         let cardCode = selectedCard == nil ? newCard.code : selectedCard.code
         newCode = nil
         for i in 0..<Functions.functionInfo.count {
@@ -566,12 +574,15 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 options: .curveEaseOut,
                 animations: {
                     self.editFunctionView.alpha = 1.0
-                }
+            }
             )
         } else {
             self.editFunctionView.alpha = 1.0
         }
-
+    }
+    
+    @IBAction func editFunction(_ sender: UIButton) {
+        initEditFunction()
     }
     
     @IBAction func cancelEditFunction(_ sender: UIButton) {
@@ -631,7 +642,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
     }
     
-    @IBAction func editParam(_ sender: UIButton) {
+    func initEditParam() {
         if (selectedCard == nil) {
             param.text = newCard.param
         } else {
@@ -649,11 +660,15 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 options: .curveEaseOut,
                 animations: {
                     self.editParamView.alpha = 1.0
-                }
+            }
             )
         } else {
             self.editParamView.alpha = 1.0
         }
+    }
+    
+    @IBAction func editParam(_ sender: UIButton) {
+        initEditParam()
     }
     
     @IBAction func cancelEditParam(_ sender: UIButton) {
