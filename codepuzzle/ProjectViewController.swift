@@ -146,7 +146,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         cell?.detailTextLabel?.text = "\(cardProject.cardGroups.count) Card Photos"
         
         if (cardProject.cardGroups.count > 0 && cell?.imageView != nil) {
-            if let thumbnail = cardProject.cardGroups.first!.image {
+            if let thumbnail = cardProject.cardGroups.first!.previewImage {
                 cell!.imageView!.image = ImageProcessor.scale(image: thumbnail, view: tableView)
             }
         }

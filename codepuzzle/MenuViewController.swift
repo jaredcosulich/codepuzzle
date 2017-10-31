@@ -187,7 +187,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else  {
             cell?.detailTextLabel?.text = "Not Yet Processed"
         }
-        cell?.imageView?.image = cardGroup.image
+        cell?.imageView?.image = cardGroup.previewImage
         
         return cell!
     }
@@ -495,6 +495,7 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     editingCardGroup = self.cardProject.cardGroups[self.selectedCardGroupIndex]
                 }
                 editingCardGroup?.image = image
+                editingCardGroup?.previewImage = ImageProcessor.scale(image: image, scale: (80 / image.size.height))
             }, completion: {
                 (MRSaveCompletionHandler) in
                 self.selectedCardGroupIndex = self.cardProject.cardGroups.count - 1

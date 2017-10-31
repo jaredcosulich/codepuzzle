@@ -54,18 +54,18 @@ class ProcessingViewController: UIViewController {
     let puzzleSchool = PuzzleSchool()
 
     //Name: Abigail
-    let codes: [String] = [
-        "P3", "A3", "A1", "A3", "A1", "A3", "A1", "A2", "A4", "A1",
-        "P1", "A4", "A1", "L1", "A4", "P2", "A1", "A2", "A3", "L1",
-        "A1", "A3", "L2", "P1", "A3", "A1", "L2", "A1", "P2", "A4",
-        "A1", "A2", "A1", "A4", "A1"
-    ]
-    let params: [String] = [
-        "4", "15", "200", "150", "100", "105", "50", "50", "105", "100",
-        "", "75", "30",  "2", "90", "", "150", "75", "90", "60",
-        "2", "3", "", "", "180", "60", "", "30", "", "75",
-        "75", "150", "75", "30", "75"
-    ]
+//    let codes: [String] = [
+//        "P3", "A3", "A1", "A3", "A1", "A3", "A1", "A2", "A4", "A1",
+//        "P1", "A4", "A1", "L1", "A4", "P2", "A1", "A2", "A3", "L1",
+//        "A1", "A3", "L2", "P1", "A3", "A1", "L2", "A1", "P2", "A4",
+//        "A1", "A2", "A1", "A4", "A1"
+//    ]
+//    let params: [String] = [
+//        "4", "15", "200", "150", "100", "105", "50", "50", "105", "100",
+//        "", "75", "30",  "2", "90", "", "150", "75", "90", "60",
+//        "2", "3", "", "", "180", "60", "", "30", "", "75",
+//        "75", "150", "75", "30", "75"
+//    ]
 
     
     //Lighthouse
@@ -157,25 +157,25 @@ class ProcessingViewController: UIViewController {
     }
     
     func initS3Upload(timer: Timer) {
-//        self.s3Util.upload(
-//            image: self.cardGroup.image!,
-//            imageType: "group",
-//            completion: {
-//                s3Url in
-//                print("S3 UPLOADED")
-//                if self.cardProject.parentClass != nil {
-//                    let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
-//
-//                    Timer.scheduledTimer(
-//                        timeInterval: 0.1,
-//                        target: self,
-//                        selector: #selector(self.setCardGroupId),
-//                        userInfo: identifier,
-//                        repeats: true
-//                    )
-//                }
-//            }
-//        )
+        self.s3Util.upload(
+            image: self.cardGroup.image!,
+            imageType: "group",
+            completion: {
+                s3Url in
+                print("S3 UPLOADED")
+                if self.cardProject.parentClass != nil {
+                    let identifier = self.puzzleSchool.saveGroup(cardProject: self.cardProject, imageUrl: s3Url)
+
+                    Timer.scheduledTimer(
+                        timeInterval: 0.1,
+                        target: self,
+                        selector: #selector(self.setCardGroupId),
+                        userInfo: identifier,
+                        repeats: true
+                    )
+                }
+            }
+        )
     }
     
     @IBAction func initAnalysis(_ sender: Any?) {
@@ -242,7 +242,7 @@ class ProcessingViewController: UIViewController {
             self.mathPix.processImage(
                 image: ImageProcessor.cropCard(image: fullImage, rect: functionRect, hexRect: hexRect, rotation: rotation),
                 identifier: "function\(analyzedCardCount)",
-                result: codes[Int(analyzedCardCount)]//nil//codes[Int(analyzedCardCount)]
+                result: nil//codes[Int(analyzedCardCount)]
             )
         }
         
@@ -323,7 +323,7 @@ class ProcessingViewController: UIViewController {
                     self.mathPix.processImage(
                         image: paramImage,
                         identifier: "param\(processedCardCodeCount)",
-                        result: params[Int(processedCardCodeCount)] //result//params[Int(processedCardCodeCount)]
+                        result: result//params[Int(processedCardCodeCount)]
                     )
                     processedCardCodeCount += 1
                 }

@@ -36,6 +36,27 @@ class CardGroup: NSManagedObject {
         }
     }
 
+    @NSManaged var previewImageFilename: String?
+    
+    weak var previewImage: UIImage? {
+        get {
+            return ImageSaver.retrieve(filename: previewImageFilename!)
+        }
+        
+        set {
+            if previewImageFilename == nil {
+                previewImageFilename = "\(cardProject.title)-\(cardGroupIndex())-preview"
+            }
+            
+            if newValue == nil {
+                ImageSaver.delete(filename: previewImageFilename!)
+            } else {
+                _ = ImageSaver.save(image: newValue!, filename: previewImageFilename!)
+            }
+        }
+    }
+
+    
     @NSManaged var processed: NSNumber
     
     var isProcessed: Bool {
