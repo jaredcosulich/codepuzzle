@@ -217,6 +217,7 @@ class ProcessingViewController: UIViewController {
         }
         timer.invalidate()
         
+        print("SET CARD GROUP ID: \(self.puzzleSchool.getValue(identifier: identifier)!)")
         self.cardGroup.id = self.puzzleSchool.getValue(identifier: identifier)!
     }
     
@@ -377,7 +378,11 @@ class ProcessingViewController: UIViewController {
     
     func executeCards() {
         if (execute) {
-            output.text = "Processing Cards..."
+            if self.cardGroup.id == nil {
+                output.text = "Saving photo to class"
+            } else {
+                output.text = "Processing Cards..."
+            }
         }
         
         processCards(i: 0)
@@ -385,6 +390,17 @@ class ProcessingViewController: UIViewController {
     
     func processCards(i: Int32) {
         if (stopExecution) {
+            return
+        }
+        
+        if self.cardProject.parentClass != nil && self.cardGroup.id == nil {
+            Timer.scheduledTimer(
+                timeInterval: 0.1,
+                target: self,
+                selector: #selector(self.executeCards),
+                userInfo: nil,
+                repeats: false
+            )
             return
         }
         
@@ -400,12 +416,26 @@ class ProcessingViewController: UIViewController {
             let cardImage = ImageProcessor.cropCard(image: fullImage, rect: fullRect, hexRect: hexRect, rotation: rotation)
 
             if self.cardProject.parentClass != nil {
+                let functionInfo = Functions.info(code: code)
+                var translatedParam = ""
+                if functionInfo.color {
+                    translatedParam = param
+                } else if functionInfo.paramCount > 0 {
+                    translatedParam = "\(Functions.translate(param: param))"
+                }
+
                 self.s3Util.upload(
                     image: cardImage,
                     imageType: "full",
                     completion: {
                         s3Url in
-                        let identifier = self.puzzleSchool.saveCard(cardGroup: self.cardGroup, imageUrl: s3Url, position: Int(i), code: code, param: param)
+                        let identifier = self.puzzleSchool.saveCard(
+                            cardGroup: self.cardGroup,
+                            imageUrl: s3Url,
+                            position: Int(i),
+                            code: Functions.processedCode(code: code),
+                            param: translatedParam
+                        )
                         
                         Timer.scheduledTimer(
                             timeInterval: 0.1,
@@ -468,6 +498,10 @@ class ProcessingViewController: UIViewController {
                 newCard?.originalParam = param
                 newCard?.originalImage = cardImage
                 newCard?.error = !Functions.valid(code: code, param: param)
+                
+                if identifier != nil {
+                    newCard?.id = self.puzzleSchool.getValue(identifier: identifier!)!
+                }
             }, completion: {
                 (MRSaveCompletionHandler) in
                 
@@ -534,6 +568,10 @@ class ProcessingViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
+//        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+//        for i in 0..<cardProject.allCards().count {
+//            print("[\"\(cardProject.allCards()[i].code)\", \"\(cardProject.allCards()[i].param)\"],")
+//        }
 //        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
         
         stopExecution = true

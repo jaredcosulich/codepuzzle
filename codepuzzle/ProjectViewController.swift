@@ -235,6 +235,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func createProject(_ sender: UIButton) {
+        var title = projectTitle.text
+        if (title == nil || title?.characters.count == 0) {
+            title = "Project \(cardProjects.count)"
+        }
+        
         var identifier: String?
         if parentClass != nil {
             identifier = self.puzzleSchool.saveProject(parentClass: parentClass!, title: title!)
@@ -244,25 +249,23 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             timeInterval: 0.1,
             target: self,
             selector: #selector(saveProject),
-            userInfo: identifier,
+            userInfo: ["identifier": identifier, "title": title],
             repeats: true
         )
     }
     
     func saveProject(timer: Timer) {
+        var info = timer.userInfo as! Dictionary<String, Any>
         var identifier: String?
         if timer.userInfo != nil {
-            identifier = timer.userInfo as? String
+            identifier = info["identifier"] as? String
             if self.puzzleSchool.processing(identifier: identifier!) {
                 return
             }
         }
         timer.invalidate()
 
-        var title = projectTitle.text
-        if (title == nil || title?.characters.count == 0) {
-            title = "Project \(cardProjects.count)"
-        }
+        let title = info["title"] as? String
         
         var context = self.parentClass?.managedObjectContext
         MagicalRecord.save({

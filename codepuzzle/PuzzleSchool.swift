@@ -11,7 +11,7 @@ import Alamofire
 
 class PuzzleSchool {
     
-    let domain = "https://www.puzzleschool.com" //"https://775e57a1.ngrok.io"
+    let domain = "https://4a3ad6da.ngrok.io"//"https://www.puzzleschool.com" //
     
     var results = [String: String?]()
     
@@ -92,7 +92,7 @@ class PuzzleSchool {
         ]
         
         Alamofire.request(
-            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups",
+            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id!)/code_puzzle_groups",
             method: .post,
             parameters : parameters,
             encoding: JSONEncoding.default,
@@ -111,10 +111,15 @@ class PuzzleSchool {
         
         return identifier
     }
-    
+
     func saveCard(cardGroup: CardGroup, imageUrl: URL, position: Int, code: String, param: String) -> String {
+        return saveCard(cardGroup: cardGroup, imageUrl: imageUrl, position: position, code: code, param: param, id: nil)
+    }
+
+    func saveCard(cardGroup: CardGroup, imageUrl: URL, position: Int, code: String, param: String, id: String?) -> String {
         let cardProject = cardGroup.cardProject
         let parentClass = cardProject.parentClass!
+        
         let identifier = "\(parentClass.slug)\(cardProject.id)\(cardGroup.id)\(position)\(Date().timeIntervalSince1970)"
         
         let parameters : [String:Parameters] = [
@@ -122,12 +127,13 @@ class PuzzleSchool {
                 "photo_url": imageUrl.absoluteString,
                 "position": "\(position)",
                 "code": code,
-                "param": param
+                "param": param,
+                "id": id ?? ""
             ]
         ]
         
         Alamofire.request(
-            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id)/code_puzzle_groups/\(cardGroup.id)/code_puzzle_cards",
+            "\(domain)/code_puzzle_classes/\(parentClass.slug)/code_puzzle_projects/\(cardProject.id!)/code_puzzle_groups/\(cardGroup.id!)/code_puzzle_cards",
             method: .post,
             parameters : parameters,
             encoding: JSONEncoding.default,
@@ -139,7 +145,8 @@ class PuzzleSchool {
             
             if let json = response.result.value {
                 print("JSON: \(json)")
-                self.results[identifier] = "Success"
+                let id = (json as! NSDictionary)["id"] as? Int
+                self.results[identifier] = "\(id!)"
             }
         }
         return identifier

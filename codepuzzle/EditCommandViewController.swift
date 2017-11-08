@@ -19,6 +19,7 @@ struct TempCard {
     var originalCode: String
     var originalParam: String
     var originalImage: UIImage?
+    var id: String?
     
     func addToCardGroup(cardGroup: CardGroup, completion: @escaping () -> Void) {
         var newCard: Card!
@@ -33,6 +34,7 @@ struct TempCard {
             newCard?.originalCode = self.originalCode
             newCard?.originalParam = self.originalParam
             newCard?.originalImage = self.originalImage
+            newCard?.id = self.id
             newCard?.error = !Functions.valid(code: self.code, param: self.param)
         }, completion: {
             (MRSaveCompletionHandler) in
@@ -51,6 +53,7 @@ struct TempCard {
             card.originalCode = self.originalCode
             card.originalParam = self.originalParam
             card.originalImage = self.originalImage
+            card.id = self.id
             card.error = !Functions.valid(code: self.code, param: self.param)
         }, completion: {
             (MRSaveCompletionHandler) in
@@ -90,6 +93,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     var cardProject: CardProject!
     
+    var cardGroup: CardGroup!
+    
     var selectedCard: Card!
     
     var newCode: String!
@@ -117,8 +122,14 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     @IBOutlet weak var editParamTitle: UILabel!
     
+    var s3Util: S3Util!
+    
+    let puzzleSchool = PuzzleSchool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        s3Util = S3Util(projectName: cardProject.title, className: cardProject.parentClass?.name)
         
         Util.proportionalFont(anyElement: titleLabel, bufferPercentage: nil)
 
@@ -143,13 +154,22 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         Util.proportionalFont(anyElement: editParamTitle, bufferPercentage: nil)
         
-        
         // Do any additional setup after loading the view, typically from a nib.
         let cards = cardProject.allCards()
         
         var selectedCode: String!
         
         if selectedIndex >= 0 && selectedIndex < cards.count {
+            var indexTally = 0
+            for cg in cardProject.cardGroups {
+                if (indexTally + cg.cards.count) > selectedIndex {
+                    cardGroup = cg
+                    break
+                } else {
+                    indexTally += cg.cards.count
+                }
+            }
+
             selectedCard = cards[selectedIndex]
             errorCard = selectedCard.error
             selectedCode = Functions.processedCode(code: selectedCard.code)
@@ -181,7 +201,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 image: selectedCard.image!,
                 originalCode: selectedCard.originalCode!,
                 originalParam: selectedCard.originalParam!,
-                originalImage: selectedCard.originalImage!
+                originalImage: selectedCard.originalImage!,
+                id: selectedCard.id
             )
         } else {
             toolbar.items?.removeAll()
@@ -199,7 +220,8 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 image: nil,
                 originalCode: "A1",
                 originalParam: "",
-                originalImage: nil
+                originalImage: nil,
+                id: nil
             )
             selectedCode = "A1"
             titleLabel.text = "Add Card To Project"
@@ -381,7 +403,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     
-    func updateSelectedCard() {
+    func updateSelectedCard(completion: (() -> Void)?) {
         if (selectedCard == nil) {
             return
         }
@@ -398,10 +420,12 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                     card.originalCode = self.selectedCard.originalCode
                     card.originalParam = self.selectedCard.originalParam
                     card.originalImage = self.selectedCard.originalImage
+                    card.id = self.selectedCard.id
                     card.error = !Functions.valid(code: self.selectedCard.code, param: self.selectedCard.param)
                 }, completion: {
                     (MRSaveCompletionHandler) in
                     self.cardProject.persistedManagedObjectContext.mr_saveToPersistentStoreAndWait()
+                    completion?()
                 })
                 return
             } else {
@@ -429,7 +453,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         selectedCard.disabled = false
         
         prepareCard()
-        updateSelectedCard()
+        updateSelectedCard(completion: nil)
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
@@ -449,6 +473,74 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             selectedCard?.image = newImage
             newCard?.image = newImage
+            cardView.image = newImage
+        }
+        
+        if self.cardProject.parentClass != nil {
+            var code: String!
+            var param: String!
+            if (selectedCard == nil) {
+                code = newCard.code
+                param = newCard.param
+            } else {
+                code = selectedCard.code
+                param = selectedCard.param
+            }
+            
+            let functionInfo = Functions.info(code: code)
+            var translatedParam = ""
+            if functionInfo.color {
+                translatedParam = param
+            } else if functionInfo.paramCount > 0 {
+                translatedParam = "\(Functions.translate(param: param))"
+            }
+            
+            self.s3Util.upload(
+                image: cardView.image!,
+                imageType: "full",
+                completion: {
+                    s3Url in
+                    let identifier = self.puzzleSchool.saveCard(
+                        cardGroup: self.cardGroup,
+                        imageUrl: s3Url,
+                        position: self.selectedIndex,
+                        code: Functions.processedCode(code: code),
+                        param: translatedParam,
+                        id: self.selectedCard?.id
+                    )
+                    
+                    Timer.scheduledTimer(
+                        timeInterval: 0.1,
+                        target: self,
+                        selector: #selector(self.saveCard),
+                        userInfo: identifier,
+                        repeats: true
+                    )
+                }
+            )
+        } else {
+            Timer.scheduledTimer(
+                timeInterval: 0.1,
+                target: self,
+                selector: #selector(self.saveCard),
+                userInfo: nil,
+                repeats: true
+            )
+            
+        }
+    }
+    
+    func saveCard(timer: Timer) {
+        let identifier = timer.userInfo as? String
+        if identifier != nil && self.puzzleSchool.processing(identifier: identifier!) {
+            return
+        }
+        timer.invalidate()
+
+        if identifier != nil {
+            let id = self.puzzleSchool.getValue(identifier: identifier!)!
+            newCard?.id = id
+            selectedCard?.id = id
         }
         
         if (newCard != nil) {
@@ -456,22 +548,24 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
             })
         } else {
-            let errorIndex = cardProject.allCards().index(where: { (c) -> Bool in c.error })
-            
-            if (errorIndex != nil) {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let dvc = storyboard.instantiateViewController(withIdentifier: "editCommandViewController") as! EditCommandViewController
-                dvc.cardProject = cardProject
-                dvc.selectedIndex = errorIndex
-                dvc.errorCard = true
+            updateSelectedCard(completion: {
+                let errorIndex = self.cardProject.allCards().index(where: { (c) -> Bool in c.error })
                 
-                present(dvc, animated: true, completion: nil)
-                return
-            } else if errorCard {
-                selectedIndex = -1
-            }
-        
-            self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
+                if (errorIndex != nil) {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let dvc = storyboard.instantiateViewController(withIdentifier: "editCommandViewController") as! EditCommandViewController
+                    dvc.cardProject = self.cardProject
+                    dvc.selectedIndex = errorIndex
+                    dvc.errorCard = true
+                    
+                    self.present(dvc, animated: true, completion: nil)
+                    return
+                } else if self.errorCard {
+                    self.selectedIndex = -1
+                }
+            
+                self.performSegue(withIdentifier: "save-edit-segue", sender: nil)
+            })
         }
     }
     
@@ -615,7 +709,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                     )
                     cardView.image = selectedCard.image
                 }
-                updateSelectedCard()
+                updateSelectedCard(completion: nil)
             }
             
             prepareCard()
@@ -700,7 +794,7 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
                 cardView.image = newImage
             }
             
-            updateSelectedCard()
+            updateSelectedCard(completion: nil)
             
             prepareCard()
         }

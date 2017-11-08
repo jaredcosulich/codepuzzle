@@ -16,7 +16,7 @@ class Card: NSManagedObject {
     
     // Attributes
     
-    @NSManaged var id: Int
+    @NSManaged var id: String?
     @NSManaged var manual: Bool
     @NSManaged var error: Bool
 
