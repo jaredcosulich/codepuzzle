@@ -316,13 +316,17 @@ class DebugViewController: UIViewController, UIScrollViewDelegate, UIPickerViewD
         }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isBeingDismissed {
+            image = nil
+            cardGroupImageView.removeFromSuperview()
+            cardGroupView.removeFromSuperview()
+            functionPicker.removeFromSuperview()
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        image = nil
-        cardGroupImageView.removeFromSuperview()
-        cardGroupView.removeFromSuperview()
-        functionPicker.removeFromSuperview()
-        
         if segue.identifier == "cancel-debug-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject

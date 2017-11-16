@@ -257,9 +257,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     func saveProject(timer: Timer) {
         var info = timer.userInfo as! Dictionary<String, Any>
         var identifier: String?
-        if timer.userInfo != nil {
-            identifier = info["identifier"] as? String
-            if self.puzzleSchool.processing(identifier: identifier!) {
+        if let identifier = info["identifier"] as? String {
+            if self.puzzleSchool.processing(identifier: identifier) {
                 return
             }
         }
@@ -309,10 +308,15 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isBeingDismissed {
+            tableView?.removeFromSuperview()
+            projectTitleView?.removeFromSuperview()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        tableView?.removeFromSuperview()
-        projectTitleView?.removeFromSuperview()
-
         if segue.identifier == "start-project-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject

@@ -820,22 +820,27 @@ class EditCommandViewController: UIViewController, UIPickerViewDataSource, UIPic
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isBeingDismissed {
+            if (newCard != nil) {
+                newCard.image = nil
+                newCard.originalImage = nil
+            }
+            
+            if (uneditedCard != nil) {
+                uneditedCard.image = nil
+                uneditedCard.originalImage = nil
+            }
+            
+            functionPicker.removeFromSuperview()
+            cardView.removeFromSuperview()
+            param.removeFromSuperview()
+            colorPickerView.removeFromSuperview()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (newCard != nil) {
-            newCard.image = nil
-            newCard.originalImage = nil
-        }
-        
-        if (uneditedCard != nil) {
-            uneditedCard.image = nil
-            uneditedCard.originalImage = nil
-        }
-        
-        functionPicker.removeFromSuperview()
-        cardView.removeFromSuperview()
-        param.removeFromSuperview()
-        colorPickerView.removeFromSuperview()
-        
         if segue.identifier == "save-edit-segue" || segue.identifier == "cancel-edit-segue" {
             let dvc = segue.destination as! ExecutionViewController
             dvc.cardProject = cardProject

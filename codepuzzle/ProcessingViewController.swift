@@ -426,7 +426,7 @@ class ProcessingViewController: UIViewController {
 
                 self.s3Util.upload(
                     image: cardImage,
-                    imageType: "full",
+                    imageType: "full/\(i)",
                     completion: {
                         s3Url in
                         let identifier = self.puzzleSchool.saveCard(
@@ -566,18 +566,22 @@ class ProcessingViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
+        //        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+        //        for i in 0..<cardProject.allCards().count {
+        //            print("[\"\(cardProject.allCards()[i].code)\", \"\(cardProject.allCards()[i].param)\"],")
+        //        }
+        //        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
+        
+        if self.isBeingDismissed {
+            stopExecution = true
+            imageView?.removeFromSuperview()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        print("CODES: \(cardProject.allCards().map({ (c) -> String in c.code }))")
-//        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
-//        for i in 0..<cardProject.allCards().count {
-//            print("[\"\(cardProject.allCards()[i].code)\", \"\(cardProject.allCards()[i].param)\"],")
-//        }
-//        print("PARAMS: \(cardProject.allCards().map({ (c) -> String in c.param }))")
-        
-        stopExecution = true
-        
-        imageView?.removeFromSuperview()
-        
         if segue.identifier == "cancel-segue" || segue.identifier == "select-photo-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject

@@ -518,10 +518,15 @@ class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isBeingDismissed {
+            imageView.removeFromSuperview()
+            tableView.removeFromSuperview()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        imageView.removeFromSuperview()
-        tableView.removeFromSuperview()
-        
         if segue.identifier == "select-segue" {
             let dvc = segue.destination as! SelectCardsViewController
             dvc.selectedIndex = (selectedCardGroupIndex > -1 ? selectedCardGroupIndex : 0)

@@ -554,16 +554,21 @@ class ExecutionViewController: UIViewController, UIGestureRecognizerDelegate, UI
 
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         pause()
         
-        for layer in executedLayers {
-            layer.contents = nil
+        if self.isBeingDismissed {
+            for layer in executedLayers {
+                layer.contents = nil
+            }
+            
+            imageView?.removeFromSuperview()
+            drawingView?.removeFromSuperview()
         }
-        
-        imageView?.removeFromSuperview()
-        drawingView?.removeFromSuperview()
-        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit-command-segue" {
             let dvc = segue.destination as! EditCommandViewController
             dvc.cardProject = cardProject

@@ -195,12 +195,16 @@ class SelectCardsViewController: UIViewController, UIScrollViewDelegate {
             })
         }
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isBeingDismissed {
+            imageView.removeFromSuperview()
+            scrollView.removeFromSuperview()
+        }
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        imageView.removeFromSuperview()
-        scrollView.removeFromSuperview()
-        
         if segue.identifier == "cancel-segue" {
             let dvc = segue.destination as! MenuViewController
             dvc.cardProject = cardProject

@@ -11,7 +11,7 @@ import Alamofire
 
 class PuzzleSchool {
     
-    let domain = "https://4a3ad6da.ngrok.io"//"https://www.puzzleschool.com" //
+    let domain = "https://www.puzzleschool.com" //"https://4a3ad6da.ngrok.io"//
     
     var results = [String: String?]()
     
@@ -120,12 +120,20 @@ class PuzzleSchool {
         let cardProject = cardGroup.cardProject
         let parentClass = cardProject.parentClass!
         
-        let identifier = "\(parentClass.slug)\(cardProject.id)\(cardGroup.id)\(position)\(Date().timeIntervalSince1970)"
+        var relativePosition = position
+        for group in cardProject.cardGroups {
+            if (group == cardGroup) {
+                break
+            }
+            relativePosition += group.cards.count
+        }
+        
+        let identifier = "\(parentClass.slug)\(cardProject.id)\(cardGroup.id)\(relativePosition)\(Date().timeIntervalSince1970)"
         
         let parameters : [String:Parameters] = [
             "code_puzzle_card": [
                 "photo_url": imageUrl.absoluteString,
-                "position": "\(position)",
+                "position": "\(relativePosition)",
                 "code": code,
                 "param": param,
                 "id": id ?? ""
